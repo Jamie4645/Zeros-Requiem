@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:okhlopkov.com)",
+      "WebSearch",
+      "Bash(npm install:*)",
+      "Bash(mkdir -p \"C:/Users/jamie/OneDrive/Documents/Jamie VS Code/Git/Zeros Requiem/.claude/skills/backtest\")",
+      "Bash(mkdir -p \"C:/Users/jamie/OneDrive/Documents/Jamie VS Code/Git/Zeros Requiem/.claude/skills/live-status\")"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "command": "bash -c 'FILE=$(echo $TOOL_INPUT | python -c \"import sys,json; print(json.load(sys.stdin).get(\\\"file_path\\\",\\\"\"))\" 2>/dev/null); if echo \"$FILE\" | grep -qE \"src/.*\\.py$\"; then cd \"C:/Users/jamie/OneDrive/Documents/Jamie VS Code/Git/Zeros Requiem\" && python -m pytest tests/quick_test.py --tb=short -q 2>&1 | tail -25; fi'",
+        "timeout": 60000,
+        "description": "Auto-run quick tests after editing src/ Python files"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "command": "bash -c 'FILE=$(echo $TOOL_INPUT | python -c \"import sys,json; print(json.load(sys.stdin).get(\\\"file_path\\\",\\\"\"))\" 2>/dev/null); if echo \"$FILE\" | grep -qE \"(risk_manager\\.py|sbrs_original_parameters\\.py)\"; then echo \"BLOCKED: This file is protected. Ask user for explicit approval before editing.\"; exit 1; fi'",
+        "timeout": 5000,
+        "description": "Block edits to sacred files (risk_manager.py, sbrs_original_parameters.py)"
+      }
+    ]
+  },
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@anthropic/sequential-thinking-mcp"
+      ]
+    }
+  }
+}
