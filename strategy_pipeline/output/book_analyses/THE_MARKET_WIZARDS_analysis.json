@@ -1,0 +1,398 @@
+{
+  "book_title": "Market Wizards: Interviews with Top Traders",
+  "author": "Jack D. Schwager",
+  "year": 1989,
+  "total_traders": 16,
+  "total_strategies_extracted": 12,
+  "traders": [
+    {
+      "name": "Michael Marcus",
+      "style": "Discretionary - Fundamentals + Technicals",
+      "codifiability": "low",
+      "key_rules": [
+        "Confluence: fundamentals + technicals + market tone must align",
+        "Max 5% risk per trade",
+        "Ride winners aggressively, cut losers fast",
+        "If position makes you uncomfortable, cut size in half"
+      ],
+      "strategies_extracted": []
+    },
+    {
+      "name": "Bruce Kovner",
+      "style": "Discretionary - Breakout Trading",
+      "codifiability": "medium",
+      "key_rules": [
+        "Trade breakouts from tight congestion zones",
+        "Place stops beyond technical barriers (not arbitrary amounts)",
+        "Risk 1-2% per trade",
+        "Always know worst-case scenario before entering"
+      ],
+      "strategies_extracted": ["congestion_breakout"]
+    },
+    {
+      "name": "Richard Dennis",
+      "style": "Systematic Trend Following",
+      "codifiability": "high",
+      "key_rules": [
+        "Turtle Trading: buy 20-day high breakout, sell 10-day low breakdown",
+        "Position sizing based on volatility (ATR/N-factor)",
+        "Works across all liquid markets (futures, forex, commodities)",
+        "53% win rate is profitable with proper R:R",
+        "Never risk more than 2% per position"
+      ],
+      "strategies_extracted": ["turtle_breakout"]
+    },
+    {
+      "name": "Paul Tudor Jones",
+      "style": "Discretionary - Macro + Technical",
+      "codifiability": "medium",
+      "key_rules": [
+        "Range expansion: enter when volatility expands from compression",
+        "Elliott Wave for macro structure (not precise timing)",
+        "Time stops: if trade doesn't work in expected time, exit",
+        "Never risk more than 2% in a single session",
+        "Reduce size during losing streaks",
+        "Strongest position at trend reversals, not mid-trend"
+      ],
+      "strategies_extracted": ["range_expansion"]
+    },
+    {
+      "name": "Gary Bielfeldt",
+      "style": "Fundamental + Trend Following",
+      "codifiability": "low",
+      "key_rules": [
+        "Fundamentals for direction, technicals for timing",
+        "Poker analogy: fold bad hands, bet big on strong hands",
+        "Add to winners systematically",
+        "Always have a mechanical backup system"
+      ],
+      "strategies_extracted": []
+    },
+    {
+      "name": "Ed Seykota",
+      "style": "Systematic Trend Following",
+      "codifiability": "high",
+      "key_rules": [
+        "Computerized trend-following with exponential moving averages",
+        "Priorities: (1) long-term trend (2) chart pattern (3) entry point",
+        "Risk <5% per trade, typically 0.5-2%",
+        "Cut losses short, ride winners, keep bets small, follow rules without question",
+        "Turned $5,000 into $15,000,000+ over 12 years"
+      ],
+      "strategies_extracted": ["ema_trend_following"]
+    },
+    {
+      "name": "Larry Hite (Mint Investment)",
+      "style": "Systematic Multi-Market",
+      "codifiability": "high",
+      "key_rules": [
+        "Principle 1: Never risk more than 1% of capital per trade",
+        "Principle 2: Always follow trends (never counter-trend)",
+        "Principle 3: Extreme diversification across 60+ markets and multiple systems",
+        "Principle 4: Track volatility with green/yellow/red regime signals",
+        "30%+ annual returns, worst 12-month period <1% loss",
+        "Don't try to be right, try to make money"
+      ],
+      "strategies_extracted": ["hite_trend_system"]
+    },
+    {
+      "name": "Michael Steinhardt",
+      "style": "Discretionary - Variant Perception",
+      "codifiability": "low",
+      "key_rules": [
+        "Variant perception: be contrarian but only at the right time",
+        "Long/short flexibility across stocks, bonds, forex",
+        "High conviction positions when thesis is strong",
+        "No mechanical rules - pure judgment"
+      ],
+      "strategies_extracted": []
+    },
+    {
+      "name": "William O'Neil",
+      "style": "Systematic - Growth Stocks",
+      "codifiability": "high",
+      "key_rules": [
+        "CANSLIM system:",
+        "C = Current quarterly earnings up 20-50%+",
+        "A = Annual earnings growth 24%+",
+        "N = New product/management/price high",
+        "S = Shares outstanding <25 million",
+        "L = Leader with Relative Strength >80",
+        "I = Institutional sponsorship increasing",
+        "M = Market direction (only buy in uptrends)",
+        "7% hard stop loss on all positions",
+        "Buy stocks making new highs on heavy volume"
+      ],
+      "strategies_extracted": ["canslim"]
+    },
+    {
+      "name": "David Ryan",
+      "style": "Systematic - Growth Stocks (CANSLIM refined)",
+      "codifiability": "high",
+      "key_rules": [
+        "Refined CANSLIM: RS>90, EPS rank>80, shares<30M, P/E 1-2x S&P",
+        "50% win rate but big winners pay for all losers",
+        "Keep a trader's diary (review all trades)",
+        "Cut 50% if stock reenters its base after breakout"
+      ],
+      "strategies_extracted": ["canslim"]
+    },
+    {
+      "name": "Marty Schwartz",
+      "style": "Technical - Moving Averages + Oscillators",
+      "codifiability": "high",
+      "key_rules": [
+        "Moving averages are the key indicator (especially 10-day EMA)",
+        "Oscillators for overbought/oversold confirmation",
+        "Reduce size after big wins AND big losses",
+        "Know your uncle point (max loss before exiting)",
+        "T-bills and T-bonds must confirm equity direction",
+        "Turned $40K into $20M, never had >3% drawdown"
+      ],
+      "strategies_extracted": ["schwartz_ma_system"]
+    },
+    {
+      "name": "Jim Rogers",
+      "style": "Discretionary - Value + Catalyst",
+      "codifiability": "low",
+      "key_rules": [
+        "Buy extreme value, wait for catalyst",
+        "Sell hysteria/euphoria",
+        "Trade very rarely (months between trades)",
+        "Never follow conventional wisdom"
+      ],
+      "strategies_extracted": []
+    },
+    {
+      "name": "Mark Weinstein",
+      "style": "Discretionary - Multi-Technical Confluence",
+      "codifiability": "low",
+      "key_rules": [
+        "Multiple technicals must align: Elliott, Gann, Fibonacci, cycles, sentiment, MAs, oscillators",
+        "Only trade when everything lines up perfectly",
+        "~99% win rate claimed",
+        "Cheetah analogy: wait patiently for perfect setup"
+      ],
+      "strategies_extracted": []
+    },
+    {
+      "name": "Brian Gelber",
+      "style": "Discretionary - Tape Reading + Sentiment",
+      "codifiability": "low",
+      "key_rules": [
+        "Read the tape, listen to 25+ traders for sentiment",
+        "Go with who is currently hot (momentum of traders)",
+        "Reactive not opinionated",
+        "Never add to losing positions",
+        "Wipe the slate clean during streaks"
+      ],
+      "strategies_extracted": []
+    },
+    {
+      "name": "Tom Baldwin",
+      "style": "Discretionary - Pit Scalping",
+      "codifiability": "low",
+      "key_rules": [
+        "Pit scalping: average 4-tick profit",
+        "Charts for perspective only, not timing",
+        "Don't think about money during trading",
+        "90% winning days",
+        "Patience: pick your spot to exit losers"
+      ],
+      "strategies_extracted": []
+    },
+    {
+      "name": "Tony Saliba",
+      "style": "Options - Butterfly + Explosion",
+      "codifiability": "medium",
+      "key_rules": [
+        "Butterfly positions in front-month (time decay income)",
+        "Explosion positions in back-month (volatility bets)",
+        "Scale in and out gradually",
+        "Always know worst-case scenario at all times",
+        "70 consecutive months >$100K profit"
+      ],
+      "strategies_extracted": ["butterfly_explosion"]
+    },
+    {
+      "name": "Dr. Van K. Tharp",
+      "style": "Trading Psychology",
+      "codifiability": "none",
+      "key_rules": [
+        "5 beliefs of successful traders:",
+        "1. Money is not important",
+        "2. It's okay to lose in the market",
+        "3. Trading is a game",
+        "4. Mental rehearsal before trading",
+        "5. You've won the game before you start",
+        "Three factors: beliefs, mental states, strategies"
+      ],
+      "strategies_extracted": []
+    }
+  ],
+  "strategies": [
+    {
+      "id": "turtle_breakout",
+      "name": "Turtle Breakout System",
+      "source_traders": ["Richard Dennis", "Ed Seykota"],
+      "category": "trend_following",
+      "codifiability": "high",
+      "timeframe": "daily",
+      "markets": ["futures", "forex", "commodities"],
+      "entry_logic": "Buy when price closes above 20-day high. Sell short when price closes below 20-day low.",
+      "exit_logic": "Exit longs at 10-day low. Exit shorts at 10-day high. ATR-based trailing stop.",
+      "position_sizing": "Volatility-based: risk = 2% of equity / (ATR * dollar_per_point)",
+      "stop_loss": "2 * ATR from entry",
+      "take_profit": "None - ride the trend, exit on trailing stop or channel exit",
+      "filters": ["Only trade in direction of longer-term trend (optional)", "Skip if recent breakout failed within 5 bars"],
+      "confidence": "very_high",
+      "notes": "One of the most well-documented systematic strategies in history. Dennis proved markets are teachable. Works best in trending markets, suffers in chop."
+    },
+    {
+      "id": "ema_trend_following",
+      "name": "Seykota EMA Trend System",
+      "source_traders": ["Ed Seykota"],
+      "category": "trend_following",
+      "codifiability": "high",
+      "timeframe": "daily_to_weekly",
+      "markets": ["futures", "commodities"],
+      "entry_logic": "Enter long when short EMA crosses above long EMA and price is above both. Enter short when short EMA crosses below long EMA and price is below both.",
+      "exit_logic": "Exit when EMA cross reverses. Trailing stop at 3x ATR from highest close.",
+      "position_sizing": "Risk 0.5-2% per trade based on conviction and correlation",
+      "stop_loss": "3 * ATR from entry or below longer EMA",
+      "take_profit": "Ride winners - no fixed target",
+      "filters": ["Long-term trend must confirm (price above 200-day MA)", "Chart pattern should support (consolidation breakout preferred)"],
+      "confidence": "very_high",
+      "notes": "Seykota's actual system parameters are proprietary but the framework is well-documented. $5K to $15M+ over 12 years. Prioritizes: (1) long-term trend (2) chart pattern (3) entry point."
+    },
+    {
+      "id": "hite_trend_system",
+      "name": "Hite/Mint Diversified Trend System",
+      "source_traders": ["Larry Hite"],
+      "category": "trend_following",
+      "codifiability": "high",
+      "timeframe": "daily",
+      "markets": ["futures", "forex", "commodities", "bonds"],
+      "entry_logic": "Follow price trends using moving average crossovers. Enter in direction of dominant trend across multiple timeframes.",
+      "exit_logic": "Exit on trend reversal signal. Volatility regime shift (green→yellow→red) reduces position size.",
+      "position_sizing": "Never risk more than 1% per trade. Diversify across 60+ markets.",
+      "stop_loss": "Based on volatility (ATR-scaled)",
+      "take_profit": "Trend-following: ride until reversal",
+      "filters": ["Volatility regime filter: green (normal), yellow (elevated), red (extreme)", "Correlation filter: reduce if too many correlated positions"],
+      "confidence": "high",
+      "notes": "Mint Investment Management: 30%+ annual, worst 12-month <1% loss. Emphasis on diversification and risk management over signal quality."
+    },
+    {
+      "id": "canslim",
+      "name": "CANSLIM Growth Stock System",
+      "source_traders": ["William O'Neil", "David Ryan"],
+      "category": "momentum_growth",
+      "codifiability": "high",
+      "timeframe": "daily_to_weekly",
+      "markets": ["stocks"],
+      "entry_logic": "Buy when all CANSLIM criteria met: Current earnings up 20%+, Annual growth 24%+, New product/high, Small float <25M shares, Leader RS>80, Institutional sponsorship, Market in uptrend. Buy on breakout from proper base on heavy volume.",
+      "exit_logic": "7% hard stop loss. Sell at 20-25% profit if reached quickly. Hold for bigger gains if stock moves steadily.",
+      "position_sizing": "Concentrate in 4-8 best ideas. Full position on strongest setups.",
+      "stop_loss": "7% from purchase price - NO EXCEPTIONS",
+      "take_profit": "20-25% quick profit, or ride with trailing stop in strong trends",
+      "filters": ["Market must be in confirmed uptrend (M factor)", "Relative Strength rank >80 (Ryan uses >90)", "Must be breaking out of proper base pattern", "Volume must be 50%+ above average on breakout day"],
+      "confidence": "very_high",
+      "notes": "O'Neil built IBD/Investors Business Daily around this system. Ryan won US Investing Championship 3 years in a row using refined version. Equity-only strategy."
+    },
+    {
+      "id": "schwartz_ma_system",
+      "name": "Schwartz Moving Average System",
+      "source_traders": ["Marty Schwartz"],
+      "category": "mean_reversion_momentum",
+      "codifiability": "high",
+      "timeframe": "daily",
+      "markets": ["stocks", "futures", "forex"],
+      "entry_logic": "Buy when price pulls back to 10-day EMA in uptrend (price above 10 EMA which is above 20 EMA). Sell when price rallies to 10-day EMA in downtrend. Confirm with oscillator reaching oversold/overbought.",
+      "exit_logic": "Exit when price closes decisively below 10 EMA (longs) or above 10 EMA (shorts). Scale out on strength.",
+      "position_sizing": "Reduce size after big wins or big losses. Standard 1-2% risk.",
+      "stop_loss": "Below swing low for longs, above swing high for shorts",
+      "take_profit": "Scale out: 50% at 2R, trail rest",
+      "filters": ["T-bills and T-bonds must confirm direction", "Know your uncle point before entering", "Reduce exposure in choppy markets"],
+      "confidence": "high",
+      "notes": "Schwartz: $40K to $20M, never had >3% monthly drawdown. Moving averages are his single most important indicator. Very similar to SBRS MA cross concept."
+    },
+    {
+      "id": "congestion_breakout",
+      "name": "Kovner Congestion Breakout",
+      "source_traders": ["Bruce Kovner"],
+      "category": "breakout",
+      "codifiability": "medium",
+      "timeframe": "daily",
+      "markets": ["forex", "futures"],
+      "entry_logic": "Identify tight congestion zones (low volatility compression). Enter on first decisive close outside the congestion range. Direction bias from fundamental analysis.",
+      "exit_logic": "Stop beyond the opposite side of congestion zone. Trail stop as trend develops.",
+      "position_sizing": "Risk 1-2% per trade. Position size = risk / distance_to_stop.",
+      "stop_loss": "Beyond technical barrier on opposite side of congestion",
+      "take_profit": "Measured move: width of congestion projected from breakout point",
+      "filters": ["Congestion must be genuine tight range (not wide choppy range)", "Fundamental backdrop should support direction", "Volume should increase on breakout"],
+      "confidence": "medium",
+      "notes": "Kovner averaged 87% annual returns. Congestion breakout is one of few mechanical concepts he described. Similar to SBRS breakout concept but without retest requirement."
+    },
+    {
+      "id": "range_expansion",
+      "name": "Tudor Jones Range Expansion",
+      "source_traders": ["Paul Tudor Jones"],
+      "category": "breakout",
+      "codifiability": "medium",
+      "timeframe": "daily",
+      "markets": ["futures", "forex", "stocks"],
+      "entry_logic": "Enter when daily range expands significantly (>1.5x 10-day average range) from a compression zone. Direction confirmed by close position within the range (close near high = bullish).",
+      "exit_logic": "Time stop: if no follow-through in 2-3 days, exit. Trail stop at prior day's low (longs) or high (shorts).",
+      "position_sizing": "Never risk more than 2% in a single session. Reduce size during losing streaks.",
+      "stop_loss": "Below expansion bar low (longs) or above expansion bar high (shorts)",
+      "take_profit": "No fixed target - ride with trailing stop",
+      "filters": ["Prior compression required (5+ days of below-average range)", "Best at potential reversal points (Elliott Wave context)", "Reduce size if on losing streak"],
+      "confidence": "medium",
+      "notes": "Jones is famous for calling 1987 crash. Range expansion concept is his most codifiable idea. Rest of his approach is macro-discretionary."
+    },
+    {
+      "id": "butterfly_explosion",
+      "name": "Saliba Butterfly + Explosion",
+      "source_traders": ["Tony Saliba"],
+      "category": "options",
+      "codifiability": "medium",
+      "timeframe": "monthly",
+      "markets": ["options"],
+      "entry_logic": "Butterfly: Sell front-month ATM options, buy wings for protection. Profits from time decay. Explosion: Buy back-month OTM options cheaply, profits from volatility expansion.",
+      "exit_logic": "Butterfly: Close at 50% max profit or roll at 21 DTE. Explosion: Close when volatility spikes or at 2-3x cost.",
+      "position_sizing": "Scale in gradually. Never full position at once.",
+      "stop_loss": "Butterfly: max loss is defined by spread width. Explosion: lose entire premium (sized accordingly).",
+      "take_profit": "Butterfly: 50% of max profit. Explosion: 2-3x cost basis.",
+      "filters": ["Butterfly: IV rank should be elevated (>50th percentile)", "Explosion: IV rank should be low (<25th percentile)", "Always know worst case at all times"],
+      "confidence": "medium",
+      "notes": "Options-specific strategy. 70 consecutive profitable months. Not directly applicable to SBRS framework but risk management principles overlap."
+    }
+  ],
+  "cross_cutting_themes": [
+    {
+      "theme": "Risk Management is Priority #1",
+      "supporters": ["Dennis", "Seykota", "Hite", "Kovner", "Jones", "O'Neil", "Schwartz"],
+      "consensus": "Never risk more than 1-2% per trade. Cut losses fast. This is the single most agreed-upon rule across all traders."
+    },
+    {
+      "theme": "Trend Following Works",
+      "supporters": ["Dennis", "Seykota", "Hite", "Kovner", "Jones"],
+      "consensus": "Following established trends is the most reliable edge. Don't fight the trend."
+    },
+    {
+      "theme": "Let Winners Run",
+      "supporters": ["Dennis", "Seykota", "Hite", "Marcus", "Kovner"],
+      "consensus": "The payoff distribution is skewed: a few big winners pay for many small losers. Don't cut winners short."
+    },
+    {
+      "theme": "Reduce Size During Drawdowns",
+      "supporters": ["Jones", "Schwartz", "Marcus"],
+      "consensus": "When losing, reduce position size. Protect capital for the next opportunity."
+    },
+    {
+      "theme": "Moving Averages as Core Indicator",
+      "supporters": ["Seykota", "Schwartz", "Hite", "O'Neil"],
+      "consensus": "Moving average crossovers are the most commonly used systematic signal across these traders."
+    }
+  ]
+}

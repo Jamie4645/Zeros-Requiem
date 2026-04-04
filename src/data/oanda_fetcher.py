@@ -1,8 +1,8 @@
 """
-OANDA Data Fetcher for SCAF 2.0
+OANDA Data Fetcher
 
-P5: Fetches historical candle data from OANDA's v20 REST API.
-Provides 20+ years of Gold, Forex data (back to 2005).
+Fetches historical candle data from OANDA's v20 REST API.
+Provides 20+ years of Gold data (back to 2005).
 
 Uses the free demo/practice API endpoint. Requires:
 - OANDA_API_KEY in .env file

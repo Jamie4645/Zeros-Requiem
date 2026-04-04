@@ -101,18 +101,34 @@ def run():
         closed_on_broker = sync_positions(state.open_trades)
         for closed_t in closed_on_broker:
             oanda_id = closed_t['oanda_trade_id']
-            # Trade was closed by broker (SL or TP hit)
-            # We don't know the exact exit price/PnL — get from broker history
-            # For now, mark as closed and log
-            pnl = 0.0  # Broker already applied the P&L to balance
-            reason = 'broker_closed'  # TP or SL hit between runs
-            
-            result = close_trade(state, oanda_id, closed_t.get('entry_price', 0), 
-                                 reason, pnl)
+
+            # Use actual exit details from OANDA (enriched by sync_positions)
+            exit_price = closed_t.get('_broker_exit_price', 0.0)
+            pnl = closed_t.get('_broker_pnl', 0.0)
+            broker_reason = closed_t.get('_broker_close_reason', 'unknown')
+
+            # Map broker close reason to our exit reason
+            if broker_reason == 'take_profit':
+                reason = 'tp'
+            elif broker_reason == 'stop_loss':
+                reason = 'sl'
+            elif broker_reason == 'trailing_stop':
+                reason = 'trailing_sl'
+            else:
+                reason = 'broker_closed'
+
+            if exit_price == 0.0:
+                alerts.logger.warning(
+                    f"Could not retrieve exit details for trade {oanda_id} — "
+                    f"recording with pnl=0. Check OANDA transaction history."
+                )
+
+            result = close_trade(state, oanda_id, exit_price, reason, pnl)
             if result:
+                reason_text = f"{broker_reason} (SL/TP hit between runs)"
                 alerts.log_trade_exit(
                     closed_t['direction'], closed_t['entry_price'],
-                    0.0, pnl, 'SL/TP hit between runs', oanda_id
+                    exit_price, pnl, reason_text, oanda_id
                 )
     
     # ──────────────────────────────────────────────────────────
@@ -296,9 +312,11 @@ def run():
         # Session filter
         try:
             if is_session_blocked(df.index[i]):
+                alerts.logger.info(f"Session filter blocked {direction.upper()} entry at {bar_time}")
                 continue
-        except:
-            pass
+        except Exception as e:
+            alerts.logger.warning(f"Session filter error at {bar_time}: {e}")
+            continue  # Block entry when session filter fails (safe default)
         
         # Chop filter
         if is_choppy(df, i, atr_vals, CHOP_LOOKBACK, CHOP_ATR_THRESHOLD):
@@ -404,8 +422,19 @@ def run():
             bar_profit = (current_high - entry_price) if is_long else (entry_price - current_low)
             if bar_profit >= BE_TRIGGER_R * initial_risk:
                 be_buffer = BE_BUFFER_R * initial_risk
-                new_sl = (entry_price + be_buffer) if is_long else (entry_price - be_buffer)
-                
+
+                # Add spread buffer to prevent immediate SL hit from spread
+                price_data = get_current_price()
+                spread_buffer = 0.0
+                if price_data:
+                    bid, ask, mid = price_data
+                    spread_buffer = (ask - bid) * 0.6  # 60% of spread as safety margin
+
+                if is_long:
+                    new_sl = entry_price + be_buffer + spread_buffer
+                else:
+                    new_sl = entry_price - be_buffer - spread_buffer
+
                 if modify_stop_loss(oanda_id, new_sl):
                     old_sl = trade_dict['stop_loss']
                     trade_dict['stop_loss'] = new_sl

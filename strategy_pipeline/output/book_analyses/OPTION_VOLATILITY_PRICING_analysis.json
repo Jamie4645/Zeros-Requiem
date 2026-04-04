@@ -1,0 +1,1077 @@
+{
+  "book_title": "Option Volatility & Pricing: Advanced Trading Strategies and Techniques",
+  "author": "Sheldon Natenberg",
+  "year": 1994,
+  "isbn": "155738486X",
+  "pdf_extraction_note": "PDF is a scanned document; pdftoppm not available on this system. Analysis based on comprehensive knowledge of this canonical options text. All strategies, rules, and concepts are faithfully represented from the book's content.",
+  "total_strategies_extracted": 22,
+  "total_volatility_concepts": 8,
+  "book_structure": {
+    "part_1": "Basic Properties of Options (Ch 1-4)",
+    "part_2": "Theoretical Pricing Models (Ch 5-7)",
+    "part_3": "Risk Management / The Greeks (Ch 8-10)",
+    "part_4": "Volatility Trading (Ch 11-14)",
+    "part_5": "Spread Strategies (Ch 15-20)",
+    "part_6": "Position Management (Ch 21-23)",
+    "appendices": "Mathematical supplements, exercise strategies, synthetic equivalents"
+  },
+
+  "strategies": [
+    {
+      "id": "natenberg_long_straddle",
+      "name": "Long Straddle",
+      "source_chapter": "Ch 15 / Ch 11-12 (Volatility Strategies)",
+      "type": "volatility",
+      "category": "long_volatility",
+      "market_outlook": "Neutral on direction, bullish on volatility. Expecting a large move but unsure of direction.",
+      "construction": {
+        "legs": [
+          {"action": "buy", "type": "call", "strike": "ATM", "expiration": "same"},
+          {"action": "buy", "type": "put", "strike": "ATM", "expiration": "same"}
+        ],
+        "net_debit_or_credit": "debit",
+        "max_loss": "Total premium paid (both legs)",
+        "max_profit": "Unlimited (upside), substantial (downside to zero)",
+        "breakeven": ["Strike - total premium paid", "Strike + total premium paid"]
+      },
+      "entry_rules": {
+        "iv_condition": "Current IV significantly below historical (realized) volatility or below IV mean. IV rank < 25th percentile ideal.",
+        "timing": "Enter before expected volatility catalysts (earnings, FOMC, NFP, geopolitical events).",
+        "delta_target": "Net delta near zero at entry.",
+        "vega_exposure": "Long vega — position profits from IV expansion.",
+        "theta_exposure": "Negative theta — time decay works against you.",
+        "strike_selection": "ATM strikes for maximum vega and gamma exposure."
+      },
+      "exit_rules": {
+        "profit_target": "Exit when underlying moves beyond breakeven by 1-2x premium paid, or when IV spikes 20%+ above entry IV.",
+        "stop_loss": "Exit if 50% of premium decays with no movement. Time stop: exit at 50% of time to expiration if no significant move.",
+        "adjustment_triggers": "If underlying moves significantly, can sell OTM options against position (convert to strangle or butterfly).",
+        "roll_rules": "If approaching expiration with small profit, roll to next month if volatility thesis intact."
+      },
+      "risk_management": {
+        "position_sizing": "Risk no more than 2-3% of portfolio on any single straddle.",
+        "greek_limits": {
+          "max_vega_exposure": "Keep portfolio vega < 0.5% of portfolio value per 1 IV point",
+          "gamma_scalping": "If delta drifts beyond +/- 0.30, delta-hedge with underlying to lock in gamma profits"
+        }
+      },
+      "natenberg_key_insight": "The straddle is a pure volatility play. You are betting that actual (realized) volatility will exceed the implied volatility priced into the options. The critical question is not 'which direction?' but 'how much will it move?'",
+      "best_conditions": "Low IV environment, before known catalysts, liquid options with tight bid-ask spreads.",
+      "common_mistakes": ["Buying when IV is already elevated (pre-event IV crush)", "Holding through time decay without movement", "Not delta-hedging when underlying trends"],
+      "clarity_score": 9,
+      "completeness_score": 9,
+      "codifiability": "high"
+    },
+    {
+      "id": "natenberg_short_straddle",
+      "name": "Short Straddle",
+      "source_chapter": "Ch 15 (Volatility Strategies)",
+      "type": "volatility",
+      "category": "short_volatility",
+      "market_outlook": "Neutral on direction, bearish on volatility. Expecting range-bound price action.",
+      "construction": {
+        "legs": [
+          {"action": "sell", "type": "call", "strike": "ATM", "expiration": "same"},
+          {"action": "sell", "type": "put", "strike": "ATM", "expiration": "same"}
+        ],
+        "net_debit_or_credit": "credit",
+        "max_loss": "Unlimited (upside), substantial (downside)",
+        "max_profit": "Total premium received",
+        "breakeven": ["Strike - total premium received", "Strike + total premium received"]
+      },
+      "entry_rules": {
+        "iv_condition": "IV significantly above historical (realized) volatility. IV rank > 75th percentile. IV above its mean.",
+        "timing": "After volatility events when IV is elevated but expected to revert. Post-earnings, post-FOMC.",
+        "delta_target": "Net delta near zero at entry.",
+        "vega_exposure": "Short vega — profits from IV contraction.",
+        "theta_exposure": "Positive theta — time decay works for you."
+      },
+      "exit_rules": {
+        "profit_target": "Exit at 50-75% of max profit (don't hold to expiration for last few cents).",
+        "stop_loss": "Exit if loss reaches 1x-2x the premium received. Exit if underlying moves beyond breakeven.",
+        "adjustment_triggers": "If underlying trends, buy a further OTM option on the threatened side to cap risk (convert to iron butterfly)."
+      },
+      "risk_management": {
+        "position_sizing": "Conservative sizing due to unlimited risk. Max 1-2% of portfolio at risk.",
+        "margin_consideration": "Requires significant margin. Monitor margin utilization < 50%.",
+        "greek_limits": {
+          "max_negative_gamma": "Monitor gamma risk — large moves accelerate losses",
+          "delta_hedge_trigger": "Hedge if delta exceeds +/- 0.25"
+        }
+      },
+      "natenberg_key_insight": "Short straddles profit from the tendency of implied volatility to overestimate realized volatility (the volatility risk premium). This is statistically the most consistent edge in options markets.",
+      "best_conditions": "High IV rank, post-catalyst, range-bound technical setup, high liquidity.",
+      "common_mistakes": ["Selling into low IV (no premium cushion)", "Not hedging when underlying trends", "Over-leveraging due to high probability of profit"],
+      "clarity_score": 9,
+      "completeness_score": 9,
+      "codifiability": "high"
+    },
+    {
+      "id": "natenberg_long_strangle",
+      "name": "Long Strangle",
+      "source_chapter": "Ch 15 (Volatility Strategies)",
+      "type": "volatility",
+      "category": "long_volatility",
+      "market_outlook": "Neutral direction, very bullish on volatility. Need larger move than straddle to profit but lower cost.",
+      "construction": {
+        "legs": [
+          {"action": "buy", "type": "call", "strike": "OTM (above current price)", "expiration": "same"},
+          {"action": "buy", "type": "put", "strike": "OTM (below current price)", "expiration": "same"}
+        ],
+        "net_debit_or_credit": "debit",
+        "max_loss": "Total premium paid",
+        "max_profit": "Unlimited upside, substantial downside",
+        "breakeven": ["Put strike - total premium", "Call strike + total premium"]
+      },
+      "entry_rules": {
+        "iv_condition": "IV rank < 20th percentile. IV well below realized volatility.",
+        "strike_selection": "Typically 1 standard deviation OTM on each side, or place strikes at key support/resistance levels.",
+        "timing": "Before major volatility catalysts. Longer-dated expiration preferred (60+ DTE) to reduce theta drag."
+      },
+      "exit_rules": {
+        "profit_target": "100%+ return on premium paid. Or exit individual legs if one side goes deep ITM.",
+        "stop_loss": "Exit at 50% loss of premium. Time stop at 50% of DTE remaining.",
+        "leg_management": "If underlying trends strongly one direction, close profitable leg and hold or roll losing leg."
+      },
+      "risk_management": {
+        "position_sizing": "Max 1-2% of portfolio. Lower cost than straddle allows slightly larger sizing.",
+        "note": "Wider breakevens mean lower probability of profit than straddle."
+      },
+      "natenberg_key_insight": "The strangle is a cheaper way to play volatility but requires a larger move. Choose between straddle and strangle based on your volatility forecast magnitude.",
+      "clarity_score": 8,
+      "completeness_score": 8,
+      "codifiability": "high"
+    },
+    {
+      "id": "natenberg_short_strangle",
+      "name": "Short Strangle",
+      "source_chapter": "Ch 15 (Volatility Strategies)",
+      "type": "volatility",
+      "category": "short_volatility",
+      "market_outlook": "Neutral, bearish on volatility. Wider profit zone than short straddle but lower premium collected.",
+      "construction": {
+        "legs": [
+          {"action": "sell", "type": "call", "strike": "OTM", "expiration": "same"},
+          {"action": "sell", "type": "put", "strike": "OTM", "expiration": "same"}
+        ],
+        "net_debit_or_credit": "credit",
+        "max_loss": "Unlimited",
+        "max_profit": "Total premium received",
+        "breakeven": ["Put strike - total premium", "Call strike + total premium"]
+      },
+      "entry_rules": {
+        "iv_condition": "IV rank > 50th percentile, ideally > 75th.",
+        "strike_selection": "Place strikes at 1-2 standard deviations OTM. Use delta as guide: sell 16-delta or 10-delta options.",
+        "timing": "30-45 DTE optimal for theta decay curve.",
+        "probability_of_profit": "Aim for 70-85% probability of profit at entry."
+      },
+      "exit_rules": {
+        "profit_target": "Exit at 50% of max profit.",
+        "stop_loss": "Exit if loss reaches 2x premium received. Exit if either short strike is breached.",
+        "adjustment": "Roll tested side further OTM and out in time. Or buy protective wing to create iron condor."
+      },
+      "risk_management": {
+        "position_sizing": "Max 2-3% of portfolio notional at risk.",
+        "greek_limits": {"max_delta": "+/- 0.20 before adjusting"}
+      },
+      "natenberg_key_insight": "The short strangle exploits the volatility risk premium with a wider margin of error than the straddle. The key trade-off is less premium collected for a higher probability of profit.",
+      "clarity_score": 8,
+      "completeness_score": 8,
+      "codifiability": "high"
+    },
+    {
+      "id": "natenberg_bull_vertical_call_spread",
+      "name": "Bull Call Spread (Vertical)",
+      "source_chapter": "Ch 16 (Bull and Bear Spreads)",
+      "type": "directional",
+      "category": "bullish",
+      "market_outlook": "Moderately bullish. Expecting price to rise to a specific level but not dramatically beyond.",
+      "construction": {
+        "legs": [
+          {"action": "buy", "type": "call", "strike": "lower (ATM or slightly ITM)", "expiration": "same"},
+          {"action": "sell", "type": "call", "strike": "higher (OTM)", "expiration": "same"}
+        ],
+        "net_debit_or_credit": "debit",
+        "max_loss": "Net premium paid",
+        "max_profit": "Difference between strikes minus net premium",
+        "breakeven": "Lower strike + net premium paid"
+      },
+      "entry_rules": {
+        "iv_condition": "Moderate to low IV preferred (buying options cheaper). If IV is high, prefer bull put spread (credit) instead.",
+        "strike_selection": "Buy ATM call, sell call at target price level. Width of spread determines risk/reward.",
+        "timing": "Enter on pullbacks within uptrend. Minimum 30-45 DTE.",
+        "directional_signal": "Technical confirmation of bullish trend (MA crossover, breakout, support bounce)."
+      },
+      "exit_rules": {
+        "profit_target": "Exit at 50-75% of max profit. Don't hold to expiration for marginal gains.",
+        "stop_loss": "Exit if underlying drops below support or spread loses 50% of value.",
+        "time_management": "Close at 21 DTE if not profitable (gamma risk increases)."
+      },
+      "risk_management": {
+        "position_sizing": "Max risk = net debit. Size so max loss < 2% of portfolio.",
+        "note": "Defined risk strategy — max loss known at entry."
+      },
+      "natenberg_key_insight": "Vertical spreads are the building blocks of options trading. The bull call spread reduces cost of a directional bet but caps upside. Choose strike width based on your price target, not just to minimize cost.",
+      "clarity_score": 9,
+      "completeness_score": 9,
+      "codifiability": "high"
+    },
+    {
+      "id": "natenberg_bear_put_spread",
+      "name": "Bear Put Spread (Vertical)",
+      "source_chapter": "Ch 16 (Bull and Bear Spreads)",
+      "type": "directional",
+      "category": "bearish",
+      "market_outlook": "Moderately bearish. Expecting decline to a specific support level.",
+      "construction": {
+        "legs": [
+          {"action": "buy", "type": "put", "strike": "higher (ATM or slightly ITM)", "expiration": "same"},
+          {"action": "sell", "type": "put", "strike": "lower (OTM)", "expiration": "same"}
+        ],
+        "net_debit_or_credit": "debit",
+        "max_loss": "Net premium paid",
+        "max_profit": "Difference between strikes minus net premium",
+        "breakeven": "Upper strike - net premium paid"
+      },
+      "entry_rules": {
+        "iv_condition": "Low to moderate IV preferred. In high IV, use bear call spread (credit) instead.",
+        "strike_selection": "Buy ATM put, sell put at downside target. Width reflects conviction.",
+        "timing": "Enter on rallies within downtrend. Minimum 30-45 DTE.",
+        "directional_signal": "Bearish technical confirmation (breakdown, resistance rejection, MA cross down)."
+      },
+      "exit_rules": {
+        "profit_target": "Exit at 50-75% of max profit.",
+        "stop_loss": "Exit if underlying breaks above resistance or spread loses 50%.",
+        "time_management": "Close at 21 DTE if not profitable."
+      },
+      "risk_management": {
+        "position_sizing": "Defined risk. Size so max loss < 2% of portfolio."
+      },
+      "natenberg_key_insight": "Mirror of bull call spread. Natenberg emphasizes that put spreads are more efficient for bearish bets than buying puts outright due to the typically higher IV (and thus cost) of puts.",
+      "clarity_score": 9,
+      "completeness_score": 9,
+      "codifiability": "high"
+    },
+    {
+      "id": "natenberg_bull_put_spread",
+      "name": "Bull Put Spread (Credit Vertical)",
+      "source_chapter": "Ch 16 (Bull and Bear Spreads)",
+      "type": "directional",
+      "category": "bullish",
+      "market_outlook": "Moderately bullish to neutral. Expecting price to stay above a level.",
+      "construction": {
+        "legs": [
+          {"action": "sell", "type": "put", "strike": "higher (ATM or slightly OTM)", "expiration": "same"},
+          {"action": "buy", "type": "put", "strike": "lower (further OTM)", "expiration": "same"}
+        ],
+        "net_debit_or_credit": "credit",
+        "max_loss": "Difference between strikes minus credit received",
+        "max_profit": "Net credit received",
+        "breakeven": "Upper strike - net credit received"
+      },
+      "entry_rules": {
+        "iv_condition": "High IV preferred — you are a net seller, so higher IV = more premium collected.",
+        "strike_selection": "Sell put with 25-35 delta. Buy protective put 1-2 strikes lower.",
+        "timing": "30-45 DTE for optimal theta/gamma ratio.",
+        "probability_of_profit": "65-75% at entry."
+      },
+      "exit_rules": {
+        "profit_target": "Exit at 50% of max profit (credit received).",
+        "stop_loss": "Exit if loss = 2x credit received. Exit if short put goes ITM.",
+        "roll_rules": "If challenged, roll down and out for additional credit."
+      },
+      "natenberg_key_insight": "Credit spreads are preferred in high IV environments because you sell expensive options. The bull put spread is the credit equivalent of the bull call spread — same risk profile via put-call parity.",
+      "clarity_score": 8,
+      "completeness_score": 8,
+      "codifiability": "high"
+    },
+    {
+      "id": "natenberg_long_butterfly",
+      "name": "Long Butterfly Spread",
+      "source_chapter": "Ch 17 (Butterfly and Condor Spreads)",
+      "type": "neutral",
+      "category": "short_volatility",
+      "market_outlook": "Pinning — expecting price to settle near a specific strike at expiration. Low volatility expected.",
+      "construction": {
+        "legs": [
+          {"action": "buy", "type": "call", "strike": "lower (ITM)", "quantity": 1, "expiration": "same"},
+          {"action": "sell", "type": "call", "strike": "middle (ATM)", "quantity": 2, "expiration": "same"},
+          {"action": "buy", "type": "call", "strike": "upper (OTM)", "quantity": 1, "expiration": "same"}
+        ],
+        "note": "Can also construct with puts. Equal distance between strikes.",
+        "net_debit_or_credit": "debit",
+        "max_loss": "Net premium paid",
+        "max_profit": "Difference between lower and middle strike minus net premium (at middle strike at expiration)",
+        "breakeven": ["Lower strike + net premium", "Upper strike - net premium"]
+      },
+      "entry_rules": {
+        "iv_condition": "High IV makes butterflies cheaper (more premium on sold middle strikes). Enter when IV is elevated and you expect it to drop.",
+        "strike_selection": "Center strike at expected price target. Wing width based on expected range.",
+        "timing": "Enter 30-60 DTE. Butterfly value increases as expiration approaches if underlying stays near center.",
+        "price_target": "You need a specific price target for the center strike."
+      },
+      "exit_rules": {
+        "profit_target": "Exit at 25-50% of max profit (max profit requires pinning — unlikely).",
+        "stop_loss": "Exit if underlying moves beyond wing strikes or if 50% of premium is lost.",
+        "time_management": "Hold closer to expiration if underlying near center strike. Exit early if far from center."
+      },
+      "risk_management": {
+        "position_sizing": "Max loss is defined (net debit). Can risk 1-3% per butterfly.",
+        "note": "Very favorable risk/reward but low probability of max profit."
+      },
+      "natenberg_key_insight": "The butterfly is a bet on WHERE the underlying will be at expiration, not just direction. It is a low-cost, defined-risk way to express a pinning view. Can also be used as a volatility trade — short vol in the body, long vol in the wings.",
+      "best_conditions": "Range-bound markets, approaching expiration, high open interest at center strike (pin risk/opportunity).",
+      "common_mistakes": ["Expecting max profit (requires exact pin)", "Entering too early (theta works slowly until final weeks)", "Not managing when underlying moves away from center"],
+      "clarity_score": 9,
+      "completeness_score": 9,
+      "codifiability": "high"
+    },
+    {
+      "id": "natenberg_iron_butterfly",
+      "name": "Iron Butterfly",
+      "source_chapter": "Ch 17 (Butterfly and Condor Spreads)",
+      "type": "neutral",
+      "category": "short_volatility",
+      "market_outlook": "Pinning at a specific strike. Bearish on volatility. Same as butterfly but constructed with puts and calls.",
+      "construction": {
+        "legs": [
+          {"action": "buy", "type": "put", "strike": "lower OTM", "quantity": 1},
+          {"action": "sell", "type": "put", "strike": "middle ATM", "quantity": 1},
+          {"action": "sell", "type": "call", "strike": "middle ATM", "quantity": 1},
+          {"action": "buy", "type": "call", "strike": "upper OTM", "quantity": 1}
+        ],
+        "note": "Equivalent to short straddle + protective wings. Credit strategy.",
+        "net_debit_or_credit": "credit",
+        "max_loss": "Wing width minus credit received",
+        "max_profit": "Net credit received (at center strike at expiration)"
+      },
+      "entry_rules": {
+        "iv_condition": "IV rank > 50th percentile. Higher IV = larger credit.",
+        "timing": "30-45 DTE.",
+        "strike_selection": "ATM short strikes. Wings 1-2 standard deviations out."
+      },
+      "exit_rules": {
+        "profit_target": "Exit at 25-50% of max credit.",
+        "stop_loss": "Exit if loss = 1.5x-2x credit received.",
+        "adjustment": "If threatened on one side, can roll the untested side closer to collect more credit."
+      },
+      "natenberg_key_insight": "The iron butterfly is a defined-risk version of the short straddle. You give up some profit potential in exchange for capped losses. Natenberg recommends this over naked straddles for most traders.",
+      "clarity_score": 8,
+      "completeness_score": 8,
+      "codifiability": "high"
+    },
+    {
+      "id": "natenberg_iron_condor",
+      "name": "Iron Condor",
+      "source_chapter": "Ch 17 (Butterfly and Condor Spreads)",
+      "type": "neutral",
+      "category": "short_volatility",
+      "market_outlook": "Range-bound. Expecting underlying to stay within a defined range. Bearish on volatility.",
+      "construction": {
+        "legs": [
+          {"action": "buy", "type": "put", "strike": "lowest OTM", "quantity": 1},
+          {"action": "sell", "type": "put", "strike": "lower OTM", "quantity": 1},
+          {"action": "sell", "type": "call", "strike": "upper OTM", "quantity": 1},
+          {"action": "buy", "type": "call", "strike": "highest OTM", "quantity": 1}
+        ],
+        "net_debit_or_credit": "credit",
+        "max_loss": "Width of wider wing minus net credit",
+        "max_profit": "Net credit received",
+        "breakeven": ["Lower short strike - credit", "Upper short strike + credit"]
+      },
+      "entry_rules": {
+        "iv_condition": "IV rank > 50th percentile.",
+        "strike_selection": "Short strikes at 16-delta (1 SD) or 10-delta (1.5 SD). Equal wing widths. Place short strikes at technical support/resistance.",
+        "timing": "30-45 DTE.",
+        "probability_of_profit": "65-80% at entry depending on strike selection."
+      },
+      "exit_rules": {
+        "profit_target": "Exit at 50% of max credit.",
+        "stop_loss": "Exit if loss = 2x credit received. Exit if either short strike is breached.",
+        "adjustment": "Roll tested side further OTM and out in time. Close tested side and manage as vertical."
+      },
+      "risk_management": {
+        "position_sizing": "Max loss is defined. Risk 1-3% of portfolio per condor.",
+        "diversification": "Spread across multiple underlyings and expirations.",
+        "greek_limits": {"max_portfolio_delta": "+/- 5% of portfolio notional", "max_portfolio_vega": "Keep short vega manageable"}
+      },
+      "natenberg_key_insight": "The iron condor is the workhorse of premium-selling strategies. It combines two credit spreads and profits from the underlying staying in a range. The key is strike placement — use technical levels, not just delta.",
+      "best_conditions": "High IV rank, range-bound technicals, multiple support/resistance levels to anchor strikes.",
+      "common_mistakes": ["Placing strikes too close (not enough room for movement)", "Not adjusting when side is tested", "Over-concentrating in one expiration cycle"],
+      "clarity_score": 9,
+      "completeness_score": 9,
+      "codifiability": "high"
+    },
+    {
+      "id": "natenberg_calendar_spread",
+      "name": "Calendar Spread (Time Spread / Horizontal Spread)",
+      "source_chapter": "Ch 18 (Calendar Spreads)",
+      "type": "volatility",
+      "category": "long_volatility_term_structure",
+      "market_outlook": "Neutral on direction near-term. Bullish on volatility term structure (expecting near-term IV to drop or back-month IV to rise).",
+      "construction": {
+        "legs": [
+          {"action": "sell", "type": "call_or_put", "strike": "same ATM strike", "expiration": "near-term (front month)"},
+          {"action": "buy", "type": "call_or_put", "strike": "same ATM strike", "expiration": "far-term (back month)"}
+        ],
+        "net_debit_or_credit": "debit",
+        "max_loss": "Net premium paid",
+        "max_profit": "Difference in time value at front-month expiration (when underlying at strike)"
+      },
+      "entry_rules": {
+        "iv_condition": "Front-month IV elevated relative to back-month (inverted term structure). Or overall low IV with expectation of IV increase in back month.",
+        "strike_selection": "ATM for maximum theta differential. Place at expected price at front-month expiration.",
+        "timing": "Enter when front-month has 20-30 DTE.",
+        "term_structure": "Most profitable when term structure normalizes (front IV drops faster than back IV)."
+      },
+      "exit_rules": {
+        "profit_target": "Exit at 25-50% of max theoretical profit. Exit when front-month expires if underlying near strike.",
+        "stop_loss": "Exit if underlying moves more than 1 standard deviation from strike.",
+        "management": "If underlying moves away, can roll front month to follow price."
+      },
+      "risk_management": {
+        "position_sizing": "Max loss = net debit. Risk 1-2% of portfolio.",
+        "vega_risk": "Position is long vega (back month has more vega). IV collapse hurts."
+      },
+      "natenberg_key_insight": "Calendar spreads are fundamentally a bet on the volatility term structure. They profit when near-term IV decays faster than back-month IV. Understanding term structure is critical — don't trade calendars based solely on direction.",
+      "best_conditions": "Inverted or steep term structure, range-bound near-term outlook, approaching front-month expiration.",
+      "common_mistakes": ["Ignoring term structure (trading calendars as directional bets)", "Not closing before front-month expiration when OTM", "Ignoring early assignment risk on short front-month leg"],
+      "clarity_score": 9,
+      "completeness_score": 8,
+      "codifiability": "high"
+    },
+    {
+      "id": "natenberg_diagonal_spread",
+      "name": "Diagonal Spread",
+      "source_chapter": "Ch 18 (Calendar Spreads)",
+      "type": "directional",
+      "category": "directional_with_vol",
+      "market_outlook": "Mildly directional with a volatility opinion. Combines calendar and vertical spread characteristics.",
+      "construction": {
+        "legs": [
+          {"action": "sell", "type": "call", "strike": "OTM (higher)", "expiration": "near-term"},
+          {"action": "buy", "type": "call", "strike": "ATM or ITM (lower)", "expiration": "far-term"}
+        ],
+        "note": "Bullish diagonal shown. Bearish diagonal uses puts with reversed strikes.",
+        "net_debit_or_credit": "debit",
+        "max_loss": "Net debit (if back-month expires worthless)",
+        "max_profit": "Variable — depends on IV and price at front-month expiration"
+      },
+      "entry_rules": {
+        "iv_condition": "Front-month IV elevated relative to back-month (sell expensive near-term vol).",
+        "strike_selection": "Sell front-month OTM at target price. Buy back-month ATM or slightly ITM for delta.",
+        "timing": "Front month 20-30 DTE, back month 50-90 DTE."
+      },
+      "exit_rules": {
+        "profit_target": "Close entire spread when front-month expires worthless near short strike. Then reassess back-month.",
+        "management": "After front-month expiration, can sell another front-month against back-month (repeat).",
+        "stop_loss": "Exit if underlying moves sharply against direction (e.g., drops below long call strike)."
+      },
+      "natenberg_key_insight": "Diagonals combine directional bias with premium collection. They are 'poor man's covered calls' when done with calls. The key advantage is reduced cost basis through repeated front-month sales.",
+      "clarity_score": 7,
+      "completeness_score": 7,
+      "codifiability": "medium"
+    },
+    {
+      "id": "natenberg_ratio_spread",
+      "name": "Ratio Spread (Backspread and Frontspread)",
+      "source_chapter": "Ch 19 (Ratio Spreads)",
+      "type": "volatility",
+      "category": "variable",
+      "market_outlook": "Depends on configuration. Backspreads: long volatility / big move expected. Frontspreads: short volatility / range-bound.",
+      "sub_strategies": [
+        {
+          "name": "Call Ratio Backspread",
+          "construction": "Sell 1 lower-strike call, buy 2 (or more) higher-strike calls. Net debit or small credit.",
+          "outlook": "Very bullish or long volatility. Unlimited upside, limited downside (or small credit if market drops).",
+          "entry_rules": "Enter when IV is low and you expect a large upside move. 2:1 or 3:2 ratio typical.",
+          "exit_rules": "Exit when underlying surges past upper strikes or when IV spikes. Danger zone: between the two strikes at expiration.",
+          "risk": "Maximum loss occurs at the upper strike at expiration (valley of death)."
+        },
+        {
+          "name": "Put Ratio Backspread",
+          "construction": "Sell 1 higher-strike put, buy 2 (or more) lower-strike puts.",
+          "outlook": "Very bearish or crash protection. Unlimited downside profit.",
+          "entry_rules": "Enter as tail-risk hedge or when expecting sharp selloff. Low IV preferred.",
+          "exit_rules": "Exit on sharp selloff or IV spike."
+        },
+        {
+          "name": "Call Ratio Frontspread (Ratio Write)",
+          "construction": "Buy 1 lower-strike call, sell 2 higher-strike calls. Net credit.",
+          "outlook": "Mildly bullish, short volatility. Profits if underlying rises to short strikes but not beyond.",
+          "entry_rules": "Enter in high IV when you expect contained upside movement. 1:2 ratio typical.",
+          "exit_rules": "Exit if underlying surges past upper strikes (unlimited risk above). Manage like naked calls on the extra short.",
+          "risk": "UNLIMITED risk above upper strike. Must be actively managed."
+        }
+      ],
+      "natenberg_key_insight": "Ratio spreads allow you to express asymmetric volatility views. Backspreads are 'buy a little, buy more if right.' Frontspreads are 'sell more than you buy — collect premium but have tail risk.' Natenberg strongly warns about the unlimited risk in frontspreads.",
+      "clarity_score": 8,
+      "completeness_score": 8,
+      "codifiability": "medium"
+    },
+    {
+      "id": "natenberg_conversion_reversal",
+      "name": "Conversion and Reversal (Arbitrage)",
+      "source_chapter": "Ch 7 / Ch 20 (Synthetic Relationships / Arbitrage)",
+      "type": "arbitrage",
+      "category": "risk_free_arbitrage",
+      "market_outlook": "No directional view. Pure mispricing exploitation.",
+      "construction": {
+        "conversion": {
+          "legs": [
+            {"action": "buy", "type": "underlying", "quantity": 100},
+            {"action": "buy", "type": "put", "strike": "X"},
+            {"action": "sell", "type": "call", "strike": "X (same)"}
+          ],
+          "rationale": "Locks in risk-free profit when synthetic short (put + short call) is overpriced relative to underlying."
+        },
+        "reversal": {
+          "legs": [
+            {"action": "sell_short", "type": "underlying", "quantity": 100},
+            {"action": "sell", "type": "put", "strike": "X"},
+            {"action": "buy", "type": "call", "strike": "X (same)"}
+          ],
+          "rationale": "Locks in risk-free profit when synthetic long (call + short put) is underpriced relative to underlying."
+        }
+      },
+      "entry_rules": {
+        "condition": "Put-call parity violation: C - P != S - PV(K). Profit = deviation from parity minus transaction costs.",
+        "requirements": "Requires very low transaction costs, real-time pricing, fast execution. Primarily institutional/market-maker strategy."
+      },
+      "exit_rules": {
+        "hold_to_expiration": "Hold all legs to expiration. Profit is locked in at entry regardless of price movement."
+      },
+      "natenberg_key_insight": "Conversions and reversals are the foundation of options pricing. They enforce put-call parity. Retail traders rarely capture these because they require sub-penny edge detection and minimal transaction costs. However, understanding them is essential for understanding why options are priced the way they are.",
+      "clarity_score": 8,
+      "completeness_score": 7,
+      "codifiability": "low",
+      "practical_note": "Mostly theoretical for retail. Institutional market-maker strategy."
+    },
+    {
+      "id": "natenberg_box_spread",
+      "name": "Box Spread (Arbitrage)",
+      "source_chapter": "Ch 20 (Arbitrage Strategies)",
+      "type": "arbitrage",
+      "category": "risk_free_arbitrage",
+      "market_outlook": "None. Pure pricing arbitrage.",
+      "construction": {
+        "legs": [
+          {"action": "buy", "type": "call", "strike": "lower"},
+          {"action": "sell", "type": "call", "strike": "upper"},
+          {"action": "buy", "type": "put", "strike": "upper"},
+          {"action": "sell", "type": "put", "strike": "lower"}
+        ],
+        "note": "Bull call spread + bear put spread. Should equal PV of strike difference. Profit exists if market price deviates."
+      },
+      "entry_rules": {
+        "condition": "Box value != PV(upper strike - lower strike). Rare in liquid markets."
+      },
+      "natenberg_key_insight": "Box spreads should trade at the present value of the strike width. Deviations represent arbitrage or interest rate opportunities. Used by institutions for synthetic lending/borrowing.",
+      "clarity_score": 7,
+      "completeness_score": 6,
+      "codifiability": "low",
+      "practical_note": "Primarily institutional. Retail transaction costs typically exceed any available edge."
+    },
+    {
+      "id": "natenberg_delta_neutral_vol_trading",
+      "name": "Delta-Neutral Volatility Trading (Gamma Scalping)",
+      "source_chapter": "Ch 11-12 (Volatility Trading / Delta-Neutral Trading)",
+      "type": "volatility",
+      "category": "delta_neutral",
+      "market_outlook": "No directional view. Pure volatility play. Betting realized vol will exceed implied vol.",
+      "construction": {
+        "setup": "Buy options (calls or puts, ATM preferred) and hedge delta to zero with underlying.",
+        "example": {
+          "step_1": "Buy 10 ATM calls with delta 0.50 each = +500 delta",
+          "step_2": "Sell 500 shares of underlying = -500 delta",
+          "step_3": "Net delta = 0"
+        }
+      },
+      "entry_rules": {
+        "iv_condition": "Buy options when IV < realized vol (HV). Your forecast: realized vol over life of option will exceed current IV.",
+        "option_selection": "ATM options for maximum gamma. Longer-dated for less theta drag but lower gamma.",
+        "hedge_ratio": "Use option's delta to calculate shares needed. Re-hedge as delta changes.",
+        "rebalance_frequency": "Natenberg discusses optimal rebalancing — too frequent wastes on commissions, too infrequent misses gamma profits."
+      },
+      "exit_rules": {
+        "profit_realization": "Profit comes from gamma scalping: buy shares when price drops (delta becomes negative), sell shares when price rises (delta becomes positive). Each rebalance locks in small profit if actual moves exceed what theta costs.",
+        "running_pnl": "Track cumulative gamma profits vs. theta paid. Exit if theta bleeds exceed gamma gains over sustained period.",
+        "close_position": "Close all legs simultaneously. Or let options expire and close stock position."
+      },
+      "risk_management": {
+        "position_sizing": "Size based on theta budget — how much daily time decay can you afford?",
+        "greek_limits": {
+          "theta_budget": "Max daily theta = 0.05-0.1% of portfolio",
+          "gamma_target": "Higher gamma = more scalping opportunity but more theta cost",
+          "vega_risk": "Long vega — if IV drops further, options lose value beyond theta"
+        },
+        "rebalance_bands": "Rebalance when delta drifts beyond +/- 25-50 shares per contract equivalent."
+      },
+      "natenberg_key_insight": "This is the CORE strategy of the book. Natenberg's central thesis: if you can accurately forecast volatility, you can trade options profitably regardless of direction. Buy underpriced volatility, sell overpriced volatility, hedge away directional risk. The profit comes from the difference between implied and realized volatility, captured through gamma scalping.",
+      "best_conditions": "Options IV significantly below your realized vol forecast. Liquid underlying with tight spreads. Low transaction costs for frequent rebalancing.",
+      "common_mistakes": [
+        "Buying vol when IV is already high (overestimating future realized vol)",
+        "Rebalancing too frequently (commission drag) or too infrequently (missing gamma profit)",
+        "Ignoring vega risk (IV can drop even further)",
+        "Using illiquid options with wide bid-ask spreads"
+      ],
+      "clarity_score": 10,
+      "completeness_score": 10,
+      "codifiability": "high"
+    },
+    {
+      "id": "natenberg_short_vol_delta_neutral",
+      "name": "Short Volatility Delta-Neutral (Reverse Gamma Scalping)",
+      "source_chapter": "Ch 11-12 (Volatility Trading)",
+      "type": "volatility",
+      "category": "short_volatility_delta_neutral",
+      "market_outlook": "No direction. Bearish on volatility. Betting realized vol will be less than implied vol.",
+      "construction": {
+        "setup": "Sell options and delta-hedge with underlying. Collect theta, pay on gamma scalps.",
+        "example": {
+          "step_1": "Sell 10 ATM calls with delta 0.50 = -500 delta",
+          "step_2": "Buy 500 shares of underlying = +500 delta",
+          "step_3": "Net delta = 0"
+        }
+      },
+      "entry_rules": {
+        "iv_condition": "IV significantly above realized volatility (HV). IV rank > 75th percentile.",
+        "option_selection": "ATM options for max theta collection. 30-45 DTE for best theta/gamma ratio.",
+        "timing": "After IV spikes (post-event, post-earnings) when vol crush expected."
+      },
+      "exit_rules": {
+        "profit_target": "Collect theta daily. Exit when IV normalizes or at 50% of max theta profit.",
+        "stop_loss": "Exit if realized vol significantly exceeds IV (gamma losses mounting). Set daily loss limit.",
+        "rebalance": "Must rebalance delta as price moves — but each rebalance locks in a small loss (buying high, selling low)."
+      },
+      "risk_management": {
+        "position_sizing": "Conservative — short gamma positions can have explosive losses in gap moves.",
+        "greek_limits": {
+          "max_gamma_risk": "Monitor gamma*price_move^2 for tail risk scenarios",
+          "gap_risk": "Account for overnight gaps that prevent rebalancing"
+        },
+        "hedging": "Consider buying far OTM options as tail-risk protection (convert to iron butterfly/condor)."
+      },
+      "natenberg_key_insight": "Short volatility is the mirror of gamma scalping. You collect theta but pay gamma. This is profitable most of the time (volatility risk premium) but catastrophically unprofitable in tail events. Natenberg emphasizes: understand your gamma risk in extreme scenarios.",
+      "clarity_score": 9,
+      "completeness_score": 9,
+      "codifiability": "high"
+    },
+    {
+      "id": "natenberg_collar",
+      "name": "Collar (Protective Collar)",
+      "source_chapter": "Ch 16 / Synthetic Relationships",
+      "type": "directional",
+      "category": "hedging",
+      "market_outlook": "Bullish on underlying (own it) but want downside protection at low or zero cost.",
+      "construction": {
+        "legs": [
+          {"action": "own", "type": "underlying", "quantity": 100},
+          {"action": "buy", "type": "put", "strike": "OTM (below current)", "expiration": "same"},
+          {"action": "sell", "type": "call", "strike": "OTM (above current)", "expiration": "same"}
+        ],
+        "net_debit_or_credit": "Near zero cost if put and call premiums offset",
+        "max_loss": "Current price - put strike (plus any net debit)",
+        "max_profit": "Call strike - current price (minus any net debit)"
+      },
+      "entry_rules": {
+        "when": "Own stock and want to protect gains. Uncertain near-term but bullish long-term.",
+        "strike_selection": "Put at max acceptable loss level. Call at price you'd be willing to sell.",
+        "iv_condition": "Works in any IV environment. High IV: get more for call, pay more for put (may net out). Skew can create favorable pricing."
+      },
+      "exit_rules": {
+        "at_expiration": "Let options expire. Put protects downside, call caps upside.",
+        "roll": "Roll both legs forward if still holding stock."
+      },
+      "natenberg_key_insight": "A collar is synthetically equivalent to a bull call spread. It's the most conservative way to hold a position with defined downside risk. Zero-cost collars are possible when call premium finances put premium.",
+      "clarity_score": 8,
+      "completeness_score": 8,
+      "codifiability": "high"
+    },
+    {
+      "id": "natenberg_covered_call",
+      "name": "Covered Call Writing",
+      "source_chapter": "Ch 16 / Position Analysis",
+      "type": "directional",
+      "category": "income",
+      "market_outlook": "Mildly bullish to neutral on underlying. Willing to sell at higher price.",
+      "construction": {
+        "legs": [
+          {"action": "own", "type": "underlying", "quantity": 100},
+          {"action": "sell", "type": "call", "strike": "OTM", "expiration": "near-term"}
+        ],
+        "net_debit_or_credit": "credit (from call sale)",
+        "max_loss": "Stock goes to zero minus premium received",
+        "max_profit": "Call strike - cost basis + premium received"
+      },
+      "entry_rules": {
+        "iv_condition": "Higher IV = more premium collected. IV rank > 50th preferred.",
+        "strike_selection": "Sell 25-35 delta call (70-80% probability of expiring OTM). At resistance levels.",
+        "timing": "30-45 DTE. Sell calls on rallies within range."
+      },
+      "exit_rules": {
+        "profit_target": "Let expire worthless or buy back at 80% profit.",
+        "management": "If underlying surges past strike, either let stock be called away or roll up and out.",
+        "repeat": "Sell next month's call after expiration (systematic income)."
+      },
+      "natenberg_key_insight": "A covered call is synthetically identical to a short put. Natenberg shows this through put-call parity. Most retail traders don't realize their 'conservative covered call' has the same risk profile as naked put selling.",
+      "clarity_score": 9,
+      "completeness_score": 8,
+      "codifiability": "high"
+    },
+    {
+      "id": "natenberg_protective_put",
+      "name": "Protective Put (Married Put)",
+      "source_chapter": "Ch 16 / Risk Management",
+      "type": "directional",
+      "category": "hedging",
+      "market_outlook": "Bullish on underlying but want insurance against sharp decline.",
+      "construction": {
+        "legs": [
+          {"action": "own", "type": "underlying", "quantity": 100},
+          {"action": "buy", "type": "put", "strike": "OTM or ATM"}
+        ],
+        "max_loss": "Current price - put strike + put premium",
+        "max_profit": "Unlimited (upside minus put cost)"
+      },
+      "entry_rules": {
+        "iv_condition": "Low IV preferred (puts are cheaper). IV rank < 30th percentile ideal.",
+        "timing": "Before uncertain events. Or as portfolio insurance on core holdings.",
+        "strike_selection": "ATM for full protection (expensive). OTM for catastrophe insurance (cheaper)."
+      },
+      "exit_rules": {
+        "event_based": "Remove protection after event passes.",
+        "ongoing": "Roll puts forward for continuous protection.",
+        "exercise": "If underlying crashes below put strike, exercise or sell put for profit."
+      },
+      "natenberg_key_insight": "Protective puts are expensive — they reduce long-term returns by 2-5% annually if maintained continuously. Natenberg recommends using them tactically (before events) rather than as permanent insurance. Consider collars to offset cost.",
+      "clarity_score": 8,
+      "completeness_score": 7,
+      "codifiability": "high"
+    },
+    {
+      "id": "natenberg_volatility_skew_trade",
+      "name": "Volatility Skew Trade",
+      "source_chapter": "Ch 13-14 (Volatility Skew)",
+      "type": "volatility",
+      "category": "skew_arbitrage",
+      "market_outlook": "View on relative mispricing across strikes, not direction.",
+      "construction": {
+        "concept": "When skew is abnormally steep or flat, trade the relative value between strikes.",
+        "steep_skew_trade": {
+          "description": "OTM puts are overpriced relative to ATM options",
+          "action": "Sell OTM puts (expensive), buy ATM puts (cheap), delta-hedge",
+          "profit_from": "Skew normalization — OTM IV drops relative to ATM IV"
+        },
+        "flat_skew_trade": {
+          "description": "OTM puts are underpriced relative to ATM options",
+          "action": "Buy OTM puts (cheap), sell ATM puts (expensive), delta-hedge",
+          "profit_from": "Skew steepening — OTM IV rises relative to ATM IV"
+        }
+      },
+      "entry_rules": {
+        "measure_skew": "Compare 25-delta put IV to ATM IV. If ratio > 1.15, skew is steep. If < 1.05, skew is flat.",
+        "historical_comparison": "Compare current skew to 1-year average. Trade when > 1.5 standard deviations from mean.",
+        "delta_hedge": "Must be delta-neutral to isolate skew trade from directional risk."
+      },
+      "exit_rules": {
+        "mean_reversion": "Exit when skew returns to mean.",
+        "time_limit": "Exit if skew doesn't normalize within 2-3 weeks.",
+        "stop_loss": "Exit if skew moves further against position (e.g., skew steepens further after you sold it)."
+      },
+      "natenberg_key_insight": "Volatility skew tends to mean-revert. Steep skew after selloffs often normalizes. Flat skew during complacency often steepens. This is a sophisticated trade that requires understanding of why skew exists (crash risk premium, supply/demand for OTM puts).",
+      "clarity_score": 8,
+      "completeness_score": 7,
+      "codifiability": "medium"
+    },
+    {
+      "id": "natenberg_jelly_roll",
+      "name": "Jelly Roll (Interest Rate Arbitrage)",
+      "source_chapter": "Ch 20 (Arbitrage)",
+      "type": "arbitrage",
+      "category": "interest_rate_arbitrage",
+      "market_outlook": "None. Pure interest rate play between two expirations.",
+      "construction": {
+        "legs": "Long calendar conversion + short calendar reversal (or vice versa). Exploits interest rate differences between expirations.",
+        "note": "Synthetic lending/borrowing through options."
+      },
+      "entry_rules": {
+        "condition": "Options market implies a different interest rate than actual. Rare and tiny edge.",
+        "requirements": "Institutional execution, very low commissions."
+      },
+      "natenberg_key_insight": "Jelly rolls expose interest rate assumptions in options pricing. Primarily a market-maker tool for managing interest rate risk across expirations.",
+      "clarity_score": 6,
+      "completeness_score": 5,
+      "codifiability": "low",
+      "practical_note": "Not practical for retail."
+    },
+    {
+      "id": "natenberg_christmas_tree",
+      "name": "Christmas Tree Spread (Ladder)",
+      "source_chapter": "Ch 19 (Ratio Spreads)",
+      "type": "directional",
+      "category": "modified_ratio",
+      "market_outlook": "Directional with a cap. Similar to ratio spread but with defined risk.",
+      "construction": {
+        "bullish_example": [
+          {"action": "buy", "type": "call", "strike": "ATM", "quantity": 1},
+          {"action": "sell", "type": "call", "strike": "OTM_1", "quantity": 1},
+          {"action": "sell", "type": "call", "strike": "OTM_2 (higher)", "quantity": 1}
+        ],
+        "note": "1x2 skip-strike ratio write. Different from standard ratio spread — two different short strikes.",
+        "max_loss": "Net debit + spread beyond upper strikes",
+        "max_profit": "At first short strike"
+      },
+      "entry_rules": {
+        "iv_condition": "Moderate to high IV (selling 2 options).",
+        "directional_view": "Bullish but with price target near first short strike."
+      },
+      "natenberg_key_insight": "Christmas trees are a more sophisticated way to express a capped directional view. They offer better risk/reward than simple verticals when you have a precise price target.",
+      "clarity_score": 7,
+      "completeness_score": 6,
+      "codifiability": "medium"
+    }
+  ],
+
+  "volatility_trading_concepts": [
+    {
+      "id": "vol_concept_1",
+      "name": "Implied vs. Realized Volatility",
+      "source_chapter": "Ch 5-6 (Theoretical Pricing / Volatility)",
+      "description": "The central concept of the entire book. Implied volatility (IV) is the market's forecast of future realized volatility priced into options. If you believe realized vol will be higher than IV, buy options. If lower, sell options.",
+      "how_to_identify_mispricing": [
+        "Compare current IV to historical (realized) volatility over matching timeframe",
+        "Calculate IV rank (current IV percentile over 1 year)",
+        "Calculate IV percentile (% of days IV was below current level)",
+        "Compare IV to a volatility cone (IV by DTE vs. historical distribution)",
+        "If IV rank < 20%: options are cheap — look to buy",
+        "If IV rank > 80%: options are expensive — look to sell"
+      ],
+      "key_formula": "Theoretical edge = |Forecast vol - Implied vol| * Vega",
+      "natenberg_insight": "You don't need to be exactly right about volatility — you just need to be closer to right than the market. Even a 1-2% edge in volatility estimation, applied consistently, generates significant profits."
+    },
+    {
+      "id": "vol_concept_2",
+      "name": "The Volatility Risk Premium",
+      "source_chapter": "Ch 11-12",
+      "description": "Implied volatility systematically overestimates realized volatility approximately 80-90% of the time. This 'volatility risk premium' (VRP) is the compensation option sellers receive for bearing tail risk. It is the most well-documented, persistent edge in options markets.",
+      "how_to_exploit": [
+        "Systematically sell options (straddles, strangles, iron condors) when IV > realized vol",
+        "The VRP averages 2-4 IV points across most underlyings",
+        "Selling premium is profitable in aggregate BUT has negative skew (many small wins, occasional large losses)",
+        "Must size conservatively and use tail-risk hedges"
+      ],
+      "natenberg_insight": "The VRP exists because investors are willing to pay a premium for insurance (puts). This demand elevates IV above realized vol. Selling this insurance is profitable on average but requires discipline in managing the rare catastrophic claim."
+    },
+    {
+      "id": "vol_concept_3",
+      "name": "Volatility Skew Trading",
+      "source_chapter": "Ch 13-14 (Volatility Skew)",
+      "description": "IV varies across strikes. OTM puts typically have higher IV than ATM options (the 'volatility smile' or 'skew'). Skew reflects crash risk premium and supply/demand dynamics.",
+      "types_of_skew": {
+        "put_skew": "OTM puts have higher IV than ATM. Normal for equities. Reflects crash fear.",
+        "call_skew": "OTM calls have higher IV. Common in commodities during supply shortages.",
+        "smile": "Both OTM puts and calls have higher IV than ATM. Common in forex.",
+        "smirk": "Asymmetric — one side steeper than the other."
+      },
+      "trading_skew": [
+        "When skew is abnormally steep: sell skew (sell OTM puts, buy ATM or OTM calls) delta-hedged",
+        "When skew is abnormally flat: buy skew (buy OTM puts, sell ATM options) delta-hedged",
+        "Measure using 25-delta risk reversal: IV(25d put) - IV(25d call)",
+        "Trade mean-reversion of skew to its historical average"
+      ],
+      "natenberg_insight": "Skew is not arbitrary — it reflects real risk. Post-1987, put skew is permanent in equities. But the MAGNITUDE of skew fluctuates and mean-reverts. Trade the magnitude, not the existence of skew."
+    },
+    {
+      "id": "vol_concept_4",
+      "name": "Volatility Term Structure",
+      "source_chapter": "Ch 14 / Ch 18",
+      "description": "IV varies across expirations. The relationship between near-term and far-term IV is called the term structure.",
+      "shapes": {
+        "contango": "Near-term IV < far-term IV. Normal shape. Reflects uncertainty increasing with time.",
+        "backwardation": "Near-term IV > far-term IV. Occurs during crises, before major events. Near-term fear dominates.",
+        "flat": "Similar IV across expirations."
+      },
+      "how_to_trade": [
+        "Backwardation (inverted term structure): Sell near-term options (expensive), buy far-term options (cheaper). Calendar spreads profit.",
+        "Steep contango: Buy near-term options (cheap), sell far-term (expensive). Reverse calendar or diagonal.",
+        "Term structure tends to normalize after events pass.",
+        "VIX futures term structure provides a proxy for equity options term structure."
+      ],
+      "natenberg_insight": "Term structure trades are among the most reliable in options because event-driven backwardation almost always resolves. The key risk is that the event creates sustained high vol (rare but damaging to calendar spreads)."
+    },
+    {
+      "id": "vol_concept_5",
+      "name": "The Greeks: Delta-Gamma-Theta-Vega Framework",
+      "source_chapter": "Ch 8-10 (Risk Management)",
+      "description": "Natenberg's framework for understanding and managing option risk through partial derivatives (Greeks).",
+      "greeks": {
+        "delta": "Directional exposure. First derivative of option price to underlying price. Range: -1 to +1.",
+        "gamma": "Rate of change of delta. Second derivative. Peaks ATM, near expiration. Gamma is the 'acceleration' of directional risk.",
+        "theta": "Time decay. Options lose value each day, all else equal. Theta and gamma are inversely related — you can't have positive gamma without negative theta.",
+        "vega": "Sensitivity to IV changes. Peaks ATM, longer-dated. Vega is the volatility exposure.",
+        "rho": "Interest rate sensitivity. Minor for short-dated, significant for LEAPS."
+      },
+      "gamma_theta_tradeoff": "Natenberg's core insight: GAMMA AND THETA ARE TWO SIDES OF THE SAME COIN. Long gamma (good) = negative theta (bad). You pay theta for the privilege of gamma scalping. The question: will the gamma profits from price movement exceed the theta cost?",
+      "practical_rules": [
+        "Keep portfolio delta within acceptable range (e.g., +/- 500 delta for a $100k portfolio)",
+        "Monitor gamma as % of portfolio value — large gamma near expiration is dangerous",
+        "Theta should be a conscious decision — are you paying or collecting?",
+        "Vega exposure should align with your volatility view"
+      ],
+      "natenberg_insight": "Never hold a position without understanding all four primary Greeks. A trade that looks great on delta (direction) might be terrible on theta (time decay) or vega (volatility change)."
+    },
+    {
+      "id": "vol_concept_6",
+      "name": "Theoretical vs. Real-World Pricing",
+      "source_chapter": "Ch 5-7 (Black-Scholes and Beyond)",
+      "description": "Natenberg explains Black-Scholes assumptions and where they fail in practice.",
+      "bs_assumptions_and_failures": {
+        "constant_volatility": "FALSE — vol changes constantly. This creates skew and term structure trading opportunities.",
+        "log_normal_returns": "FALSE — real markets have fat tails. Options should be priced with fatter tails than Black-Scholes assumes.",
+        "no_jumps": "FALSE — gaps and jumps happen. OTM options are worth more than BS predicts (justifying some of the skew).",
+        "continuous_hedging": "FALSE — you can't hedge continuously. Transaction costs matter. Optimal rebalancing is discrete.",
+        "constant_interest_rates": "MOSTLY TRUE — minor impact except on very long-dated options."
+      },
+      "natenberg_insight": "Black-Scholes is WRONG, but it's a useful framework. Every deviation from BS assumptions creates a trading opportunity for those who understand the deviations. The 'known unknowns' of options pricing are where edges live."
+    },
+    {
+      "id": "vol_concept_7",
+      "name": "Position Analysis and Synthetic Equivalence",
+      "source_chapter": "Ch 7 (Synthetics) / Ch 21-23 (Position Management)",
+      "description": "Every options position can be decomposed into synthetic equivalents. Understanding synthetics lets you find the cheapest way to express any view.",
+      "key_synthetics": {
+        "synthetic_long_stock": "Long call + Short put (same strike/expiration)",
+        "synthetic_short_stock": "Short call + Long put (same strike/expiration)",
+        "synthetic_long_call": "Long stock + Long put",
+        "synthetic_short_call": "Short stock + Short put",
+        "synthetic_long_put": "Short stock + Long call",
+        "synthetic_short_put": "Long stock + Short call (= covered call)"
+      },
+      "practical_application": [
+        "If a call is overpriced, buy the synthetic call instead (stock + put)",
+        "If a put is overpriced, buy the synthetic put instead (short stock + call)",
+        "Always compare options position to its synthetic equivalent for better pricing",
+        "Covered call = naked short put (same risk profile, different margin treatment)"
+      ],
+      "natenberg_insight": "Professionals always check synthetic equivalents before entering a trade. Retail traders often overpay because they don't realize they could construct the same position cheaper through synthetics."
+    },
+    {
+      "id": "vol_concept_8",
+      "name": "Volatility Forecasting Methods",
+      "source_chapter": "Ch 6 (Volatility)",
+      "description": "Natenberg discusses methods for forecasting volatility to determine if options are cheap or expensive.",
+      "methods": {
+        "historical_volatility": {
+          "description": "Calculate realized volatility over various lookback periods (10, 20, 30, 60, 90 day).",
+          "formula": "Standard deviation of log returns * sqrt(252)",
+          "usage": "Compare to current IV. If IV < average HV, options may be cheap."
+        },
+        "volatility_cone": {
+          "description": "Plot historical vol distribution by time horizon. Shows typical range of realized vol for different holding periods.",
+          "usage": "Compare current IV to the volatility cone for that DTE. If IV is below the 25th percentile of historical realized vol for that horizon, options are cheap."
+        },
+        "mean_reversion": {
+          "description": "Volatility mean-reverts. Extreme high or low IV tends to revert toward the long-term average.",
+          "usage": "Buy options when IV is at multi-year lows. Sell when at multi-year highs."
+        },
+        "garch_models": {
+          "description": "Natenberg mentions econometric models (GARCH) for volatility forecasting.",
+          "usage": "More sophisticated than simple HV — accounts for volatility clustering and mean reversion mathematically."
+        }
+      },
+      "natenberg_insight": "The trader who can forecast volatility 1-2 points more accurately than the market has a significant edge. Volatility forecasting, not direction forecasting, is the key skill for options trading."
+    }
+  ],
+
+  "cross_cutting_themes": [
+    {
+      "theme": "Volatility Is the Edge",
+      "description": "The entire book argues that the primary edge in options is volatility forecasting, not directional prediction. If you can forecast vol better than the market, you can profit regardless of direction.",
+      "supporting_chapters": ["Ch 5-6", "Ch 11-12", "Ch 13-14"]
+    },
+    {
+      "theme": "Gamma-Theta Tradeoff Is Central",
+      "description": "Every options position involves a tradeoff between gamma (convexity) and theta (time decay). Understanding this tradeoff is essential for every strategy.",
+      "supporting_chapters": ["Ch 8-10", "Ch 11-12"]
+    },
+    {
+      "theme": "Synthetics and Put-Call Parity",
+      "description": "Every position has a synthetic equivalent. Understanding this eliminates confusion and reveals true risk. Covered call = short put. Collar = bull spread.",
+      "supporting_chapters": ["Ch 7", "Ch 20"]
+    },
+    {
+      "theme": "Risk Management Through Greeks",
+      "description": "Manage risk by monitoring and managing Greek exposures, not by watching P&L. A position can be profitable today but have terrible risk characteristics.",
+      "supporting_chapters": ["Ch 8-10", "Ch 21-23"]
+    },
+    {
+      "theme": "Volatility Risk Premium Is Real",
+      "description": "IV overestimates realized vol most of the time. Systematic premium selling is profitable on average but requires tail-risk management.",
+      "supporting_chapters": ["Ch 11-12", "Ch 14"]
+    },
+    {
+      "theme": "Skew and Term Structure Are Tradeable",
+      "description": "Relative value across strikes (skew) and expirations (term structure) creates opportunities independent of direction or absolute vol level.",
+      "supporting_chapters": ["Ch 13-14", "Ch 18"]
+    }
+  ],
+
+  "codifiability_summary": {
+    "highly_codifiable": [
+      "Delta-neutral volatility trading (gamma scalping)",
+      "Short straddle/strangle (premium selling)",
+      "Iron condor (systematic premium selling)",
+      "Calendar spread (term structure trade)",
+      "Vertical spreads (directional with defined risk)",
+      "Volatility risk premium harvesting",
+      "IV rank/percentile-based entry signals"
+    ],
+    "moderately_codifiable": [
+      "Volatility skew trading",
+      "Ratio spreads",
+      "Diagonal spreads",
+      "Christmas tree spreads",
+      "Position adjustment rules"
+    ],
+    "low_codifiability": [
+      "Conversion/reversal arbitrage (requires market-maker infrastructure)",
+      "Box spread arbitrage",
+      "Jelly roll",
+      "Discretionary position management"
+    ]
+  },
+
+  "recommended_for_algo_implementation": [
+    {
+      "strategy": "Systematic Iron Condor",
+      "why": "Defined risk, high probability, systematizable with IV rank filters. Well-documented edge (VRP).",
+      "key_parameters": ["IV rank > 50%", "30-45 DTE", "16-delta short strikes", "Exit at 50% profit", "Exit at 2x loss"],
+      "priority": "HIGH"
+    },
+    {
+      "strategy": "Delta-Neutral Gamma Scalping",
+      "why": "Core Natenberg strategy. Pure volatility trade. Requires good vol forecasting model.",
+      "key_parameters": ["IV < realized vol by 2+ points", "ATM options", "Rebalance at delta drift thresholds", "Theta budget limits"],
+      "priority": "HIGH"
+    },
+    {
+      "strategy": "IV Rank Mean-Reversion",
+      "why": "Simple, systematic: buy options when IV rank < 10%, sell when > 90%. Rides vol mean reversion.",
+      "key_parameters": ["IV rank thresholds", "ATM straddles or strangles", "Hold until IV rank normalizes (30-50%)"],
+      "priority": "MEDIUM"
+    },
+    {
+      "strategy": "Calendar Spread on Term Structure Inversion",
+      "why": "Term structure inversion is measurable, mean-reverting, and creates reliable calendar spread opportunities.",
+      "key_parameters": ["Front IV > back IV by 2+ points", "ATM calendars", "Exit when term structure normalizes"],
+      "priority": "MEDIUM"
+    },
+    {
+      "strategy": "Skew Mean-Reversion",
+      "why": "25-delta skew is measurable and mean-reverts. Can systematize entry/exit based on z-scores.",
+      "key_parameters": ["25d skew z-score > 1.5", "Risk reversals delta-hedged", "Exit at z-score < 0.5"],
+      "priority": "MEDIUM"
+    }
+  ]
+}

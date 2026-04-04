@@ -1,0 +1,636 @@
+{
+  "book_title": "Day Trading and Swing Trading the Currency Market",
+  "author": "Kathy Lien",
+  "edition": "2nd Edition",
+  "year": 2008,
+  "focus": "Forex-specific technical and fundamental strategies",
+  "total_strategies_extracted": 14,
+  "strategies": [
+    {
+      "id": "double_zero_fade",
+      "name": "Fading the Double Zeros",
+      "type": "mean-reversion",
+      "source_chapter": 9,
+      "approx_pages": "115-120",
+      "markets": ["EUR/USD", "USD/JPY", "USD/CAD", "GBP/USD", "all crosses"],
+      "best_pairs": ["USD/JPY", "USD/CAD", "EUR/GBP", "commodity currencies", "crosses"],
+      "timeframes": ["intraday"],
+      "chart_timeframe": "10-min or 15-min",
+      "entry_rules": {
+        "long": [
+          "Locate pair trading WELL BELOW its 20-period SMA on 10/15-min chart",
+          "Price is approaching a double zero level (e.g., 107.00, 1.2800)",
+          "Enter long several pips below the figure (no more than 10 pips below)"
+        ],
+        "short": [
+          "Locate pair trading WELL ABOVE its 20-period SMA on 10/15-min chart",
+          "Price is approaching a double zero level from below",
+          "Enter short several pips above the figure (no more than 10 pips above)"
+        ]
+      },
+      "exit_rules": {
+        "stop_loss": "20 pips from entry",
+        "take_profit_1": "Close half when profit = 2x risk (40 pips if 20-pip stop)",
+        "take_profit_2": "Trail stop on remainder using 2-bar low/high or 5-bar low/high",
+        "breakeven": "Move stop to breakeven after first target hit"
+      },
+      "risk_management": {
+        "max_risk_pips": 20,
+        "risk_reward_ratio": "1:2 minimum on first target",
+        "position_sizing": "Half position closed at first target, half trailed"
+      },
+      "indicators": [
+        {"name": "SMA", "period": 20, "timeframe": "10-min or 15-min"}
+      ],
+      "market_conditions": "Works best in quieter conditions, no major news catalysts. Tighter range pairs and crosses preferred. Avoid during volatile news releases.",
+      "further_optimization": "Higher probability when double zero coincides with key Fibonacci level, moving average, or Bollinger band. Triple zeros (e.g., 1.2000) are even more significant.",
+      "clarity_score": 9,
+      "completeness": 9,
+      "notes": "Exploits market microstructure — bank dealers gun stops beyond round numbers, then price reverts. Very practical intraday strategy with tight risk."
+    },
+    {
+      "id": "waiting_for_real_deal",
+      "name": "Waiting for the Real Deal (London Open Fake-Out)",
+      "type": "breakout",
+      "source_chapter": 9,
+      "approx_pages": "120-124",
+      "markets": ["GBP/USD"],
+      "best_pairs": ["GBP/USD"],
+      "timeframes": ["intraday"],
+      "chart_timeframe": "15-min or 30-min",
+      "entry_rules": {
+        "long": [
+          "Define range as Frankfurt-to-London power hour (1:00 AM - 2:00 AM NY time)",
+          "GBP/USD makes new range low of at least 25 pips below opening price",
+          "Pair reverses and penetrates the HIGH of the range",
+          "Enter long 10 pips above the high of the range"
+        ],
+        "short": [
+          "GBP/USD opens in Europe and trades 25+ pips above the high of the power hour range",
+          "Pair reverses and penetrates the LOW of the range",
+          "Enter short 10 pips below the low of the range"
+        ]
+      },
+      "exit_rules": {
+        "stop_loss": "20 pips from entry",
+        "take_profit_1": "Close half at 2x risk (40 pips)",
+        "take_profit_2": "Trail stop on remainder by 2-bar high/low",
+        "breakeven": "Move to breakeven after first target"
+      },
+      "risk_management": {
+        "max_risk_pips": 20,
+        "risk_reward_ratio": "1:2 minimum",
+        "position_sizing": "Scale out in halves"
+      },
+      "indicators": [],
+      "session_rules": {
+        "setup_window": "1:00 AM - 2:00 AM NY (Frankfurt/London open)",
+        "trade_window": "After U.S. open or after major economic release",
+        "best_after": "FOMC announcements, major UK data"
+      },
+      "market_conditions": "Exploits U.K. dealer stop-hunting behavior at London open. Initial move often false; real move follows. Works best after U.S. open or after major releases.",
+      "clarity_score": 8,
+      "completeness": 8,
+      "notes": "Session-specific strategy. U.K. dealers are notorious stop hunters — the initial spike at London open is often a fake-out. The real directional move comes later."
+    },
+    {
+      "id": "inside_day_breakout",
+      "name": "Inside Day Breakout Play",
+      "type": "breakout",
+      "source_chapter": 9,
+      "approx_pages": "124-129",
+      "markets": ["all forex pairs"],
+      "best_pairs": ["EUR/GBP", "USD/CAD", "EUR/CHF", "EUR/CAD", "AUD/CAD"],
+      "timeframes": ["swing"],
+      "chart_timeframe": "daily",
+      "entry_rules": {
+        "long": [
+          "Identify pair with daily range contained within prior day's range for at least 2 consecutive days",
+          "Buy 10 pips above the high of the previous inside day"
+        ],
+        "short": [
+          "Same identification: 2+ consecutive inside days",
+          "Sell 10 pips below the low of the previous inside day"
+        ]
+      },
+      "exit_rules": {
+        "stop_loss": "Stop-and-reverse order for 2 lots placed 10 pips beyond the opposite extreme of the nearest inside day",
+        "take_profit": "Close position at 2x risk or begin trailing stop at that level",
+        "false_breakout_protection": "If stop-and-reverse triggered, place new stop 10 pips beyond the opposite side of the nearest inside day"
+      },
+      "risk_management": {
+        "risk_reward_ratio": "1:2",
+        "position_sizing": "Can use stop-and-reverse to capture real direction after false breakout"
+      },
+      "indicators": [
+        {"name": "MACD Histogram", "use": "Determine directional bias of breakout (optional optimization)"}
+      ],
+      "further_optimization": "Technical formations (ascending/descending triangles) help predict breakout direction. Fibonacci and MA support/resistance below inside days suggests higher probability upside breakout. Works best ahead of major economic releases.",
+      "market_conditions": "Best on daily charts. Fewer false breakouts in tighter-range pairs. Can use hourly charts but daily is more reliable.",
+      "clarity_score": 9,
+      "completeness": 9,
+      "notes": "Very clean, codifiable strategy. Inside days signal volatility compression preceding a breakout. The stop-and-reverse mechanism handles false breakouts well."
+    },
+    {
+      "id": "the_fader",
+      "name": "The Fader (False Breakout Fade)",
+      "type": "mean-reversion",
+      "source_chapter": 9,
+      "approx_pages": "129-132",
+      "markets": ["EUR/USD", "GBP/USD", "all less-volatile pairs"],
+      "best_pairs": ["Less volatile pairs with narrower ranges"],
+      "timeframes": ["intraday"],
+      "chart_timeframe": "hourly (entry), daily (environment classification)",
+      "entry_rules": {
+        "long": [
+          "14-period ADX < 35 (ideally trending downward)",
+          "Wait for market to break BELOW previous day's low by at least 15 pips",
+          "Then enter buy 15 pips ABOVE previous day's high (fade the false breakout)"
+        ],
+        "short": [
+          "14-period ADX < 35 (ideally trending downward)",
+          "Wait for move ABOVE previous day's high by at least 15 pips",
+          "Then enter sell 15 pips BELOW previous day's low"
+        ]
+      },
+      "exit_rules": {
+        "stop_loss": "30 pips from entry",
+        "take_profit": "60 pips (2x risk)"
+      },
+      "risk_management": {
+        "max_risk_pips": 30,
+        "risk_reward_ratio": "1:2 fixed",
+        "position_sizing": "Not specified"
+      },
+      "indicators": [
+        {"name": "ADX", "period": 14, "threshold": "< 35"}
+      ],
+      "market_conditions": "Works best when no significant economic data is scheduled. Avoid using ahead of NFP or similar high-impact releases. Best with less volatile pairs.",
+      "clarity_score": 9,
+      "completeness": 8,
+      "notes": "Variation of the Real Deal strategy applied to daily ranges. Requires the market to show a failed breakout in one direction before entering in the opposite direction. Clean rules."
+    },
+    {
+      "id": "filtering_false_breakouts",
+      "name": "Filtering False Breakouts (20-Day High/Low Strategy)",
+      "type": "trend-following",
+      "source_chapter": 9,
+      "approx_pages": "132-136",
+      "markets": ["GBP/USD", "USD/CAD", "USD/JPY", "all majors"],
+      "best_pairs": ["All major pairs"],
+      "timeframes": ["swing"],
+      "chart_timeframe": "daily",
+      "entry_rules": {
+        "long": [
+          "Look for pair making a 20-day high",
+          "Wait for pair to reverse over next 3 days and make a 2-day low",
+          "Buy if price takes out the 20-day high again within 3 days of the 2-day low"
+        ],
+        "short": [
+          "Look for pair making a 20-day low",
+          "Wait for pair to reverse over next 3 days and make a 2-day high",
+          "Sell if price breaks below the 20-day low within 3 days of the 2-day high"
+        ]
+      },
+      "exit_rules": {
+        "stop_loss": "A few pips beyond the original 2-day low (longs) or 2-day high (shorts)",
+        "take_profit": "2x risk amount OR trail with 2-bar low/high",
+        "trailing_stop": "2-bar low (longs) / 2-bar high (shorts)"
+      },
+      "risk_management": {
+        "risk_reward_ratio": "1:2 or better via trailing",
+        "position_sizing": "Not specified"
+      },
+      "indicators": [],
+      "market_conditions": "Designed for strongly trending markets. Filters out weak breakouts by requiring a pullback and re-break. Produced 722-pip winner in GBP/USD example.",
+      "clarity_score": 9,
+      "completeness": 9,
+      "notes": "Very similar to Turtle Trading concept but with a pullback filter. Ensures you enter only after weaker players have been shaken out. High-quality swing trade setup."
+    },
+    {
+      "id": "channel_breakout",
+      "name": "Channel Breakout Strategy",
+      "type": "breakout",
+      "source_chapter": 9,
+      "approx_pages": "135-138",
+      "markets": ["USD/CAD", "EUR/GBP", "EUR/USD", "all pairs"],
+      "best_pairs": ["Any pair forming a visible channel"],
+      "timeframes": ["intraday", "swing"],
+      "chart_timeframe": "5-min, 15-min, 30-min, or daily",
+      "entry_rules": {
+        "setup": [
+          "Identify a narrow channel on intraday or daily chart (parallel trend lines containing price)",
+          "Enter long when price breaks above upper channel line",
+          "Enter short when price breaks below lower channel line"
+        ]
+      },
+      "exit_rules": {
+        "stop_loss": "Just inside the channel line (10 pips under upper line for longs, 10 pips above lower line for shorts)",
+        "take_profit": "2x the channel range",
+        "trailing_stop": "Trail stop as price moves in favor"
+      },
+      "risk_management": {
+        "risk_reward_ratio": "1:2 minimum (target = 2x channel width)",
+        "position_sizing": "Place orders on both sides of channel"
+      },
+      "indicators": [],
+      "market_conditions": "Common during Asian session with breakout in London or U.S. session. Even more effective when timed with major economic releases. Check if channel forms near expected data release.",
+      "clarity_score": 8,
+      "completeness": 7,
+      "notes": "Simple visual strategy. Channels form frequently in forex. Asian session consolidation followed by London/NY breakout is a classic pattern."
+    },
+    {
+      "id": "perfect_order_ma",
+      "name": "Perfect Order Moving Average Strategy",
+      "type": "trend-following",
+      "source_chapter": 9,
+      "approx_pages": "138-141",
+      "markets": ["EUR/USD", "USD/CHF", "USD/CAD", "all majors"],
+      "best_pairs": ["Major pairs that trend well"],
+      "timeframes": ["swing"],
+      "chart_timeframe": "daily",
+      "entry_rules": {
+        "long": [
+          "Moving averages in perfect order: 10-SMA > 20-SMA > 50-SMA > 100-SMA > 200-SMA",
+          "ADX > 20 and pointing upward",
+          "Buy 5 candles after initial formation of perfect order (if it still holds)"
+        ],
+        "short": [
+          "Inverse perfect order: 200-SMA > 100-SMA > 50-SMA > 20-SMA > 10-SMA",
+          "ADX > 20 and pointing upward",
+          "Sell 5 candles after initial formation"
+        ]
+      },
+      "exit_rules": {
+        "stop_loss": "Low of day of initial crossover (longs) / High of day (shorts)",
+        "exit_signal": "Perfect order no longer holds (10-SMA crosses below 20-SMA for longs)"
+      },
+      "risk_management": {
+        "risk_reward_ratio": "Variable — large winners possible (550-pip example)",
+        "position_sizing": "Not specified"
+      },
+      "indicators": [
+        {"name": "SMA", "period": 10, "chart": "daily"},
+        {"name": "SMA", "period": 20, "chart": "daily"},
+        {"name": "SMA", "period": 50, "chart": "daily"},
+        {"name": "SMA", "period": 100, "chart": "daily"},
+        {"name": "SMA", "period": 200, "chart": "daily"},
+        {"name": "ADX", "period": 14, "threshold": "> 20"}
+      ],
+      "market_conditions": "Perfect orders are rare events. Strategy aims to capture beginning of major trends. Hold times can be weeks to months.",
+      "clarity_score": 8,
+      "completeness": 8,
+      "notes": "Captures major trend moves. 550-pip winner in EUR/USD, 443-pip in USD/CAD examples. Rare setups but very high reward potential."
+    },
+    {
+      "id": "news_proactive",
+      "name": "News Trading — Proactive Strategy",
+      "type": "news",
+      "source_chapter": 9,
+      "approx_pages": "141-144",
+      "markets": ["All major pairs affected by the specific release"],
+      "best_pairs": ["Pair containing the currency of the releasing country"],
+      "timeframes": ["intraday"],
+      "chart_timeframe": "5-min",
+      "entry_rules": {
+        "long": [
+          "Form a view on upcoming economic data based on leading indicators",
+          "Enter position no more than 20 minutes before major news release",
+          "Stop: 10 pips below the 2-hour range low OR 30 pips below entry (whichever is closer)"
+        ],
+        "short": [
+          "Same but opposite direction",
+          "Stop: 10 pips above range high OR 30 pips above entry"
+        ]
+      },
+      "exit_rules": {
+        "take_profit_1": "Close half when profit = amount risked",
+        "take_profit_2": "Trail remainder by 20-day SMA on 5-min chart or 3x risk hard stop",
+        "breakeven": "Move to breakeven after first target"
+      },
+      "risk_management": {
+        "max_risk_pips": "14-30 pips typically",
+        "risk_reward_ratio": "1:1 on first half, 1:3+ on trailing half",
+        "position_sizing": "Half position at each target"
+      },
+      "indicators": [
+        {"name": "SMA", "period": 20, "chart": "5-min", "use": "trailing stop"}
+      ],
+      "market_conditions": "Requires ability to forecast economic data. Enter before spreads widen. Best when using leading indicators to predict data direction.",
+      "clarity_score": 8,
+      "completeness": 8,
+      "notes": "Requires fundamental analysis skill to predict data. Risk-reward is excellent when correct. The 20-minute-before-entry timing avoids spread widening."
+    },
+    {
+      "id": "news_reactive",
+      "name": "News Trading — Reactive Strategy",
+      "type": "news",
+      "source_chapter": 9,
+      "approx_pages": "144-147",
+      "markets": ["All major pairs"],
+      "best_pairs": ["Pair containing currency of releasing country"],
+      "timeframes": ["intraday"],
+      "chart_timeframe": "5-min",
+      "entry_rules": {
+        "rule": [
+          "Wait for major news to be released",
+          "Only trade if surprise is > 100% of market forecast",
+          "Enter 5 minutes after the release (allows initial spike to settle)",
+          "Stop at the low of the news candle (longs) or high (shorts)"
+        ]
+      },
+      "exit_rules": {
+        "take_profit_1": "Close half when profit = amount risked",
+        "take_profit_2": "Trail remainder by 20-day SMA on 5-min chart or 3x risk",
+        "breakeven": "Move to breakeven after first target"
+      },
+      "risk_management": {
+        "risk_reward_ratio": "1:1 on first half, more on trailing half",
+        "position_sizing": "Scale out halves",
+        "key_filter": "Only trade when surprise > 100% of consensus forecast"
+      },
+      "indicators": [
+        {"name": "SMA", "period": 20, "chart": "5-min", "use": "trailing stop"}
+      ],
+      "market_conditions": "No guesswork on data direction. Larger stops than proactive. May take hours for first target. Follow-through required after initial spike.",
+      "clarity_score": 8,
+      "completeness": 8,
+      "notes": "Safer than proactive because no need to predict data. The 100% surprise filter is a good quality screen. Can be combined with proactive for a hybrid approach."
+    },
+    {
+      "id": "news_combined",
+      "name": "News Trading — Combined Proactive + Reactive",
+      "type": "news",
+      "source_chapter": 9,
+      "approx_pages": "146-150",
+      "markets": ["All major pairs"],
+      "best_pairs": ["Pair of releasing country"],
+      "timeframes": ["intraday"],
+      "chart_timeframe": "5-min",
+      "entry_rules": {
+        "step1": "Enter HALF position 20 minutes before release (proactive component)",
+        "step2": "Stop: 10 pips beyond 2-hour range extreme or 30 pips (whichever smaller)",
+        "step3_if_correct": "Enter second half 5 minutes after release. Move stop for entire position to 45 pips from second entry.",
+        "step3_if_wrong": "Exit first position entirely. Do NOT take second position."
+      },
+      "exit_rules": {
+        "take_profit_1": "Close half of combined position when profit = 45 pips",
+        "take_profit_2": "Trail remainder by 20-day SMA on 5-min chart"
+      },
+      "risk_management": {
+        "max_loss_if_wrong": "~30 pips on half position",
+        "position_sizing": "Half before, half after (if confirmed)"
+      },
+      "indicators": [
+        {"name": "SMA", "period": 20, "chart": "5-min"}
+      ],
+      "clarity_score": 8,
+      "completeness": 8,
+      "notes": "Best of both worlds — smaller position risk pre-release, add only if confirmed. If wrong, max loss is only 30 pips on half size."
+    },
+    {
+      "id": "short_term_momentum_20_100",
+      "name": "20-100 Short-Term Momentum Strategy",
+      "type": "momentum",
+      "source_chapter": 9,
+      "approx_pages": "150-155",
+      "markets": ["EUR/USD", "USD/JPY", "GBP/USD", "AUD/USD", "all majors"],
+      "best_pairs": ["All liquid major pairs"],
+      "timeframes": ["intraday"],
+      "chart_timeframe": "5-min",
+      "entry_rules": {
+        "long": [
+          "Price crosses ABOVE both 20-EMA and 100-SMA by 15 pips",
+          "MACD histogram has turned positive within last 5 candles",
+          "Buy at market"
+        ],
+        "short": [
+          "Price crosses BELOW both 20-EMA and 100-SMA by 15 pips",
+          "MACD histogram has turned negative within last 5 candles",
+          "Sell at market"
+        ]
+      },
+      "exit_rules": {
+        "stop_loss": "Low of the candle that broke MAs (longs) / High of candle (shorts)",
+        "take_profit_1": "Close half at 1x risk",
+        "take_profit_2": "Trail remainder by 20-EMA +/- 15 pips",
+        "breakeven": "Move stop to breakeven after first target"
+      },
+      "risk_management": {
+        "risk_reward_ratio": "1:1 on first half, trailing on second",
+        "position_sizing": "Two lots, scale out",
+        "typical_risk": "17-28 pips based on examples"
+      },
+      "indicators": [
+        {"name": "EMA", "period": 20, "chart": "5-min"},
+        {"name": "SMA", "period": 100, "chart": "5-min"},
+        {"name": "MACD", "params": "12, 26, 9", "chart": "5-min", "use": "momentum filter — must turn within 5 bars"}
+      ],
+      "market_conditions": "Works during active sessions (London, NY). The 15-pip buffer above/below MAs filters noise. Small stops make losses bearable.",
+      "clarity_score": 10,
+      "completeness": 10,
+      "notes": "One of the best-defined strategies in the book. Clean mechanical rules with exact indicator parameters. Tight risk with good reward potential. MACD 5-bar filter ensures fresh momentum."
+    },
+    {
+      "id": "high_probability_turn",
+      "name": "High-Probability Turn (Extension Fade) Strategy",
+      "type": "mean-reversion",
+      "source_chapter": 9,
+      "approx_pages": "155-164",
+      "markets": ["EUR/USD", "GBP/USD", "USD/JPY", "EUR/JPY", "crosses"],
+      "best_pairs": ["EUR/USD (7-day trigger)", "GBP/USD (7-day trigger)", "USD/JPY (7-day trigger)", "GBP/JPY, CHF/JPY, GBP/CHF (8-day trigger)"],
+      "timeframes": ["swing"],
+      "chart_timeframe": "daily",
+      "entry_rules": {
+        "long": [
+          "Look for 7 consecutive days where close < open (bearish candles)",
+          "Buy at 5:00 PM NY time (next candle open)"
+        ],
+        "short": [
+          "Look for 7 consecutive days where close > open (bullish candles)",
+          "Sell at 5:00 PM NY time"
+        ]
+      },
+      "exit_rules": {
+        "stop_loss": "30 pips",
+        "take_profit_1": "Close half at 2x risk (60 pips)",
+        "take_profit_2": "Close remainder at 4x risk (120 pips)",
+        "breakeven": "Move stop to entry after first target"
+      },
+      "risk_management": {
+        "max_risk_pips": 30,
+        "risk_reward_ratio": "1:2 on first half, 1:4 on second half",
+        "position_sizing": "Two lots, scale out",
+        "re_entry": "If 7-day trade fails, take trade again on 8th day. Math works out positive as long as move doesn't extend past 11th day."
+      },
+      "indicators": [],
+      "statistical_basis": {
+        "EUR/USD": "10 instances of 7-day extension in 10 years. Only 5 extended to 8th day. Max was 10 days.",
+        "GBP/USD": "12 instances of 7-day extension. Only 7 extended to 8th day. Max was 12 days.",
+        "USD/JPY": "12 instances of 7-day extension. Only 7 extended to 8th day. Max was 9 days."
+      },
+      "market_conditions": "Statistical mean-reversion play. Works because extended moves become increasingly unlikely. For yen crosses, use 8-day trigger instead of 7.",
+      "clarity_score": 10,
+      "completeness": 10,
+      "notes": "Backed by 10 years of empirical data. One of the most statistically grounded strategies in the book. The re-entry math is elegant — even with consecutive failures, the strategy recovers. Adjust trigger days for different pairs."
+    },
+    {
+      "id": "leveraged_carry_trade",
+      "name": "Leveraged Carry Trade",
+      "type": "carry",
+      "source_chapter": 10,
+      "approx_pages": "168-177",
+      "markets": ["AUD/CHF", "AUD/JPY", "NZD/JPY", "high-yield vs low-yield pairs"],
+      "best_pairs": ["AUD/JPY", "NZD/JPY", "AUD/CHF", "any high-yield vs low-yield combo"],
+      "timeframes": ["long-term (6+ months)"],
+      "chart_timeframe": "weekly/monthly",
+      "entry_rules": {
+        "core": [
+          "Buy the currency with the higher interest rate",
+          "Sell the currency with the lower interest rate",
+          "Confirm risk aversion is LOW (investors willing to take risk)",
+          "Check bond yield spreads are not at extremes",
+          "Verify low-yielding currency economy is not improving"
+        ]
+      },
+      "exit_rules": {
+        "exit_when": [
+          "Risk aversion spikes (global crisis, geopolitical shock)",
+          "Interest rate differential narrows significantly",
+          "Low-yield currency economy starts improving",
+          "Trade balance shifts unfavorably"
+        ]
+      },
+      "risk_management": {
+        "leverage": "5-10x recommended (not more)",
+        "time_horizon": "6+ months minimum",
+        "key_risk": "Sharp risk-aversion spikes can reverse gains in days (e.g., 1998 LTCM, 9/11)"
+      },
+      "indicators": [
+        {"name": "Bond yield spreads", "use": "Leading indicator of carry profitability"},
+        {"name": "Risk aversion measures", "use": "Timing entry and exit"},
+        {"name": "VIX or credit spreads", "use": "Proxy for risk appetite"}
+      ],
+      "market_conditions": "Works in low-volatility, risk-on environments. Loses badly during financial crises, risk-off events, and safe-haven flows. 2.5% yield differential = 25% return on 10x leverage.",
+      "clarity_score": 7,
+      "completeness": 7,
+      "notes": "Not a short-term strategy. Requires monitoring macro risk environment. Works beautifully in calm markets but can reverse violently. JPY carry trade is the classic example."
+    },
+    {
+      "id": "bond_spread_leading_indicator",
+      "name": "Bond Spread as Leading Indicator for FX",
+      "type": "trend-following",
+      "source_chapter": 10,
+      "approx_pages": "185-189",
+      "markets": ["AUD/USD", "GBP/USD", "USD/CAD", "USD/JPY", "all majors"],
+      "best_pairs": ["AUD/USD", "GBP/USD", "USD/CAD"],
+      "timeframes": ["swing", "position"],
+      "chart_timeframe": "daily/weekly",
+      "entry_rules": {
+        "core": [
+          "Track 10-year government bond yield differentials between pair currencies",
+          "When yield spread widens in favor of a currency, buy that currency",
+          "When yield spread narrows, expect currency weakness",
+          "Use 1-month LIBOR or 10-year bond yields",
+          "Calculate spread: base currency yield minus quote currency yield"
+        ]
+      },
+      "exit_rules": {
+        "exit_when": "Yield spread trend reverses or reaches extreme levels"
+      },
+      "risk_management": {
+        "position_sizing": "Not specified — trend confirmation tool",
+        "use_as": "Leading indicator to confirm or filter trades from other strategies"
+      },
+      "indicators": [
+        {"name": "10-year bond yield spread", "source": "Bloomberg, financial newspapers"},
+        {"name": "1-month LIBOR rate spread", "source": "Publicly available"}
+      ],
+      "market_conditions": "Works better over longer time horizons. Interest rate differentials tend to lead currency prices. Best used as a confirmation tool alongside other strategies.",
+      "clarity_score": 7,
+      "completeness": 6,
+      "notes": "Not a standalone trading system but a powerful filter/confirmation tool. Track yield spreads in Excel and overlay with currency charts. Empirical data from 2002-2005 supports leading indicator relationship."
+    }
+  ],
+  "additional_concepts": [
+    {
+      "name": "Multiple Time Frame Analysis",
+      "source_chapter": 9,
+      "description": "Use daily charts for trend direction, hourly for entry timing, 15-min for day trade entries. Always trade in direction of higher timeframe trend.",
+      "codifiable": false,
+      "importance": "Framework applied to ALL strategies"
+    },
+    {
+      "name": "ADX Environment Classification",
+      "source_chapter": 8,
+      "description": "ADX < 20 = range-bound (use oscillators). ADX > 25 = trending (use trend-following). Check before every trade.",
+      "codifiable": true,
+      "indicators": [{"name": "ADX", "period": 14}]
+    },
+    {
+      "name": "Risk Reversal Sentiment Indicator",
+      "source_chapter": 10,
+      "description": "Track 25-delta option risk reversals. Extreme readings (1 std dev from mean) signal contrarian opportunities. Near-zero = range-bound market.",
+      "codifiable": false,
+      "importance": "Sentiment gauge for timing entries"
+    },
+    {
+      "name": "Option Volatility Breakout/Range Signal",
+      "source_chapter": 10,
+      "description": "When 1-month implied volatility drops well below 3-month volatility, expect breakout. When 1-month is above 3-month, expect range reversion.",
+      "codifiable": true,
+      "importance": "Volatility compression precedes breakouts"
+    },
+    {
+      "name": "Commodity-Currency Correlation Trading",
+      "source_chapter": 10,
+      "description": "AUD/USD and NZD/USD correlate 0.80 with gold. USD/CAD inversely correlates -0.40 with oil. Gold/oil trends can lead currency moves.",
+      "codifiable": true,
+      "importance": "Leading indicator for commodity currencies"
+    },
+    {
+      "name": "Seasonality Patterns",
+      "source_chapter": 7,
+      "description": "January: USD strengthens vs EUR (82%), CHF (82%), JPY (73%). May: AUD/NZD weaken. July: USD/JPY and USD/CAD strengthen. August: reverses July. September: USD weakens vs CHF/GBP. November: NZD strengthens.",
+      "codifiable": true,
+      "importance": "Directional bias filter by month"
+    },
+    {
+      "name": "Strong Economy / Weak Economy Pairing",
+      "source_chapter": 10,
+      "description": "When expressing a view, always pair the strongest economy's currency against the weakest. Magnifies moves and extends trends.",
+      "codifiable": false,
+      "importance": "Pair selection optimization"
+    },
+    {
+      "name": "Intervention Trading",
+      "source_chapter": 10,
+      "description": "Central bank intervention creates 100-250 pip moves in minutes. Watch for verbal warnings. Trade WITH intervention, not against it. Use tight trailing stops (15-20 pips) to lock in profits.",
+      "codifiable": false,
+      "importance": "Event-driven opportunity"
+    }
+  ],
+  "session_trading_insights": {
+    "asian_session": "Quietest. Tight ranges. Good for channel formation. GBP/JPY and AUD/JPY most active.",
+    "london_session": "Most active (42% of volume). Real directional moves begin. Stop-hunting common at open.",
+    "us_session": "Second most active (19%). Overlap with London (8-11 AM NY) is peak liquidity.",
+    "overlap_europe_us": "8:00 AM - 11:00 AM NY. Highest activity. Best for breakout strategies.",
+    "avoid": "16:00-20:00 GMT generally quiet. Weekend gaps possible."
+  },
+  "risk_management_rules": {
+    "risk_per_trade": "2% of equity maximum",
+    "risk_reward_minimum": "1:2",
+    "stop_placement_methods": ["Two-day low method (10 pips below 2-day low)", "Parabolic SAR", "Technical support/resistance"],
+    "trailing_methods": ["2-bar low/high", "Parabolic SAR", "20-day SMA on 5-min charts"],
+    "breakeven_rule": "Move stop to breakeven once profit equals initial risk amount",
+    "scaling": "Close half at first target, trail remainder"
+  },
+  "meta": {
+    "analysis_date": "2026-03-25",
+    "analyst": "Strategy Pipeline - Automated Extraction",
+    "book_focus": "Forex-specific with session-based, fundamental, and technical strategies",
+    "unique_value": "Combines microstructure insights (order flow, round numbers, stop hunting) with clean mechanical rules. One of few books providing exact entry/exit rules for forex strategies.",
+    "overall_quality": "High — strategies are well-defined with specific rules, parameters, and worked examples. Statistical backing provided for extension move strategy.",
+    "top_3_strategies": ["short_term_momentum_20_100", "high_probability_turn", "inside_day_breakout"]
+  }
+}

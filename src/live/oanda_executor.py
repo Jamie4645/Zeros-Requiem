@@ -271,24 +271,83 @@ def get_trade_details(trade_id: str) -> Optional[Dict]:
     return None
 
 
+def get_closed_trade_details(trade_id: str) -> Optional[Dict]:
+    """
+    Look up a closed trade's actual exit price, P&L, and close reason
+    from OANDA's transaction history.
+
+    Returns:
+        Dict with 'exit_price', 'pnl', 'close_reason' or None if not found
+    """
+    try:
+        # First try getting the trade directly — OANDA keeps closed trades
+        url = f"{_account_url()}/trades/{trade_id}"
+        resp = requests.get(url, headers=_headers(), timeout=10)
+        resp.raise_for_status()
+        trade = resp.json().get('trade', {})
+
+        if trade.get('state') == 'CLOSED':
+            pnl = float(trade.get('realizedPL', 0))
+            close_price = float(trade.get('averageClosePrice', 0))
+
+            # Determine close reason from closing transaction
+            close_reason = 'unknown'
+            closing_ids = trade.get('closingTransactionIDs', [])
+            if closing_ids:
+                # Look up the closing transaction to determine reason
+                last_close_id = closing_ids[-1]
+                tx_url = f"{_account_url()}/transactions/{last_close_id}"
+                tx_resp = requests.get(tx_url, headers=_headers(), timeout=10)
+                if tx_resp.status_code == 200:
+                    tx = tx_resp.json().get('transaction', {})
+                    tx_type = tx.get('type', '')
+                    tx_reason = tx.get('reason', '')
+
+                    if tx_reason == 'STOP_LOSS_ORDER':
+                        close_reason = 'stop_loss'
+                    elif tx_reason == 'TAKE_PROFIT_ORDER':
+                        close_reason = 'take_profit'
+                    elif tx_reason == 'TRAILING_STOP_LOSS_ORDER':
+                        close_reason = 'trailing_stop'
+                    elif tx_type == 'ORDER_FILL':
+                        close_reason = tx_reason.lower() if tx_reason else 'broker_fill'
+                    else:
+                        close_reason = f"{tx_type}_{tx_reason}".lower().strip('_')
+
+            return {
+                'exit_price': close_price,
+                'pnl': pnl,
+                'close_reason': close_reason,
+            }
+    except Exception as e:
+        print(f"  Error getting closed trade details for {trade_id}: {e}")
+    return None
+
+
 def sync_positions(state_trades: List[Dict]) -> List[Dict]:
     """
     Sync local state with broker positions.
-    
+
     Checks if trades we think are open are still open on the broker.
     Returns list of trades that were closed on the broker side
-    (TP/SL hit between runs).
+    (TP/SL hit between runs), enriched with actual exit price and P&L.
     """
     broker_trades = get_open_trades()
     broker_ids = {t['id'] for t in broker_trades}
-    
+
     closed_on_broker = []
     for st in state_trades:
         oanda_id = st.get('oanda_trade_id', '')
         if oanda_id and oanda_id not in broker_ids:
             # Trade was closed on broker (TP/SL hit between runs)
+            # Look up actual exit details from OANDA
+            details = get_closed_trade_details(oanda_id)
+            if details:
+                st['_broker_exit_price'] = details['exit_price']
+                st['_broker_pnl'] = details['pnl']
+                st['_broker_close_reason'] = details['close_reason']
             closed_on_broker.append(st)
-    
+
     return closed_on_broker
 
 

@@ -20,3 +20,14 @@ build/
 # OS
 .DS_Store
 Thumbs.db
+
+# Data & State (generated, not tracked)
+data/*.db
+data/cache/
+charts/
+state/
+logs/
+venv/
+
+# Generated charts
+*.png

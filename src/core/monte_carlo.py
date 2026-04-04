@@ -1,10 +1,10 @@
 """
-Monte Carlo Simulation for SCAF 2.0
+Monte Carlo Simulation
 
-P4: Evaluates the robustness of a trading edge by resampling from
+Evaluates the robustness of a trading edge by resampling from
 historical trade results to generate thousands of synthetic equity curves.
 
-Key question answered: "Given the statistical profile of my trades,
+Key question: "Given the statistical profile of my trades,
 what is the probability of experiencing a catastrophic drawdown?"
 
 Elite Benchmark: < 5% probability of 20% drawdown.

@@ -1,1 +1,1 @@
-# Execution layer: liquidity, displacement, entry logic
+# Trade setup and entry logic

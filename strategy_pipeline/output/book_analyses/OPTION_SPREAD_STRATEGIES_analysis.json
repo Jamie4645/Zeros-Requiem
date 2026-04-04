@@ -1,0 +1,997 @@
+{
+  "book_metadata": {
+    "title": "Option Spread Strategies: Trading Up, Down, and Sideways Markets",
+    "author": "Anthony J. Saliba with Joseph C. Corona and Karen E. Johnson",
+    "year": 2009,
+    "publisher": "Bloomberg Press",
+    "focus": "Options spread trading strategies for directional, neutral, and volatility plays",
+    "total_strategies_extracted": 22,
+    "asset_classes": ["Equities", "Indices", "ETFs"],
+    "instruments": ["Stock Options", "Index Options"]
+  },
+
+  "author_framework": {
+    "strategy_selection_process": [
+      "1. Determine market forecast (bullish, bearish, neutral, breakout)",
+      "2. Assess magnitude of expected move (moderate vs large)",
+      "3. Determine time horizon of forecast",
+      "4. Evaluate current implied volatility levels and term structure",
+      "5. Assess risk appetite (limited vs unlimited risk tolerance)",
+      "6. Select strategy that matches all parameters",
+      "7. Use box/jelly roll pricing to choose calls vs puts at execution"
+    ],
+    "risk_management_philosophy": "If you are wrong, get out. No hoping or praying. Have exit plan before entry.",
+    "key_principles": [
+      "There is no free lunch - every upside has a corresponding downside",
+      "Long gamma comes at the cost of negative theta (time decay)",
+      "Short gamma earns positive theta but has adverse delta movement",
+      "Use synthetically equivalent positions for better exit pricing",
+      "Scale into and out of positions for psychological comfort",
+      "Support and resistance levels serve dual purpose: strike selection AND risk management",
+      "Rolling positions via vertical spreads or butterflies maintains exposure while reducing risk"
+    ],
+    "iv_framework": {
+      "high_iv_favors": ["Selling premium", "Credit spreads", "Ratio spreads", "Covered writes"],
+      "low_iv_favors": ["Buying premium", "Long straddles/strangles", "Backspreads", "Long calendar spreads"],
+      "iv_skew_usage": "Sell high-IV strikes, buy low-IV strikes when skew is steep",
+      "term_structure_usage": "Compare front-month vs back-month IV for calendar spread direction"
+    }
+  },
+
+  "strategies": [
+    {
+      "id": 1,
+      "name": "Covered Write (Buy-Write)",
+      "type": "income/neutral",
+      "market_outlook": "neutral_to_mildly_bullish",
+      "source_chapter": 1,
+      "clarity_score": 9,
+      "completeness": 9,
+      "composition": {
+        "legs": [
+          {"action": "buy", "instrument": "stock", "quantity": 100, "position": "underlying"},
+          {"action": "sell", "instrument": "call", "quantity": 1, "strike": "ATM_or_OTM", "expiry": "near_term"}
+        ],
+        "cash_flow": "credit_from_call_sale"
+      },
+      "entry_rules": {
+        "market_forecast": "Neutral to moderately bullish on underlying",
+        "iv_conditions": "Higher IV preferred for larger premiums and higher returns",
+        "strike_selection": {
+          "neutral_outlook": "Sell ATM call for maximum time decay",
+          "mildly_bullish": "Sell OTM call at expected target price",
+          "moderately_bullish": "Sell further OTM call for more upside participation"
+        },
+        "dte": "45 days or less for income generation; longer for downside protection",
+        "avoid_when": "Bearish or strongly bullish outlook; rate of return should not drive selection"
+      },
+      "exit_rules": {
+        "profit_target": "Return to call (stock at or above strike at expiration)",
+        "max_loss": "Breakeven = stock price - premium received; exit if broken",
+        "time_exit": "At or before expiration; must manage or roll",
+        "view_change": "Liquidate immediately if view shifts bearish or rampantly bullish"
+      },
+      "adjustments": {
+        "stock_rises_through_strike": "Roll up via long call spread or diagonal up-and-out",
+        "stock_weakens": "Roll down via short call spread for additional protection",
+        "emergency_exit": "Buy put of same strike/expiry to create conversion (neutral)"
+      },
+      "risk_management": {
+        "max_risk": "Substantial downside risk minus premium received",
+        "max_reward": "Premium received plus stock appreciation to strike",
+        "breakeven": "Stock purchase price minus premium received"
+      },
+      "greeks_profile": {
+        "delta": "Positive (stock delta 100 minus short call delta)",
+        "gamma": "Negative (short call gamma)",
+        "theta": "Positive (benefits from time decay)",
+        "vega": "Negative (benefits from falling IV)"
+      },
+      "notes": "Synthetic equivalent of short put. NOT a fire-and-forget strategy. Requires attention and multiple adjustments. Late-night TV claims of easy money are misleading."
+    },
+
+    {
+      "id": 2,
+      "name": "Bull Call Spread (Debit Call Spread)",
+      "type": "directional",
+      "market_outlook": "moderately_bullish",
+      "source_chapter": 2,
+      "clarity_score": 9,
+      "completeness": 9,
+      "composition": {
+        "legs": [
+          {"action": "buy", "instrument": "call", "quantity": 1, "strike": "lower", "expiry": "same"},
+          {"action": "sell", "instrument": "call", "quantity": 1, "strike": "higher", "expiry": "same"}
+        ],
+        "cash_flow": "debit"
+      },
+      "entry_rules": {
+        "market_forecast": "Moderately bullish; expecting move to short strike",
+        "iv_conditions": "Good when IV is high (reduces cost vs outright long call)",
+        "strike_selection": "Long strike near current price; short strike at price target",
+        "dte": "Expiration matching time horizon of forecast move",
+        "magnitude": "Expected moderate upward move equal to strike differential"
+      },
+      "exit_rules": {
+        "profit_target": "Maximum profit at or above short strike at expiration",
+        "max_loss": "Limited to debit paid for spread",
+        "early_exit": "If forecast changes, liquidate or use synthetic equivalent",
+        "roll": "Sell overlapping butterfly to roll to higher strikes"
+      },
+      "risk_management": {
+        "max_risk": "Debit paid for spread",
+        "max_reward": "Strike differential minus debit",
+        "breakeven": "Lower strike plus debit"
+      },
+      "greeks_profile": {
+        "delta": "Positive (range 0 to +100)",
+        "gamma": "Positive near lower strike, negative near upper strike",
+        "theta": "Negative near lower strike (hurts), positive near upper strike (helps)",
+        "vega": "Positive near lower strike, negative near upper strike"
+      },
+      "notes": "Synthetically equivalent to bull put spread. Use box pricing to determine whether call or put spread offers better value at execution."
+    },
+
+    {
+      "id": 3,
+      "name": "Bull Put Spread (Credit Put Spread)",
+      "type": "directional/income",
+      "market_outlook": "moderately_bullish",
+      "source_chapter": 2,
+      "clarity_score": 9,
+      "completeness": 9,
+      "composition": {
+        "legs": [
+          {"action": "buy", "instrument": "put", "quantity": 1, "strike": "lower", "expiry": "same"},
+          {"action": "sell", "instrument": "put", "quantity": 1, "strike": "higher", "expiry": "same"}
+        ],
+        "cash_flow": "credit"
+      },
+      "entry_rules": {
+        "market_forecast": "Moderately bullish; expect price to stay above short put strike",
+        "iv_conditions": "Higher IV provides larger credit",
+        "strike_selection": "Short put at support level; long put below for protection",
+        "dte": "Shorter duration for faster theta decay",
+        "income_generation": "Sell OTM put spreads below strong support for premium collection"
+      },
+      "exit_rules": {
+        "profit_target": "Both puts expire worthless; keep full credit",
+        "max_loss": "Strike differential minus credit",
+        "time_exit": "Positive theta; time works in favor if price stays above short strike"
+      },
+      "risk_management": {
+        "max_risk": "Strike differential minus credit received",
+        "max_reward": "Credit received",
+        "breakeven": "Higher strike minus credit"
+      },
+      "greeks_profile": {
+        "delta": "Positive",
+        "gamma": "Negative near short strike",
+        "theta": "Positive (benefits from time decay)",
+        "vega": "Negative (benefits from falling IV)"
+      },
+      "notes": "Synthetically equivalent to bull call spread. Credit spread version of bullish vertical. Good for income generation with defined risk."
+    },
+
+    {
+      "id": 4,
+      "name": "Bear Call Spread (Credit Call Spread)",
+      "type": "directional/income",
+      "market_outlook": "moderately_bearish",
+      "source_chapter": 2,
+      "clarity_score": 9,
+      "completeness": 9,
+      "composition": {
+        "legs": [
+          {"action": "sell", "instrument": "call", "quantity": 1, "strike": "lower", "expiry": "same"},
+          {"action": "buy", "instrument": "call", "quantity": 1, "strike": "higher", "expiry": "same"}
+        ],
+        "cash_flow": "credit"
+      },
+      "entry_rules": {
+        "market_forecast": "Moderately bearish; expect price to stay below short call strike",
+        "iv_conditions": "Higher IV provides larger credit",
+        "strike_selection": "Short call at resistance; long call above for protection",
+        "dte": "Shorter duration for faster theta decay"
+      },
+      "exit_rules": {
+        "profit_target": "Both calls expire worthless; keep full credit",
+        "max_loss": "Strike differential minus credit received"
+      },
+      "risk_management": {
+        "max_risk": "Strike differential minus credit",
+        "max_reward": "Credit received",
+        "breakeven": "Lower strike plus credit"
+      },
+      "greeks_profile": {
+        "delta": "Negative",
+        "gamma": "Negative near short strike",
+        "theta": "Positive",
+        "vega": "Negative"
+      },
+      "notes": "Synthetically equivalent to bear put spread. Good for selling premium above resistance with capped risk."
+    },
+
+    {
+      "id": 5,
+      "name": "Bear Put Spread (Debit Put Spread)",
+      "type": "directional",
+      "market_outlook": "moderately_bearish",
+      "source_chapter": 2,
+      "clarity_score": 9,
+      "completeness": 9,
+      "composition": {
+        "legs": [
+          {"action": "buy", "instrument": "put", "quantity": 1, "strike": "higher", "expiry": "same"},
+          {"action": "sell", "instrument": "put", "quantity": 1, "strike": "lower", "expiry": "same"}
+        ],
+        "cash_flow": "debit"
+      },
+      "entry_rules": {
+        "market_forecast": "Moderately bearish; expecting decline to short strike",
+        "iv_conditions": "Good when IV is high (reduces cost vs outright long put)",
+        "strike_selection": "Long put near current price; short put at downside target",
+        "dte": "Match expiration to expected time horizon"
+      },
+      "exit_rules": {
+        "profit_target": "Maximum at or below short strike at expiration",
+        "max_loss": "Debit paid",
+        "roll": "Sell overlapping butterfly to roll to lower strikes"
+      },
+      "risk_management": {
+        "max_risk": "Debit paid",
+        "max_reward": "Strike differential minus debit",
+        "breakeven": "Higher strike minus debit"
+      },
+      "greeks_profile": {
+        "delta": "Negative",
+        "gamma": "Positive near long strike, negative near short strike",
+        "theta": "Negative near long strike, positive near short strike",
+        "vega": "Positive near long strike, negative near short strike"
+      },
+      "notes": "Good for countertrend trades and limited-risk bearish positions."
+    },
+
+    {
+      "id": 6,
+      "name": "Collar (Bearish)",
+      "type": "directional/hedge",
+      "market_outlook": "bearish_large_magnitude",
+      "source_chapter": 3,
+      "clarity_score": 8,
+      "completeness": 8,
+      "composition": {
+        "legs": [
+          {"action": "buy", "instrument": "put", "quantity": 1, "strike": "OTM_below", "expiry": "same"},
+          {"action": "sell", "instrument": "call", "quantity": 1, "strike": "OTM_above", "expiry": "same"}
+        ],
+        "cash_flow": "near_zero_cost"
+      },
+      "entry_rules": {
+        "market_forecast": "Sharp bearish move expected below put strike",
+        "trigger_price": "Place long put at anticipated breakdown trigger level",
+        "resistance": "Place short call at significant overhead resistance",
+        "iv_conditions": "Good when IV is moderate-to-high (offsetting vega minimizes IV risk)",
+        "iv_skew": "Flat skew makes collar more attractive (call IV >= put IV)",
+        "timing": "Imprecise timing OK due to theta/vega offset structure"
+      },
+      "exit_rules": {
+        "successful": "Roll long put down via selling vertical put spreads to lock in profits",
+        "unsuccessful": "Stop-loss on short call if resistance broken; buy back short call",
+        "no_trigger": "Roll entire collar to next expiry via calendar spreads"
+      },
+      "risk_management": {
+        "max_risk": "Unlimited above short call strike (must use stop-loss)",
+        "max_reward": "Substantial below long put strike",
+        "breakeven": "Put strike minus debit (if any)"
+      },
+      "greeks_profile": {
+        "delta": "Negative (ranges 0 to -100)",
+        "gamma": "Near zero between strikes; positive near put, negative near call",
+        "theta": "Near zero between strikes (key advantage)",
+        "vega": "Near zero between strikes (key advantage)"
+      },
+      "notes": "Combined with long stock creates synthetic bull vertical spread. Choose over outright puts when timing is uncertain. Naked short call risk requires stop-loss discipline."
+    },
+
+    {
+      "id": 7,
+      "name": "Reverse Collar (Bullish)",
+      "type": "directional/hedge",
+      "market_outlook": "bullish_large_magnitude",
+      "source_chapter": 3,
+      "clarity_score": 8,
+      "completeness": 8,
+      "composition": {
+        "legs": [
+          {"action": "buy", "instrument": "call", "quantity": 1, "strike": "OTM_above", "expiry": "same"},
+          {"action": "sell", "instrument": "put", "quantity": 1, "strike": "OTM_below", "expiry": "same"}
+        ],
+        "cash_flow": "near_zero_cost"
+      },
+      "entry_rules": {
+        "market_forecast": "Sharp bullish move expected above call strike",
+        "trigger_price": "Place long call near breakout trigger level",
+        "support": "Place short put at significant underlying support",
+        "iv_conditions": "Steep IV skew (OTM puts at higher IV than OTM calls) makes this especially attractive",
+        "timing": "Imprecise timing OK"
+      },
+      "exit_rules": {
+        "successful": "Roll long call up via selling vertical call spreads",
+        "unsuccessful": "Stop-loss on short put if support broken",
+        "no_trigger": "Roll to next expiry via calendar spreads"
+      },
+      "risk_management": {
+        "max_risk": "Substantial below short put strike",
+        "max_reward": "Unlimited above long call strike",
+        "breakeven": "Depends on debit/credit"
+      },
+      "greeks_profile": {
+        "delta": "Positive (ranges 0 to +100)",
+        "gamma": "Near zero between strikes",
+        "theta": "Near zero between strikes",
+        "vega": "Near zero between strikes"
+      },
+      "notes": "Combined with short stock creates synthetic bear vertical spread. Exploits IV skew by selling expensive OTM puts and buying cheaper OTM calls."
+    },
+
+    {
+      "id": 8,
+      "name": "Long Straddle",
+      "type": "volatility",
+      "market_outlook": "volatile_unknown_direction",
+      "source_chapter": 4,
+      "clarity_score": 9,
+      "completeness": 9,
+      "composition": {
+        "legs": [
+          {"action": "buy", "instrument": "call", "quantity": 1, "strike": "ATM", "expiry": "same"},
+          {"action": "buy", "instrument": "put", "quantity": 1, "strike": "ATM", "expiry": "same"}
+        ],
+        "cash_flow": "debit"
+      },
+      "entry_rules": {
+        "market_forecast": "Large magnitude breakout expected in either direction",
+        "catalysts": "Earnings, government reports, corporate events, macro events, technical breakouts",
+        "iv_conditions": "Best entered when IV is LOW (cheaper premiums)",
+        "strike_selection": "ATM strike for delta-neutral entry",
+        "timing": "Must be fairly precise; clock is the enemy"
+      },
+      "exit_rules": {
+        "profit_target": "Roll profitable leg via selling vertical spreads",
+        "max_loss": "Total debit paid (premium of both options)",
+        "time_stop": "Set date beyond which you will not hold position",
+        "price_stop": "Set price below which you will not hold position",
+        "exit_on_lesser": "Exit when EITHER time or price stop is hit first"
+      },
+      "risk_management": {
+        "max_risk": "Limited to total debit paid",
+        "max_reward": "Unlimited upside; substantial downside to zero",
+        "breakevens": "Strike minus debit (downside); strike plus debit (upside)"
+      },
+      "greeks_profile": {
+        "delta": "Near zero at ATM; becomes positive as underlying rises, negative as it falls",
+        "gamma": "Positive (delta moves in trader's favor)",
+        "theta": "NEGATIVE (time decay is the major cost)",
+        "vega": "Positive (benefits from rising IV)"
+      },
+      "notes": "Seductive due to unlimited profit potential. Traders often overlook theta/vega costs. Death by a thousand cuts from daily time decay. Must have both correct direction AND timing."
+    },
+
+    {
+      "id": 9,
+      "name": "Long Strangle",
+      "type": "volatility",
+      "market_outlook": "volatile_unknown_direction",
+      "source_chapter": 4,
+      "clarity_score": 9,
+      "completeness": 9,
+      "composition": {
+        "legs": [
+          {"action": "buy", "instrument": "call", "quantity": 1, "strike": "OTM_above", "expiry": "same"},
+          {"action": "buy", "instrument": "put", "quantity": 1, "strike": "OTM_below", "expiry": "same"}
+        ],
+        "cash_flow": "debit"
+      },
+      "entry_rules": {
+        "market_forecast": "Very large magnitude breakout expected",
+        "iv_conditions": "Enter when IV is low",
+        "strike_selection": "OTM strikes approximately equidistant from current price for delta neutrality",
+        "advantage_over_straddle": "Cheaper entry; less theta bleed"
+      },
+      "exit_rules": {
+        "same_as_straddle": "Time stop + price stop; exit on lesser",
+        "roll_profitable_leg": "Sell vertical spreads to capture gains"
+      },
+      "risk_management": {
+        "max_risk": "Limited to debit paid",
+        "max_reward": "Unlimited upside; substantial downside",
+        "breakevens": "Put strike minus debit; call strike plus debit"
+      },
+      "greeks_profile": {
+        "delta": "Near zero; double-peaked gamma profile near expiry",
+        "gamma": "Positive",
+        "theta": "Negative (but less than straddle)",
+        "vega": "Positive"
+      },
+      "notes": "Less aggressive than straddle. Wider breakeven points but cheaper cost. Near expiry, delta is ~zero between strikes."
+    },
+
+    {
+      "id": 10,
+      "name": "Short Straddle",
+      "type": "income/neutral",
+      "market_outlook": "sideways_low_volatility",
+      "source_chapter": 4,
+      "clarity_score": 9,
+      "completeness": 8,
+      "composition": {
+        "legs": [
+          {"action": "sell", "instrument": "call", "quantity": 1, "strike": "ATM", "expiry": "same"},
+          {"action": "sell", "instrument": "put", "quantity": 1, "strike": "ATM", "expiry": "same"}
+        ],
+        "cash_flow": "credit"
+      },
+      "entry_rules": {
+        "market_forecast": "Low-magnitude sideways movement expected",
+        "iv_conditions": "Best entered when IV is HIGH (collect larger premium)",
+        "catalysts": "Post-volatile period rest, seasonal quiet, holiday periods",
+        "timing": "After volatile period when market needs to consolidate"
+      },
+      "exit_rules": {
+        "profit_target": "Time decay erodes position value; collect theta daily",
+        "stop_loss_price": "Set price stop on straddle value for rising IV scenario",
+        "stop_loss_underlying": "Key price levels that indicate breakout",
+        "immediate_action": "If breakout occurs, manage short option actively"
+      },
+      "risk_management": {
+        "max_risk": "UNLIMITED both up and down",
+        "max_reward": "Credit received",
+        "breakevens": "Strike minus credit; strike plus credit"
+      },
+      "greeks_profile": {
+        "delta": "Near zero at strike; moves against trader",
+        "gamma": "NEGATIVE (adverse delta movement)",
+        "theta": "POSITIVE (time decay earns money)",
+        "vega": "Negative (benefits from falling IV)"
+      },
+      "notes": "UNLIMITED RISK. Must use stop-losses. Theta income can vanish in one large move. Set stop on both underlying price and straddle price. Not suitable for most retail traders."
+    },
+
+    {
+      "id": 11,
+      "name": "Short Strangle",
+      "type": "income/neutral",
+      "market_outlook": "sideways_low_volatility",
+      "source_chapter": 4,
+      "clarity_score": 9,
+      "completeness": 8,
+      "composition": {
+        "legs": [
+          {"action": "sell", "instrument": "call", "quantity": 1, "strike": "OTM_above", "expiry": "same"},
+          {"action": "sell", "instrument": "put", "quantity": 1, "strike": "OTM_below", "expiry": "same"}
+        ],
+        "cash_flow": "credit"
+      },
+      "entry_rules": {
+        "market_forecast": "Low-magnitude sideways movement within range",
+        "iv_conditions": "Higher IV preferred for larger credit",
+        "strike_selection": "OTM strikes at support/resistance levels equidistant from price"
+      },
+      "exit_rules": {
+        "same_as_short_straddle": "Price and straddle-value stop losses required"
+      },
+      "risk_management": {
+        "max_risk": "UNLIMITED",
+        "max_reward": "Credit received",
+        "breakevens": "Put strike minus credit; call strike plus credit"
+      },
+      "greeks_profile": {
+        "delta": "Near zero between strikes",
+        "gamma": "Negative",
+        "theta": "Positive (less than short straddle)",
+        "vega": "Negative"
+      },
+      "notes": "Less aggressive than short straddle but still UNLIMITED RISK. Wider profit zone but smaller max profit."
+    },
+
+    {
+      "id": 12,
+      "name": "Long Call Butterfly",
+      "type": "neutral",
+      "market_outlook": "sideways_at_target_price",
+      "source_chapter": 5,
+      "clarity_score": 9,
+      "completeness": 9,
+      "composition": {
+        "legs": [
+          {"action": "buy", "instrument": "call", "quantity": 1, "strike": "lower", "expiry": "same"},
+          {"action": "sell", "instrument": "call", "quantity": 2, "strike": "middle", "expiry": "same"},
+          {"action": "buy", "instrument": "call", "quantity": 1, "strike": "upper", "expiry": "same"}
+        ],
+        "cash_flow": "debit",
+        "structure": "1/-2/+1"
+      },
+      "entry_rules": {
+        "market_forecast": "Directionless; underlying hovering near middle strike",
+        "strike_selection": {
+          "middle_strike": "At mean-reversion price of trading range",
+          "wings": "At support and resistance levels of trading range"
+        },
+        "iv_conditions": "Best when IV is high (short middle strike benefits from IV decline)",
+        "dte": "Shorter-dated bears fruit faster but costs more; blend expirations for longer ranges",
+        "identification": "Use technical analysis to find support/resistance/mean-reversion levels"
+      },
+      "exit_rules": {
+        "take_partial_profits": "Scale out 2-3 at a time from 10-lot",
+        "exit_triggers": "Underlying breaks support or resistance",
+        "synthetic_exit": "Buy back straddle at middle strike to leave long strangle",
+        "avoid_greed": "Don't hold for 'one more day' of theta; breakout can wipe accumulated profits"
+      },
+      "adjustments": {
+        "range_wider_than_expected": "Add butterfly at adjacent strikes to create condor",
+        "range_narrows": "Sell embedded butterfly to tighten position",
+        "breakout": "EXIT the trade"
+      },
+      "risk_management": {
+        "max_risk": "Limited to debit paid",
+        "max_reward": "(Upper - Lower)/2 minus debit",
+        "breakevens": "Lower strike + debit; upper strike - debit"
+      },
+      "greeks_profile": {
+        "delta": "Near zero at middle strike; positive below, negative above",
+        "gamma": "Negative at middle strike; positive at wings",
+        "theta": "POSITIVE at middle strike (earns time decay)",
+        "vega": "Negative at middle strike (benefits from falling IV)"
+      },
+      "notes": "Limited-risk version of short straddle. Synthetic: short straddle wrapped by long strangle. Call, put, and iron butterflies are synthetically equivalent."
+    },
+
+    {
+      "id": 13,
+      "name": "Long Iron Butterfly",
+      "type": "neutral",
+      "market_outlook": "sideways_at_target_price",
+      "source_chapter": 5,
+      "clarity_score": 8,
+      "completeness": 8,
+      "composition": {
+        "legs": [
+          {"action": "buy", "instrument": "put", "quantity": 1, "strike": "lower", "expiry": "same"},
+          {"action": "sell", "instrument": "put", "quantity": 1, "strike": "middle", "expiry": "same"},
+          {"action": "sell", "instrument": "call", "quantity": 1, "strike": "middle", "expiry": "same"},
+          {"action": "buy", "instrument": "call", "quantity": 1, "strike": "upper", "expiry": "same"}
+        ],
+        "cash_flow": "credit"
+      },
+      "entry_rules": {
+        "same_as_long_butterfly": "Synthetically equivalent to call/put butterfly"
+      },
+      "risk_management": {
+        "max_risk": "Wing width minus credit received",
+        "max_reward": "Credit received"
+      },
+      "notes": "Iron version uses mixed puts and calls. Credit trade. Same Greeks as call/put butterfly."
+    },
+
+    {
+      "id": 14,
+      "name": "Long Call Condor",
+      "type": "neutral",
+      "market_outlook": "sideways_in_wider_range",
+      "source_chapter": 5,
+      "clarity_score": 9,
+      "completeness": 9,
+      "composition": {
+        "legs": [
+          {"action": "buy", "instrument": "call", "quantity": 1, "strike": "K1_lowest", "expiry": "same"},
+          {"action": "sell", "instrument": "call", "quantity": 1, "strike": "K2", "expiry": "same"},
+          {"action": "sell", "instrument": "call", "quantity": 1, "strike": "K3", "expiry": "same"},
+          {"action": "buy", "instrument": "call", "quantity": 1, "strike": "K4_highest", "expiry": "same"}
+        ],
+        "cash_flow": "debit",
+        "structure": "+1/-1/-1/+1"
+      },
+      "entry_rules": {
+        "market_forecast": "Directionless; wider trading range than butterfly can cover",
+        "strike_selection": {
+          "inner_strikes": "Spanning the mean-reversion zone of the trading range",
+          "outer_strikes": "At support and resistance levels"
+        },
+        "iv_conditions": "Best when IV is high",
+        "vs_butterfly": "Use when range is too wide for butterfly or mean-reversion is a zone not a point"
+      },
+      "exit_rules": {
+        "same_as_butterfly": "Scale out, watch for breakouts, exit on support/resistance breach"
+      },
+      "adjustments": {
+        "range_narrows": "Sell embedded butterfly from condor to tighten into butterfly"
+      },
+      "risk_management": {
+        "max_risk": "Debit paid (more expensive than butterfly)",
+        "max_reward": "Inner strike differential minus debit (less than butterfly)",
+        "breakevens": "K1 + debit; K4 - debit"
+      },
+      "greeks_profile": {
+        "delta": "Near zero between inner strikes",
+        "gamma": "Negative between inner strikes",
+        "theta": "Positive between inner strikes",
+        "vega": "Negative between inner strikes"
+      },
+      "notes": "Wider profit zone than butterfly but costs more and has lower max profit. Call, put, and iron condors are synthetically equivalent."
+    },
+
+    {
+      "id": 15,
+      "name": "Long Iron Condor",
+      "type": "neutral/income",
+      "market_outlook": "sideways_in_wider_range",
+      "source_chapter": 5,
+      "clarity_score": 8,
+      "completeness": 8,
+      "composition": {
+        "legs": [
+          {"action": "buy", "instrument": "put", "quantity": 1, "strike": "K1_lowest", "expiry": "same"},
+          {"action": "sell", "instrument": "put", "quantity": 1, "strike": "K2", "expiry": "same"},
+          {"action": "sell", "instrument": "call", "quantity": 1, "strike": "K3", "expiry": "same"},
+          {"action": "buy", "instrument": "call", "quantity": 1, "strike": "K4_highest", "expiry": "same"}
+        ],
+        "cash_flow": "credit"
+      },
+      "entry_rules": {
+        "same_as_condor": "Synthetically equivalent to call/put condor"
+      },
+      "risk_management": {
+        "max_risk": "Wing width minus credit",
+        "max_reward": "Credit received"
+      },
+      "notes": "Most popular version for retail traders. Credit trade with defined risk. Collect premium if price stays between inner strikes."
+    },
+
+    {
+      "id": 16,
+      "name": "Long Calendar Spread (Horizontal Time Spread)",
+      "type": "neutral/directional",
+      "market_outlook": "sideways_or_directional_to_target",
+      "source_chapter": 6,
+      "clarity_score": 9,
+      "completeness": 9,
+      "composition": {
+        "legs": [
+          {"action": "sell", "instrument": "call_or_put", "quantity": 1, "strike": "same", "expiry": "near_term"},
+          {"action": "buy", "instrument": "call_or_put", "quantity": 1, "strike": "same", "expiry": "deferred"}
+        ],
+        "cash_flow": "debit"
+      },
+      "entry_rules": {
+        "sideways_use": {
+          "strike": "ATM (at current price) for neutral trade",
+          "iv_conditions": "Best when IV is LOW; benefits from rising IV (long vega)"
+        },
+        "directional_use": {
+          "bullish": "Strike above current price (target for upward move)",
+          "bearish": "Strike below current price (target for downward move)",
+          "timing": "Short-dated option expires at expected arrival time"
+        },
+        "term_structure": {
+          "favorable": "Short-dated IV higher than long-dated IV (sell expensive, buy cheap)",
+          "unfavorable": "Short-dated IV lower than long-dated (avoid or use short calendar)"
+        }
+      },
+      "exit_rules": {
+        "profit_target": "Spread reaches maximum value at strike at short-option expiry",
+        "early_arrival": "If price hits target early, assess whether to hold or roll to new strike",
+        "wrong_direction": "Get out - forecast is wrong",
+        "at_expiration": "MUST close or roll before short option expires; otherwise creates naked directional"
+      },
+      "adjustments": {
+        "roll_strikes": "Two vertical spreads in two separate months to shift target",
+        "roll_time": "Buy back short month, sell next month (if forecast still valid)"
+      },
+      "risk_management": {
+        "max_risk": "Limited to debit paid",
+        "max_reward": "Cannot be precisely determined (depends on IV at short expiry)",
+        "key_risk": "Early exercise of short deep-ITM leg"
+      },
+      "greeks_profile": {
+        "delta": "Positive below strike, negative above (gravitates toward strike)",
+        "gamma": "NEGATIVE at strike (adverse delta movement)",
+        "theta": "POSITIVE at strike (earns time decay differentially)",
+        "vega": "POSITIVE (benefits from rising IV; long-dated has more vega)"
+      },
+      "notes": "Call and put calendars are synthetically equivalent (linked by jelly roll). Unique: positive theta AND positive vega simultaneously. Great when IV is low and market is sideways."
+    },
+
+    {
+      "id": 17,
+      "name": "Short Calendar Spread",
+      "type": "volatility",
+      "market_outlook": "breakout_from_current_level",
+      "source_chapter": 6,
+      "clarity_score": 8,
+      "completeness": 7,
+      "composition": {
+        "legs": [
+          {"action": "buy", "instrument": "call_or_put", "quantity": 1, "strike": "same", "expiry": "near_term"},
+          {"action": "sell", "instrument": "call_or_put", "quantity": 1, "strike": "same", "expiry": "deferred"}
+        ],
+        "cash_flow": "credit"
+      },
+      "entry_rules": {
+        "market_forecast": "Sharp movement away from strike in either direction",
+        "iv_conditions": "Best when IV is HIGH (sell expensive long-dated, buy cheap short-dated)",
+        "term_structure": "Favorable when short-dated IV is lower (upward sloping term structure)",
+        "advantage_over_straddle": "Short vega; benefits from IV decline after breakout"
+      },
+      "exit_rules": {
+        "failed_breakout": "Get out - forecast is wrong, time decay works against you",
+        "must_close_before_expiry": "Otherwise creates naked deferred-month position"
+      },
+      "risk_management": {
+        "max_risk": "Difference in option prices at short expiry (unquantifiable at entry)",
+        "max_reward": "Credit received"
+      },
+      "greeks_profile": {
+        "delta": "Negative below strike, positive above (moves favorably away from strike)",
+        "gamma": "POSITIVE (favorable delta movement on breakout)",
+        "theta": "NEGATIVE at strike (time decay hurts)",
+        "vega": "NEGATIVE (benefits from falling IV)"
+      },
+      "notes": "Breakout play with defined but unquantifiable risk. Better than long straddle when IV is high and expected to fall post-event."
+    },
+
+    {
+      "id": 18,
+      "name": "Call Ratio Spread",
+      "type": "directional/volatility",
+      "market_outlook": "mildly_bullish_declining_iv",
+      "source_chapter": 7,
+      "clarity_score": 9,
+      "completeness": 9,
+      "composition": {
+        "legs": [
+          {"action": "buy", "instrument": "call", "quantity": 1, "strike": "ATM_or_near", "expiry": "same"},
+          {"action": "sell", "instrument": "call", "quantity": 2, "strike": "OTM_higher", "expiry": "same"}
+        ],
+        "cash_flow": "credit_or_small_debit",
+        "common_ratios": ["1:2", "2:3", "1:4"]
+      },
+      "entry_rules": {
+        "market_forecast": "Slow, limited upward move toward short strike with declining IV",
+        "best_conditions": [
+          "Contratrend oversold bounce",
+          "Rally decelerating into resistance/congestion",
+          "Post-meltdown recovery",
+          "Volatility skew: buy low-IV strike, sell high-IV strike"
+        ],
+        "strike_selection": {
+          "long_strike": "ATM or near support",
+          "short_strike": "At target price / resistance level / congestion zone"
+        },
+        "iv_conditions": "High IV preferred (selling extra premium); expect IV to decline"
+      },
+      "exit_rules": {
+        "take_partial_profits": "Scale out as position profits",
+        "market_behavior_changes": "Exit if underlying accelerates beyond forecast",
+        "discipline": "Iron fist risk management - ratio spread punishes the greedy"
+      },
+      "adjustments": {
+        "cap_risk": "Buy additional call at higher strike to convert to butterfly",
+        "roll_shorts_up": "Buy back short calls, sell higher strikes (1:1 or ratioed)",
+        "adverse_move_down": "If done for credit, position may still profit; can hold for rebound"
+      },
+      "risk_management": {
+        "max_risk": "UNLIMITED to the upside above short strike",
+        "max_reward": "(K2-K1) + credit or - debit",
+        "downside_risk": "Limited to debit if done for debit; zero if done for credit"
+      },
+      "greeks_profile": {
+        "delta": "Positive (grows more positive with mild upward move and time)",
+        "gamma": "Negative near short strike; positive near long strike",
+        "theta": "Positive (benefits from time decay)",
+        "vega": "Negative (benefits from falling IV)"
+      },
+      "notes": "UNLIMITED RISK on one side. Essentially a one-winged butterfly. Can be viewed as bull call spread + extra short call. NOT for traders who cannot handle overnight risk. Convert to butterfly to cap risk if nervous."
+    },
+
+    {
+      "id": 19,
+      "name": "Put Ratio Spread",
+      "type": "directional/volatility",
+      "market_outlook": "mildly_bearish_declining_iv",
+      "source_chapter": 7,
+      "clarity_score": 9,
+      "completeness": 9,
+      "composition": {
+        "legs": [
+          {"action": "buy", "instrument": "put", "quantity": 1, "strike": "ATM_or_near", "expiry": "same"},
+          {"action": "sell", "instrument": "put", "quantity": 2, "strike": "OTM_lower", "expiry": "same"}
+        ],
+        "cash_flow": "credit_or_small_debit",
+        "common_ratios": ["1:2", "2:3"]
+      },
+      "entry_rules": {
+        "market_forecast": "Slow, limited downward move toward short strike with declining IV",
+        "best_conditions": [
+          "Contratrend overbought correction",
+          "Decline decelerating into support/congestion",
+          "Post-meltup correction"
+        ],
+        "strike_selection": {
+          "long_strike": "ATM or near resistance",
+          "short_strike": "At target price / support level / congestion zone"
+        }
+      },
+      "exit_rules": {
+        "same_as_call_ratio": "Scale out, exit on acceleration"
+      },
+      "adjustments": {
+        "cap_risk": "Buy additional put at lower strike to convert to butterfly",
+        "roll_shorts_down": "Buy back short puts, sell lower strikes"
+      },
+      "risk_management": {
+        "max_risk": "Substantial to the downside below short strike (to zero)",
+        "max_reward": "(K1-K2) + credit or - debit",
+        "upside_risk": "Limited to debit"
+      },
+      "greeks_profile": {
+        "delta": "Negative (grows more negative with mild down move and time)",
+        "gamma": "Negative near short strike",
+        "theta": "Positive",
+        "vega": "Negative"
+      },
+      "notes": "Mirror image of call ratio spread. Use for contratrend corrections. Convert to butterfly to manage risk."
+    },
+
+    {
+      "id": 20,
+      "name": "Call Backspread",
+      "type": "directional/volatility",
+      "market_outlook": "strongly_bullish_rising_iv",
+      "source_chapter": 8,
+      "clarity_score": 9,
+      "completeness": 9,
+      "composition": {
+        "legs": [
+          {"action": "sell", "instrument": "call", "quantity": 1, "strike": "ATM_or_near", "expiry": "same"},
+          {"action": "buy", "instrument": "call", "quantity": 2, "strike": "OTM_higher", "expiry": "same"}
+        ],
+        "cash_flow": "small_debit_or_credit",
+        "common_ratios": ["1:2", "1:3", "1:4"]
+      },
+      "entry_rules": {
+        "market_forecast": "High-magnitude, high-velocity upward breakout",
+        "catalysts": "Bullish news, earnings, takeovers, technical breakouts from consolidation",
+        "iv_conditions": "Enter when IV is LOW; benefits from rising IV (long vega)",
+        "timing": "CRITICAL - timing must be precise; wrong timing causes losses even with correct direction"
+      },
+      "exit_rules": {
+        "timing_wrong": "If breakout doesn't materialize quickly, time decay erodes position",
+        "between_strikes_danger": "Position can go negative delta between strikes near expiry",
+        "successful": "Roll long calls up via selling vertical spreads"
+      },
+      "risk_management": {
+        "max_risk": "(K2-K1) + debit or - credit. Maximum at short strike at expiry",
+        "max_reward": "Unlimited above upper breakeven",
+        "downside_risk": "Limited (possibly credit if done for credit)"
+      },
+      "greeks_profile": {
+        "delta": "Starts near zero; becomes increasingly positive on rally",
+        "gamma": "POSITIVE (delta accelerates favorably)",
+        "theta": "NEGATIVE (time decay hurts)",
+        "vega": "POSITIVE (benefits from rising IV)"
+      },
+      "notes": "Exact opposite of ratio spread. Leveraged directional play. Timing is everything - passage of time or falling IV can make position go negative delta BETWEEN strikes even if direction is correct. Danger zone: price stuck between strikes near expiry."
+    },
+
+    {
+      "id": 21,
+      "name": "Put Backspread",
+      "type": "directional/volatility",
+      "market_outlook": "strongly_bearish_rising_iv",
+      "source_chapter": 8,
+      "clarity_score": 9,
+      "completeness": 8,
+      "composition": {
+        "legs": [
+          {"action": "sell", "instrument": "put", "quantity": 1, "strike": "ATM_or_near", "expiry": "same"},
+          {"action": "buy", "instrument": "put", "quantity": 2, "strike": "OTM_lower", "expiry": "same"}
+        ],
+        "cash_flow": "small_debit_or_credit",
+        "common_ratios": ["1:2", "1:3", "1:4"]
+      },
+      "entry_rules": {
+        "market_forecast": "High-magnitude, high-velocity downward breakout",
+        "catalysts": "Bearish news, poor earnings, scandals, technical breakdowns",
+        "iv_conditions": "Enter when IV is LOW",
+        "timing": "CRITICAL"
+      },
+      "exit_rules": {
+        "same_as_call_backspread": "Time is enemy; exit if breakout fails to materialize"
+      },
+      "risk_management": {
+        "max_risk": "(K1-K2) + debit or - credit",
+        "max_reward": "Substantial to downside (to zero); limited to credit on upside"
+      },
+      "greeks_profile": {
+        "delta": "Starts near zero; becomes increasingly negative on selloff",
+        "gamma": "Positive",
+        "theta": "Negative",
+        "vega": "Positive"
+      },
+      "notes": "Mirror image of call backspread. Best for crash/panic scenarios. VIX spikes benefit this position via positive vega."
+    },
+
+    {
+      "id": 22,
+      "name": "Box Spread (Arbitrage/Pricing Tool)",
+      "type": "arbitrage",
+      "market_outlook": "neutral_pricing_tool",
+      "source_chapter": 2,
+      "clarity_score": 8,
+      "completeness": 7,
+      "composition": {
+        "legs": [
+          {"description": "Bull call spread + bear put spread (same strikes, same expiry)"},
+          {"description": "OR bear call spread + bull put spread (same strikes, same expiry)"}
+        ]
+      },
+      "entry_rules": {
+        "usage": "Pricing tool to determine whether call or put vertical offers better value",
+        "formula": "Box value = (K2 - K1) / (1 + r)^t",
+        "rules": {
+          "bull_spread": "If call ask + put bid > box: sell put spread. If < box: buy call spread",
+          "bear_spread": "If call bid + put ask > box: sell call spread. If < box: buy put spread"
+        }
+      },
+      "risk_management": {
+        "max_risk": "Near zero (neutral structure)",
+        "description": "No delta, gamma, theta, or vega. Pure interest rate component."
+      },
+      "notes": "Not a trading strategy per se but a critical tool for choosing between synthetically equivalent spreads. At expiration, box value always equals strike differential."
+    }
+  ],
+
+  "strategy_selection_matrix": {
+    "by_market_outlook": {
+      "strongly_bullish": ["Call Backspread", "Reverse Collar", "Bull Call Spread"],
+      "moderately_bullish": ["Bull Call Spread", "Bull Put Spread", "Covered Write", "Call Ratio Spread"],
+      "neutral_sideways": ["Long Butterfly", "Long Condor", "Long Iron Condor", "Short Straddle", "Short Strangle", "Long Calendar Spread", "Covered Write"],
+      "moderately_bearish": ["Bear Put Spread", "Bear Call Spread", "Put Ratio Spread"],
+      "strongly_bearish": ["Put Backspread", "Collar", "Bear Put Spread"],
+      "breakout_unknown_direction": ["Long Straddle", "Long Strangle", "Short Calendar Spread"]
+    },
+    "by_iv_environment": {
+      "high_iv": ["Credit spreads (bull put, bear call)", "Short straddle/strangle", "Covered writes", "Ratio spreads", "Short calendar spread"],
+      "low_iv": ["Debit spreads (bull call, bear put)", "Long straddle/strangle", "Backspreads", "Long calendar spread", "Long butterfly/condor"],
+      "iv_declining": ["Ratio spreads", "Short straddle/strangle", "Long butterfly/condor"],
+      "iv_rising": ["Backspreads", "Long straddle/strangle", "Long calendar spread"]
+    },
+    "by_risk_tolerance": {
+      "limited_risk_only": ["Vertical spreads", "Long butterfly/condor", "Long straddle/strangle", "Long calendar spread", "Backspreads"],
+      "moderate_risk": ["Covered writes", "Collars/reverse-collars (with stops)"],
+      "unlimited_risk_capable": ["Short straddle/strangle", "Ratio spreads"]
+    }
+  },
+
+  "common_adjustment_techniques": {
+    "rolling_verticals": "Sell vertical spread in profitable direction to lock in gains while maintaining exposure",
+    "rolling_to_butterfly": "Sell butterfly that overlaps current vertical to shift strikes up or down",
+    "capping_ratio_spread": "Buy additional wing option to convert ratio spread to limited-risk butterfly",
+    "calendar_rolling": "Buy calendar to roll long option, sell calendar to roll short option to next month",
+    "synthetic_exit": "Use synthetically equivalent position for better pricing on exit (especially when ITM options have wide spreads)"
+  },
+
+  "key_warnings_from_author": [
+    "There is no free lunch - every strategy has a corresponding risk",
+    "Long gamma always costs theta; short theta always has adverse gamma",
+    "Rate of return should NEVER be the deciding factor for covered writes",
+    "Short straddles/strangles are addictive but have unlimited risk",
+    "Long straddles/strangles look great on paper but time decay death is real",
+    "Ratio spreads punish the greedy - have an iron fist risk management plan",
+    "Backspreads can go negative delta between strikes if timing is wrong",
+    "Stop-loss orders do not protect when the market is closed (gap risk)",
+    "If your forecast is wrong, GET OUT. No hoping, no praying.",
+    "Covered writes are NOT fire-and-forget strategies despite TV advertising"
+  ]
+}

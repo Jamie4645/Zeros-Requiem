@@ -1,0 +1,503 @@
+{
+  "comparison_metadata": {
+    "books_compared": [
+      "Algorithmic Trading (Ernest Chan)",
+      "The Complete Turtle Trader (Michael Covel)",
+      "Day Trading the Currency Market 1st Ed (Kathy Lien)",
+      "Day Trading and Swing Trading the Currency Market 2nd Ed (Kathy Lien)",
+      "How to Make Money in Stocks (William O'Neil)",
+      "Market Wizards (Jack Schwager)",
+      "The New Market Wizards (Jack Schwager)",
+      "Stock Market Wizards (Jack Schwager)",
+      "Hedge Fund Market Wizards (Jack Schwager)",
+      "Fooled by Randomness (Nassim Taleb)",
+      "Trading in the Zone (Mark Douglas)",
+      "Option Spread Strategies (Anthony Saliba)",
+      "Option Volatility & Pricing (Sheldon Natenberg)"
+    ],
+    "generated_date": "2026-03-25",
+    "total_clusters": 14,
+    "total_strategies_across_books": 198,
+    "total_traders_referenced": 65
+  },
+  "clusters": [
+    {
+      "cluster_name": "Trend Following / Channel Breakout",
+      "category": "trend_following",
+      "strategies": [
+        "turtle_breakout.py",
+        "turtle_s2_55day.py",
+        "ema_trend_following.py"
+      ],
+      "books": [
+        "The Complete Turtle Trader",
+        "Market Wizards",
+        "The New Market Wizards",
+        "Hedge Fund Market Wizards",
+        "Algorithmic Trading"
+      ],
+      "traders": [
+        "Richard Dennis",
+        "William Eckhardt",
+        "Ed Seykota",
+        "Larry Hite",
+        "Jerry Parker",
+        "Tom Basso",
+        "Salem Abraham",
+        "Liz Cheval",
+        "Paul Rabar"
+      ],
+      "confidence": "very_high",
+      "overlap_description": "The most universally endorsed strategy type across all Schwager books. Dennis/Eckhardt's Turtle system (20/55-day channel breakouts), Seykota's EMA trend system, Hite's multi-market diversified trend system, Basso's volatility-normalized trend, and Parker's reduced-leverage adaptation all share the same core thesis: buy strength, sell weakness, ride trends, cut losses. The Turtle system is the most codified version with exact entry/exit/sizing rules. Chan's time-series momentum strategies (40-250 day lookback returns) are the academic formalization of the same concept.",
+      "key_differences": "Lookback periods vary widely (20-day Turtle vs 250-day academic). Dennis uses channel breakouts while Seykota uses EMA crossovers. Hite emphasizes extreme diversification (60+ markets, 1% risk max) vs Dennis's more concentrated approach (4 units per market, 2% risk). Parker reduced leverage for institutional money. Eckhardt advocates buying breakouts on strength (never retracements) while some implementations wait for pullbacks. Chan adds roll-return signals for futures.",
+      "sbrs_relevance": "HIGH - SBRS is a breakout + retest strategy which combines Turtle-style breakout detection with a retest filter. The channel breakout concept (new swing high/low) is directly analogous to Donchian channel breakouts. SBRS adds MA confirmation which aligns with Seykota's EMA philosophy."
+    },
+    {
+      "cluster_name": "Moving Average Systems",
+      "category": "trend_following",
+      "strategies": [
+        "ema_trend_following.py",
+        "schwartz_ma_pullback.py"
+      ],
+      "books": [
+        "Market Wizards",
+        "The New Market Wizards",
+        "Day Trading the Currency Market 1st Ed",
+        "Day Trading and Swing Trading 2nd Ed"
+      ],
+      "traders": [
+        "Marty Schwartz",
+        "Ed Seykota",
+        "William Eckhardt",
+        "Monroe Trout",
+        "Kathy Lien"
+      ],
+      "confidence": "very_high",
+      "overlap_description": "Moving averages are the single most agreed-upon useful indicator across all Market Wizards interviews. Schwartz uses 10-day EMA pullbacks for entry. Seykota uses EMA crossovers for trend detection. Eckhardt states MAs 'work if you add risk management' while dismissing RSI/stochastics/Fibonacci. Lien's Perfect Order strategy (10>20>50>100>200 SMA alignment) is the most complex MA-based system. All agree: MA cross direction = trend direction.",
+      "key_differences": "Schwartz buys pullbacks TO the MA (mean reversion within trend), while Eckhardt explicitly says don't buy retracements. Seykota uses exponential MAs; Lien uses simple MAs. Period lengths vary: Schwartz (10/20 EMA), Seykota (proprietary but ~10/30), Lien (10/20/50/100/200 SMA). Trout notes MAs are useful but warns against placing stops at obvious MA levels.",
+      "sbrs_relevance": "CRITICAL - SBRS uses WMA(9) and SMMA(7) crossovers as a core entry confirmation. The MA cross logic is directly descended from Schwartz/Seykota. The 4H trend context check (price above WMA on 4H) mirrors Lien's higher-timeframe trend confirmation."
+    },
+    {
+      "cluster_name": "Mean Reversion / Pairs Trading",
+      "category": "mean_reversion",
+      "strategies": [
+        "chan_kalman_mean_reversion.py",
+        "chan_bollinger_pairs.py"
+      ],
+      "books": [
+        "Algorithmic Trading",
+        "The New Market Wizards",
+        "Hedge Fund Market Wizards"
+      ],
+      "traders": [
+        "Ernest Chan",
+        "Ed Thorp",
+        "Gil Blake"
+      ],
+      "confidence": "high",
+      "overlap_description": "Chan provides the most complete codification of pairs trading: Johansen cointegration for multi-leg spreads, Kalman filter for dynamic hedge ratios (Sharpe 2.4), Bollinger band entries for binary signals, and half-life calculation for adaptive lookbacks. Thorp (Hedge Fund MW) pioneered statistical arbitrage at Princeton-Newport. Blake's mutual fund timing is a form of mean reversion. All share the premise that cointegrated asset pairs revert to a statistical equilibrium.",
+      "key_differences": "Chan offers three approaches: linear Z-score scaling, Bollinger band binary signals, and Kalman filter adaptive. Linear is simplest, Kalman is best-performing (Sharpe 2.4 vs 1.4 for linear on same pair). Thorp's stat arb is more complex (hundreds of pairs simultaneously). Blake exploits non-random behavior in fund NAVs. Chan emphasizes cointegration testing (Johansen/ADF) before trading - correlation alone is insufficient.",
+      "sbrs_relevance": "LOW - SBRS is a trend-following breakout strategy, not mean reversion. However, Chan's risk management (Kelly criterion, half-Kelly for safety) and his emphasis on stationarity testing before committing capital are directly applicable principles."
+    },
+    {
+      "cluster_name": "Breakout + Retest / False Breakout Filtering",
+      "category": "breakout",
+      "strategies": [
+        "lien_london_breakout.py",
+        "lien_inside_day_breakout.py",
+        "lien_asian_range_breakout.py"
+      ],
+      "books": [
+        "Day Trading the Currency Market 1st Ed",
+        "Day Trading and Swing Trading 2nd Ed",
+        "Market Wizards",
+        "The New Market Wizards"
+      ],
+      "traders": [
+        "Kathy Lien",
+        "Bruce Kovner",
+        "Richard Dennis"
+      ],
+      "confidence": "high",
+      "overlap_description": "Lien's strategies are the closest to SBRS logic among all the books analyzed. Her 'Filtering False Breakouts' strategy requires a 20-day high/low break, followed by a 2-day reversal, then a re-break within 3 days - almost exactly the SBRS breakout-retest pattern. Her 'Waiting for the Real Deal' exploits London session stop hunts followed by the real directional move. Kovner's congestion breakout waits for tight range compression then enters the breakout. All these strategies filter for quality breakouts rather than entering every channel break.",
+      "key_differences": "SBRS requires MA cross confirmation on top of the breakout-retest; Lien and Kovner do not. Lien uses fixed pip stops (20-30 pips) while SBRS uses ATR-based stops. Lien's time windows are very specific (3 days for reversal, 3 days for re-break) while SBRS uses bar counts (10 bars max retest wait). Kovner adds fundamental backdrop as a directional filter. Lien's strategies are forex-specific while SBRS targets Gold.",
+      "sbrs_relevance": "VERY HIGH - Lien's 'Filtering False Breakouts' and 'London Open Fake-Out' are the closest published strategies to SBRS. The breakout → retest → continuation framework is shared. SBRS adds the MA cross confirmation layer that these strategies lack."
+    },
+    {
+      "cluster_name": "Momentum / Growth Stock Systems",
+      "category": "momentum",
+      "strategies": [
+        "oneil_canslim_breakout.py"
+      ],
+      "books": [
+        "How to Make Money in Stocks",
+        "Market Wizards",
+        "The New Market Wizards",
+        "Stock Market Wizards"
+      ],
+      "traders": [
+        "William O'Neil",
+        "David Ryan",
+        "Richard Driehaus",
+        "Mark Minervini",
+        "Stuart Walton"
+      ],
+      "confidence": "high",
+      "overlap_description": "O'Neil's CAN SLIM is the most complete growth stock momentum system: 7-factor screening (earnings, sales, RS, institutional, market direction) + chart pattern breakouts (cup-with-handle, double bottom) on heavy volume. Driehaus (New MW) runs a more aggressive version - buying on gap-up days with accelerating earnings. Minervini (Stock MW) uses a refined screen with strict stage analysis. Ryan won the US Investing Championship 3 years using refined CAN SLIM. All agree: buy strength, buy leaders, cut losses at 7-8%, and let winners run.",
+      "key_differences": "O'Neil requires 7 factors aligned (very selective); Driehaus is more aggressive with fewer filters. O'Neil waits for base pattern breakouts; Driehaus buys on gap-up days (more aggressive entry). O'Neil uses 7-8% hard stop; Driehaus has no fixed stop. Minervini adds tighter stage analysis (only 1st-2nd stage bases). All are equity-only strategies.",
+      "sbrs_relevance": "LOW for direct strategy overlap (SBRS trades Gold, not stocks). MEDIUM for principles: the breakout-from-base concept parallels SBRS swing high/low breaks. O'Neil's loss-cutting discipline (7-8% max) aligns with SBRS risk management. The volume confirmation on breakouts is analogous to SBRS's ATR-based validation."
+    },
+    {
+      "cluster_name": "Time-Series Momentum / Commodity Trend",
+      "category": "momentum",
+      "strategies": [
+        "chan_momentum_copper.py"
+      ],
+      "books": [
+        "Algorithmic Trading",
+        "The Complete Turtle Trader",
+        "The New Market Wizards"
+      ],
+      "traders": [
+        "Ernest Chan",
+        "Tom Basso",
+        "Jerry Parker"
+      ],
+      "confidence": "high",
+      "overlap_description": "Chan formalizes time-series momentum: if an asset's trailing return over a lookback period is positive, go long; if negative, go short. Results vary by lookback/hold: TU (250/25) Sharpe 1.0, Brazilian Real (100/10) Sharpe 1.09, Copper (40/40) Sharpe 1.05, with 17-18% APR on commodities. Shorter lookbacks work better for commodities (supply-demand cycles are faster). Basso's volatility-normalized trend system is the risk management complement. Parker's Chesapeake Capital trades 30-65 markets using similar time-series momentum across all asset classes.",
+      "key_differences": "Chan uses simple return-over-lookback as the signal; traditional trend followers use MA crossovers or channel breakouts. Chan's optimal lookback is shorter for commodities (40 days) vs bonds (250 days). Basso normalizes position size by volatility; Chan uses Kelly criterion. Parker favors longer lookbacks (52-week MA).",
+      "sbrs_relevance": "MEDIUM - SBRS trades Gold which is a commodity. Chan's finding that shorter lookbacks work better for commodities supports SBRS's use of 1H/4H timeframes rather than daily/weekly. The momentum concept (trend continuation) is fundamental to SBRS's directional trades."
+    },
+    {
+      "cluster_name": "Forex Session Strategies",
+      "category": "session_breakout",
+      "strategies": [
+        "lien_london_breakout.py",
+        "lien_asian_range_breakout.py"
+      ],
+      "books": [
+        "Day Trading the Currency Market 1st Ed",
+        "Day Trading and Swing Trading 2nd Ed"
+      ],
+      "traders": [
+        "Kathy Lien"
+      ],
+      "confidence": "high",
+      "overlap_description": "Lien's session-based strategies exploit the structural behavior of forex markets across time zones. The Asian session forms tight ranges (consolidation), London open triggers breakouts (often with initial fake-outs as dealers hunt stops), and the US session provides follow-through. Key strategies: London Open Fake-Out (wait for stop hunt, then trade real direction), Asian Range Breakout (trade first decisive break of Asian session high/low), Double Zero Fade (fade round number psychological levels). The 8AM-12PM ET US/Europe overlap is identified as peak volatility.",
+      "key_differences": "London Breakout focuses on the initial fake-out/real-deal dynamic. Asian Range Breakout is simpler - just trade the first break of the range. Double Zero Fade is mean-reversion at round numbers. These target different market microstructure phenomena despite being session-based. All use 20-pip stops and 1:2 R:R.",
+      "sbrs_relevance": "MEDIUM - SBRS has a session filter (skip 16-20 GMT). Lien's finding that the US/Europe overlap is peak activity supports SBRS's optimal trading window. The stop-hunting behavior at London open is directly relevant to understanding Gold's intraday patterns."
+    },
+    {
+      "cluster_name": "Gap Trading / Overnight Gaps",
+      "category": "gap_trading",
+      "strategies": [],
+      "books": [
+        "Algorithmic Trading",
+        "Day Trading and Swing Trading 2nd Ed"
+      ],
+      "traders": [
+        "Ernest Chan",
+        "Kathy Lien"
+      ],
+      "confidence": "medium",
+      "overlap_description": "Chan documents two opposing gap phenomena: US equity gaps tend to mean-revert (buy the gap-down, short the gap-up - Sharpe 1.5 on SPX components), while European index gaps (FSTX) show momentum continuation (trade with the gap - Sharpe 1.4). The difference is attributed to information content: FSTX gaps at European open reflect overnight US news (genuine information), while US equity gaps are often order-flow imbalances. Lien's forex gap strategies are session-specific: Asian-to-London gaps often reverse, while London-to-NY gaps tend to continue.",
+      "key_differences": "Mean reversion (US stocks) vs momentum (European futures) on the same phenomenon (overnight gaps). Chan uses intraday-only holding. Lien's forex gaps are session transitions rather than overnight. The market and instrument determine which gap behavior dominates.",
+      "sbrs_relevance": "LOW - SBRS does not directly trade gaps. However, understanding gap behavior helps interpret Gold's opening moves at London and NY sessions."
+    },
+    {
+      "cluster_name": "Risk Management / Position Sizing Frameworks",
+      "category": "risk_management",
+      "strategies": [],
+      "books": [
+        "Algorithmic Trading",
+        "The Complete Turtle Trader",
+        "Market Wizards",
+        "The New Market Wizards",
+        "Hedge Fund Market Wizards",
+        "How to Make Money in Stocks",
+        "Fooled by Randomness",
+        "Trading in the Zone"
+      ],
+      "traders": [
+        "Richard Dennis",
+        "Larry Hite",
+        "Ernest Chan",
+        "Monroe Trout",
+        "William O'Neil",
+        "Nassim Taleb",
+        "Ray Dalio",
+        "Tom Basso"
+      ],
+      "confidence": "very_high",
+      "overlap_description": "The single most agreed-upon principle across ALL 13 books: risk management determines survival. Specific frameworks: Turtle N-system (2% risk per unit, ATR-based sizing, drawdown reduction rules), Chan's Kelly criterion (f = mean/variance, use half-Kelly), O'Neil's 7-8% hard stop, Trout's tiered limits (1.5% per trade, 4% per day, 10% per month), Hite's 1% max per trade across 60+ markets, Taleb's barbell (90% safe + 10% speculative), Dalio's 100+ uncorrelated streams. CPPI provides dynamic drawdown protection.",
+      "key_differences": "Turtle system is ATR-based and dynamic. Kelly criterion is mathematically optimal but requires stationary returns (unrealistic). O'Neil's is a simple fixed-percentage stop. Trout adds time-based limits (daily/monthly). Taleb's barbell is portfolio-level, not trade-level. Dalio's 100-stream approach requires massive diversification. The consensus is: 1-2% risk per trade, with half-Kelly or less for total leverage.",
+      "sbrs_relevance": "CRITICAL - SBRS uses 1% risk per trade, ATR-based stops, and breakeven management. The Turtle drawdown reduction rule (reduce by 20% for every 10% drawdown) should be considered. Chan's half-Kelly provides the mathematical foundation for optimal leverage."
+    },
+    {
+      "cluster_name": "Options Strategies / Volatility Trading",
+      "category": "options",
+      "strategies": [],
+      "books": [
+        "Option Spread Strategies",
+        "Option Volatility & Pricing",
+        "Market Wizards",
+        "Hedge Fund Market Wizards",
+        "Fooled by Randomness"
+      ],
+      "traders": [
+        "Anthony Saliba",
+        "Sheldon Natenberg",
+        "Tony Saliba (MW)",
+        "Jamie Mai (HFMW)",
+        "Nassim Taleb"
+      ],
+      "confidence": "high",
+      "overlap_description": "Saliba and Natenberg provide the comprehensive options strategy toolkit: 22 spread types each, from basic verticals to complex ratio spreads and backspreads. Core framework: high IV = sell premium (credit spreads, covered writes), low IV = buy premium (straddles, backspreads). Tony Saliba's butterfly+explosion strategy from Market Wizards combines time decay income (front-month butterflies) with volatility bets (back-month OTM options). Jamie Mai (HFMW) uses asymmetric options structures for macro bets. Taleb's barbell is philosophically similar: buy cheap OTM options for convex payoffs.",
+      "key_differences": "Natenberg is theoretical/educational; Saliba is practical/trade-execution. Natenberg emphasizes delta-neutral volatility trading; Saliba emphasizes directional spreads with defined risk. Tony Saliba uses butterflies for steady income; Jamie Mai uses options for asymmetric macro bets. Taleb buys options exclusively (never sells); Saliba both buys and sells strategically.",
+      "sbrs_relevance": "LOW for direct strategy overlap (SBRS trades spot/futures Gold, not options). MEDIUM for risk management: the concept of defined-risk positions (knowing max loss before entry) aligns with SBRS's pre-defined stop losses. Options could eventually be used to hedge SBRS positions."
+    },
+    {
+      "cluster_name": "Psychology / Discipline / Probabilistic Thinking",
+      "category": "psychology",
+      "strategies": [],
+      "books": [
+        "Trading in the Zone",
+        "Fooled by Randomness",
+        "Market Wizards",
+        "The New Market Wizards",
+        "Stock Market Wizards",
+        "Hedge Fund Market Wizards"
+      ],
+      "traders": [
+        "Mark Douglas",
+        "Nassim Taleb",
+        "Van Tharp",
+        "Charles Faulkner",
+        "Robert Krausz"
+      ],
+      "confidence": "very_high",
+      "overlap_description": "Douglas provides the 5 Fundamental Truths of trading (anything can happen, don't need to know what happens next, random distribution of wins/losses, edge = probability not certainty, every moment is unique) and the 7 Principles of Consistency. Taleb exposes survivorship bias, data mining fallacy, narrative fallacy, and the danger of confusing noise for signal. All Market Wizards interviews reinforce: think in probabilities, accept losses as cost of doing business, judge over 100+ trades not 1, and mechanical discipline beats discretionary impulse.",
+      "key_differences": "Douglas focuses on internal psychology (beliefs, mental states, emotional discipline). Taleb focuses on external epistemology (what we can know, randomness, rare events). Douglas says 'accept risk without pain'; Taleb says 'structure positions to profit from uncertainty'. Both arrive at the same conclusion: you cannot predict individual outcomes, only manage probability over many trials.",
+      "sbrs_relevance": "CRITICAL - The SBRS CLAUDE.md explicitly incorporates Douglas's 5 Fundamental Truths. The project philosophy ('think in probabilities, not predictions', 'judge over 100 trades, not 1') is directly from Douglas. Taleb's warnings about overfitting and data mining are the motivation for walk-forward validation."
+    },
+    {
+      "cluster_name": "Volatility Breakout / Range Expansion",
+      "category": "breakout",
+      "strategies": [
+        "lien_inside_day_breakout.py"
+      ],
+      "books": [
+        "Day Trading the Currency Market 1st Ed",
+        "Day Trading and Swing Trading 2nd Ed",
+        "Market Wizards",
+        "Algorithmic Trading"
+      ],
+      "traders": [
+        "Kathy Lien",
+        "Paul Tudor Jones",
+        "Linda Raschke"
+      ],
+      "confidence": "high",
+      "overlap_description": "The volatility contraction → expansion cycle is documented across multiple books. Lien's Inside Day Breakout (2+ inside days followed by range expansion) is the most codifiable version. Jones's range expansion concept (enter when daily range exceeds 1.5x average after compression) captures the same phenomenon. Raschke's first-hour range breakout is the intraday version. Lien's option volatility signal (1M IV < 3M IV = breakout imminent) provides a complementary volatility regime indicator.",
+      "key_differences": "Lien uses purely price-based inside day detection; Jones adds volatility quantification (1.5x average range). Lien has a stop-and-reverse mechanism for false breakouts; Jones uses time stops (exit if no follow-through in 2-3 days). Raschke's version is intraday (first hour); Lien and Jones use daily timeframes.",
+      "sbrs_relevance": "MEDIUM - SBRS has a choppy consolidation filter (skip if range < 1 ATR over 10 bars) which is the inverse of this concept. Understanding volatility expansion helps time SBRS entries: the best breakout-retest setups occur after periods of compression."
+    },
+    {
+      "cluster_name": "Macro / Multi-Asset Systematic",
+      "category": "macro",
+      "strategies": [],
+      "books": [
+        "Hedge Fund Market Wizards",
+        "Algorithmic Trading",
+        "The New Market Wizards"
+      ],
+      "traders": [
+        "Ray Dalio",
+        "Colm O'Shea",
+        "Stanley Druckenmiller",
+        "Ernest Chan"
+      ],
+      "confidence": "medium",
+      "overlap_description": "Dalio's All Weather framework (4 quadrants: growth up/down × inflation up/down) provides the theoretical basis for multi-asset allocation. O'Shea's hypothesis-testing macro approach uses asymmetric trade structures (defined-risk options/CDS). Druckenmiller focuses on central bank policy as the dominant driver. Chan's cross-asset strategies (VX-ES, XLE-USO) exploit structural relationships between asset classes.",
+      "key_differences": "Dalio is fully systematic with 100+ uncorrelated return streams. Druckenmiller is highly discretionary with concentrated bets. O'Shea uses hypothesis testing with defined-risk implementation. Chan provides the quantitative tools (cointegration, roll return) for systematic cross-asset strategies.",
+      "sbrs_relevance": "LOW for current SBRS (single instrument). HIGH for future portfolio expansion: understanding macro regimes helps allocate across Gold + indices. Dalio's framework could inform when to increase/decrease Gold allocation based on inflation expectations."
+    },
+    {
+      "cluster_name": "Deep Value / Contrarian / Fundamental",
+      "category": "value",
+      "strategies": [],
+      "books": [
+        "Stock Market Wizards",
+        "Hedge Fund Market Wizards"
+      ],
+      "traders": [
+        "Michael Lauer",
+        "Ahmet Okumus",
+        "Joel Greenblatt",
+        "Michael Platt"
+      ],
+      "confidence": "medium",
+      "overlap_description": "Lauer uses a 6-screen fundamental process (EV/EBITDA, P/E, insider buying, cash flow). Okumus buys stocks down 60-90% from highs with improving fundamentals. Greenblatt's Magic Formula (high ROIC + low EV/EBITDA) is the most systematic value approach. All are equity-only, fundamentals-driven strategies requiring deep company analysis. They represent the opposite end of the spectrum from trend following.",
+      "key_differences": "Lauer and Okumus are concentrated deep value (5-15 positions); Greenblatt is diversified formula-based (20-30 positions). Time horizons range from months (Okumus) to years (Greenblatt). None use technical analysis for entry timing. Risk management varies: Okumus uses 10-15% stops, Greenblatt holds regardless of price movement.",
+      "sbrs_relevance": "NONE - SBRS is a technical trend-following strategy on Gold. Value investing principles do not apply. Included for completeness of the cross-book comparison."
+    }
+  ],
+  "consensus_rules": [
+    {
+      "rule": "Never risk more than 1-2% of capital per trade",
+      "supporters": ["Dennis", "Seykota", "Hite", "Kovner", "Jones", "O'Neil", "Schwartz", "Trout", "Basso", "Chan"],
+      "books_count": 9,
+      "confidence": "very_high",
+      "sbrs_alignment": "ALIGNED - SBRS uses 1% per trade"
+    },
+    {
+      "rule": "Cut losses quickly and mechanically - never hope or average down",
+      "supporters": ["Dennis", "Seykota", "O'Neil", "Schwartz", "Douglas", "Eckhardt", "Kovner", "Driehaus"],
+      "books_count": 8,
+      "confidence": "very_high",
+      "sbrs_alignment": "ALIGNED - SBRS has fixed ATR-based stops"
+    },
+    {
+      "rule": "Let winners run - do not cut profits short",
+      "supporters": ["Dennis", "Seykota", "Hite", "Marcus", "Kovner", "Driehaus", "O'Neil"],
+      "books_count": 7,
+      "confidence": "very_high",
+      "sbrs_alignment": "PARTIALLY ALIGNED - SBRS uses 3R fixed take-profit. Consider trailing stop for larger winners."
+    },
+    {
+      "rule": "Moving averages are the most useful public indicator",
+      "supporters": ["Seykota", "Schwartz", "Eckhardt", "Trout", "Hite", "O'Neil", "Lien"],
+      "books_count": 7,
+      "confidence": "very_high",
+      "sbrs_alignment": "ALIGNED - SBRS uses WMA(9)/SMMA(7) crossovers"
+    },
+    {
+      "rule": "Think in probabilities over 100+ trades, not individual outcomes",
+      "supporters": ["Douglas", "Taleb", "Dennis", "Eckhardt", "Seykota", "Chan"],
+      "books_count": 6,
+      "confidence": "very_high",
+      "sbrs_alignment": "ALIGNED - Walk-forward validation over 1000+ trades"
+    },
+    {
+      "rule": "Mechanical systems outperform discretionary overrides",
+      "supporters": ["Eckhardt", "Trout", "Basso", "Blake", "Dennis"],
+      "books_count": 4,
+      "confidence": "high",
+      "sbrs_alignment": "ALIGNED - SBRS is fully systematic, no discretionary overrides"
+    },
+    {
+      "rule": "RSI, stochastics, Fibonacci, and Gann indicators have near-zero edge",
+      "supporters": ["Eckhardt", "Trout"],
+      "books_count": 2,
+      "confidence": "medium",
+      "sbrs_alignment": "ALIGNED - SBRS does not use any of these"
+    },
+    {
+      "rule": "Diversify across uncorrelated markets/strategies",
+      "supporters": ["Hite", "Dalio", "Parker", "Dennis", "Basso", "Chan"],
+      "books_count": 6,
+      "confidence": "very_high",
+      "sbrs_alignment": "IN PROGRESS - Currently Gold only, expanding to indices"
+    },
+    {
+      "rule": "Reduce position size during drawdowns",
+      "supporters": ["Dennis", "Jones", "Schwartz", "Marcus", "Trout"],
+      "books_count": 5,
+      "confidence": "high",
+      "sbrs_alignment": "NOT YET IMPLEMENTED - Consider Turtle rule: reduce 20% per 10% drawdown"
+    },
+    {
+      "rule": "Trade only in the direction of the higher timeframe trend",
+      "supporters": ["Seykota", "Lien", "O'Neil", "Schwartz", "Eckhardt"],
+      "books_count": 5,
+      "confidence": "very_high",
+      "sbrs_alignment": "ALIGNED - SBRS checks 4H trend before 1H entries"
+    },
+    {
+      "rule": "Volume/ATR confirmation on breakouts improves signal quality",
+      "supporters": ["O'Neil", "Lien", "Dennis", "Kovner"],
+      "books_count": 4,
+      "confidence": "high",
+      "sbrs_alignment": "PARTIALLY ALIGNED - SBRS uses ATR for stops but not explicitly for breakout validation"
+    },
+    {
+      "rule": "Use half-Kelly or less for position sizing leverage",
+      "supporters": ["Chan", "Taleb", "Thorp"],
+      "books_count": 3,
+      "confidence": "high",
+      "sbrs_alignment": "ALIGNED - SBRS uses conservative fixed 1% risk (well below Kelly)"
+    }
+  ],
+  "contradictions": [
+    {
+      "topic": "Buy breakouts vs buy retracements",
+      "side_a": {
+        "position": "Buy breakouts on strength - never buy retracements",
+        "supporters": ["Eckhardt", "Dennis", "Driehaus", "O'Neil"],
+        "rationale": "If market retraced enough to matter, the trade isn't as good. Strong markets don't pull back to comfortable buy levels."
+      },
+      "side_b": {
+        "position": "Buy pullbacks to moving averages in established trends",
+        "supporters": ["Schwartz", "Lien", "SBRS"],
+        "rationale": "Waiting for a retest/pullback improves risk:reward and filters out false breakouts. Entry near support gives tighter stops."
+      },
+      "resolution": "Both are profitable approaches with different tradeoffs. Breakout-buying catches more of the move but has more false signals. Pullback-buying has better R:R but misses moves that never pull back. SBRS's breakout+retest hybrid is a valid middle ground."
+    },
+    {
+      "topic": "Fixed take-profit vs ride the trend",
+      "side_a": {
+        "position": "Never use fixed take-profit targets - ride trends until they reverse",
+        "supporters": ["Dennis", "Seykota", "Hite", "Basso"],
+        "rationale": "A few huge winners pay for all the losers. Fixed targets cap your best trades."
+      },
+      "side_b": {
+        "position": "Take profits at defined targets (20-25% for stocks, 2-3R for forex)",
+        "supporters": ["O'Neil", "Lien", "Schwartz"],
+        "rationale": "Most trades don't become huge winners. Taking profits locks in gains and maintains high win rate."
+      },
+      "resolution": "Depends on the strategy type and holding period. Trend followers (daily/weekly) should let winners run. Intraday/session traders should take defined profits. SBRS's 3R target is appropriate for its 1H timeframe and 40-bar max hold."
+    },
+    {
+      "topic": "Simple vs complex systems",
+      "side_a": {
+        "position": "Systems should have 3-4 parameters maximum. Simplicity is robustness.",
+        "supporters": ["Eckhardt", "Basso", "Dennis"],
+        "rationale": "More parameters = more overfitting. If results don't sock you in the eye, not worth pursuing."
+      },
+      "side_b": {
+        "position": "Multiple factor confirmation improves signal quality",
+        "supporters": ["O'Neil", "Lien", "Weinstein"],
+        "rationale": "Multiple independent confirmations (fundamentals + technicals + volume + market direction) reduce false signals."
+      },
+      "resolution": "Eckhardt's advice applies to parameter optimization (don't curve-fit). O'Neil's multi-factor approach works because each factor is independently validated, not optimized together. SBRS uses 5 entry conditions but only 2 are parameterized (WMA/SMMA periods and ATR lookback). The rest are structural (breakout, retest, trend direction)."
+    },
+    {
+      "topic": "Mean reversion vs momentum as primary edge",
+      "side_a": {
+        "position": "Mean reversion is the dominant edge at short timeframes",
+        "supporters": ["Chan", "Schwartz", "Blake"],
+        "rationale": "Short-term price movements tend to revert. Intraday mean reversion has highest Sharpe ratios."
+      },
+      "side_b": {
+        "position": "Momentum/trend following is the dominant edge",
+        "supporters": ["Dennis", "Seykota", "Hite", "Eckhardt"],
+        "rationale": "Trends persist at all timeframes. The biggest profits come from riding extended moves."
+      },
+      "resolution": "Chan resolves this directly: short timeframes (intraday to days) favor mean reversion; long timeframes (weeks to months) favor momentum. SBRS operates on 1H/4H timeframes which straddle the boundary, using trend-following logic with specific entry conditions."
+    },
+    {
+      "topic": "Concentration vs diversification",
+      "side_a": {
+        "position": "Concentrate in 4-7 best ideas for maximum impact",
+        "supporters": ["O'Neil", "Driehaus", "Druckenmiller", "Soros"],
+        "rationale": "Diversification is a hedge against ignorance. If you have high conviction, bet big."
+      },
+      "side_b": {
+        "position": "Diversify across 30-60+ markets and multiple strategies",
+        "supporters": ["Hite", "Dalio", "Parker", "Dennis", "Basso"],
+        "rationale": "No single trade or market should matter. Diversification is the only free lunch in finance."
+      },
+      "resolution": "Depends on asset class and strategy type. Equity growth investors (O'Neil) concentrate because alpha comes from stock selection. Futures trend followers (Hite) diversify because alpha comes from being in the right markets when trends emerge. SBRS should diversify across multiple markets (Gold + indices) per the project roadmap."
+    }
+  ]
+}

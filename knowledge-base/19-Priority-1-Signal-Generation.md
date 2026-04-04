@@ -1,7 +1,7 @@
 ---
 tags: [priority, signal-generation, SCAF, optimisation]
 aliases: [P1 Signal Generation]
-related: [[17-SCAF-2.0-Architecture]], [[18-SCAF-Session-Results]], [[20-Priority-2-Gold-Daily-Fix]], [[00-MOC-Zeros-Requiem]]
+related: [[20-Priority-2-Gold-Daily-Fix]], [[00-MOC-Zeros-Requiem]], [[43-Phase-6-SCAF-Removal]]
 ---
 
 # Priority 1: Increase Signal Generation

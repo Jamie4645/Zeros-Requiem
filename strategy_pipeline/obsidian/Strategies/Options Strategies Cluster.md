@@ -1,0 +1,98 @@
+---
+tags: [pipeline, strategy-cluster, options, volatility]
+aliases: [Options Cluster, Options Strategies, Volatility Trading]
+---
+
+# Options Strategies / Volatility Trading Cluster
+
+> **Confidence:** High | **Books:** 5/13 | **Traders:** 5 | **Strategies:** 0
+
+---
+
+## Overview
+
+Saliba and Natenberg provide the comprehensive options strategy toolkit: 22 spread types each, from basic verticals to complex ratio spreads and backspreads. The core framework: high IV = sell premium (credit spreads, covered writes), low IV = buy premium (straddles, backspreads). Tony Saliba's butterfly+explosion strategy from Market Wizards combines time decay income (front-month butterflies) with volatility bets (back-month OTM options). Jamie Mai uses asymmetric options structures for macro bets. Taleb's barbell is philosophically similar: buy cheap OTM options for convex payoffs.
+
+No strategy `.py` files were generated because options strategies require fundamentally different execution infrastructure (options chain data, Greeks calculation, multi-leg order routing).
+
+---
+
+## Supporting Traders
+
+| Trader | Book | System | Key Contribution |
+|--------|------|--------|-----------------|
+| Anthony Saliba | [[Option Spread Strategies - Book Analysis]] | 22 Spread Types | Comprehensive practical toolkit: verticals, butterflies, condors, ratio spreads |
+| Sheldon Natenberg | [[Option Volatility and Pricing - Book Analysis]] | Volatility Framework | Theoretical foundation: IV vs HV, Greeks, delta-neutral trading, pricing models |
+| Tony Saliba (MW) | [[Market Wizards - Book Analysis]] | Butterfly + Explosion | Time decay income (butterflies) + volatility bets (OTM options). "I never lose more than $500 on a butterfly." |
+| Jamie Mai | [[Hedge Fund Market Wizards - Book Analysis]] | Asymmetric Macro Options | Defined-risk options structures for macro thesis bets (e.g., subprime CDS) |
+| Nassim Taleb | [[Fooled by Randomness - Book Analysis]] | OTM Option Buying | Buy cheap OTM options for convex payoffs; never sell premium |
+
+---
+
+## Strategy Files
+
+No strategy `.py` files for this cluster. Options strategies require different infrastructure than SBRS's spot/futures execution.
+
+---
+
+## Core Frameworks
+
+### High IV Environment (Sell Premium)
+- Credit spreads (bull put, bear call)
+- Iron condors (range-bound income)
+- Covered writes
+- Short straddles/strangles (high-risk income)
+
+### Low IV Environment (Buy Premium)
+- Long straddles/strangles (volatility expansion bets)
+- Backspreads (asymmetric risk:reward)
+- Debit spreads
+- Calendar spreads (exploit term structure)
+
+### Key Principles
+1. **IV vs HV determines strategy selection.** Natenberg: if IV > HV, sell premium; if IV < HV, buy premium.
+2. **Define risk before entry.** Saliba: every position should have known max loss. Spreads provide this naturally.
+3. **Manage by the Greeks.** Delta-neutral trading, gamma scalping, theta collection, vega exposure management.
+4. **Time decay is the edge for sellers.** Tony Saliba's butterfly income exploits time decay while limiting risk.
+5. **Convexity is the edge for buyers.** Taleb and Mai both structure positions for asymmetric payoffs.
+
+---
+
+## Key Differences
+
+- **Natenberg is theoretical/educational; Saliba is practical/trade-execution focused**
+- **Natenberg emphasizes delta-neutral volatility trading; Saliba emphasizes directional spreads with defined risk**
+- **Tony Saliba uses butterflies for steady income; Jamie Mai uses options for asymmetric macro bets**
+- **Taleb buys options exclusively (never sells); Saliba both buys and sells strategically**
+
+---
+
+## SBRS Relevance
+
+> **Rating: LOW for direct overlap, MEDIUM for risk concepts**
+
+| Cluster Rule | SBRS Implementation | Alignment |
+|-------------|---------------------|-----------|
+| Defined risk before entry | Pre-defined ATR-based stop loss | Aligned principle |
+| Asymmetric payoffs | 3:1 minimum R:R | Aligned principle |
+| IV as regime indicator | Not implemented | Potential enhancement — Lien's IV signal for breakout timing |
+
+**Assessment:** SBRS trades spot/futures Gold, not options. The direct strategy overlap is minimal. However, the concept of defined-risk positions (knowing max loss before entry) aligns with SBRS's pre-defined stop losses. The asymmetric payoff structure (limited loss, larger potential gain) mirrors SBRS's 3:1 R:R requirement. Options could eventually be used to hedge SBRS positions during high-drawdown periods.
+
+---
+
+## Links
+
+- [[Risk Management Cluster]] — Related: risk definition frameworks
+- [[Market Psychology Cluster]] — Related: Taleb's epistemological framework
+- [[Option Spread Strategies - Book Analysis]]
+- [[Option Volatility and Pricing - Book Analysis]]
+- [[Market Wizards - Book Analysis]]
+- [[Hedge Fund Market Wizards - Book Analysis]]
+- [[Fooled by Randomness - Book Analysis]]
+- [[Strategy Comparison Overview]] — All clusters
+- [[Master Report]] — Full pipeline output
+
+---
+
+*Generated by Strategy Extraction Pipeline v3 — 2026-03-25*

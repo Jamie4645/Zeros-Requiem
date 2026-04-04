@@ -6,7 +6,48 @@
       "WebSearch",
       "Bash(npm install:*)",
       "Bash(mkdir -p \"C:/Users/jamie/OneDrive/Documents/Jamie VS Code/Git/Zeros Requiem/.claude/skills/backtest\")",
-      "Bash(mkdir -p \"C:/Users/jamie/OneDrive/Documents/Jamie VS Code/Git/Zeros Requiem/.claude/skills/live-status\")"
+      "Bash(mkdir -p \"C:/Users/jamie/OneDrive/Documents/Jamie VS Code/Git/Zeros Requiem/.claude/skills/live-status\")",
+      "Bash(python -m src.data.migrate_to_sqlite)",
+      "Bash(python -m pytest tests/test_sbrs_indicators.py -v --tb=short)",
+      "Bash(venv/Scripts/pip install:*)",
+      "Bash(venv/Scripts/pip3.exe install:*)",
+      "Bash(venv/Scripts/python.exe -m pytest tests/test_sbrs_indicators.py -v --tb=short)",
+      "Bash(venv/Scripts/python.exe -m pytest tests/test_engine_validation.py -v --tb=short)",
+      "Bash(venv/Scripts/python.exe -c \"from src.data.fetcher import fetch; print\\(''Import OK''\\)\")",
+      "Bash(venv/Scripts/python.exe -c \"from src.data.ibkr_fetcher import is_ibkr_available, is_ibkr_instrument; print\\(f''IBKR available: {is_ibkr_available\\(\\)}''\\); print\\(f''GSPC is IBKR: {is_ibkr_instrument\\(\"\"^GSPC\"\"\\)}''\\)\")",
+      "Bash(venv/Scripts/python.exe -m pytest tests/test_sbrs_indicators.py tests/test_engine_validation.py -v --tb=short)",
+      "Bash(venv/Scripts/python.exe -m src.data.ibkr_fetcher)",
+      "Bash(venv/Scripts/python.exe -c \":*)",
+      "Read(//c/Users/jamie/.claude/**)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\(''''mcpServers'''', {}\\), indent=2\\)\\)\")",
+      "Bash(python3 -m json.tool)",
+      "Bash(npx --yes @anthropic/mcp-server-sqlite --help)",
+      "Bash(npx --yes @modelcontextprotocol/server-sqlite --help)",
+      "Bash(npm search:*)",
+      "Bash(uvx mcp-server-sqlite:*)",
+      "Bash(pip show:*)",
+      "Bash(pip3 show:*)",
+      "Bash(python -m mcp_server_sqlite --help)",
+      "Bash(uv --version)",
+      "Bash(python -m pip show mcp)",
+      "Bash(powershell -Command \"irm https://astral.sh/uv/install.ps1 | iex\" 2>&1)",
+      "Bash(powershell -ExecutionPolicy Bypass -Command \"irm https://astral.sh/uv/install.ps1 | iex\" 2>&1)",
+      "Bash(/c/Users/jamie/.local/bin/uvx --version 2>&1)",
+      "Bash(/c/Users/jamie/.local/bin/uvx mcp-server-sqlite:*)",
+      "Bash(py main.py --walk-forward ^GSPC --interval 1h --windows 8)",
+      "Bash(py main.py --walk-forward ^IXIC --interval 1h --windows 8)",
+      "Bash(py main.py --walk-forward ^GDAXI --interval 1h --windows 8)",
+      "Bash(venv/Scripts/python.exe main.py --walk-forward GC=F --interval 1h --windows 8)",
+      "Bash(venv/Scripts/python.exe main.py --symbol ^GSPC --interval 1h --period 2y --monte-carlo)",
+      "Bash(venv/Scripts/python.exe main.py --symbol ^IXIC --interval 1h --period 2y --monte-carlo)",
+      "Bash(venv/Scripts/python.exe main.py --symbol ^GDAXI --interval 1h --period 2y --monte-carlo)",
+      "Bash(venv/Scripts/python.exe main.py --walk-forward ^GSPC --interval 1h --windows 8)",
+      "Bash(venv/Scripts/python.exe main.py --walk-forward ^IXIC --interval 1h --windows 8)",
+      "Bash(venv/Scripts/python.exe main.py --walk-forward ^GDAXI --interval 1h --windows 8)",
+      "Bash(venv/Scripts/python.exe main.py --symbol GC=F --interval 1h --period 10y --monte-carlo)",
+      "Skill(update-config)",
+      "Bash(python -c \":*)",
+      "Bash(python strategy_pipeline/run_all_backtests.py)"
     ]
   },
   "hooks": {
@@ -33,6 +74,14 @@
       "args": [
         "-y",
         "@anthropic/sequential-thinking-mcp"
+      ]
+    },
+    "sqlite": {
+      "command": "C:/Users/jamie/.local/bin/uvx.exe",
+      "args": [
+        "mcp-server-sqlite",
+        "--db-path",
+        "C:/Users/jamie/OneDrive/Documents/Jamie VS Code/Git/Zeros Requiem/data/zeros_requiem.db"
       ]
     }
   }

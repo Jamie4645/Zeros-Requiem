@@ -27,7 +27,7 @@ MARKETS = [
     ('^GSPC',     '1h', '1y', 'indices'),
     ('^IXIC',     '1h', '1y', 'indices'),
     ('^GDAXI',    '1h', '1y', 'indices'),
-    # Forex REMOVED from SBRS — poisoned portfolio, use SCAF killzone instead
+    # Forex REMOVED from SBRS — no consistent edge with breakout-retest logic
 ]
 
 print("=" * 80)

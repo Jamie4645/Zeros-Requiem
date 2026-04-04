@@ -1,1 +1,1 @@
-# Regime-specific trading logic
+# SBRS strategy implementations

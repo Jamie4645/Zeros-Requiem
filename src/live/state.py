@@ -12,6 +12,7 @@ State is stored as JSON in the project root (state/sbrs_state.json).
 
 import json
 import os
+import sqlite3
 from datetime import datetime, date
 from pathlib import Path
 from typing import List, Dict, Optional, Any
@@ -20,6 +21,7 @@ from dataclasses import dataclass, field, asdict
 
 STATE_DIR = Path(__file__).resolve().parent.parent.parent / 'state'
 STATE_FILE = STATE_DIR / 'sbrs_state.json'
+DB_PATH = Path(__file__).resolve().parent.parent.parent / 'data' / 'zeros_requiem.db'
 
 
 @dataclass
@@ -157,9 +159,64 @@ def add_open_trade(state: AlgoState, trade: LiveTrade) -> None:
     state.total_trades += 1
 
 
+def _write_trade_to_sqlite(trade: Dict, strategy: str = 'SBRS 1.1',
+                           symbol: str = 'GC=F') -> None:
+    """Write a closed trade to SQLite database (best-effort, never blocks runner)."""
+    if not DB_PATH.exists():
+        return
+
+    try:
+        conn = sqlite3.connect(str(DB_PATH), timeout=5)
+        # Compute R-multiple
+        entry = trade.get('entry_price', 0)
+        original_sl = trade.get('original_sl', 0)
+        exit_price = trade.get('exit_price', 0)
+        direction = trade.get('direction', 'long')
+        initial_risk = abs(entry - original_sl)
+        if initial_risk > 0:
+            profit = (exit_price - entry) if direction == 'long' else (entry - exit_price)
+            r_mult = profit / initial_risk
+        else:
+            r_mult = 0.0
+
+        conn.execute("""
+            INSERT OR IGNORE INTO trades (
+                trade_id, oanda_trade_id, strategy, symbol, direction,
+                entry_price, exit_price, stop_loss, take_profit, original_sl,
+                position_size, entry_time, exit_time, exit_reason, pnl,
+                r_multiple, bars_held, stop_moved_to_be, regime, status
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            trade.get('trade_id', ''),
+            trade.get('oanda_trade_id', ''),
+            strategy,
+            symbol,
+            direction,
+            entry,
+            exit_price,
+            trade.get('stop_loss', 0),
+            trade.get('take_profit', 0),
+            original_sl,
+            trade.get('position_size', 0),
+            trade.get('entry_time', ''),
+            trade.get('exit_time', ''),
+            trade.get('exit_reason', ''),
+            trade.get('pnl', 0),
+            r_mult,
+            trade.get('bars_held', 0),
+            1 if trade.get('stop_moved_to_be', False) else 0,
+            trade.get('regime', 'sbrs_gold'),
+            trade.get('status', 'closed'),
+        ))
+        conn.commit()
+        conn.close()
+    except Exception:
+        pass  # Never let DB errors block the runner
+
+
 def close_trade(state: AlgoState, oanda_trade_id: str, exit_price: float,
                 exit_reason: str, pnl: float) -> Optional[Dict]:
-    """Close an open trade, move to history."""
+    """Close an open trade, move to history, and write to SQLite."""
     for i, t in enumerate(state.open_trades):
         if t['oanda_trade_id'] == oanda_trade_id:
             t['status'] = f'closed_{exit_reason}'
@@ -167,21 +224,24 @@ def close_trade(state: AlgoState, oanda_trade_id: str, exit_price: float,
             t['exit_time'] = datetime.utcnow().isoformat() + 'Z'
             t['exit_reason'] = exit_reason
             t['pnl'] = pnl
-            
+
             state.trade_history.append(t)
             state.open_trades.pop(i)
-            
+
             state.current_capital += pnl
             state.daily_pnl += pnl
-            
+
             if pnl > 0:
                 state.total_wins += 1
             else:
                 state.total_losses += 1
-            
+
             if state.current_capital > state.peak_equity:
                 state.peak_equity = state.current_capital
-            
+
+            # Write to SQLite (best-effort)
+            _write_trade_to_sqlite(t, state.strategy, state.symbol)
+
             return t
     return None
 

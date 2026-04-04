@@ -1,0 +1,936 @@
+{
+  "book_metadata": {
+    "title": "Hedge Fund Market Wizards: How Winning Traders Win",
+    "author": "Jack D. Schwager",
+    "year": 2012,
+    "total_traders": 15,
+    "total_strategies_extracted": 18,
+    "parts": [
+      "Part One: Macro Men (Chapters 1-4)",
+      "Part Two: Multi-Strategy Players (Chapters 5-8)",
+      "Part Three: Equity Traders (Chapters 9-15)"
+    ],
+    "focus": "Hedge fund managers across macro, systematic, and equity strategies"
+  },
+  "traders": [
+    {
+      "name": "Colm O'Shea",
+      "chapter": 1,
+      "fund": "COMAC Capital (formerly at Soros Fund Management)",
+      "style": "Discretionary Global Macro",
+      "codifiability": "low",
+      "performance": {
+        "notes": "Managed money for Soros; specific returns not disclosed in text"
+      },
+      "key_rules": [
+        "Formulate hypothesis, then test it against market action - if market disagrees, hypothesis is wrong",
+        "Participate in bubbles from the LONG side, never short a bubble until it breaks",
+        "Implement trades via asymmetric structures (options, CDS, TED spreads) where max loss is defined",
+        "Set stops at the price where your thesis is disproven, not at your pain threshold",
+        "If stop implies uncomfortable loss, reduce position size rather than tightening stop",
+        "Trade implementation can be more important than the trade idea itself",
+        "Long bonds instead of short stocks when expecting equity bear market (avoids bear market rally whipsaws)"
+      ],
+      "strategies_extracted": ["macro_hypothesis_testing", "asymmetric_trade_implementation"]
+    },
+    {
+      "name": "Ray Dalio",
+      "chapter": 2,
+      "fund": "Bridgewater Associates",
+      "style": "Fundamental Systematic (Macro)",
+      "codifiability": "medium",
+      "performance": {
+        "pure_alpha_return": "~15% annualized net (since 1991)",
+        "max_drawdown": "Worst year was negative single digits",
+        "notes": "Manages $100B+, largest hedge fund in the world"
+      },
+      "key_rules": [
+        "Build 100+ uncorrelated return streams across all asset classes",
+        "All Weather portfolio: 4 quadrants (growth increasing/decreasing x inflation increasing/decreasing)",
+        "Depression gauge: monitor interest rates, credit growth, stock market, credit spreads simultaneously",
+        "Timeless and universal approach - if it only works in one period or one market, reject it",
+        "12-18 month average holding period",
+        "Always stress-test against 1930s depression scenario",
+        "Deleveraging cycles behave differently from recessions - same policy responses have different effects",
+        "Mistakes are essential learning opportunities - document every one"
+      ],
+      "strategies_extracted": ["all_weather_quadrant", "depression_gauge", "fundamental_systematic_macro"]
+    },
+    {
+      "name": "Larry Benedict",
+      "chapter": 3,
+      "fund": "Banyan Equity Management",
+      "style": "Discretionary Mean Reversion / Correlation Trading",
+      "codifiability": "medium",
+      "performance": {
+        "annual_return": "~11% annualized net",
+        "max_drawdown": "<5%",
+        "losing_months": "Very few, extremely consistent",
+        "notes": "19 of 20 years profitable, only losing year was -0.6%"
+      },
+      "key_rules": [
+        "100-200 trades per day, extremely active market maker style",
+        "3-day rule: after 3 consecutive up/down days, look for reversal",
+        "Monthly drawdown limit: at 2.0-2.5% loss, liquidate ALL positions and trade tiny until recovered",
+        "Intermarket hedging: use correlated instruments to offset directional risk",
+        "Never trade to reach a profit target - only trade when opportunity presents itself",
+        "Scale positions based on conviction and market conditions"
+      ],
+      "strategies_extracted": ["mean_reversion_correlation", "monthly_drawdown_circuit_breaker"]
+    },
+    {
+      "name": "Scott Ramsey",
+      "chapter": 4,
+      "fund": "Denali Asset Management (CTA)",
+      "style": "Fundamental Bias + Technical Timing (Macro)",
+      "codifiability": "medium-high",
+      "performance": {
+        "annual_return": "~17% annualized",
+        "notes": "Managed futures, strong risk-adjusted returns"
+      },
+      "key_rules": [
+        "Develop fundamental bias (bullish/bearish), then use technicals for precise entry",
+        "Buy strongest instrument in sector, sell weakest (intermarket divergence)",
+        "Risk only 10 basis points (0.1%) per individual trade",
+        "Use RSI divergence to detect trend exhaustion",
+        "200-day MA as primary trend filter",
+        "Fibonacci retracements for entry levels on pullbacks",
+        "Watch how correlated markets respond - divergence signals opportunity",
+        "Commodity vs equity divergence as leading indicator"
+      ],
+      "strategies_extracted": ["fundamental_bias_technical_timing", "intermarket_divergence", "micro_risk_per_trade"]
+    },
+    {
+      "name": "Jaffray Woodriff",
+      "chapter": 5,
+      "fund": "Quantitative Investment Management (QIM)",
+      "style": "Systematic Pattern Recognition (The Third Way)",
+      "codifiability": "high",
+      "performance": {
+        "annual_return": "~12% annualized net",
+        "sharpe_ratio": ">1.0",
+        "notes": "Systematic futures trading, hundreds of models"
+      },
+      "key_rules": [
+        "Neither pure trend following nor pure mean reversion - uses 1000+ models from secondary variables",
+        "Derive signals from transformations of OHLC data (not raw prices)",
+        "Aggressive cross-validation to prevent overfitting: test on out-of-sample data ruthlessly",
+        "Volatility-adjusted position sizing across all models",
+        "Cut exposure by 75% when volatility quadruples (as in 2008)",
+        "Continuous research and model evolution - static systems degrade",
+        "Diversify across many weakly correlated models rather than concentrating on few strong ones"
+      ],
+      "strategies_extracted": ["secondary_variable_pattern_recognition", "multi_model_ensemble"]
+    },
+    {
+      "name": "Edward Thorp",
+      "chapter": 6,
+      "fund": "Princeton Newport Partners",
+      "style": "Statistical Arbitrage / Convertible Arbitrage",
+      "codifiability": "high",
+      "performance": {
+        "annual_return": "~19% gross annualized over 20 years",
+        "max_drawdown": "Very small",
+        "notes": "Never had a losing year in 20 years of fund management; pioneer of quantitative finance"
+      },
+      "key_rules": [
+        "Kelly criterion for position sizing: bet half-Kelly to reduce volatility while capturing most of the growth",
+        "Convertible arbitrage: buy underpriced convertible bonds, short the stock to hedge",
+        "MUD strategy (evolved to statistical arbitrage): buy underperforming stocks, short outperforming stocks",
+        "Sector-neutral then factor-neutral portfolio construction to isolate alpha",
+        "60-day lookback for correlation matrix in stat arb",
+        "Trend following with fundamental filters as supplementary strategy",
+        "Arbitrage trades: do NOT reduce on drawdowns (theoretical max loss is defined)",
+        "Directional trades: DO reduce exposure on drawdowns (open-ended risk)",
+        "Systems must adapt or degrade - went through 3 major iterations of stat arb"
+      ],
+      "strategies_extracted": ["convertible_arbitrage", "statistical_arbitrage_mud", "kelly_criterion_sizing", "trend_following_with_fundamental_filter"]
+    },
+    {
+      "name": "Jamie Mai",
+      "chapter": 7,
+      "fund": "Cornwall Capital",
+      "style": "Asymmetric Options / Mispriced Distributions",
+      "codifiability": "medium",
+      "performance": {
+        "annual_return": "~40% gross annualized (2002-2011)",
+        "notes": "Concentrated portfolio, 15-20 positions, 50-80% cash, featured in The Big Short"
+      },
+      "key_rules": [
+        "Exploit 5 failures of Black-Scholes pricing model assumptions",
+        "Assumption 1: Returns are NOT normally distributed (fat tails exist)",
+        "Assumption 2: Forward price is NOT necessarily future mean (trends persist)",
+        "Assumption 3: Volatility does NOT scale by square root of time (regime changes)",
+        "Assumption 4: Volatility is NOT trend-blind (trending markets have different vol profiles)",
+        "Assumption 5: Correlations are NOT stable (they spike in crises)",
+        "Buy cheap sigma: options that are cheap because models misjudge the true probability",
+        "Binary outcome scenarios: when either big up or big down is likely, options are systematically underpriced",
+        "Hold 50-80% cash, concentrate on 15-20 high-conviction asymmetric positions",
+        "Wait for high-conviction trades - doing nothing is a valid strategy"
+      ],
+      "strategies_extracted": ["cheap_sigma_options", "binary_outcome_options", "black_scholes_failure_exploitation"]
+    },
+    {
+      "name": "Michael Platt",
+      "chapter": 8,
+      "fund": "BlueCrest Capital Management",
+      "style": "Multi-Strategy (Discretionary Fixed Income + Systematic Trend Following)",
+      "codifiability": "medium-high",
+      "performance": {
+        "discretionary_return": "~14% annualized net",
+        "discretionary_max_dd": "<5% over 11+ years",
+        "systematic_return": "~16% annualized net",
+        "systematic_max_dd": "<13%"
+      },
+      "key_rules": [
+        "3%/3% trader risk rule: lose 3% from starting allocation = halve exposure; another 3% = remove all allocation",
+        "Traders are structured like options: limited downside, unlimited upside",
+        "Annually rebasing stop levels (not trailing)",
+        "LIBOR-OIS spread as early warning indicator for liquidity crises",
+        "Systematic trend following: exit overextended trends BEFORE reversal signals (response curves)",
+        "Neutral to long volatility always - never short out-of-the-money options",
+        "Monitor correlation breakdown (especially in spread positions - lower correlation = higher risk)",
+        "Ask each trader daily: where would your biggest $10M loss come from?",
+        "Daily re-evaluation: would you enter this trade today at this price? If no, exit",
+        "Market maker mindset: hire people who understand edge, not analysts with ego",
+        "80/20 rule: 80% of profits come from 20% of trades - protect ability to catch those trades"
+      ],
+      "strategies_extracted": ["asymmetric_trader_allocation", "overextended_trend_exit", "libor_ois_liquidity_indicator"]
+    },
+    {
+      "name": "Steve Clark",
+      "chapter": 9,
+      "fund": "Omni Global Fund",
+      "style": "Event-Driven / Directional Risk Arbitrage",
+      "codifiability": "low-medium",
+      "performance": {
+        "annual_return": "19.4% annualized compounded net over 10.5 years",
+        "max_drawdown": "7%",
+        "sharpe_ratio": 1.50,
+        "gain_to_pain": 4.1,
+        "notes": "Profitable every year since 2001 inception. Worst year was +0.7% (2011)"
+      },
+      "key_rules": [
+        "Do more of what works and less of what doesn't - analyze P&L by trade type",
+        "Position size > entry price: if position keeps you awake, it's too big",
+        "Trade within your emotional capacity",
+        "Screen for unusual volume as a signal that something is happening",
+        "When everything lines up, swing big - even if wrong, won't be wrong by much",
+        "If position behaves in a way you don't understand, cut it immediately",
+        "On losing streaks: liquidate everything, take a holiday, restart small",
+        "Cut exposure by 75% when volatility quadruples",
+        "Really good traders change their mind in an instant",
+        "Staring at screens all day leads to overtrading - find productive distraction",
+        "Beware euphoria: if you're hysterical to buy more, that's the signal to sell"
+      ],
+      "strategies_extracted": []
+    },
+    {
+      "name": "Martin Taylor",
+      "chapter": 10,
+      "fund": "Nevsky Fund (Emerging Markets)",
+      "style": "Fundamental Long/Short Equity (Emerging Markets Focus)",
+      "codifiability": "low-medium",
+      "performance": {
+        "annual_return": "27%+ annualized compounded net across full career (1995-2011)",
+        "hedge_fund_return": "22%+ annualized compounded net (2000-2011)",
+        "max_drawdown": "~17% in 2008",
+        "notes": "Only losing year was 2008 (-17%), vs EM index -54%. Voluntarily cut AUM by 75%."
+      },
+      "key_rules": [
+        "Three requirements for a long: favorable macro, secular trend, good company",
+        "Always high-beta stocks balanced by cash or shorts - never boring low-beta",
+        "Net exposure range: 20% net long (floor) to 110% net long (max)",
+        "Never go fully net short - if you're out completely when it reverses, you'll never get back in",
+        "RSI only useful as OVERSOLD indicator (extreme oversold = take a look); useless as overbought",
+        "Charts as supplemental: if fundamentally bullish but stock is overbought, start small (1% vs 10%)",
+        "Breakouts confirm fundamental thesis - go to full position when chart confirms",
+        "If stock massively underperforms market, check if management lied about fundamentals",
+        "Forecast earnings 3-4 years out; buy when cheap on forward earnings, not current",
+        "Capital flight analysis: match reserves data with reported trade flows to detect fraud",
+        "Gut feel is crucial: if price action doesn't match fundamentals, recheck everything"
+      ],
+      "strategies_extracted": ["macro_secular_company_trinity", "rsi_oversold_only"]
+    },
+    {
+      "name": "Tom Claugus",
+      "chapter": 11,
+      "fund": "GMT Capital (Bay Resource Fund)",
+      "style": "Contrarian Value / Mean Reversion Exposure Management",
+      "codifiability": "medium-high",
+      "performance": {
+        "annual_return": "17% annualized compounded net over 19 years",
+        "personal_account": "33% gross annualized over 7 years prior to fund",
+        "notes": "Net short during most of 1990s bull market yet still profitable. 5 losing years in 26."
+      },
+      "key_rules": [
+        "Mean reversion exposure model: use 95% confidence band on log-price regression since 1932",
+        "At lower band: 130% long / 20% short (110% net long)",
+        "At midpoint: 100% long / 50% short (50% net long, reflecting secular uptrend)",
+        "At upper band: 20% long / 90% short (70% net short)",
+        "Apply same band analysis by sector to identify cheap/expensive sectors",
+        "Evel Knievel screen: >5x book value AND losing money = short candidates",
+        "Look for free optionality: companies priced on current business with unpriced future revenue >1 year out",
+        "Screen for extreme earnings changes (>50% up or >30% down) as anomaly detector",
+        "If down >7% in a month and don't know why, reduce exposure",
+        "For every 1% loss, reduce exposure by 2% (scaling risk down proportionally)",
+        "Shorts are easier to find than longs: broken companies easier to spot than good ones"
+      ],
+      "strategies_extracted": ["mean_reversion_exposure_bands", "evel_knievel_short_screen", "free_optionality_long_screen"]
+    },
+    {
+      "name": "Joe Vidich",
+      "chapter": 12,
+      "fund": "Manalapan Oracle Capital Management",
+      "style": "Fundamental Themes + Sentiment (Market Maker Background)",
+      "codifiability": "medium",
+      "performance": {
+        "annual_return": "18% annualized compounded net over 10+ years",
+        "gross_return": "24% gross",
+        "max_drawdown": "8%",
+        "gain_to_pain": 2.4,
+        "notes": "Through two massive bear markets. HFR Equity Hedge index only 4% annualized in same period."
+      },
+      "key_rules": [
+        "Top-down: big picture economy -> sector themes -> individual stock selection",
+        "Listen to 300+ conference calls per quarter for information edge",
+        "Market sentiment = price action relative to events (NOT public opinion polls)",
+        "Stock down after good earnings report = bearish; stock up after bad report = bullish",
+        "Harvest losses: periodically liquidate losing positions to force re-evaluation vs alternatives",
+        "Scale into positions and scale out - never try to be 100% right",
+        "If stock is down 15%, re-evaluate but don't auto-sell (mental stops, not hard stops)",
+        "Start selling 20% of a losing position first - partial loss is easier than full liquidation",
+        "Sell on the way DOWN from target, not on the way up (might miss further upside)",
+        "Bull market pattern: open low, close high. Bear market: open high, close low. End of trend: pattern flips.",
+        "Sideways stock with sudden sharp volume + upmove = wake-up call, investigate"
+      ],
+      "strategies_extracted": ["conference_call_sentiment", "intraday_trend_pattern"]
+    },
+    {
+      "name": "Kevin Daly",
+      "chapter": 13,
+      "fund": "Five Corners Partners",
+      "style": "Deep Value / Long-Biased",
+      "codifiability": "medium-high",
+      "performance": {
+        "annual_return": "20.8% gross (16.4% net) over 12 years",
+        "cumulative_gross": "872%",
+        "max_drawdown": "10.3%",
+        "gain_to_pain": 3.2,
+        "notes": "SP500 was -9% cumulative in same period. Russell 2000 +68%. Remarkable for near long-only."
+      },
+      "key_rules": [
+        "Value screens: EV/EBITDA, Price/FCF, P/E, EV/EBIT (cap rate), Price/Tangible Book for banks",
+        "Circle of competence: only invest in easily understandable businesses",
+        "Buy a dollar of assets for 50 cents - margin of safety is primary defense",
+        "Sell when stock reaches fair valuation - don't hold for tax reasons or hope for more",
+        "Go to 60-90% cash when macro environment is uncertain",
+        "Monitor esoteric economic data (rail car loadings, truck traffic, hotel RevPAR) for real economy signal",
+        "Avoid value traps: skip melting ice cube businesses (newspapers, yellow pages, video rental)",
+        "Look for hidden niches inside larger companies that market ignores",
+        "Small asset size is an advantage - can trade illiquid small caps others can't",
+        "Patience: stayed ~90% cash for 2+ years during 2000-2002 bear market"
+      ],
+      "strategies_extracted": ["value_screen_toolkit", "cash_harbor_defensive"]
+    },
+    {
+      "name": "Jimmy Balodimas",
+      "chapter": 14,
+      "fund": "First New York Securities (Prop Trading)",
+      "style": "Contrarian / Innate Timing (Short-Biased)",
+      "codifiability": "very low",
+      "performance": {
+        "notes": "Never had a losing year in 15 years. Short ~75% of the time in a market that's up 53% of days. Innate talent, not replicable."
+      },
+      "key_rules": [
+        "ALWAYS take some money off the table when market moves in your favor - even small amounts",
+        "Trade around positions: cover 20% of shorts on every down open, re-short higher on rallies",
+        "Contrarian: sell into euphoria, buy into panic",
+        "Broken stock pattern: stock breaks on high volume, market makes new highs but stock can't reclaim 50-day MA = short",
+        "Volume surge on parabolic move = supply entering, likely near top",
+        "Flash crash response: don't panic, verify data, then buy into indiscriminate selling",
+        "Natural short bias: the marketing machine to be long is unnatural, unsustainable energy",
+        "If position feels painful, start reducing - trust physical/emotional signals",
+        "Never need to make money in the same stock where you lost it",
+        "Adaptation: keep positions smaller until seeing clear transition signal"
+      ],
+      "strategies_extracted": ["trade_around_position"]
+    },
+    {
+      "name": "Joel Greenblatt",
+      "chapter": 15,
+      "fund": "Gotham Capital",
+      "style": "Value Investing / Special Situations -> Systematic Value",
+      "codifiability": "high",
+      "performance": {
+        "fund_return": "50% annualized compounded gross over 10 years (1985-1994)",
+        "lowest_annual": "+28.5%",
+        "magic_formula_backtest": "19.7% vs 9.5% S&P 500 (23-year backtest)",
+        "notes": "Returned all investor capital in 1994 because AUM was impeding returns. Shifted to systematic value."
+      },
+      "key_rules": [
+        "Magic Formula: rank stocks by combined earnings yield (EBIT/EV) + return on tangible capital",
+        "Earnings yield = EBIT / Enterprise Value (normalizes for debt and tax rate differences)",
+        "Return on capital = EBIT / (Net Working Capital + Net Fixed Assets)",
+        "Top decile beats bottom decile by ~15%/year; perfect ordering across all 10 deciles",
+        "Value weighted indexes outperform cap-weighted indexes by ~7%/year over 20 years",
+        "Equal weighted indexes beat cap-weighted by ~2%/year (cap weighting systematically overweights expensive stocks)",
+        "Special situations: spinoffs, restructurings, rights offerings trade at discounts because institutions dump them",
+        "Binary outcomes + options = outsized returns (Wells Fargo LEAPS: 1:5 risk/reward on 50/50+ odds)",
+        "97% of top-quartile managers spent 3+ years in bottom half - past performance has ZERO predictive value",
+        "Value investing works BECAUSE it doesn't work all the time - periodic underperformance keeps edge alive",
+        "If you can't value a company, skip it - there are no called strikes on Wall Street",
+        "6% minimum hurdle rate even at zero interest rates (opportunity cost of future better deals)"
+      ],
+      "strategies_extracted": ["magic_formula_value", "spinoff_special_situations", "binary_outcome_leaps", "value_weighted_index"]
+    }
+  ],
+  "strategies": [
+    {
+      "id": "macro_hypothesis_testing",
+      "name": "Macro Hypothesis Testing Framework",
+      "type": "discretionary_macro",
+      "source_trader": "Colm O'Shea",
+      "source_chapter": 1,
+      "markets": ["bonds", "currencies", "equity_indices", "commodities"],
+      "timeframe": "weeks to months",
+      "entry_rules": [
+        "Form a macro hypothesis based on economic fundamentals",
+        "Look for asymmetric implementation: options, CDS, spreads where max loss is defined",
+        "Wait for market action to confirm hypothesis before sizing up",
+        "If market disagrees with hypothesis, abandon thesis (market is right)"
+      ],
+      "exit_rules": [
+        "Set stop at the price that disproves the thesis (not at pain threshold)",
+        "If stop implies too large a loss, reduce size instead of tightening stop"
+      ],
+      "risk_management": [
+        "Maximum loss defined by option premium or spread structure",
+        "Position size calibrated to thesis conviction and stop distance"
+      ],
+      "indicators": [],
+      "clarity_score": 6,
+      "completeness": 5,
+      "notes": "Framework rather than precise rules. Powerful concept of thesis-first, asymmetric implementation."
+    },
+    {
+      "id": "all_weather_quadrant",
+      "name": "All Weather Portfolio (4-Quadrant Model)",
+      "type": "systematic_macro",
+      "source_trader": "Ray Dalio",
+      "source_chapter": 2,
+      "markets": ["bonds", "equities", "commodities", "inflation_linked_bonds", "currencies"],
+      "timeframe": "12-18 months holding period",
+      "entry_rules": [
+        "Classify current regime into one of 4 quadrants: growth increasing/decreasing x inflation increasing/decreasing",
+        "Allocate to assets that perform well in each quadrant",
+        "Growth increasing + inflation increasing: commodities, inflation-linked bonds, emerging market credit",
+        "Growth increasing + inflation decreasing: stocks, corporate bonds",
+        "Growth decreasing + inflation increasing: inflation-linked bonds, commodities",
+        "Growth decreasing + inflation decreasing: nominal bonds, stocks at lower weight"
+      ],
+      "exit_rules": [
+        "Rebalance as regime shifts between quadrants"
+      ],
+      "risk_management": [
+        "Risk parity: equalize risk contribution across quadrants, not dollar amounts",
+        "Diversification is the Holy Grail - 100+ uncorrelated return streams"
+      ],
+      "indicators": [
+        {"name": "Depression Gauge", "components": ["interest_rates", "credit_growth", "stock_market", "credit_spreads"]}
+      ],
+      "clarity_score": 7,
+      "completeness": 6,
+      "notes": "Conceptual framework described at high level. Bridgewater's actual implementation is proprietary and far more complex."
+    },
+    {
+      "id": "mean_reversion_correlation",
+      "name": "Mean Reversion Correlation Trading",
+      "type": "discretionary_mean_reversion",
+      "source_trader": "Larry Benedict",
+      "source_chapter": 3,
+      "markets": ["equity_indices", "ETFs", "options"],
+      "timeframe": "intraday to 3 days",
+      "entry_rules": [
+        "After 3 consecutive up days, look for short entries on strength",
+        "After 3 consecutive down days, look for long entries on weakness",
+        "Use correlated instruments to hedge: if long S&P, hedge with short sector ETFs showing relative weakness"
+      ],
+      "exit_rules": [
+        "Take profits quickly on mean reversion bounce",
+        "If losing 2.0-2.5% in a month, liquidate ALL positions immediately"
+      ],
+      "risk_management": [
+        "Monthly drawdown circuit breaker: 2.0-2.5% = flatten everything",
+        "Trade very small after hitting monthly limit until recovered",
+        "100-200 trades/day provides natural diversification"
+      ],
+      "indicators": [],
+      "clarity_score": 5,
+      "completeness": 4,
+      "notes": "High-frequency discretionary mean reversion. The 3-day rule is codifiable. The monthly circuit breaker is the real innovation."
+    },
+    {
+      "id": "intermarket_divergence",
+      "name": "Intermarket Divergence Strategy",
+      "type": "fundamental_technical_hybrid",
+      "source_trader": "Scott Ramsey",
+      "source_chapter": 4,
+      "markets": ["futures", "forex", "commodities"],
+      "timeframe": "days to weeks",
+      "entry_rules": [
+        "Develop fundamental directional bias for a sector",
+        "Buy the STRONGEST instrument in the sector, sell the WEAKEST",
+        "Confirm with RSI divergence at extremes",
+        "Enter on Fibonacci retracement pullbacks toward the 200-day MA",
+        "Wait for technical confirmation: price must be respecting the 200-day MA as support/resistance"
+      ],
+      "exit_rules": [
+        "Exit when fundamental bias changes or intermarket relationship normalizes",
+        "Stop loss at point where thesis is invalidated"
+      ],
+      "risk_management": [
+        "Risk only 10 basis points (0.1%) per trade",
+        "Spread between long and short in same sector reduces directional risk"
+      ],
+      "indicators": [
+        {"name": "RSI", "use": "divergence detection at extremes"},
+        {"name": "200-day MA", "use": "primary trend filter"},
+        {"name": "Fibonacci Retracements", "use": "entry levels on pullbacks"}
+      ],
+      "clarity_score": 7,
+      "completeness": 7,
+      "notes": "Most codifiable macro strategy in the book. The 10bp risk per trade is extremely conservative."
+    },
+    {
+      "id": "secondary_variable_pattern_recognition",
+      "name": "Secondary Variable Pattern Recognition System",
+      "type": "systematic_quantitative",
+      "source_trader": "Jaffray Woodriff",
+      "source_chapter": 5,
+      "markets": ["futures", "all_liquid_markets"],
+      "timeframe": "varies by model",
+      "entry_rules": [
+        "Generate 1000+ models from secondary variables derived from OHLC data",
+        "Secondary variables = transformations, ratios, moving averages of price data (not raw prices)",
+        "Each model generates small alpha; combine many for robust signal",
+        "Aggressive cross-validation on out-of-sample data before deployment"
+      ],
+      "exit_rules": [
+        "Model-driven exits",
+        "Cut exposure by 75% when market volatility quadruples"
+      ],
+      "risk_management": [
+        "Volatility-adjusted position sizing across all models",
+        "Extreme volatility = massive exposure reduction",
+        "Diversification across hundreds of weakly correlated models"
+      ],
+      "indicators": [
+        {"name": "Secondary Variables", "parameters": "Proprietary transformations of OHLC data"}
+      ],
+      "clarity_score": 4,
+      "completeness": 3,
+      "notes": "Conceptual framework only. Specific models are proprietary. Key insight: neither trend nor mean reversion - a third way."
+    },
+    {
+      "id": "kelly_criterion_sizing",
+      "name": "Kelly Criterion Position Sizing",
+      "type": "position_sizing_framework",
+      "source_trader": "Edward Thorp",
+      "source_chapter": 6,
+      "markets": ["all"],
+      "timeframe": "all",
+      "entry_rules": [
+        "Calculate Kelly fraction: f* = (bp - q) / b where b=odds, p=win prob, q=loss prob",
+        "Use HALF Kelly to reduce volatility while retaining most of long-term growth rate",
+        "Half Kelly reduces growth rate by only 25% but cuts volatility by 50%"
+      ],
+      "exit_rules": [],
+      "risk_management": [
+        "Never exceed full Kelly - severely penalizes long-term growth",
+        "Overestimating edge is worse than underestimating it",
+        "For arbitrage (bounded risk): no need to reduce on drawdown",
+        "For directional (unbounded risk): reduce exposure on drawdown"
+      ],
+      "indicators": [],
+      "clarity_score": 9,
+      "completeness": 8,
+      "notes": "Mathematically precise and well-documented. Challenge is accurately estimating win probability in trading (vs gambling)."
+    },
+    {
+      "id": "statistical_arbitrage_mud",
+      "name": "Statistical Arbitrage (Market-Neutral)",
+      "type": "systematic_stat_arb",
+      "source_trader": "Edward Thorp",
+      "source_chapter": 6,
+      "markets": ["equities"],
+      "timeframe": "days to weeks",
+      "entry_rules": [
+        "Buy recent underperformers, short recent outperformers (MUD: Most Up, Most Down)",
+        "Sector-neutral: equal dollar exposure long and short within each sector",
+        "Factor-neutral: hedge out common factor exposures (size, value, momentum, etc.)",
+        "60-day lookback for correlation matrix"
+      ],
+      "exit_rules": [
+        "Mean reversion target: exit when relative performance normalizes",
+        "Time-based exit if reversion doesn't occur within expected window"
+      ],
+      "risk_management": [
+        "Market-neutral portfolio construction",
+        "Factor hedging eliminates systematic risk",
+        "Must continuously adapt - went through 3 major iterations as market evolved"
+      ],
+      "indicators": [
+        {"name": "Correlation Matrix", "parameters": {"lookback": 60}},
+        {"name": "Relative Performance", "use": "rank stocks by recent over/underperformance"}
+      ],
+      "clarity_score": 7,
+      "completeness": 6,
+      "notes": "Well-described conceptual framework. Specific implementation details are proprietary. Key warning: must continuously adapt."
+    },
+    {
+      "id": "cheap_sigma_options",
+      "name": "Cheap Sigma / Mispriced Distribution Options Strategy",
+      "type": "options_asymmetric",
+      "source_trader": "Jamie Mai",
+      "source_chapter": 7,
+      "markets": ["equity_options", "credit_derivatives", "index_options"],
+      "timeframe": "weeks to months",
+      "entry_rules": [
+        "Identify situations where Black-Scholes assumptions fail (see 5 failures above)",
+        "Buy options when true probability of large move exceeds model-implied probability",
+        "Focus on binary outcome scenarios: either big up or big down is likely",
+        "Hold 50-80% cash, only 15-20 concentrated positions"
+      ],
+      "exit_rules": [
+        "Options expire worthless (max loss = premium paid)",
+        "Take profits when thesis plays out or option value increases substantially"
+      ],
+      "risk_management": [
+        "Max loss defined at entry (option premium)",
+        "Large cash position provides safety buffer",
+        "Only trade when perceived edge is very large"
+      ],
+      "indicators": [
+        {"name": "Implied Volatility vs Realized Volatility", "use": "identify mispriced options"},
+        {"name": "Credit Default Swap Spreads", "use": "measure credit risk perception"}
+      ],
+      "clarity_score": 8,
+      "completeness": 7,
+      "notes": "Excellent framework. The 5 Black-Scholes failures are a systematic way to find mispriced options. Highly relevant for today's markets."
+    },
+    {
+      "id": "magic_formula_value",
+      "name": "Magic Formula (Systematic Value)",
+      "type": "systematic_value",
+      "source_trader": "Joel Greenblatt",
+      "source_chapter": 15,
+      "markets": ["equities"],
+      "timeframe": "1 year holding period",
+      "entry_rules": [
+        "Rank all stocks by Earnings Yield: EBIT / Enterprise Value",
+        "Rank all stocks by Return on Tangible Capital: EBIT / (Net Working Capital + Net Fixed Assets)",
+        "Combine rankings: add both rank numbers, lower combined rank = better",
+        "Buy top 30 stocks from top 1000 by market cap",
+        "Rebalance annually, stepping through monthly"
+      ],
+      "exit_rules": [
+        "Hold for 1 year then replace with new top-ranked stocks",
+        "For tax purposes, sell losers before 1 year, hold winners past 1 year"
+      ],
+      "risk_management": [
+        "Diversification: minimum 20-30 names in portfolio",
+        "6% minimum hurdle rate (opportunity cost floor)",
+        "Accept 2-3 year periods of underperformance as necessary for long-term edge"
+      ],
+      "indicators": [
+        {"name": "Earnings Yield", "formula": "EBIT / Enterprise Value"},
+        {"name": "Return on Tangible Capital", "formula": "EBIT / (Net Working Capital + Net Fixed Assets)"},
+        {"name": "Enterprise Value", "formula": "Market Cap + Total Debt - Cash"}
+      ],
+      "clarity_score": 10,
+      "completeness": 10,
+      "notes": "Most fully codifiable strategy in the book. Backtested 23 years, doubled S&P 500 returns. Perfect decile ordering. Can be implemented mechanically."
+    },
+    {
+      "id": "mean_reversion_exposure_bands",
+      "name": "Mean Reversion Exposure Bands",
+      "type": "systematic_exposure_management",
+      "source_trader": "Tom Claugus",
+      "source_chapter": 11,
+      "markets": ["equities"],
+      "timeframe": "monthly rebalancing",
+      "entry_rules": [
+        "Calculate 95% confidence band on log-price regression (data from 1932)",
+        "At lower band: go 110% net long (130% long, 20% short)",
+        "At midpoint: go 50% net long (100% long, 50% short)",
+        "At upper band: go 70% net short (20% long, 90% short)",
+        "Apply same analysis to S&P 500, Nasdaq, and Russell 2000; take composite"
+      ],
+      "exit_rules": [
+        "Continuous: exposure adjusts as price moves within bands"
+      ],
+      "risk_management": [
+        "If down >7% in a month and can't explain why: reduce exposure",
+        "For every 1% loss, reduce exposure by 2%",
+        "Use sector-level bands for additional refinement"
+      ],
+      "indicators": [
+        {"name": "Log-Price Regression", "parameters": {"data_start": 1932, "confidence_interval": "95%"}},
+        {"name": "Standard Deviation Bands", "use": "define overbought/oversold extremes"}
+      ],
+      "clarity_score": 9,
+      "completeness": 8,
+      "notes": "Highly codifiable exposure management system. Made 18% annualized in the 1990s while being net short. The 95% band width was refined from 90% after 1999 experience."
+    },
+    {
+      "id": "evel_knievel_short_screen",
+      "name": "Evel Knievel Short Screen",
+      "type": "systematic_short_selection",
+      "source_trader": "Tom Claugus",
+      "source_chapter": 11,
+      "markets": ["equities"],
+      "timeframe": "quarterly screening",
+      "entry_rules": [
+        "Screen for: Price > 5x Book Value AND Company is losing money",
+        "These companies are trying to 'jump the Grand Canyon' - most won't make it",
+        "Short the stocks that meet both criteria",
+        "Normally yields ~60 names; 180 names signaled extreme bubble in late 1999"
+      ],
+      "exit_rules": [
+        "Cover when stock declines to reasonable valuation",
+        "If stock continues rising despite fundamentals, scale down for every 1% loss (reduce by 2%)"
+      ],
+      "risk_management": [
+        "Diversify across many short positions",
+        "Accept that 1-in-100 times these stocks keep going up (as in late 1999)"
+      ],
+      "indicators": [
+        {"name": "Price/Book Value", "threshold": ">5x"},
+        {"name": "Earnings", "condition": "negative (company is losing money)"}
+      ],
+      "clarity_score": 9,
+      "completeness": 8,
+      "notes": "Simple, elegant short screen. Historically very profitable except during extreme bubbles (1999). The count of qualifying names is itself a bubble indicator."
+    },
+    {
+      "id": "free_optionality_long_screen",
+      "name": "Free Optionality Long Screen",
+      "type": "fundamental_value",
+      "source_trader": "Tom Claugus",
+      "source_chapter": 11,
+      "markets": ["equities", "energy_stocks"],
+      "timeframe": "months to years",
+      "entry_rules": [
+        "Find companies priced at fair value on CURRENT business only",
+        "Identify future revenue sources >1 year out that market assigns zero value to",
+        "Examples: unexplored acreage for oil companies, new technology for manufacturers, emerging market expansion",
+        "Best entry after a disappointment (sector selloff on unrelated bad news)"
+      ],
+      "exit_rules": [
+        "When market begins pricing in the future revenue source",
+        "When fundamental thesis changes"
+      ],
+      "risk_management": [
+        "Downside limited to fair value of current business (you're paying fair price for what exists)",
+        "Upside enhanced by free optionality of future revenue"
+      ],
+      "indicators": [
+        {"name": "Price/Cash Flow", "use": "determine if current business is fairly priced"},
+        {"name": "Earnings Surprise Screen", "parameters": {"threshold": ">50% or <-30%"}}
+      ],
+      "clarity_score": 8,
+      "completeness": 7,
+      "notes": "Claugus calls this his single most important stock selection concept. The key insight is that markets rarely price revenues >1 year out."
+    },
+    {
+      "id": "conference_call_sentiment",
+      "name": "Conference Call Sentiment Analysis",
+      "type": "fundamental_sentiment",
+      "source_trader": "Joe Vidich",
+      "source_chapter": 12,
+      "markets": ["equities"],
+      "timeframe": "days to weeks",
+      "entry_rules": [
+        "Listen to 300+ conference calls per quarter",
+        "If stock DOWN after positive conference call = smart money selling, short",
+        "If stock UP after negative conference call = smart money buying, go long",
+        "If analysts are confused and can't understand the business = opportunity (e.g., Citigroup CDOs in 2008)",
+        "If company mentions deferring capex, short their suppliers"
+      ],
+      "exit_rules": [
+        "Scale out rather than all-or-nothing exits",
+        "Harvest losses: periodically liquidate losers to force fresh evaluation"
+      ],
+      "risk_management": [
+        "Mental stops (re-evaluation points), not hard stops",
+        "Different stocks have different risk profiles - Coke gets 5% room, volatile stock gets 50%"
+      ],
+      "indicators": [
+        {"name": "Price Action Post-Conference Call", "use": "primary sentiment signal"},
+        {"name": "Analyst Confusion Level", "use": "opportunity indicator"},
+        {"name": "Capex Deferral Mentions", "use": "short supplier stocks"}
+      ],
+      "clarity_score": 7,
+      "completeness": 6,
+      "notes": "Highly relevant in today's markets with wide conference call access. The 'confusion = opportunity' insight on Citigroup pre-crisis is brilliant."
+    },
+    {
+      "id": "value_screen_toolkit",
+      "name": "Deep Value Screen Toolkit",
+      "type": "systematic_value_screening",
+      "source_trader": "Kevin Daly",
+      "source_chapter": 13,
+      "markets": ["equities", "U.S. and Canadian stocks"],
+      "timeframe": "months to years",
+      "entry_rules": [
+        "Screen 10,000 stocks using: EV/EBITDA, Price/FCF, P/E, EV/EBIT (cap rate)",
+        "For banks: Price/Tangible Book, P/E, Tangible Common Equity/Total Assets",
+        "Narrow to ~200 candidates, then qualitative assessment",
+        "Circle of competence: only invest in businesses you understand",
+        "Look for margin discrepancies between similar companies (competitor analysis)",
+        "Track insider buying/selling via Form4Oracle"
+      ],
+      "exit_rules": [
+        "Sell when stock reaches fair valuation - do not hold beyond",
+        "If macro turns uncertain, move to 60-90% cash"
+      ],
+      "risk_management": [
+        "Buy a dollar for 50 cents (margin of safety)",
+        "Good balance sheets and solid free cash flow as quality filters",
+        "Avoid value traps: skip melting ice cube businesses",
+        "Monitor esoteric economic indicators (rail traffic, truck traffic, hotel RevPAR)"
+      ],
+      "indicators": [
+        {"name": "EV/EBITDA", "use": "primary value metric for non-financials"},
+        {"name": "Price/Free Cash Flow", "use": "cash generation relative to price"},
+        {"name": "EV/EBIT (Cap Rate)", "use": "what you'd pay as a rational buyer"},
+        {"name": "Price/Tangible Book Value", "use": "floor value for banks"},
+        {"name": "Rail Car Loadings", "use": "real economy leading indicator"},
+        {"name": "Form 4 Insider Transactions", "use": "insider sentiment"}
+      ],
+      "clarity_score": 9,
+      "completeness": 9,
+      "notes": "Extremely well-defined value screening process. Achieved 872% gross vs -9% S&P 500 over 12 years. Small asset size is key advantage."
+    },
+    {
+      "id": "spinoff_special_situations",
+      "name": "Spinoff / Special Situations Value",
+      "type": "event_driven_value",
+      "source_trader": "Joel Greenblatt",
+      "source_chapter": 15,
+      "markets": ["equities"],
+      "timeframe": "months to years",
+      "entry_rules": [
+        "Focus on spinoffs: institutions dump shares because new entity is too small or different sector",
+        "Look for insider ownership in the spinoff - if insiders chose the 'bad' company, it's probably not that bad",
+        "Calculate leverage effect: low share price relative to total enterprise value = high operating leverage",
+        "Read the 400-page documents others won't - complexity is your edge",
+        "Other special situations: restructurings, rights offerings, recapitalizations, two-tiered tender offers"
+      ],
+      "exit_rules": [
+        "Sell when stock reaches intrinsic value",
+        "Don't fall in love with any position even if playing with house money"
+      ],
+      "risk_management": [
+        "Concentrated portfolio (6-8 positions) in original fund",
+        "Operating leverage works both ways - monitor fundamentals closely",
+        "Use options for binary outcome scenarios to get 5:1 risk/reward on 50/50+ situations"
+      ],
+      "indicators": [
+        {"name": "Insider Ownership Post-Spinoff", "use": "alignment of interest"},
+        {"name": "Institutional Selling Pressure", "use": "temporary mispricing opportunity"},
+        {"name": "Price/Breakup Value", "use": "discount to sum-of-parts"}
+      ],
+      "clarity_score": 8,
+      "completeness": 8,
+      "notes": "Greenblatt averaged 50% annually for 10 years using this approach. Limited capacity is the constraint."
+    }
+  ],
+  "cross_cutting_themes": [
+    {
+      "theme": "Asymmetric Risk/Reward Is the Common Thread",
+      "description": "Nearly every trader in the book structures trades for limited downside and open-ended upside. O'Shea uses options and CDS. Mai buys cheap options. Platt structures trader allocations like options (3% max loss, unlimited upside). Greenblatt uses LEAPS for binary situations. This is the single most universal principle across all 15 traders."
+    },
+    {
+      "theme": "Flexibility and Willingness to Be Wrong",
+      "description": "Every successful trader described can reverse positions instantly when proven wrong. O'Shea reversed from bearish to bullish in April 2009. Clark emphasizes changing your mind in an instant. Taylor maintained some long exposure even when bearish to avoid getting whipsawed. Rigidity is the common cause of trader failure."
+    },
+    {
+      "theme": "Risk Management Is the Real Edge",
+      "description": "None of these traders describe an edge in prediction. Instead, they all describe an edge in risk management. Platt's 3%/3% rule. Benedict's 2.5% monthly circuit breaker. Claugus's 7% monthly loss investigation threshold. Ramsey's 10bp per trade risk. Clark's 'if you're thinking about it at night, it's too big.' The consistent message: surviving to trade tomorrow is more important than today's profit."
+    },
+    {
+      "theme": "Value Investing Works Because It Doesn't Always Work",
+      "description": "Greenblatt, Daly, Claugus, and Taylor all demonstrate that value approaches outperform over the long term precisely because they underperform for stretches long enough to drive out impatient capital. The institutionalization of short-term performance monitoring has actually increased the value edge by shortening most managers' time horizons."
+    },
+    {
+      "theme": "Market Response to News > The News Itself",
+      "description": "Platt, Vidich, Taylor, and Balodimas all emphasize that how the market responds to news is more important than the news. A stock down on good earnings is bearish. A market that refuses to go down on bad news is bullish. This sentiment reading through price action is a core skill shared across discretionary traders."
+    },
+    {
+      "theme": "Position Sizing Matters More Than Entry",
+      "description": "Clark, Vidich, Thorp, and Balodimas all stress that size determines whether you can hold a good trade. Too large = fear-driven exits on noise. The Kelly criterion provides mathematical framework (use half-Kelly). Multiple traders independently arrived at the same conclusion: manage size to stay within emotional capacity."
+    },
+    {
+      "theme": "Adaptation Is Mandatory",
+      "description": "Thorp went through 3 iterations of stat arb. Platt describes systematic trading as 'a research war.' Balodimas adapted from aggressive to patient contrarian as hedge fund participation increased. Static systems and approaches degrade. Continuous evolution is required."
+    },
+    {
+      "theme": "Patience and the Willingness to Do Nothing",
+      "description": "Mai holds 50-80% cash. Daly was 90% cash for 2+ years during 2000-2002. Greenblatt says there are no called strikes. The willingness to sit in cash when opportunities are poor is as important as identifying good opportunities."
+    }
+  ],
+  "key_concepts": [
+    {
+      "concept": "Kelly Criterion (Half-Kelly)",
+      "source": "Edward Thorp (Ch. 6)",
+      "description": "Mathematically optimal position sizing. Full Kelly maximizes long-term growth rate but with extreme volatility. Half-Kelly sacrifices only 25% of growth rate while cutting volatility by 50%. Recommended for any strategy where win probability can be estimated."
+    },
+    {
+      "concept": "Depression Gauge",
+      "source": "Ray Dalio (Ch. 2)",
+      "description": "Simultaneous monitoring of interest rates, credit growth, stock market, and credit spreads to detect transition from recession to depression/deleveraging. Different policy responses are needed for each."
+    },
+    {
+      "concept": "Five Black-Scholes Failures",
+      "source": "Jamie Mai (Ch. 7)",
+      "description": "Options are systematically mispriced when: (1) returns have fat tails, (2) forward price != future mean, (3) vol doesn't scale by sqrt(time), (4) vol is trend-dependent, (5) correlations are unstable. Identifying these failures reveals cheap options."
+    },
+    {
+      "concept": "LIBOR-OIS Spread as Liquidity Indicator",
+      "source": "Michael Platt (Ch. 8)",
+      "description": "Widening spread between LIBOR and OIS (Overnight Indexed Swap) rate signals banking sector stress and liquidity drying up. Platt used this as early warning before 2008 crisis."
+    },
+    {
+      "concept": "Gain to Pain Ratio (GPR)",
+      "source": "Jack Schwager (Appendix A)",
+      "description": "Sum of all monthly returns / absolute sum of all monthly losses. Unlike Sharpe ratio, does not penalize upside volatility. GPR > 1.0 is very good. GPR > 1.5 is excellent. GPR is equivalent to Profit Factor - 1 when applied to monthly returns."
+    },
+    {
+      "concept": "Free Optionality in Stock Selection",
+      "source": "Tom Claugus (Ch. 11)",
+      "description": "Buy stocks priced at fair value for current business, where future revenue sources (>1 year out) are assigned zero value by the market. You pay fair price but get upside of anticipated future revenue for free."
+    },
+    {
+      "concept": "Time Arbitrage",
+      "source": "Joel Greenblatt (Ch. 15)",
+      "description": "The institutionalization of short-term performance monitoring has shortened most managers' time horizons. This creates opportunity for those willing to take a 2-3 year view. Stocks with near-term uncertainty are systematically underpriced."
+    },
+    {
+      "concept": "Trading Around a Position",
+      "source": "Jimmy Balodimas (Ch. 14), Jack Schwager (Conclusion Lesson 14)",
+      "description": "Reduce position on favorable moves, reinstate on corrections. Generates extra profits from chop, makes it easier to hold winning trades through corrections. Drawback: gives up some profit if market moves smoothly in your favor."
+    },
+    {
+      "concept": "Asymmetric Trader Allocation (Options-Like Structure)",
+      "source": "Michael Platt (Ch. 8)",
+      "description": "Structure trader risk like a long option: strict max loss from starting allocation (3%), but unlimited upside as profits accumulate. Annual rebasing. Creates asymmetric portfolio returns at the fund level."
+    },
+    {
+      "concept": "Value Weighted Indexing",
+      "source": "Joel Greenblatt (Ch. 15)",
+      "description": "Cap-weighted indexes systematically overweight expensive stocks and underweight cheap ones. Value-weighted indexes (allocating more to cheaper stocks) beat S&P 500 by ~7%/year over 20 years with same beta and volatility."
+    }
+  ]
+}

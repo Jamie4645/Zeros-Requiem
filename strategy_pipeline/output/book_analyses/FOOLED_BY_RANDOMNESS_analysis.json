@@ -1,0 +1,582 @@
+{
+  "book_title": "Fooled by Randomness: The Hidden Role of Chance in Life and in the Markets",
+  "author": "Nassim Nicholas Taleb",
+  "year": 2005,
+  "book_type": "philosophy_probability",
+  "total_codifiable_concepts": 14,
+  "total_strategies_extracted": 3,
+  "key_characters": [
+    {
+      "name": "Nero Tulip",
+      "role": "protagonist",
+      "style": "Conservative options buyer, treasury bonds + OTM options barbell",
+      "philosophy": "Obsessed with survival and asymmetric payoffs. Would rather make less money and stay in the game than blow up chasing returns.",
+      "key_rules": [
+        "Keep bulk of capital in treasury bonds (risk-free)",
+        "Buy out-of-the-money options with small allocation",
+        "Accept frequent small losses for rare large gains",
+        "Stop loss is a non-negotiable black swan hedge",
+        "Judge success by longevity, not short-term P&L",
+        "Avoid leverage on the safe portion"
+      ]
+    },
+    {
+      "name": "John (the high-yield trader)",
+      "role": "cautionary_example",
+      "style": "Carry trade / yield harvesting",
+      "philosophy": "Mistook absence of blow-up for safety. Confused being lucky with being skilled.",
+      "blowup_cause": "Sold options premium, earned steady income until a rare event wiped him out. Classic peso problem."
+    },
+    {
+      "name": "Carlos",
+      "role": "cautionary_example",
+      "style": "Emerging markets bond trader",
+      "philosophy": "Averaged down into losing positions, denied negative signals, had no stop loss discipline.",
+      "blowup_cause": "Traits of randomness fools: denial, averaging down, no stop losses, mistaking a bull market run for personal skill."
+    },
+    {
+      "name": "Niederhoffer",
+      "role": "cautionary_real_example",
+      "style": "Empiricist contrarian — sold puts, bought dips statistically",
+      "philosophy": "Pure Baconian induction: if it worked in the past, it will work in the future.",
+      "blowup_cause": "Market did something it had 'never done before'. Relied on historical data without accounting for rare events outside the sample."
+    }
+  ],
+  "codifiable_concepts": [
+    {
+      "id": "barbell_strategy",
+      "name": "Barbell Strategy",
+      "type": "portfolio_construction",
+      "codifiability": "high",
+      "description": "Allocate the vast majority of capital to ultra-safe instruments (treasury bonds, cash equivalents) and a small portion to highly speculative, high-convexity positions (OTM options). Nothing in the middle. The safe portion ensures survival; the speculative portion captures rare large gains.",
+      "implementation": {
+        "safe_allocation": "85-95% in treasury bonds or equivalent risk-free instruments",
+        "speculative_allocation": "5-15% in OTM options, tail-risk bets, or high-convexity instruments",
+        "middle_allocation": "0% — no moderate-risk positions",
+        "rebalance": "Monthly or after large gains on speculative side",
+        "key_rule": "The speculative portion is money you are willing to lose entirely"
+      },
+      "protects_against": [
+        "Black swan events",
+        "Model error (your model is wrong about tail probabilities)",
+        "Blow-up risk (survival is guaranteed by the safe side)",
+        "Unknown unknowns"
+      ],
+      "source_chapter": "Chapter 1 (Nero Tulip), Chapter 6 (Skewness)",
+      "confidence": "very_high"
+    },
+    {
+      "id": "asymmetric_payoff_structure",
+      "name": "Asymmetric / Skewed Payoff Structure",
+      "type": "strategy_design_principle",
+      "codifiability": "high",
+      "description": "Design trades where the maximum loss is small and known, but the maximum gain is large and theoretically unbounded. Accept low win rates in exchange for large R-multiples. A trader can be wrong 999 times out of 1000 and still be profitable if the 1 win is large enough relative to the 999 losses.",
+      "implementation": {
+        "entry_rule": "Only enter trades with R:R >= 3:1 (ideally much higher)",
+        "position_sizing": "Risk a fixed small percentage per trade (0.5-2%)",
+        "stop_loss": "Always defined before entry — this caps the downside",
+        "take_profit": "Let winners run; use trailing stops rather than fixed targets",
+        "frequency_expectation": "Expect to lose on most trades. Judge by expectancy = (win_rate * avg_win) - (loss_rate * avg_loss)"
+      },
+      "protects_against": [
+        "Skewness blindness (confusing frequency of profit with magnitude)",
+        "The fallacy of judging traders by win rate alone",
+        "Blow-up from large losses",
+        "The premium-seller trap (steady income then catastrophic loss)"
+      ],
+      "source_chapter": "Chapter 6 (Skewness and Asymmetry)",
+      "confidence": "very_high"
+    },
+    {
+      "id": "crisis_alpha_hunting",
+      "name": "Crisis Alpha / Tail-Risk Hunting",
+      "type": "strategy",
+      "codifiability": "medium",
+      "description": "Actively position for rare, large market dislocations. Buy cheap OTM puts or calls when implied volatility is low. Accept that most of these bets will expire worthless. The strategy profits from the market's systematic underpricing of tail events (fat tails vs. Gaussian assumptions).",
+      "implementation": {
+        "instrument": "OTM options (puts for crash protection, calls for melt-up capture)",
+        "allocation": "Maximum 5-10% of portfolio",
+        "timing": "Buy when VIX/implied vol is at historical lows (options are cheapest)",
+        "holding_period": "Hold to expiry or until crisis event",
+        "expected_win_rate": "5-15% (most options expire worthless)",
+        "expected_payoff_on_win": "5x to 50x+ depending on severity of event"
+      },
+      "protects_against": [
+        "Market crashes",
+        "Regime changes",
+        "Fat-tail events the market systematically underprices",
+        "Correlation spikes (everything goes down together)"
+      ],
+      "source_chapter": "Chapter 6 (Crisis hunting), Chapter 11 (Option blindness)",
+      "confidence": "high"
+    },
+    {
+      "id": "survivorship_bias_filter",
+      "name": "Survivorship Bias Filter",
+      "type": "evaluation_framework",
+      "codifiability": "high",
+      "description": "When evaluating any track record, strategy, or historical pattern, account for the fact that you are only seeing the survivors. Failed funds, blown-up traders, and abandoned strategies are invisible. The visible sample is biased toward success, making any strategy look better than it truly is.",
+      "implementation": {
+        "rule_1": "When evaluating a fund or trader: ask how many started alongside them and failed",
+        "rule_2": "When backtesting: include delisted instruments, dead strategies, and failed signals",
+        "rule_3": "Unsolicited track records are nearly 100% likely to be survivorship artifacts",
+        "rule_4": "The more impressive a track record appears, the MORE you should suspect survivorship bias",
+        "rule_5": "Cross-sectional problem: the richest trader at any point is likely the best-fit to the current regime, not the most skilled"
+      },
+      "protects_against": [
+        "Investing in funds that are statistical artifacts",
+        "Copying strategies that only appear profitable due to selection bias",
+        "Overconfidence in historical patterns",
+        "The 'hot hand' fallacy"
+      ],
+      "source_chapter": "Chapter 8-9 (Double Survivorship Bias, Data Mining)",
+      "confidence": "very_high"
+    },
+    {
+      "id": "data_mining_detection",
+      "name": "Data Mining / Snooping Detection",
+      "type": "evaluation_framework",
+      "codifiability": "high",
+      "description": "If you test enough rules on historical data, some will appear profitable by chance alone. The more rules tested, the higher the probability of finding a spurious correlation. This is the birthday paradox applied to trading: in a room of 23 people, there is a >50% chance two share a birthday; in a dataset of 1000 price series, there is a near-certainty that some pattern 'works'.",
+      "implementation": {
+        "rule_1": "Track the total number of rules/parameters tested (not just the ones that worked)",
+        "rule_2": "Apply Bonferroni correction or similar multiple-testing adjustment",
+        "rule_3": "Out-of-sample validation is mandatory — in-sample results prove nothing",
+        "rule_4": "Walk-forward testing with sequential windows (not random splits)",
+        "rule_5": "Be suspicious of any strategy that was discovered by computer search rather than derived from a logical thesis",
+        "rule_6": "Sullivan, Timmerman, White (1999) showed that most published technical trading rules lose significance after accounting for data snooping"
+      },
+      "protects_against": [
+        "Overfitting",
+        "Spurious correlations",
+        "Publication bias in academic research",
+        "False confidence in backtested strategies"
+      ],
+      "source_chapter": "Chapter 9 (Data Mining, Birthday Paradox, Sullivan-Timmerman-White)",
+      "confidence": "very_high"
+    },
+    {
+      "id": "noise_signal_scaling",
+      "name": "Noise vs. Signal Scaling Law",
+      "type": "statistical_concept",
+      "codifiability": "high",
+      "description": "At higher observation frequencies, noise overwhelms signal. A 15% annual return with 10% volatility looks great yearly (93% chance of positive year) but is virtually indistinguishable from random at the minute or second level (50.02% positive). The signal-to-noise ratio scales with the square root of time. Checking your P&L every minute gives you mostly noise; checking yearly gives you mostly signal.",
+      "implementation": {
+        "table_3_1": {
+          "1_year": "93% probability of positive observation",
+          "1_quarter": "77%",
+          "1_month": "67%",
+          "1_day": "54%",
+          "1_hour": "51.3%",
+          "1_minute": "50.17%",
+          "1_second": "50.02%"
+        },
+        "practical_rules": [
+          "Do NOT check portfolio more than once per week (ideally monthly)",
+          "Do NOT make strategy adjustments based on daily P&L",
+          "Evaluate strategy performance over minimum 100 trades or 1 year",
+          "High-frequency data is useful for execution, not for strategy evaluation"
+        ]
+      },
+      "protects_against": [
+        "Emotional decision-making from noise",
+        "Abandoning a good strategy during normal drawdowns",
+        "Overtrading",
+        "Confusing random fluctuation with signal"
+      ],
+      "source_chapter": "Chapter 3 (Table 3.1, Mathematics of Sampling)",
+      "confidence": "very_high"
+    },
+    {
+      "id": "popperian_stop_loss",
+      "name": "Popperian Falsification Framework for Trading",
+      "type": "risk_management_principle",
+      "codifiability": "high",
+      "description": "Trade on conjectures (hypotheses about market direction) but always define in advance the conditions that would prove you wrong. A stop loss is not just a risk management tool — it is a falsification criterion. If the market hits your stop, your thesis has been refuted. Accept the refutation and move on. This is Karl Popper applied to trading: theories cannot be proven true, only proven false.",
+      "implementation": {
+        "pre_trade": "For every trade, write down: (1) the thesis, (2) the entry, (3) the exact price at which the thesis is falsified (stop loss)",
+        "during_trade": "If stop is hit, exit immediately. No exceptions, no mental renegotiation",
+        "post_trade": "If stopped out, do not re-enter the same trade without new evidence",
+        "meta_rule": "If a strategy hits maximum drawdown threshold, the strategy-level thesis is falsified. Stop trading it.",
+        "anti_pattern": "Niederhoffer's approach — pure empiricism without falsification criteria — leads to blow-up"
+      },
+      "protects_against": [
+        "Averaging down (refusing to accept falsification)",
+        "Moving stop losses (renegotiating with reality)",
+        "Denial of regime change",
+        "The blow-up trajectory (Carlos, John, Niederhoffer)"
+      ],
+      "source_chapter": "Chapter 7 (Popper, Falsificationism, Stop Losses)",
+      "confidence": "very_high"
+    },
+    {
+      "id": "pascals_wager_risk",
+      "name": "Pascal's Wager Applied to Risk Management",
+      "type": "risk_management_principle",
+      "codifiability": "medium",
+      "description": "Use statistics and probability for making aggressive bets (where being wrong costs little), but do NOT use statistics to manage risk (where being wrong costs everything). Even if you estimate a crash at 1% probability, if the crash would wipe you out, you must hedge against it. The expected value of ruin is always negative infinity regardless of probability.",
+      "implementation": {
+        "rule": "Asymmetric application of probability — aggressive on the upside, paranoid on the downside",
+        "for_entries": "Use statistical edge, probability estimates, expected value calculations",
+        "for_risk_management": "Assume the worst case WILL happen. Size positions so that worst case is survivable.",
+        "max_portfolio_risk": "Never have total portfolio risk exceed a level where a simultaneous worst-case across all positions would cause permanent impairment",
+        "example": "Even if P(crash) = 0.1%, if crash = -100% of capital, the expected cost is infinite relative to your career"
+      },
+      "protects_against": [
+        "Ruin (permanent loss of capital)",
+        "Model confidence in tail probability estimates",
+        "The fallacy that low probability = safe to ignore",
+        "Ergodicity violations (you only get one sequence of outcomes)"
+      ],
+      "source_chapter": "Chapter 7 (Pascal's Wager, Asymmetric Use of Statistics)",
+      "confidence": "very_high"
+    },
+    {
+      "id": "option_buying_preference",
+      "name": "Systematic Option Buying Over Selling",
+      "type": "strategy_design_principle",
+      "codifiability": "high",
+      "description": "Prefer buying options (limited downside, unlimited upside) over selling them (limited upside, unlimited downside). Option sellers 'eat like chickens and go to the bathroom like elephants' — they collect small premiums consistently until a large event wipes out all accumulated gains and more. Markets systematically underprice tail events, making options cheaper than they should be.",
+      "implementation": {
+        "rule_1": "Default to being a net buyer of options (convexity)",
+        "rule_2": "If selling options, always have a defined maximum loss (spreads, not naked)",
+        "rule_3": "Treat steady option-selling income as borrowed money — it will be paid back with interest during a crisis",
+        "rule_4": "When vol is low, increase option buying (they are cheap). When vol is high, reduce (they are expensive but also more likely to pay off)."
+      },
+      "protects_against": [
+        "Blow-up from tail events",
+        "The illusion of steady income from premium selling",
+        "Peso problem (stable returns hiding catastrophic risk)",
+        "Correlation spikes during crises"
+      ],
+      "source_chapter": "Chapter 6 (Premium sellers), Chapter 11 (Option blindness)",
+      "confidence": "high"
+    },
+    {
+      "id": "stationarity_check",
+      "name": "Stationarity / Regime Change Detection",
+      "type": "evaluation_framework",
+      "codifiability": "medium",
+      "description": "Market structure changes over time. A strategy that worked for 20 years may stop working because the underlying regime shifted. Past performance is only relevant if the generating process is stationary — and in markets, it rarely is. The animal best adapted to one regime is most vulnerable when the regime changes.",
+      "implementation": {
+        "rule_1": "Monitor strategy performance in rolling windows — degradation signals regime change",
+        "rule_2": "Walk-forward validation: test on sequential out-of-sample windows, not just one holdout",
+        "rule_3": "Track market microstructure changes (volatility regime, correlation regime, liquidity)",
+        "rule_4": "Have a kill switch: if strategy underperforms for X consecutive windows, halt and investigate",
+        "rule_5": "Diversify across strategies that profit in different regimes"
+      },
+      "protects_against": [
+        "Trading a dead strategy (regime changed but you didn't notice)",
+        "Overconfidence in long backtests",
+        "The stationarity assumption in most statistical tests",
+        "Evolutionary mismatch between strategy and current market"
+      ],
+      "source_chapter": "Chapter 5 (Cross-sectional problem), Chapter 6 (Stationarity), Chapter 9",
+      "confidence": "high"
+    },
+    {
+      "id": "information_diet",
+      "name": "Radical Information Diet",
+      "type": "behavioral_protocol",
+      "codifiability": "high",
+      "description": "Actively reduce information consumption to filter noise. Mute financial TV, avoid news, do not check P&L frequently. More information at high frequency means more noise and worse decisions. Taleb's practical solution: 'wax in the ears' like Odysseus. The dentist who checks his portfolio every minute experiences far more pain than the one who checks yearly, even with identical returns.",
+      "implementation": {
+        "rule_1": "No financial news during trading hours",
+        "rule_2": "Check portfolio P&L at most weekly (ideally monthly)",
+        "rule_3": "No real-time P&L display on screen while trading",
+        "rule_4": "Automate entries and exits to remove emotional interference",
+        "rule_5": "After placing a trade, walk away. The system will manage it.",
+        "rule_6": "Evaluate strategy performance in batch, not in real-time"
+      },
+      "protects_against": [
+        "Emotional interference from noise",
+        "Premature exit from winning trades",
+        "Panic selling during normal drawdowns",
+        "The 'dentist problem' (unnecessary emotional suffering from high-frequency observation)"
+      ],
+      "source_chapter": "Chapter 3 (Noise), Chapter 12-14 (Wax in the ears, Stoic dignity)",
+      "confidence": "very_high"
+    },
+    {
+      "id": "alternative_history_accounting",
+      "name": "Alternative History / Monte Carlo Thinking",
+      "type": "evaluation_framework",
+      "codifiability": "high",
+      "description": "Judge a strategy not by its single realized outcome but by the full distribution of outcomes it could have produced. Use Monte Carlo simulation to generate thousands of alternative histories from the same strategy. A strategy that produces good results in one history but ruin in 40% of alternative histories is not a good strategy — you just got lucky. The Russian Roulette metaphor: winning once does not make the game worth playing.",
+      "implementation": {
+        "rule_1": "Run Monte Carlo simulation on every strategy before deploying",
+        "rule_2": "Generate 1000+ alternative equity curves from the same trade distribution",
+        "rule_3": "Check: what percentage of paths produce ruin (>20% drawdown)?",
+        "rule_4": "Check: what is the median outcome, not just the mean?",
+        "rule_5": "If >5% of paths produce unacceptable outcomes, the strategy is rejected regardless of its average performance",
+        "rule_6": "Russian Roulette test: if one bad path means game over, the expected value is irrelevant"
+      },
+      "protects_against": [
+        "Outcome bias (judging quality by results instead of process)",
+        "Survivorship in your own track record",
+        "Lucky runs mistaken for skill",
+        "Strategies with hidden ruin risk"
+      ],
+      "source_chapter": "Chapter 2 (Alternative histories, Russian Roulette), Chapter 3 (Monte Carlo)",
+      "confidence": "very_high"
+    },
+    {
+      "id": "path_independence_belief_updating",
+      "name": "Path-Independent Belief Updating (Soros Model)",
+      "type": "behavioral_protocol",
+      "codifiability": "medium",
+      "description": "Your current market position should not influence your current market view. Soros is held up as the example: he would reverse a billion-dollar position overnight if new information contradicted his thesis. Most traders become emotionally committed to their positions and rationalize holding losers. The ability to change your mind instantly — regardless of sunk costs — is a critical edge.",
+      "implementation": {
+        "rule_1": "Re-evaluate every open position daily as if you had no position",
+        "rule_2": "Ask: 'Would I enter this trade today at this price?' If no, exit.",
+        "rule_3": "Never average down (this is doubling commitment to a falsified thesis)",
+        "rule_4": "Automate exits to remove emotional attachment",
+        "rule_5": "Keep a pre-mortem log: before entering, write down what would make you wrong"
+      },
+      "protects_against": [
+        "Sunk cost fallacy",
+        "Confirmation bias (seeking evidence that supports existing position)",
+        "Path dependence of beliefs",
+        "Averaging into losers (Carlos's blowup)"
+      ],
+      "source_chapter": "Chapter 10 (Path dependence), Chapter 14 (Soros)",
+      "confidence": "high"
+    },
+    {
+      "id": "conditional_probability_check",
+      "name": "Conditional vs. Unconditional Probability Audit",
+      "type": "statistical_concept",
+      "codifiability": "medium",
+      "description": "People systematically confuse the probability of A given B with the probability of B given A. Example from the book: a medical test with 95% accuracy does NOT mean a positive result gives you 95% chance of having the disease (if the disease base rate is low, it may be only 2%). In trading: the probability that a successful trader uses method X is NOT the probability that method X produces a successful trader.",
+      "implementation": {
+        "rule_1": "For every probabilistic claim, explicitly identify: P(A|B) vs P(B|A)",
+        "rule_2": "Always ask: what is the base rate? (How common is the condition in the overall population?)",
+        "rule_3": "When evaluating a strategy: P(strategy works | successful trader uses it) is NOT P(trader succeeds | strategy used). Ask how many traders FAILED using the same method.",
+        "rule_4": "Apply Bayes' theorem formally when the stakes are high"
+      },
+      "protects_against": [
+        "Base rate neglect",
+        "Copying strategies from successful traders without accounting for failed users",
+        "Medical test fallacy applied to market signals (high accuracy but low base rate = mostly false positives)",
+        "Misinterpreting indicator accuracy statistics"
+      ],
+      "source_chapter": "Chapter 11 (Conditional probability, medical test example)",
+      "confidence": "high"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "taleb_barbell",
+      "name": "Taleb Barbell Portfolio",
+      "source": "Nassim Nicholas Taleb (via Nero Tulip character)",
+      "category": "portfolio_construction",
+      "codifiability": "high",
+      "timeframe": "monthly_rebalance",
+      "markets": ["bonds", "options", "any_liquid_market"],
+      "entry_logic": "Allocate 85-90% to short-term treasury bonds. Allocate 10-15% to deep OTM options across multiple markets. Roll options monthly. Increase option allocation when implied volatility is at historical lows.",
+      "exit_logic": "Options: hold to expiry or take profit at 5x+ gain. Treasuries: hold, roll at maturity. Rebalance after large option wins (profits go back to treasury side).",
+      "position_sizing": "Fixed allocation: safe side is fixed %; speculative side is the remainder. Never increase speculative allocation above 15%.",
+      "stop_loss": "Not applicable to safe side. Speculative side: maximum loss = the allocation itself (options expire worthless = max loss).",
+      "take_profit": "Options: take partial profit at 5x, let rest ride. No fixed target on safe side.",
+      "filters": ["Buy more options when VIX is below 15 (cheap protection)", "Diversify option strikes and expirations", "Never sell naked options"],
+      "confidence": "high",
+      "notes": "This is the core portfolio construction method advocated throughout the book. The key insight is that you cannot blow up if 85-90% of your capital is in risk-free instruments. The speculative side provides convexity — you participate in large moves without risking ruin."
+    },
+    {
+      "id": "crisis_hunter",
+      "name": "Crisis Alpha Strategy",
+      "source": "Nassim Nicholas Taleb (via Nero Tulip character)",
+      "category": "tail_risk",
+      "codifiability": "medium",
+      "timeframe": "monthly",
+      "markets": ["options_on_indices", "options_on_commodities", "options_on_forex"],
+      "entry_logic": "Buy OTM puts on equity indices and correlated assets when implied volatility is at or near 52-week lows. Buy OTM calls on safe-haven assets (gold, yen, treasuries). Size each position to lose no more than 0.5% of total portfolio if it expires worthless.",
+      "exit_logic": "Hold to expiry in most cases. Take profit if option reaches 10x+ gain (sell half, hold half). If a crisis triggers, systematically sell into the panic at extreme premiums.",
+      "position_sizing": "Total monthly option spend capped at 1-2% of portfolio. Individual position max 0.5% of portfolio.",
+      "stop_loss": "Inherent: max loss = premium paid.",
+      "take_profit": "Scale out: 50% at 10x, 25% at 20x, let remainder ride.",
+      "filters": ["Only buy when implied vol is below 20th percentile of 1-year range", "Prefer 2-3 month expiries (enough time for event to occur)", "Diversify across uncorrelated tail risks"],
+      "confidence": "medium",
+      "notes": "Taleb describes this as 'bleed to win' — you lose small amounts consistently until a crisis hits, at which point you make years' worth of returns in days. Requires psychological tolerance for extended losing periods."
+    },
+    {
+      "id": "anti_fragile_trend_following",
+      "name": "Convex Trend Following (Implied by Taleb's Framework)",
+      "source": "Inferred from Taleb's principles + endorsement of trend followers",
+      "category": "trend_following",
+      "codifiability": "high",
+      "timeframe": "daily_to_weekly",
+      "markets": ["futures", "forex", "commodities"],
+      "entry_logic": "Enter in direction of established trend using MA crossover or breakout. Key: the entry signal matters less than the exit structure and position sizing.",
+      "exit_logic": "Trailing stop at 2-3 ATR. Let winners run indefinitely. Cut losers at initial stop (Popperian falsification). Time stop: exit if trade goes nowhere after N bars.",
+      "position_sizing": "Risk 0.5-1% per trade. Diversify across 20+ uncorrelated instruments.",
+      "stop_loss": "Fixed at entry: 2 ATR from entry price. Non-negotiable.",
+      "take_profit": "No fixed target. Trailing stop only. The big wins come from 1-2 trends per year that run for months.",
+      "filters": ["Skip ranging/choppy markets (ATR contraction filter)", "Trade all liquid markets — diversification is the edge", "No leverage on individual positions"],
+      "confidence": "medium",
+      "notes": "Taleb explicitly endorses trend following as compatible with his philosophy because it has positive skewness (many small losses, few large wins) and makes no prediction about market direction. This is the anti-Niederhoffer approach."
+    }
+  ],
+  "cognitive_biases_exploitable": [
+    {
+      "bias": "Survivorship Bias",
+      "description": "Only winners are visible in the sample. Failed traders, blown-up funds, and abandoned strategies disappear from observation.",
+      "how_exploited": "Be skeptical of all track records. Require walk-forward validation. Never copy a strategy just because a successful person uses it.",
+      "market_implication": "Most 'successful' strategies in the public domain are survivorship artifacts. The real edge is in strategies that survive rigorous out-of-sample testing.",
+      "source_chapter": "Chapters 8-9"
+    },
+    {
+      "bias": "Skewness Blindness",
+      "description": "People focus on frequency of wins/losses and ignore magnitude. A strategy that wins 99% of the time can still lose money if the 1% loss is catastrophic.",
+      "how_exploited": "Design strategies with positive skew (small losses, large wins). Avoid negative skew strategies (premium selling, carry trades) even though they 'feel' safer.",
+      "market_implication": "Most retail traders and many funds sell options or harvest carry because it feels good to win frequently. This creates a supply of cheap convexity for buyers to exploit.",
+      "source_chapter": "Chapter 6"
+    },
+    {
+      "bias": "Option Blindness",
+      "description": "People undervalue optionality. They confuse the most likely scenario (option expires worthless) with the expected value (which includes the tail payoff).",
+      "how_exploited": "Buy options when they are underpriced relative to true fat-tailed distributions. Markets price options using Gaussian assumptions that underweight tails.",
+      "market_implication": "Systematic selling of OTM options is widespread, depressing premiums below fair value for fat-tailed distributions. This creates a persistent edge for informed option buyers.",
+      "source_chapter": "Chapter 11"
+    },
+    {
+      "bias": "Narrative Fallacy / Hindsight Bias",
+      "description": "After an event occurs, people construct a narrative explaining why it was inevitable. Before the event, it was invisible.",
+      "how_exploited": "Ignore post-hoc explanations of market moves. Evaluate strategies purely on forward-looking statistical properties.",
+      "market_implication": "News-driven trading is mostly noise. The explanation for why the market moved is constructed after the fact and has no predictive value.",
+      "source_chapter": "Chapters 3, 11"
+    },
+    {
+      "bias": "Anchoring to Past Positions",
+      "description": "Traders become psychologically anchored to their entry price and current position, making them unable to objectively assess new information.",
+      "how_exploited": "Automate exits. Use systematic rules. Practice path-independent belief updating (Soros model).",
+      "market_implication": "Most market participants are anchored to their positions, creating predictable behavioral patterns around key price levels (stop clusters, averaging-down zones).",
+      "source_chapter": "Chapters 10, 14"
+    },
+    {
+      "bias": "Base Rate Neglect",
+      "description": "Confusing P(A|B) with P(B|A). Ignoring how common the underlying condition is when evaluating test results or signals.",
+      "how_exploited": "Always compute base rates for trading signals. A 90% accurate signal in a market that trends 20% of the time produces mostly false positives.",
+      "market_implication": "Most technical indicators have high accuracy rates that are meaningless without base rate context. A signal that fires rarely but accurately is better than one that fires constantly with moderate accuracy.",
+      "source_chapter": "Chapter 11"
+    }
+  ],
+  "backtest_reliability_warnings": [
+    {
+      "warning": "Data Mining Bias",
+      "description": "Testing thousands of rules guarantees some will appear profitable by chance. Sullivan, Timmerman, and White (1999) showed most published trading rules lose significance after correcting for data snooping.",
+      "mitigation": "Track total rules tested. Apply multiple-testing corrections. Require out-of-sample validation."
+    },
+    {
+      "warning": "Survivorship Bias in Data",
+      "description": "Historical databases often exclude delisted stocks, failed companies, and dead instruments. This inflates backtested returns.",
+      "mitigation": "Use survivorship-bias-free databases. Include delisted instruments. Test on indices that include/exclude members dynamically."
+    },
+    {
+      "warning": "Stationarity Assumption",
+      "description": "Backtests assume the market generating process is constant over time. It is not. Regimes change, correlations shift, volatility structures evolve.",
+      "mitigation": "Walk-forward validation with sequential windows. Monitor rolling performance. Have regime-change kill switches."
+    },
+    {
+      "warning": "Overfitting to Noise",
+      "description": "The more parameters in a model, the better it fits historical noise. This is the opposite of robustness.",
+      "mitigation": "Minimize parameters. Prefer simple strategies (fewer degrees of freedom). Penalize complexity."
+    },
+    {
+      "warning": "Single Path Dependency",
+      "description": "A backtest shows ONE realized path. The strategy might have been one bad week away from catastrophe on that same path.",
+      "mitigation": "Monte Carlo simulation: generate 1000+ alternative paths. Evaluate the distribution of outcomes, not just the single realized path."
+    },
+    {
+      "warning": "Peso Problem",
+      "description": "A strategy that appears consistently profitable may be harvesting risk from a rare catastrophic event that simply has not occurred in the sample period.",
+      "mitigation": "Stress test against historical tail events (1987, 2008, 2020). Simulate events more extreme than anything in the sample. Ask: what happens if the thing that has never happened, happens?"
+    }
+  ],
+  "skill_vs_luck_evaluation": {
+    "framework": "Taleb's method for distinguishing skill from luck in track records",
+    "key_principles": [
+      "Longevity is the strongest signal of skill — surviving 20+ years in markets is hard to do by luck alone",
+      "Cross-sectional problem: the richest person at any point in time is likely the best-fit to the current regime, not the most skilled",
+      "Ergodicity: over long enough time, lucky fools converge to their true expected value (which may be negative)",
+      "Alternative histories: a track record is ONE sample from a distribution. Judge by the distribution, not the single sample.",
+      "Frequency of profit says nothing about skill. A skilled trader can lose 60% of trades. A lucky fool can win 90%.",
+      "Process over outcome: evaluate the decision-making process, not the P&L. Did the trader have good reasons, proper sizing, and stop losses?",
+      "The dentist fallacy: a dentist who plays Russian Roulette and wins is not a better dentist. Winning at a dangerous game proves nothing about skill."
+    ],
+    "red_flags_for_luck": [
+      "Short track record (<5 years or <500 trades)",
+      "High win rate with unclear magnitude distribution",
+      "No defined risk management framework",
+      "Strategy cannot be explained by a logical thesis (pure data mining)",
+      "Returns are clustered in one regime (bull market warrior)",
+      "Trader has never experienced a significant drawdown",
+      "Track record was unsolicited (sent to you without being asked)"
+    ],
+    "green_flags_for_skill": [
+      "20+ year track record with consistent risk-adjusted returns",
+      "Clear, articulable edge that makes logical sense",
+      "Survived multiple regime changes (bull, bear, crisis)",
+      "Defined stop losses and risk framework BEFORE trades",
+      "Willing to change mind instantly when evidence contradicts thesis (Soros test)",
+      "Modest Sharpe ratio (1.0-2.0) rather than incredible one (>3.0)",
+      "Monte Carlo simulation shows <5% probability of ruin across alternative paths"
+    ]
+  },
+  "endorsed_approaches": [
+    "Trend following (positive skew, no prediction required)",
+    "Option buying / barbell portfolio (bounded downside, convex upside)",
+    "Extreme diversification across uncorrelated strategies and markets",
+    "Stop losses as non-negotiable falsification criteria",
+    "Monte Carlo simulation for strategy evaluation",
+    "Walk-forward out-of-sample testing",
+    "Radical information diet (less news, less checking)",
+    "Position sizing based on worst-case, not expected case"
+  ],
+  "condemned_approaches": [
+    "Naked option selling / premium harvesting (negative skew, ruin risk)",
+    "Pure empiricism without falsification framework (Niederhoffer)",
+    "Backtesting without out-of-sample validation",
+    "Averaging down into losing positions (Carlos blowup)",
+    "Carry trades presented as low-risk income (peso problem)",
+    "Discretionary trading without stop losses",
+    "Judging skill by short-term results",
+    "High-frequency P&L monitoring",
+    "Trusting unsolicited track records",
+    "Trading based on financial news or expert predictions"
+  ],
+  "key_quotes": [
+    {
+      "quote": "Heroes are heroes because they are heroic in behavior, not because they won or lost.",
+      "context": "Judge process, not outcome"
+    },
+    {
+      "quote": "Over a short time increment, one observes the variability of the portfolio, not the returns.",
+      "context": "Noise dominates signal at high frequency"
+    },
+    {
+      "quote": "The mistake of ignoring the survivorship bias is chronic, even among professionals.",
+      "context": "Survivorship bias is universal and persistent"
+    },
+    {
+      "quote": "I try to benefit from rare events, events that do not tend to repeat themselves frequently, but, accordingly, present a large payoff when they occur.",
+      "context": "Nero Tulip describing the crisis-hunting approach"
+    },
+    {
+      "quote": "Mild success can be explainable by skills and labor. Wild success is attributable to variance.",
+      "context": "Extreme outcomes are more likely luck than skill"
+    },
+    {
+      "quote": "Option sellers eat like chickens and go to the bathroom like elephants.",
+      "context": "Premium selling produces steady income punctuated by catastrophic losses"
+    }
+  ],
+  "pipeline_metadata": {
+    "extraction_date": "2026-03-25",
+    "pipeline_version": "v2",
+    "source_file": "strategy_pipeline/output/Fooled_by_Randomness_-_The_Hidden_Role_of_Chance_i_text.txt",
+    "source_pages": 219,
+    "word_count_approx": 74000,
+    "analysis_notes": "This book is primarily philosophical/probabilistic rather than strategy-focused. The extracted strategies (barbell, crisis alpha, convex trend following) are implied by Taleb's framework rather than explicitly specified with parameters. The book's greatest value is in its evaluation frameworks (survivorship bias, data mining detection, noise vs signal, Monte Carlo thinking) and risk management principles (Popperian stop losses, Pascal's Wager, asymmetric payoffs)."
+  }
+}

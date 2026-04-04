@@ -1,4 +1,4 @@
----
+--
 tags: [core, SBRS, strategy-spec, sacred-parameters, MOC]
 aliases: [Strategy Spec, SBRS Spec, Sacred Parameters, Master Spec]
 related: [[00-MOC-Zeros-Requiem]], [[16-Risk-Management-Elite-System]], [[25-Walk-Forward-Full-Results]], [[29-P5-P7-P8-OANDA-Portfolio]]
@@ -44,13 +44,13 @@ The root `CLAUDE.md` is the **single source of truth** for the Zeros Requiem pro
 - **Tier 2 (Testing):** S&P 500, NASDAQ, DAX — need 5Y+ data
 - **Tier 3 (Rejected):** Crypto — no edge found
 
-## Dual Framework Note
+## Architecture Note
 
-The project contains **two** strategy frameworks:
-1. **SBRS 1.1** — Live paper trading (breakout + retest + MA cross)
-2. **SCAF 2.0** — Backtesting framework (sweep + displacement + FVG)
+The project uses a **single unified framework** as of Phase 6 (2026-03):
+- **SBRS 1.1** — The only active strategy (breakout + retest + MA cross)
+- **SCAF 2.0** — Removed. Previously a sweep/displacement/FVG backtesting framework. See [[43-Phase-6-SCAF-Removal]] for details.
 
-See [[17-SCAF-2.0-Architecture]] for SCAF details and [[29-P5-P7-P8-OANDA-Portfolio]] for portfolio allocation.
+See [[29-P5-P7-P8-OANDA-Portfolio]] for portfolio allocation.
 
 ## Related
 

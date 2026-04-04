@@ -1,15 +1,11 @@
 """
-SCAF 2.0 + SBRS 1.0 Backtest Engine
+SBRS 1.1 Backtest Engine
 
-Runs regime-aware backtests with:
-- Slippage tax (1-2 pips per trade)
-- Risk management integration (5 layers)
-- Batch protocol (evaluate per 20 trades)
-- Full trade logging for analysis
-- SBRS 1.0 trade management (breakeven, MA cross exit, structure exit, trailing, timeout)
-
-Priority 6: Elite metrics added — Sharpe, Sortino, Expectancy, RoMaD,
-max consecutive losses, avg win/loss, expectancy R.
+Runs backtests with:
+- Slippage modelling (1.5 pips per trade)
+- 5-layer risk management integration
+- SBRS trade management (breakeven, MA cross exit, structure exit, timeout)
+- Elite metrics: Sharpe, Sortino, Expectancy, RoMaD, consecutive streaks
 """
 
 import pandas as pd

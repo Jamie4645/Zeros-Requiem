@@ -1,0 +1,445 @@
+{
+  "book": {
+    "title": "The Complete Turtle Trader",
+    "subtitle": "The Legend, the Lessons, the Results",
+    "author": "Michael W. Covel",
+    "year": 2007,
+    "pages": 269,
+    "focus": "Trend following via channel breakouts with ATR-based position sizing",
+    "historical_context": "Documents Richard Dennis's 1983-1988 Turtle trading experiment where novices were trained to trade futures using systematic trend-following rules"
+  },
+  "strategies": [
+    {
+      "name": "Turtle System One (S1)",
+      "type": "Trend Following / Channel Breakout",
+      "description": "Shorter-term breakout system using 20-day (4-week) price breakouts for entry with a 10-day (2-week) breakout exit in the opposite direction. Includes a filter rule that skips signals if the previous breakout was a winner.",
+      "markets": {
+        "asset_classes": ["Futures", "Commodities", "Currencies", "Bonds", "Stock Indices"],
+        "specific_markets_traded": [
+          "30-Year T-Bond", "10-Year T-Bond", "90-Day T-Bill", "Eurodollar",
+          "British Pound", "French Franc", "Japanese Yen", "Canadian Dollar", "Swiss Franc", "Deutschmark",
+          "Gold", "Silver", "Copper",
+          "Cotton", "Sugar", "Cocoa", "Coffee",
+          "Crude Oil", "Heating Oil", "Unleaded Gas",
+          "S&P 500",
+          "Corn", "Soybeans", "Wheat", "Live Cattle", "Lean Hogs"
+        ],
+        "notes": "The Turtles traded approximately 30 liquid futures markets. Modern implementations can trade any liquid market including stocks, ETFs, forex, and crypto."
+      },
+      "timeframe": "Daily bars (end-of-day signals only)",
+      "entry_rules": {
+        "long_entry": "Buy when price makes a new 20-day high (highest price of last 20 trading days)",
+        "short_entry": "Sell short when price makes a new 20-day low (lowest price of last 20 trading days)",
+        "filter_rule": "Skip the S1 breakout signal if the PREVIOUS S1 breakout was a winner. Even if the previous signal was not taken (theoretical winner), still skip. Exception: If the previous breakout resulted in a 2N loss, take the current breakout.",
+        "filter_direction": "Direction of previous breakout is irrelevant for the filter. A losing short followed by a new long or short breakout can be taken.",
+        "failsafe": "If a filtered S1 signal is missed and the market keeps trending, enter at the S2 (55-day) breakout level as a backup entry."
+      },
+      "exit_rules": {
+        "profit_exit": "Exit long when price makes a new 10-day low (2-week breakout in opposite direction). Exit short when price makes a new 10-day high.",
+        "stop_loss": "2N hard stop (2 x ATR(20) below entry for longs, above entry for shorts). Whichever exit is hit first.",
+        "first_day_stop": "On the first day of trading a new position, use a 0.5N stop instead of 2N.",
+        "priority": "Take whichever exit signal is hit first - the 2N stop or the 10-day breakout exit."
+      },
+      "risk_management": {
+        "position_sizing_formula": {
+          "description": "Risk a fixed 2% of account equity per trade (one 'unit')",
+          "formula": "Number of contracts = (Account Equity x Risk%) / (N x Dollar_Per_Point x Stop_Multiple)",
+          "simplified": "Contracts = (Account x 0.02) / (2N_dollar_value)",
+          "example": "Account $100,000, Corn N=7 cents, Dollar per point=$50. 2N=$700. Contracts = $2,000/$700 = 2.67, rounded down to 2."
+        },
+        "N_calculation": {
+          "description": "N is the 20-day exponential moving average of True Range (ATR)",
+          "true_range": "Maximum of: (High - Low), |High - Previous Close|, |Low - Previous Close|",
+          "period": 20,
+          "update_frequency": "Daily"
+        },
+        "unit_limits": {
+          "single_market": "Maximum 4 units per market",
+          "closely_correlated_markets": "Maximum 6 units across closely correlated markets (e.g., Gold + Silver)",
+          "loosely_correlated_markets": "Maximum 10 units across loosely correlated markets",
+          "single_direction": "Maximum 12 units total in one direction (long or short)",
+          "total_portfolio": "Maximum 20-24 units total"
+        },
+        "drawdown_reduction": {
+          "rule": "For every 10% drawdown in account, reduce unit size by 20%",
+          "example": "At -11% drawdown, unit risk drops from 2.0% to 1.6%. At -22% drawdown, drops to 1.28%.",
+          "restoration": "Increase unit sizes back as account recovers"
+        },
+        "correlation_management": {
+          "description": "Avoid overloading correlated markets. 1 unit of Corn + 1 unit of Soybeans = effectively 2 units of either.",
+          "long_short_offset": "Net unit risk = Larger side - (Smaller side / 2). Example: 4 long units + 3 short units = 4 - (3/2) = 2.5 units of risk."
+        }
+      },
+      "pyramiding": {
+        "description": "Add units as position moves in your favor to maximize winning trades",
+        "add_interval": "Add 1 unit for every 1N (one ATR) the market moves in your favor",
+        "max_units": 5,
+        "stop_adjustment": "When adding a new unit, move ALL stops to the new unit's 2N stop level. This locks in profit on earlier units.",
+        "example": "Long entry at 100, N=5. Add at 105, 110, 115, 120 (max 5 units). After unit 2 at 105, all stops move to 105-10=95.",
+        "risk_profile": "With 5 units pyramided, total risk to original equity is approximately 2.4% if all stops are hit simultaneously."
+      },
+      "indicators": [
+        {
+          "name": "20-Day Breakout (Donchian Channel)",
+          "parameters": {"period": 20},
+          "usage": "Entry signal - new 20-day high or low"
+        },
+        {
+          "name": "10-Day Breakout (Donchian Channel)",
+          "parameters": {"period": 10},
+          "usage": "Exit signal - 10-day breakout in opposite direction"
+        },
+        {
+          "name": "ATR (Average True Range) / N",
+          "parameters": {"period": 20},
+          "usage": "Position sizing, stop placement, pyramiding intervals"
+        }
+      ],
+      "source_chapter": "Chapter 5: The Rules (pp. 67-98)",
+      "clarity_score": 9,
+      "completeness": 8,
+      "notes": "The filter rule (skip after winner) reduces whipsaws but risks missing the start of big trends. The S2 failsafe addresses this. Turtles typically allocated half their capital to S1 and half to S2."
+    },
+    {
+      "name": "Turtle System Two (S2)",
+      "type": "Trend Following / Channel Breakout (Longer-term)",
+      "description": "Longer-term breakout system using 55-day (11-week) price breakouts for entry and 20-day (4-week) breakout exit in the opposite direction. No filter rule - every breakout is taken.",
+      "markets": {
+        "asset_classes": ["Futures", "Commodities", "Currencies", "Bonds", "Stock Indices"],
+        "specific_markets_traded": "Same as S1 - all liquid futures markets",
+        "notes": "S2 serves as both standalone system and failsafe for filtered S1 signals"
+      },
+      "timeframe": "Daily bars (end-of-day signals only)",
+      "entry_rules": {
+        "long_entry": "Buy when price makes a new 55-day high (highest price of last 55 trading days)",
+        "short_entry": "Sell short when price makes a new 55-day low (lowest price of last 55 trading days)",
+        "filter_rule": "NONE - every S2 breakout signal is taken regardless of previous outcome",
+        "notes": "S2 catches the big trends that S1's filter may miss. Also serves as the failsafe entry when S1 signals are skipped."
+      },
+      "exit_rules": {
+        "profit_exit": "Exit long when price makes a new 20-day low. Exit short when price makes a new 20-day high.",
+        "stop_loss": "2N hard stop, same as S1",
+        "priority": "Whichever exit is hit first"
+      },
+      "risk_management": {
+        "position_sizing": "Identical to S1 - 2% risk per unit, N-based sizing",
+        "pyramiding": "Same rules as S1 - add every 1N, max 5 units",
+        "unit_limits": "Same as S1",
+        "drawdown_reduction": "Same as S1"
+      },
+      "indicators": [
+        {
+          "name": "55-Day Breakout (Donchian Channel)",
+          "parameters": {"period": 55},
+          "usage": "Entry signal"
+        },
+        {
+          "name": "20-Day Breakout (Donchian Channel)",
+          "parameters": {"period": 20},
+          "usage": "Exit signal"
+        },
+        {
+          "name": "ATR (Average True Range) / N",
+          "parameters": {"period": 20},
+          "usage": "Position sizing, stop placement, pyramiding intervals"
+        }
+      ],
+      "source_chapter": "Chapter 5: The Rules (pp. 67-98)",
+      "clarity_score": 9,
+      "completeness": 9,
+      "notes": "S2 is the simpler, more robust system. No filter rule means more trades but also more false breakouts. Jerry Parker emphasized that core simple breakout/moving average systems are the real edge. Parker later used systems closer to S2 with a 52-week moving average as his core signal."
+    },
+    {
+      "name": "Turtle System Three (S3) - Flair Account",
+      "type": "Discretionary / Mixed",
+      "description": "A discretionary allocation Dennis allowed each Turtle to trade however they wanted, with a strict $50,000 loss limit. Referred to as the 'dreaded flair account.'",
+      "markets": {
+        "asset_classes": "Any",
+        "notes": "Turtles could trade anything they wanted"
+      },
+      "timeframe": "Any",
+      "entry_rules": {
+        "description": "Completely discretionary - no required rules",
+        "loss_limit": "Maximum $50,000 loss. Exceed $50,001 and you are out of the Turtle program."
+      },
+      "exit_rules": {
+        "description": "Discretionary"
+      },
+      "risk_management": {
+        "max_loss": "$50,000 hard cap",
+        "notes": "Almost all Turtles abandoned S3 within 6 weeks. After experiencing the discipline of S1/S2, discretionary trading felt wrong."
+      },
+      "source_chapter": "Chapter 5: The Rules (p. 73-74)",
+      "clarity_score": 4,
+      "completeness": 3,
+      "notes": "Included for completeness. Not a real codifiable strategy. Key insight: even trained systematic traders abandoned discretionary trading quickly, reinforcing the value of rules-based approaches."
+    },
+    {
+      "name": "Post-Turtle Parker Adaptation (Reduced Leverage)",
+      "type": "Trend Following / Channel Breakout (Conservative)",
+      "description": "Jerry Parker's adaptation of Turtle rules after leaving Dennis. Core change: dramatically reduced leverage to target 15-20% annual returns instead of 100%+. Same entry/exit logic, much smaller position sizes. This became the template for the $1B+ Chesapeake Capital.",
+      "markets": {
+        "asset_classes": ["Futures", "Commodities", "Currencies", "Bonds", "Stock Indices", "Any liquid market"],
+        "portfolio_size": "30-65 markets simultaneously",
+        "notes": "Parker traded up to 65 markets across all sectors. 'Maybe we trend follow with Chinese porcelain. Maybe we trend follow with gold and silver, or stock futures, or whatever the client needs.'"
+      },
+      "timeframe": "Daily bars (with longer-term parameters preferred)",
+      "entry_rules": {
+        "description": "Core Turtle breakout rules (primarily S2 style), with longer-term parameters",
+        "key_filter": "Low volatility at entry is preferred - 'If the recent volatility is very low, not $5 in gold, but $2.50 in gold, then we're going to throw in a very large position.'",
+        "moving_average": "52-week moving average as core trend filter (from Mount Lucas Management Index)",
+        "notes": "Parker emphasized keeping parameters longer-term and simple. 'The minute it takes too much thinking and too much fancy work, it is going to be a very bad situation.'"
+      },
+      "exit_rules": {
+        "description": "Standard Turtle exits but Parker was prone to 'lighten up or take a portion of the profits'",
+        "stop_loss": "N-based stops, same philosophy as original Turtle rules"
+      },
+      "risk_management": {
+        "position_sizing": "Reduced from 2% to approximately 0.5-1% per unit to target ~15-20% annual returns",
+        "leverage": "Much lower than original Turtle levels",
+        "target_return": "15-20% annual (vs 100%+ during Turtle program)",
+        "target_drawdown": "Single-digit to low-teens drawdowns",
+        "notes": "Parker: 'If you're going to raise a lot of money, people will be very happy with 15% or 20%.' He raised over $1 billion."
+      },
+      "performance": {
+        "chesapeake_capital": {
+          "annual_returns_sample": {
+            "1988": "Not available (startup)",
+            "approximate_annual_average": "~15-20% per year over 20 years"
+          },
+          "monthly_expectation": {
+            "avg_winning_month": "5.06%",
+            "avg_losing_month": "-3.59%",
+            "winning_months_pct": "57.40%",
+            "expectation": "1.38% per month"
+          },
+          "assets_under_management": "$1B+ at peak"
+        }
+      },
+      "source_chapter": "Chapters 9, 11 (pp. 135-166)",
+      "clarity_score": 7,
+      "completeness": 6,
+      "notes": "This is the most commercially successful adaptation of the Turtle rules. Key insight: reducing leverage dramatically while keeping the same rules allowed Parker to attract institutional money and build a billion-dollar firm. Win rate ~40%, profit from ~10% of trades, rest breakeven to small losses."
+    },
+    {
+      "name": "Salem Abraham Trend Following",
+      "type": "Trend Following (Second-Generation Turtle)",
+      "description": "Salem Abraham learned trend-following concepts from Jerry Parker and later attended a 4-day Dennis/Eckhardt seminar. Built a 20-year track record from Canadian, Texas, starting with $100K family money. Uses systematic trend-following with strong risk management.",
+      "markets": {
+        "asset_classes": ["Futures", "Commodities", "Currencies", "Bonds"],
+        "portfolio_size": "21+ markets"
+      },
+      "timeframe": "Daily",
+      "entry_rules": {
+        "description": "Breakout-based trend following (specific parameters not disclosed in book)",
+        "philosophy": "Buy new highs, sell new lows. 'To buy crude oil at $55? That's a hard bet to do when it's never been to $56. Never in the history of the world has it been to $56 and you say, It hit $55 today, I'm buying it.'"
+      },
+      "risk_management": {
+        "core_principle": "'Just because you have a Lamborghini, you don't have to go 160 miles an hour. I'm never going past 30 and I'm going to control risk.'",
+        "position_sizing": "N/ATR-based, similar to Turtle methodology"
+      },
+      "performance": {
+        "monthly_expectation": {
+          "avg_winning_month": "8.50%",
+          "avg_losing_month": "-5.77%",
+          "winning_months_pct": "55.36%",
+          "expectation": "2.13% per month"
+        },
+        "annual_returns": {
+          "1988": "142.04%",
+          "1989": "17.81%",
+          "1990": "89.95%",
+          "1991": "24.39%",
+          "1992": "-10.50%",
+          "1993": "34.29%",
+          "1994": "24.22%",
+          "1995": "6.12%",
+          "1996": "-0.42%",
+          "1997": "10.88%",
+          "1998": "4.39%",
+          "1999": "4.76%",
+          "2000": "13.54%",
+          "2001": "19.16%",
+          "2002": "21.51%",
+          "2003": "74.66%",
+          "2004": "15.38%",
+          "2005": "-10.95%",
+          "2006": "8.88%"
+        }
+      },
+      "source_chapter": "Chapter 13: Second-Generation Turtles (pp. 173-186)",
+      "clarity_score": 5,
+      "completeness": 4,
+      "notes": "Abraham is the best example of someone who learned the Turtle philosophy indirectly and built a successful firm. His higher expectation (2.13%/month vs Parker's 1.38%) suggests he maintained higher leverage. Key lesson: the exact rules matter less than the philosophy of trend following + risk management."
+    }
+  ],
+  "core_trading_philosophy": {
+    "fundamental_principles": [
+      "Trade price only - no fundamental analysis, no news, no opinions",
+      "Follow trends - buy strength, sell weakness ('buy high, sell higher')",
+      "Cut losses short, let profits run",
+      "Think in probabilities, not predictions",
+      "The entry matters far less than the exit and position sizing",
+      "Losses are a cost of doing business - expect to lose on 60-70% of trades",
+      "Big trends pay for all the small losses - expect profits from ~10% of trades",
+      "Diversify across uncorrelated markets to catch trends wherever they occur",
+      "Use volatility (N/ATR) to equalize risk across all markets",
+      "Never try to predict the magnitude or duration of a trend",
+      "Missing a big trend can ruin your year - always be in the market"
+    ],
+    "psychological_requirements": [
+      "Accept losing 7 out of 10 trades as normal and expected",
+      "Do not second-guess the system during drawdowns",
+      "Trade like a robot - creative genius is counterproductive",
+      "Think of money as a score, not as purchasing power",
+      "Expect long periods of doing nothing - no trading when markets don't move",
+      "Be willing to buy at all-time highs and sell at all-time lows",
+      "Don't wait for retracements - if signal fires, enter immediately",
+      "Keep focus on the statistics, not individual trades"
+    ],
+    "key_quotes": [
+      "We found that liquidations are vastly more important than initiations. If you initiate purely randomly, you do surprisingly well with a good liquidation criterion. - William Eckhardt",
+      "Pure price systems are close enough to the North Pole that any departure tends to bring you farther south. - William Eckhardt",
+      "The average batter hits maybe .280 and the average system might be successful 35 percent of the time. - Richard Dennis",
+      "It is better to risk taking many small losses than to risk missing one large profit.",
+      "Good traders apply every ounce of intelligence they have into the creation of their systems, but then they're dumbbells in following them. - Richard Dennis",
+      "Trend following is like a democracy. Sometimes it doesn't look so good, but it's better than anything else out there. - Jerry Parker",
+      "Mean reversion works almost all of the time. Then it stops and you're kind of out of business. - Jerry Parker"
+    ]
+  },
+  "turtle_performance_data": {
+    "during_experiment": {
+      "period": "1984-1988",
+      "total_profit_for_dennis": "$150 million gross, $110 million net to Dennis",
+      "turtle_split": "10-15% of profits to Turtles, 85-90% to Dennis",
+      "notable_annual_returns": {
+        "Stig Ostgaard_1985": "+297%",
+        "Liz Cheval_1987": "+178%",
+        "Jim DiMaria_1986": "+132%",
+        "Jerry Parker_1985": "+129%",
+        "Jerry Parker_1986": "+124%",
+        "Mike Cavallo_1987": "+111%",
+        "Jim Melnick_1986": "+160%",
+        "Paul Rabar_1986": "+185%"
+      },
+      "monthly_volatility": "Typical monthly swings of -30% to +90%. Most Turtles were down 30-50% before big trends hit.",
+      "notes": "Curtis Faith reportedly made $31.5M but traded 10-20x more capital than other Turtles. His performance rate was not necessarily better - he just had more capital allocated."
+    },
+    "post_experiment": {
+      "successful_turtles": {
+        "Jerry Parker": {
+          "firm": "Chesapeake Capital",
+          "aum_peak": "$1B+",
+          "strategy": "Reduced leverage Turtle rules, 30-65 markets",
+          "key_to_success": "First to reduce leverage for institutional clients. Strong business acumen. Built infrastructure."
+        },
+        "Liz Cheval": {
+          "firm": "EMC Capital",
+          "annual_returns_sample": {"2003": "34.72%", "2006": "21.33%"},
+          "monthly_expectation": {"avg_win": "12.45%", "avg_loss": "-6.64%", "win_pct": "49.62%", "expectation": "2.83%"}
+        },
+        "Paul Rabar": {
+          "firm": "Rabar Market Research",
+          "annual_returns_sample": {"2003": "23.93%", "2002": "24.57%"},
+          "monthly_expectation": {"avg_win": "9.26%", "avg_loss": "-4.89%", "win_pct": "52.51%", "expectation": "2.54%"}
+        },
+        "Howard Seidler": {
+          "firm": "Saxon Investment",
+          "annual_returns_sample": {"2003": "45.75%"},
+          "monthly_expectation": {"avg_win": "6.57%", "avg_loss": "-4.90%", "win_pct": "55.56%", "expectation": "1.47%"}
+        },
+        "Jim DiMaria": {
+          "firm": "JPD Enterprises",
+          "notes": "20-year continuous track record from 1988"
+        },
+        "Tom Shanks": {
+          "firm": "Hawksbill Capital",
+          "style": "Aggressive - maintained original high-leverage Turtle approach"
+        },
+        "William Eckhardt": {
+          "firm": "Eckhardt Trading",
+          "aum": "Part of $3B+ managed by Dennis associates",
+          "monthly_expectation": {"avg_win": "4.16%", "avg_loss": "-3.17%", "win_pct": "54.34%", "expectation": "0.81%"}
+        },
+        "Salem Abraham": {
+          "firm": "Abraham Trading Company",
+          "notes": "Second-generation Turtle, learned from Parker. 20-year track record."
+        }
+      },
+      "failed_turtles": {
+        "Curtis Faith": {
+          "outcome": "Retired at 23, lost money in software ventures, no sustained trading record post-Turtle",
+          "reasons": ["Excessive risk-taking during experiment", "No proven track record after leaving Dennis", "Lost most wealth in non-trading ventures", "SEC investigation of software firm"]
+        },
+        "Russell Sands": {
+          "outcome": "Left program after one year, later sold Turtle rules as seminars",
+          "reasons": ["Chose to monetize Turtle fame through education rather than trading"]
+        },
+        "Sam DeNardo": {
+          "outcome": "Cut from program for questioning allocations",
+          "reasons": ["Wrote letter to Dennis questioning allocation fairness", "Dennis interpreted it as making excuses for losses"]
+        }
+      },
+      "why_some_failed": [
+        "Could not psychologically handle long losing streaks (60-70% of trades lose)",
+        "Broke the rules - especially position sizing and adding to losers",
+        "Reduced leverage too much (killed compounding) or not enough (blew up)",
+        "Failed to build a real business - relied solely on Turtle fame",
+        "Let ego and competition with other Turtles override discipline",
+        "Mean reversion temptation - switched to strategies that 'felt' better but had fatal flaws",
+        "Lack of entrepreneurial drive to survive on their own without Dennis's safety net",
+        "Could not handle the boredom of doing nothing when markets were flat"
+      ]
+    }
+  },
+  "key_risk_findings": {
+    "dennis_1986_memo": {
+      "date": "April 23, 1986",
+      "finding": "Four Turtles (Shanks, Rabar, Keefer, Svoboda) discovered that combining S1 and S2 signals doubled the expected worst-case drawdown from 50% to 80%",
+      "cause": "When both S1 and S2 generate entry signals simultaneously, position size doubles",
+      "action": "All Turtles ordered to reduce position sizes by 50%",
+      "lesson": "Even the system's creators can miscalculate risk. Always validate with backtesting."
+    },
+    "dennis_1988_blowup": {
+      "description": "Dennis himself lost 55% in April 1988 trading his own account and Drexel Burnham funds",
+      "cause": "Dennis was overtrading S&P 500 futures at 10-15x the units his Turtles were allowed. His risk was ~100x greater than the Turtles.",
+      "turtles_same_month": "Turtles lost only 10-12% in April 1988",
+      "lesson": "Even the creator of the system violated his own rules on position sizing. Discipline is everything."
+    }
+  },
+  "modern_applicability": {
+    "still_works": true,
+    "adaptations_needed": [
+      "Markets are more efficient - expect lower returns than 1980s",
+      "Need more markets for diversification (30-65+ markets)",
+      "Lower leverage is essential for institutional capital",
+      "Automated execution replaces manual phone orders",
+      "Can apply to stocks, ETFs, forex, crypto - not just futures",
+      "Consider shorter lookback periods for faster-moving modern markets",
+      "Transaction costs are much lower now - benefits trend followers"
+    ],
+    "modern_practitioners": [
+      "Chesapeake Capital (Jerry Parker) - $1B+",
+      "Eckhardt Trading (William Eckhardt) - Part of $3B+",
+      "Abraham Trading Company (Salem Abraham)",
+      "Man AHL, Winton Group, and other large CTAs use similar principles",
+      "Hundreds of trend-following CTAs globally"
+    ],
+    "modern_performance_expectations": {
+      "annual_return": "10-20% for conservative implementations",
+      "max_drawdown": "15-25%",
+      "sharpe_ratio": "0.5-1.0",
+      "win_rate": "35-45%",
+      "profit_factor": "1.3-2.0",
+      "notes": "Returns are lower than the 1980s-90s but the strategy remains profitable across multiple decades of live trading by multiple practitioners."
+    }
+  },
+  "extraction_metadata": {
+    "extraction_date": "2026-03-25",
+    "extractor": "Strategy Pipeline - Book Analysis Module",
+    "confidence": "HIGH - The Turtle rules are the most completely documented proprietary trading system ever published. Multiple sources corroborate the rules.",
+    "total_strategies_extracted": 5,
+    "primary_codifiable_strategies": 2,
+    "book_rating_for_strategy_extraction": "9/10 - One of the best books for extracting complete, codifiable trading systems"
+  }
+}
