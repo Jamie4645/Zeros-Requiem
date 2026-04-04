@@ -31,11 +31,6 @@ from ..indicators.technical import (
 )
 from ..execution.entries import TradeSetup, TradeDirection
 
-# We need LiquiditySweep and FairValueGap for TradeSetup compatibility.
-# SBRS doesn't use them, so we create minimal stubs.
-from ..execution.liquidity import LiquiditySweep, SweepDirection
-from ..execution.displacement import FairValueGap, FVGDirection
-
 
 # ── Core Parameters (DO NOT OPTIMIZE) ─────────────────────────
 WMA_PERIOD = 9
@@ -415,31 +410,6 @@ def is_choppy(
     return price_range < (threshold * current_atr)
 
 
-# ── Stub Objects for TradeSetup Compatibility ─────────────────
-
-def _make_stub_sweep(direction: str, level: float, bar_idx: int) -> LiquiditySweep:
-    """Create a minimal LiquiditySweep for TradeSetup compatibility."""
-    return LiquiditySweep(
-        direction=SweepDirection.BULLISH if direction == 'long' else SweepDirection.BEARISH,
-        sweep_level=level,
-        sweep_extreme=level,
-        close_price=level,
-        index=bar_idx,
-        level_type="sbrs_swing"
-    )
-
-
-def _make_stub_fvg(direction: str, entry: float, bar_idx: int) -> FairValueGap:
-    """Create a minimal FairValueGap for TradeSetup compatibility."""
-    return FairValueGap(
-        direction=FVGDirection.BULLISH if direction == 'long' else FVGDirection.BEARISH,
-        top=entry + 1.0,
-        bottom=entry - 1.0,
-        midpoint=entry,
-        size=2.0,
-        index=bar_idx,
-        displacement_df=0.0
-    )
 
 
 # ── Main Strategy Function ────────────────────────────────────
@@ -456,7 +426,7 @@ def analyze_gold_sbrs(
     SBRS 1.1 — Breakout + Retest strategy for Gold, Forex, and Indices.
     
     Processes 1H/4H data bar-by-bar, generating TradeSetup objects
-    compatible with the existing SCAF 2.0 backtest engine.
+    compatible with the backtest engine.
     
     Entry Protocol (ALL conditions required):
       1. 4H trend context aligns with trade direction
@@ -755,10 +725,10 @@ def analyze_gold_sbrs(
                 position_size=position_size,
                 risk_reward=round(rr_ratio, 2),
                 regime=regime_tag,
-                sweep=_make_stub_sweep(pending.direction, pending.broken_level, pending.break_bar),
-                fvg=_make_stub_fvg(pending.direction, current_close, i),
-                displacement_df=0.0,
-                index=i
+                index=i,
+                broken_level=pending.broken_level,
+                retest_bar=i,
+                break_bar=pending.break_bar,
             )
             
             setups.append(setup)

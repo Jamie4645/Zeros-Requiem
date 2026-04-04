@@ -1,0 +1,1279 @@
+{
+  "book_metadata": {
+    "title": "Algorithmic Trading: Winning Strategies and Their Rationale",
+    "author": "Ernest P. Chan",
+    "year": 2013,
+    "publisher": "John Wiley & Sons",
+    "isbn": "978-1-118-46014-6",
+    "total_pages": 225,
+    "focus_areas": [
+      "Mean Reversion",
+      "Momentum",
+      "Pairs Trading",
+      "Statistical Arbitrage",
+      "Futures Strategies",
+      "Risk Management",
+      "High-Frequency Trading"
+    ],
+    "markets_covered": [
+      "US Equities",
+      "ETFs",
+      "Forex",
+      "Futures (Commodities, Rates, Volatility)",
+      "Indices"
+    ],
+    "key_tools": [
+      "MATLAB",
+      "Python (referenced)",
+      "ADF Test",
+      "Johansen Test",
+      "Kalman Filter",
+      "Hurst Exponent",
+      "Variance Ratio Test",
+      "Kelly Formula"
+    ]
+  },
+  "strategies": [
+    {
+      "id": 1,
+      "name": "Linear Mean Reversion on Cointegrated ETF Pair (EWA-EWC)",
+      "type": "Mean Reversion / Pairs Trading",
+      "markets": ["ETFs: EWA (Australia), EWC (Canada)", "IGE (Natural Resources) as additional leg"],
+      "timeframes": ["Daily"],
+      "entry_rules": [
+        "Compute hedge ratio via Johansen eigenvector on [EWA, EWC, IGE]",
+        "Form spread: portfolio = hedge_ratio[0]*EWA + hedge_ratio[1]*EWC + hedge_ratio[2]*IGE",
+        "Compute lookback half-life using Ornstein-Uhlenbeck regression: delta_y = lambda*y_lag + noise; halflife = -log(2)/lambda",
+        "Compute rolling mean and std of spread over halflife window",
+        "Z-score = (spread - rolling_mean) / rolling_std",
+        "Position size = -Z-score (linear scaling: more extreme = larger position)",
+        "Allocate across legs proportional to hedge ratios"
+      ],
+      "exit_rules": [
+        "Z-score crosses zero (spread reverts to mean)",
+        "Position size naturally reduces as Z-score approaches zero",
+        "Continuous rebalancing each bar"
+      ],
+      "risk_management": [
+        "Position size proportional to -Z-score (self-limiting)",
+        "Diversification across 3 ETFs reduces single-name risk",
+        "Half-life determines lookback (adaptive)"
+      ],
+      "indicators": [
+        {"name": "Johansen Eigenvector", "parameters": {"legs": ["EWA", "EWC", "IGE"]}},
+        {"name": "Ornstein-Uhlenbeck Half-Life", "parameters": {"regression": "delta_y = lambda * y_lag + intercept"}},
+        {"name": "Rolling Z-Score", "parameters": {"lookback": "halflife period"}}
+      ],
+      "source_chapter": "Chapter 2: Mean Reversion of Prices and Returns",
+      "source_pages": "25-45",
+      "backtest_results": {
+        "APR": "12.6%",
+        "Sharpe": 1.4,
+        "period": "2007-2012",
+        "max_drawdown": "Not specified",
+        "notes": "Uses Johansen test for cointegration; includes IGE as third leg to improve cointegration"
+      },
+      "clarity_score": 9,
+      "completeness": "High - full code provided in MATLAB, all parameters derivable",
+      "notes": "Author emphasizes Johansen over Engle-Granger for multi-leg cointegration. Half-life method is key innovation for lookback selection."
+    },
+    {
+      "id": 2,
+      "name": "Price Spread Mean Reversion on GLD-USO (Dynamic Hedge)",
+      "type": "Mean Reversion / Pairs Trading",
+      "markets": ["ETFs: GLD (Gold), USO (Oil)"],
+      "timeframes": ["Daily"],
+      "entry_rules": [
+        "Estimate hedge ratio using rolling OLS regression (lookback = half-life)",
+        "Form price spread: spread = GLD - hedge_ratio * USO",
+        "Compute Z-score of spread using rolling mean/std over half-life window",
+        "Enter long spread when Z-score < -entry_threshold",
+        "Enter short spread when Z-score > entry_threshold",
+        "Position size = -Z-score (linear)"
+      ],
+      "exit_rules": [
+        "Z-score crosses zero",
+        "Continuous rebalancing"
+      ],
+      "risk_management": [
+        "Dynamic hedge ratio adapts to changing relationship",
+        "Half-life determines adaptive lookback"
+      ],
+      "indicators": [
+        {"name": "Rolling OLS Hedge Ratio", "parameters": {"lookback": "halflife"}},
+        {"name": "Rolling Z-Score", "parameters": {"lookback": "halflife"}},
+        {"name": "Ornstein-Uhlenbeck Half-Life", "parameters": {}}
+      ],
+      "source_chapter": "Chapter 2",
+      "source_pages": "35-40",
+      "backtest_results": {
+        "APR": "10.9%",
+        "Sharpe": 0.59,
+        "period": "2007-2012",
+        "notes": "Lower Sharpe than EWA-EWC due to weaker cointegration in GLD-USO"
+      },
+      "clarity_score": 8,
+      "completeness": "High - code provided",
+      "notes": "Author uses this to contrast price spread vs log price spread approaches. GLD-USO cointegration is weaker than EWA-EWC."
+    },
+    {
+      "id": 3,
+      "name": "Bollinger Band Mean Reversion on GLD-USO",
+      "type": "Mean Reversion / Pairs Trading",
+      "markets": ["ETFs: GLD, USO"],
+      "timeframes": ["Daily"],
+      "entry_rules": [
+        "Compute spread = GLD - hedge_ratio * USO (dynamic hedge via rolling OLS)",
+        "Compute Bollinger Bands: upper = mean + entry_std * std, lower = mean - entry_std * std",
+        "Entry threshold (entry_std): 1.0 standard deviations",
+        "Go long spread when spread < lower band (Z < -1)",
+        "Go short spread when spread > upper band (Z > +1)",
+        "Position is binary (full size, not linear scaling)"
+      ],
+      "exit_rules": [
+        "Exit long when spread crosses above mean (Z > 0)",
+        "Exit short when spread crosses below mean (Z < 0)",
+        "Exit threshold: 0 standard deviations (mean crossing)"
+      ],
+      "risk_management": [
+        "Fixed position size (not scaled by Z-score)",
+        "Wider bands = fewer but higher-conviction trades"
+      ],
+      "indicators": [
+        {"name": "Bollinger Bands", "parameters": {"entry_std": 1.0, "exit_std": 0.0, "lookback": "halflife"}},
+        {"name": "Rolling OLS Hedge Ratio", "parameters": {"lookback": "halflife"}}
+      ],
+      "source_chapter": "Chapter 2",
+      "source_pages": "40-45",
+      "backtest_results": {
+        "APR": "17.8%",
+        "Sharpe": 0.96,
+        "period": "2007-2012",
+        "notes": "Better APR than linear version on same pair; Bollinger approach outperforms linear on this pair"
+      },
+      "clarity_score": 9,
+      "completeness": "High",
+      "notes": "Author compares linear vs Bollinger: Bollinger better APR but can miss gradual reversions. Linear better for smooth mean reversion."
+    },
+    {
+      "id": 4,
+      "name": "Kalman Filter Mean Reversion on EWA-EWC",
+      "type": "Mean Reversion / Pairs Trading / Market Making",
+      "markets": ["ETFs: EWA, EWC"],
+      "timeframes": ["Daily"],
+      "entry_rules": [
+        "Use Kalman Filter to dynamically estimate hedge ratio (state = hedge_ratio)",
+        "Observation model: EWA = hedge_ratio * EWC + intercept + noise",
+        "Kalman Filter parameters: delta=0.0001 (state transition variance), Ve=0.001 (observation noise)",
+        "Compute forecast error: e = EWA_actual - EWA_predicted",
+        "Compute sqrt(forecast_error_variance): sqrt_Q",
+        "Entry: long spread when e < -entry_threshold * sqrt_Q",
+        "Entry: short spread when e > entry_threshold * sqrt_Q",
+        "Position size proportional to -e / sqrt_Q"
+      ],
+      "exit_rules": [
+        "Forecast error crosses zero",
+        "Continuous position adjustment each bar"
+      ],
+      "risk_management": [
+        "Kalman Filter adapts hedge ratio in real-time (no fixed lookback)",
+        "Forecast error variance provides natural position sizing",
+        "Self-correcting: filter adjusts to regime changes"
+      ],
+      "indicators": [
+        {"name": "Kalman Filter", "parameters": {"delta": 0.0001, "Ve": 0.001, "state": "hedge_ratio", "observation": "price_spread"}},
+        {"name": "Forecast Error", "parameters": {}},
+        {"name": "Forecast Error Variance (Q)", "parameters": {}}
+      ],
+      "source_chapter": "Chapter 2",
+      "source_pages": "45-55",
+      "backtest_results": {
+        "APR": "26.2%",
+        "Sharpe": 2.4,
+        "period": "2007-2012",
+        "notes": "Best performing mean reversion strategy in the book. Kalman Filter eliminates lookback window selection problem."
+      },
+      "clarity_score": 8,
+      "completeness": "High - full Kalman Filter equations and MATLAB code provided",
+      "notes": "Author considers this the most sophisticated mean reversion approach. Eliminates need to choose lookback period. Can also be used as market-making model (quote around fair value). delta parameter controls how fast hedge ratio can change."
+    },
+    {
+      "id": 5,
+      "name": "Buy-on-Gap Model (Long SPX Stocks)",
+      "type": "Mean Reversion / Gap Trading",
+      "markets": ["US Equities (S&P 500 components)"],
+      "timeframes": ["Daily (overnight gaps)"],
+      "entry_rules": [
+        "At market open, compute gap for each S&P 500 stock: gap = (open - prev_close) / prev_close",
+        "Select stocks with largest negative gaps (gapped down the most)",
+        "Buy at open the stocks with gaps below a threshold (e.g., gap < -X%)",
+        "Use limit orders slightly above open price"
+      ],
+      "exit_rules": [
+        "Sell at market close same day (intraday hold only)",
+        "MOC (Market on Close) orders"
+      ],
+      "risk_management": [
+        "Equal weight across selected stocks",
+        "Intraday only - no overnight risk",
+        "Diversified across many stocks"
+      ],
+      "indicators": [
+        {"name": "Overnight Gap", "parameters": {"formula": "(open - prev_close) / prev_close"}},
+        {"name": "Gap Threshold", "parameters": {"direction": "negative gaps only"}}
+      ],
+      "source_chapter": "Chapter 3: Mean Reversion of Stocks and ETFs",
+      "source_pages": "57-70",
+      "backtest_results": {
+        "APR": "8.7%",
+        "Sharpe": 1.5,
+        "period": "2007-2012",
+        "notes": "Consistent edge from overnight gap mean reversion in large-cap stocks"
+      },
+      "clarity_score": 7,
+      "completeness": "Medium - concept clear but exact gap threshold not specified precisely",
+      "notes": "Author notes this works because overnight gaps in liquid stocks tend to partially revert during the trading day. Related to market microstructure (overnight order flow imbalances)."
+    },
+    {
+      "id": 6,
+      "name": "Short-on-Gap Model",
+      "type": "Mean Reversion / Gap Trading",
+      "markets": ["US Equities (S&P 500 components)"],
+      "timeframes": ["Daily (overnight gaps)"],
+      "entry_rules": [
+        "At market open, compute gap for each S&P 500 stock",
+        "Select stocks with largest positive gaps (gapped up the most)",
+        "Short at open the stocks with gaps above a threshold",
+        "Use limit orders slightly below open price"
+      ],
+      "exit_rules": [
+        "Cover at market close same day",
+        "MOC orders"
+      ],
+      "risk_management": [
+        "Equal weight across selected shorts",
+        "Intraday only",
+        "Need locate/borrow availability"
+      ],
+      "indicators": [
+        {"name": "Overnight Gap", "parameters": {"formula": "(open - prev_close) / prev_close", "direction": "positive gaps"}}
+      ],
+      "source_chapter": "Chapter 3",
+      "source_pages": "57-70",
+      "backtest_results": {
+        "APR": "46%",
+        "Sharpe": 1.27,
+        "period": "2007-2012",
+        "notes": "Very high APR but lower Sharpe than long-gap model; likely benefited from 2008 crisis period"
+      },
+      "clarity_score": 7,
+      "completeness": "Medium",
+      "notes": "Author warns this may have survivorship bias and borrow availability issues in practice. High APR partially due to 2008 crisis period."
+    },
+    {
+      "id": 7,
+      "name": "SPY vs Component Stocks Arbitrage",
+      "type": "Statistical Arbitrage / Index Arbitrage",
+      "markets": ["SPY ETF", "S&P 500 component stocks"],
+      "timeframes": ["Intraday (minutes)"],
+      "entry_rules": [
+        "Compute theoretical SPY NAV from component stock prices",
+        "Compare to actual SPY market price",
+        "When SPY trades at premium to NAV: short SPY, buy basket of components",
+        "When SPY trades at discount to NAV: buy SPY, short basket of components",
+        "Entry when deviation exceeds transaction cost threshold"
+      ],
+      "exit_rules": [
+        "Exit when SPY price converges to NAV (spread = 0)",
+        "End-of-day forced exit"
+      ],
+      "risk_management": [
+        "Market-neutral (hedged)",
+        "Very short holding period",
+        "Execution risk is primary concern"
+      ],
+      "indicators": [
+        {"name": "NAV Deviation", "parameters": {"formula": "SPY_price - sum(component_weights * component_prices)"}}
+      ],
+      "source_chapter": "Chapter 3",
+      "source_pages": "70-75",
+      "backtest_results": {
+        "APR": "4.5%",
+        "Sharpe": 1.3,
+        "period": "2007-2012",
+        "notes": "Low APR but very consistent; execution speed critical"
+      },
+      "clarity_score": 6,
+      "completeness": "Medium - concept clear but implementation details sparse",
+      "notes": "Classic index arb. Author notes this is increasingly competitive (HFT territory). Edge has eroded significantly since 2008."
+    },
+    {
+      "id": 8,
+      "name": "Cross-Sectional Mean Reversion (Khandani-Lo Long-Short)",
+      "type": "Mean Reversion / Cross-Sectional / Long-Short Equity",
+      "markets": ["US Equities (S&P 500 or Russell 1000)"],
+      "timeframes": ["Daily"],
+      "entry_rules": [
+        "At each rebalance, rank all stocks by prior day return",
+        "Go long bottom decile (worst performers yesterday)",
+        "Go short top decile (best performers yesterday)",
+        "Equal weight within each decile",
+        "Dollar-neutral portfolio (equal long and short notional)"
+      ],
+      "exit_rules": [
+        "Rebalance daily (close all positions, re-enter next day)",
+        "Hold period: 1 day"
+      ],
+      "risk_management": [
+        "Dollar-neutral (market risk hedged)",
+        "Diversified across many stocks (50-100 per side)",
+        "Daily rebalance limits drawdown duration"
+      ],
+      "indicators": [
+        {"name": "Prior Day Return", "parameters": {"lookback": 1, "ranking": "cross-sectional"}}
+      ],
+      "source_chapter": "Chapter 3",
+      "source_pages": "75-85",
+      "backtest_results": {
+        "APR": "13.7%",
+        "Sharpe": 1.3,
+        "period": "2001-2012",
+        "notes": "Strategy suffered major drawdown in August 2007 quant crisis. Referenced from Khandani & Lo (2007) paper."
+      },
+      "clarity_score": 8,
+      "completeness": "High",
+      "notes": "Author references the famous August 2007 quant meltdown where this strategy type suffered massive simultaneous drawdowns across many hedge funds. Key lesson about crowded trades."
+    },
+    {
+      "id": 9,
+      "name": "Intraday Cross-Sectional Mean Reversion",
+      "type": "Mean Reversion / Cross-Sectional / Intraday",
+      "markets": ["US Equities (S&P 500)"],
+      "timeframes": ["Intraday (hourly or sub-hourly)"],
+      "entry_rules": [
+        "Rank stocks by returns since market open",
+        "Go long worst intraday performers",
+        "Go short best intraday performers",
+        "Rebalance every 30-60 minutes throughout the day"
+      ],
+      "exit_rules": [
+        "Close all positions at market close",
+        "Rebalance throughout the day"
+      ],
+      "risk_management": [
+        "Dollar-neutral",
+        "No overnight exposure",
+        "Frequent rebalancing"
+      ],
+      "indicators": [
+        {"name": "Intraday Return from Open", "parameters": {"ranking": "cross-sectional"}}
+      ],
+      "source_chapter": "Chapter 3",
+      "source_pages": "80-85",
+      "backtest_results": {
+        "APR": "73%",
+        "Sharpe": 4.7,
+        "period": "2007-2012",
+        "notes": "Extremely high returns but requires very low transaction costs and fast execution. Author cautions about capacity constraints."
+      },
+      "clarity_score": 6,
+      "completeness": "Medium - high-level concept, implementation requires tick data infrastructure",
+      "notes": "Author explicitly warns these returns are before realistic transaction costs and market impact. Capacity is very limited. Demonstrates the general principle that higher frequency = higher Sharpe but lower capacity."
+    },
+    {
+      "id": 10,
+      "name": "AUD.USD vs CAD.USD Forex Pair (Johansen Cointegration)",
+      "type": "Mean Reversion / Forex Pairs Trading",
+      "markets": ["Forex: AUD/USD, CAD/USD"],
+      "timeframes": ["Daily"],
+      "entry_rules": [
+        "Apply Johansen test to [AUD/USD, CAD/USD] to find cointegrating vector",
+        "Form spread using Johansen eigenvector as hedge ratios",
+        "Compute half-life of mean reversion via OU regression",
+        "Compute Z-score using rolling mean/std over halflife lookback",
+        "Position = -Z-score (linear scaling)"
+      ],
+      "exit_rules": [
+        "Z-score crosses zero",
+        "Continuous rebalancing"
+      ],
+      "risk_management": [
+        "Currency-neutral",
+        "Half-life adaptive lookback",
+        "Both commodity currencies (structural correlation)"
+      ],
+      "indicators": [
+        {"name": "Johansen Eigenvector", "parameters": {"legs": ["AUDUSD", "CADUSD"]}},
+        {"name": "OU Half-Life", "parameters": {}},
+        {"name": "Rolling Z-Score", "parameters": {"lookback": "halflife"}}
+      ],
+      "source_chapter": "Chapter 4: Mean Reversion of Currencies and Futures",
+      "source_pages": "90-100",
+      "backtest_results": {
+        "APR": "11%",
+        "Sharpe": 1.6,
+        "period": "2007-2012",
+        "notes": "Works because AUD and CAD are both commodity currencies correlated to resource prices"
+      },
+      "clarity_score": 8,
+      "completeness": "High",
+      "notes": "Author explains the economic rationale: both AUD and CAD are commodity currencies, so their exchange rates vs USD should be cointegrated. This is a fundamentally-motivated statistical relationship."
+    },
+    {
+      "id": 11,
+      "name": "AUD/CAD Cross Rate with Rollover Interest",
+      "type": "Mean Reversion / Forex / Carry",
+      "markets": ["Forex: AUD/CAD (cross rate)"],
+      "timeframes": ["Daily"],
+      "entry_rules": [
+        "Trade AUD/CAD cross directly (equivalent to AUD/USD - CAD/USD spread)",
+        "Compute Z-score of AUD/CAD using rolling mean/std",
+        "Enter long AUD/CAD when Z-score < -1",
+        "Enter short AUD/CAD when Z-score > +1",
+        "Account for rollover/swap interest in P&L"
+      ],
+      "exit_rules": [
+        "Z-score crosses zero",
+        "Account for rollover costs in exit timing"
+      ],
+      "risk_management": [
+        "Single instrument (simpler execution)",
+        "Rollover costs reduce net returns"
+      ],
+      "indicators": [
+        {"name": "Rolling Z-Score", "parameters": {"lookback": "halflife"}},
+        {"name": "Rollover Interest Rate", "parameters": {}}
+      ],
+      "source_chapter": "Chapter 4",
+      "source_pages": "100-105",
+      "backtest_results": {
+        "APR": "6.2%",
+        "Sharpe": 0.54,
+        "period": "2007-2012",
+        "notes": "Lower returns than the two-leg version due to rollover costs eating into profit"
+      },
+      "clarity_score": 7,
+      "completeness": "High",
+      "notes": "Important lesson: trading the cross directly is simpler but rollover/swap costs matter. The two-leg version (strategy #10) has better risk-adjusted returns. Author uses this to illustrate the impact of transaction costs."
+    },
+    {
+      "id": 12,
+      "name": "Crude Oil (CL) Calendar Spread Mean Reversion",
+      "type": "Mean Reversion / Futures Calendar Spread",
+      "markets": ["Futures: CL (Crude Oil) - near vs far month"],
+      "timeframes": ["Daily"],
+      "entry_rules": [
+        "Compute calendar spread: CL_near - hedge_ratio * CL_far",
+        "Hedge ratio from Johansen or OLS cointegration",
+        "Compute Z-score of spread over halflife lookback",
+        "Long spread when Z < -entry_threshold",
+        "Short spread when Z > +entry_threshold"
+      ],
+      "exit_rules": [
+        "Z-score crosses zero",
+        "Roll before expiry (avoid delivery)"
+      ],
+      "risk_management": [
+        "Calendar spread = reduced directional risk",
+        "Margin requirements much lower than outright",
+        "Roll risk near expiry"
+      ],
+      "indicators": [
+        {"name": "Calendar Spread", "parameters": {"near": "CL front month", "far": "CL second month"}},
+        {"name": "Rolling Z-Score", "parameters": {"lookback": "halflife"}}
+      ],
+      "source_chapter": "Chapter 4",
+      "source_pages": "105-115",
+      "backtest_results": {
+        "APR": "8.3%",
+        "Sharpe": 1.3,
+        "period": "2007-2012",
+        "notes": "Calendar spreads have strong mean reversion due to cost-of-carry relationship"
+      },
+      "clarity_score": 8,
+      "completeness": "High",
+      "notes": "Calendar spreads are naturally mean-reverting because they reflect cost of carry (storage, interest, convenience yield). Author explains the futures pricing model: F(t,T) = S(t)*exp(gamma*(T-t)) where gamma is the roll return."
+    },
+    {
+      "id": 13,
+      "name": "VIX Futures (VX) Calendar Spread Mean Reversion",
+      "type": "Mean Reversion / Volatility Calendar Spread",
+      "markets": ["Futures: VX (VIX Futures) - near vs far month"],
+      "timeframes": ["Daily"],
+      "entry_rules": [
+        "Compute VX calendar spread: VX_near - hedge_ratio * VX_far",
+        "VIX term structure typically in contango (near < far)",
+        "Trade mean reversion of the spread around its average",
+        "Long spread when spread is abnormally low (steep contango)",
+        "Short spread when spread is abnormally high (flat or backwardation)"
+      ],
+      "exit_rules": [
+        "Spread reverts to mean",
+        "Roll before expiry",
+        "Stop if VIX spikes (regime change)"
+      ],
+      "risk_management": [
+        "VIX can spike dramatically (tail risk)",
+        "Calendar spread reduces but doesn't eliminate vol risk",
+        "Size conservatively"
+      ],
+      "indicators": [
+        {"name": "VX Calendar Spread", "parameters": {"near": "VX front month", "far": "VX second month"}},
+        {"name": "Rolling Z-Score", "parameters": {"lookback": "halflife"}}
+      ],
+      "source_chapter": "Chapter 4",
+      "source_pages": "115-120",
+      "backtest_results": {
+        "APR": "17.7%",
+        "Sharpe": 1.5,
+        "period": "2007-2012",
+        "notes": "High returns but significant tail risk from VIX spikes (e.g., 2008, 2011)"
+      },
+      "clarity_score": 8,
+      "completeness": "High",
+      "notes": "VIX term structure is persistently in contango (~80% of the time), providing a structural edge. However, backwardation during crises can cause large losses. Author emphasizes risk management is critical."
+    },
+    {
+      "id": 14,
+      "name": "VX-ES Cross-Asset Mean Reversion",
+      "type": "Mean Reversion / Cross-Asset",
+      "markets": ["Futures: VX (VIX), ES (S&P 500 E-mini)"],
+      "timeframes": ["Daily"],
+      "entry_rules": [
+        "Compute cointegrating relationship between VX and ES",
+        "Spread = VX_return - hedge_ratio * ES_return (negative correlation)",
+        "Z-score of spread over halflife lookback",
+        "When VIX spikes relative to ES drop (spread too high): short VX, long ES",
+        "When VIX drops relative to ES rally (spread too low): long VX, short ES"
+      ],
+      "exit_rules": [
+        "Spread reverts to mean",
+        "Continuous rebalancing"
+      ],
+      "risk_management": [
+        "Hedged position reduces directional risk",
+        "VIX tail risk remains",
+        "Kelly criterion for sizing"
+      ],
+      "indicators": [
+        {"name": "VX-ES Spread", "parameters": {"cointegration": "Johansen"}},
+        {"name": "Rolling Z-Score", "parameters": {"lookback": "halflife"}}
+      ],
+      "source_chapter": "Chapter 4",
+      "source_pages": "120-125",
+      "backtest_results": {
+        "APR": "12.3%",
+        "Sharpe": 1.4,
+        "period": "2007-2012",
+        "notes": "Exploits the well-known negative correlation between VIX and S&P 500"
+      },
+      "clarity_score": 7,
+      "completeness": "Medium-High",
+      "notes": "VIX and S&P are strongly negatively correlated. This strategy profits from temporary dislocations in that relationship. Risk: correlation can break during extreme events."
+    },
+    {
+      "id": 15,
+      "name": "2-Year Treasury (TU) Time Series Momentum",
+      "type": "Momentum / Time Series / Trend Following",
+      "markets": ["Futures: TU (2-Year Treasury Note)"],
+      "timeframes": ["Daily"],
+      "entry_rules": [
+        "Compute return over lookback period (250 days)",
+        "Compute return over holding period (25 days)",
+        "If 250-day return > 0: go long",
+        "If 250-day return < 0: go short",
+        "Binary signal (fully long or fully short)"
+      ],
+      "exit_rules": [
+        "Rebalance every 25 days (holding period)",
+        "Reverse if signal flips"
+      ],
+      "risk_management": [
+        "Single instrument",
+        "Low volatility asset (TU has low duration risk)",
+        "Fixed holding period limits whipsaw"
+      ],
+      "indicators": [
+        {"name": "Lookback Return", "parameters": {"period": 250}},
+        {"name": "Holding Period", "parameters": {"period": 25}}
+      ],
+      "source_chapter": "Chapter 5: Momentum / Time Series",
+      "source_pages": "130-140",
+      "backtest_results": {
+        "APR": "1.7%",
+        "Sharpe": 1.0,
+        "period": "2007-2012",
+        "notes": "Low absolute returns but very consistent; TU is low-vol instrument"
+      },
+      "clarity_score": 9,
+      "completeness": "High - very simple strategy, fully specified",
+      "notes": "Author uses this as a baseline time-series momentum example. The 250/25 (lookback/hold) is a standard academic parameterization. Low returns due to low volatility of short-duration treasuries."
+    },
+    {
+      "id": 16,
+      "name": "Brazilian Real (BR) Momentum",
+      "type": "Momentum / Time Series / Emerging Market FX",
+      "markets": ["Futures: BR (Brazilian Real)"],
+      "timeframes": ["Daily"],
+      "entry_rules": [
+        "Compute return over lookback period (100 days)",
+        "If 100-day return > 0: go long",
+        "If 100-day return < 0: go short",
+        "Hold for 10 days then reassess"
+      ],
+      "exit_rules": [
+        "Rebalance every 10 days",
+        "Reverse on signal flip"
+      ],
+      "risk_management": [
+        "Emerging market currency - higher volatility",
+        "Shorter lookback captures faster trends",
+        "Fixed hold period"
+      ],
+      "indicators": [
+        {"name": "Lookback Return", "parameters": {"period": 100}},
+        {"name": "Holding Period", "parameters": {"period": 10}}
+      ],
+      "source_chapter": "Chapter 5",
+      "source_pages": "140-145",
+      "backtest_results": {
+        "APR": "17.7%",
+        "Sharpe": 1.09,
+        "period": "2007-2012",
+        "notes": "Higher returns than TU due to EM FX volatility and stronger trends"
+      },
+      "clarity_score": 9,
+      "completeness": "High",
+      "notes": "Demonstrates that momentum works better on trending, volatile instruments. Emerging market FX often trends due to carry trade flows and macro themes."
+    },
+    {
+      "id": 17,
+      "name": "Copper (HG) Momentum",
+      "type": "Momentum / Time Series / Commodity",
+      "markets": ["Futures: HG (Copper)"],
+      "timeframes": ["Daily"],
+      "entry_rules": [
+        "Compute return over lookback period (40 days)",
+        "If 40-day return > 0: go long",
+        "If 40-day return < 0: go short",
+        "Hold for 40 days then reassess"
+      ],
+      "exit_rules": [
+        "Rebalance every 40 days",
+        "Reverse on signal flip"
+      ],
+      "risk_management": [
+        "Commodity volatility",
+        "Symmetric lookback/hold (40/40)"
+      ],
+      "indicators": [
+        {"name": "Lookback Return", "parameters": {"period": 40}},
+        {"name": "Holding Period", "parameters": {"period": 40}}
+      ],
+      "source_chapter": "Chapter 5",
+      "source_pages": "140-145",
+      "backtest_results": {
+        "APR": "18%",
+        "Sharpe": 1.05,
+        "period": "2007-2012",
+        "notes": "Commodity momentum driven by supply-demand cycles"
+      },
+      "clarity_score": 9,
+      "completeness": "High",
+      "notes": "Shorter lookback/hold than academic standard (250/25) works better for commodities. Author suggests commodity trends are shorter-lived than financial asset trends."
+    },
+    {
+      "id": 18,
+      "name": "Roll Return Signal for TU Momentum",
+      "type": "Momentum / Roll Return / Carry",
+      "markets": ["Futures: TU (2-Year Treasury Note)"],
+      "timeframes": ["Daily"],
+      "entry_rules": [
+        "Compute roll return: gamma = (near_price - far_price) / near_price / (T_far - T_near)",
+        "If gamma > 0 (backwardation / positive carry): go long",
+        "If gamma < 0 (contango / negative carry): go short",
+        "Roll return serves as momentum signal"
+      ],
+      "exit_rules": [
+        "Signal reversal when roll return changes sign",
+        "Rebalance at each roll date"
+      ],
+      "risk_management": [
+        "Roll return is a structural signal (cost of carry)",
+        "Less prone to false signals than price momentum"
+      ],
+      "indicators": [
+        {"name": "Roll Return (Gamma)", "parameters": {"formula": "(F_near - F_far) / F_near / (T_far - T_near)"}}
+      ],
+      "source_chapter": "Chapter 5",
+      "source_pages": "145-155",
+      "backtest_results": {
+        "APR": "2.5%",
+        "Sharpe": 2.1,
+        "period": "2007-2012",
+        "notes": "Very high Sharpe for the low APR; roll return is a very clean signal"
+      },
+      "clarity_score": 9,
+      "completeness": "High",
+      "notes": "Key insight: futures roll return (gamma) encodes information about supply/demand and carry. Positive gamma (backwardation) = excess demand for near-term delivery = bullish. This is related to the 'carry trade' concept. Author's formula: F(t,T) = S(t)*exp(gamma*(T-t))."
+    },
+    {
+      "id": 19,
+      "name": "XLE-USO Roll Return Arbitrage",
+      "type": "Momentum / Roll Return / Cross-Asset",
+      "markets": ["ETFs/Futures: XLE (Energy Sector), USO (Oil ETF), CL (Crude Futures)"],
+      "timeframes": ["Daily"],
+      "entry_rules": [
+        "Compute CL roll return (gamma) from futures term structure",
+        "When CL in backwardation (positive gamma/positive roll return): long XLE, short USO",
+        "When CL in contango (negative gamma/negative roll return): short XLE, long USO",
+        "Rationale: USO suffers from contango roll losses; XLE (equities) does not"
+      ],
+      "exit_rules": [
+        "Term structure signal reversal",
+        "Rebalance monthly or at roll dates"
+      ],
+      "risk_management": [
+        "Partially hedged (energy sector exposure on both sides)",
+        "Basis risk between XLE and USO",
+        "Structural edge from ETF roll cost"
+      ],
+      "indicators": [
+        {"name": "CL Roll Return", "parameters": {"formula": "futures_term_structure_slope"}},
+        {"name": "Contango/Backwardation Signal", "parameters": {}}
+      ],
+      "source_chapter": "Chapter 5",
+      "source_pages": "155-160",
+      "backtest_results": {
+        "APR": "16%",
+        "Sharpe": "~1.0",
+        "period": "2007-2012",
+        "notes": "Exploits structural disadvantage of commodity ETFs in contango"
+      },
+      "clarity_score": 7,
+      "completeness": "Medium-High",
+      "notes": "Important structural insight: commodity ETFs like USO lose value in contango due to negative roll yield. Energy equities (XLE) don't have this drag. This creates a persistent arbitrage opportunity."
+    },
+    {
+      "id": 20,
+      "name": "VX-ES Roll Return Strategy",
+      "type": "Momentum / Roll Return / Volatility",
+      "markets": ["Futures: VX (VIX), ES (S&P 500 E-mini)"],
+      "timeframes": ["Daily"],
+      "entry_rules": [
+        "Compute VX roll return from term structure",
+        "VX typically in contango: short VX, long ES (harvest contango premium)",
+        "When VX flips to backwardation: reverse (long VX, short ES)",
+        "Signal based on term structure slope, not price level"
+      ],
+      "exit_rules": [
+        "Term structure signal reversal",
+        "Stop loss on VX spikes exceeding threshold"
+      ],
+      "risk_management": [
+        "VX tail risk is extreme",
+        "Must have stop loss for VIX spikes",
+        "Size conservatively (Kelly fraction)"
+      ],
+      "indicators": [
+        {"name": "VX Term Structure Slope", "parameters": {}},
+        {"name": "Contango/Backwardation Signal", "parameters": {}}
+      ],
+      "source_chapter": "Chapter 5",
+      "source_pages": "155-160",
+      "backtest_results": {
+        "APR": "6.9%",
+        "Sharpe": 1.0,
+        "period": "2007-2012",
+        "notes": "Harvests VIX contango premium but exposed to vol spikes"
+      },
+      "clarity_score": 7,
+      "completeness": "Medium-High",
+      "notes": "The VIX contango premium (short vol) is one of the most well-known risk premia in finance. Author emphasizes this is a risk premium, not a free lunch - you are being compensated for tail risk."
+    },
+    {
+      "id": 21,
+      "name": "Cross-Sectional Futures Momentum",
+      "type": "Momentum / Cross-Sectional / Multi-Asset",
+      "markets": ["Diversified Futures (commodities, rates, FX, indices)"],
+      "timeframes": ["Daily / Monthly rebalance"],
+      "entry_rules": [
+        "Universe: 20-50 liquid futures contracts across asset classes",
+        "Rank all contracts by trailing 12-month return (or 1-month for short-term)",
+        "Go long top quintile (strongest momentum)",
+        "Go short bottom quintile (weakest momentum)",
+        "Equal weight within each quintile"
+      ],
+      "exit_rules": [
+        "Monthly rebalance",
+        "Positions held until next rebalance drops them from quintile"
+      ],
+      "risk_management": [
+        "Dollar-neutral",
+        "Diversified across asset classes",
+        "Monthly rebalance limits turnover"
+      ],
+      "indicators": [
+        {"name": "Trailing Return", "parameters": {"lookback": "12 months (or 1 month)"}},
+        {"name": "Cross-Sectional Rank", "parameters": {"quintiles": 5}}
+      ],
+      "source_chapter": "Chapter 6: Cross-Sectional Momentum",
+      "source_pages": "160-175",
+      "backtest_results": {
+        "APR": "18%",
+        "Sharpe": 1.37,
+        "period": "1990-2007",
+        "notes": "Pre-2008 results. Author notes strategy suffered in 2008-2009 and has had lower returns post-crisis."
+      },
+      "clarity_score": 8,
+      "completeness": "High",
+      "notes": "Classic academic momentum strategy (Moskowitz, Ooi, Pedersen 2012). Author warns about post-2008 performance degradation. The strategy is correlated to equity momentum and suffered during risk-off events."
+    },
+    {
+      "id": 22,
+      "name": "Cross-Sectional Stock Momentum (Jegadeesh-Titman)",
+      "type": "Momentum / Cross-Sectional / Equity Long-Short",
+      "markets": ["US Equities"],
+      "timeframes": ["Monthly rebalance"],
+      "entry_rules": [
+        "Rank all stocks by trailing 12-month return (skip most recent month)",
+        "Go long top decile (winners)",
+        "Go short bottom decile (losers)",
+        "Equal or value-weighted within deciles",
+        "Skip most recent month to avoid short-term reversal"
+      ],
+      "exit_rules": [
+        "Hold for 1 month, then rebalance",
+        "Exit when stock drops out of decile"
+      ],
+      "risk_management": [
+        "Dollar-neutral",
+        "Diversified (100+ stocks per side)",
+        "Monthly rebalance"
+      ],
+      "indicators": [
+        {"name": "12-1 Month Return", "parameters": {"lookback": 12, "skip_recent": 1, "unit": "months"}},
+        {"name": "Cross-Sectional Rank", "parameters": {"deciles": 10}}
+      ],
+      "source_chapter": "Chapter 6",
+      "source_pages": "170-180",
+      "backtest_results": {
+        "APR": "37%",
+        "Sharpe": 4.1,
+        "period": "1990-2007",
+        "notes": "Pre-2008 results. Author explicitly warns these are before transaction costs and may not be achievable. Strategy crashed in 2009."
+      },
+      "clarity_score": 8,
+      "completeness": "High - well-known academic strategy",
+      "notes": "Based on Jegadeesh & Titman (1993). Author warns: post-2008 returns much lower. The 12-1 formulation (skip most recent month) is standard to avoid short-term reversal contaminating the signal. Very high Sharpe is pre-cost and pre-2008."
+    },
+    {
+      "id": 23,
+      "name": "Euro Stoxx (FSTX) Opening Gap Momentum",
+      "type": "Momentum / Gap Trading / Intraday",
+      "markets": ["Futures: FSTX (Euro Stoxx 50)"],
+      "timeframes": ["Intraday (open to close)"],
+      "entry_rules": [
+        "Compute opening gap: gap = (open - prev_close) / prev_close",
+        "If gap > threshold: buy at open (momentum continuation)",
+        "If gap < -threshold: sell at open (momentum continuation)",
+        "Trade in direction of the gap (unlike mean-reversion gap strategies)"
+      ],
+      "exit_rules": [
+        "Close at end of day (MOC)",
+        "No intraday stops mentioned"
+      ],
+      "risk_management": [
+        "Intraday only",
+        "Fixed position size",
+        "Threshold filters small gaps"
+      ],
+      "indicators": [
+        {"name": "Opening Gap", "parameters": {"formula": "(open - prev_close) / prev_close", "threshold": "varies"}}
+      ],
+      "source_chapter": "Chapter 6",
+      "source_pages": "180-185",
+      "backtest_results": {
+        "APR": "13%",
+        "Sharpe": 1.4,
+        "period": "2007-2012",
+        "notes": "Opening gaps in European indices tend to continue (momentum), unlike US stocks which tend to revert"
+      },
+      "clarity_score": 7,
+      "completeness": "Medium - threshold not precisely specified",
+      "notes": "Key insight: gaps in FSTX are momentum (continue through the day) while gaps in SPX are mean-reverting. This may be due to FSTX opening after US overnight news is already priced in, creating genuine information-driven gaps."
+    },
+    {
+      "id": 24,
+      "name": "GBPUSD Opening Gap Momentum",
+      "type": "Momentum / Gap Trading / Forex",
+      "markets": ["Forex: GBP/USD"],
+      "timeframes": ["Intraday (London open to close)"],
+      "entry_rules": [
+        "Compute opening gap at London session open",
+        "If gap > threshold: buy GBP/USD (momentum)",
+        "If gap < -threshold: sell GBP/USD (momentum)",
+        "Trade gap continuation"
+      ],
+      "exit_rules": [
+        "Close at London session end",
+        "Or close at New York open"
+      ],
+      "risk_management": [
+        "Intraday only",
+        "Session-specific"
+      ],
+      "indicators": [
+        {"name": "Opening Gap", "parameters": {"session": "London", "formula": "(open - prev_close) / prev_close"}}
+      ],
+      "source_chapter": "Chapter 6",
+      "source_pages": "180-185",
+      "backtest_results": {
+        "APR": "7.2%",
+        "Sharpe": 1.3,
+        "period": "2007-2012"
+      },
+      "clarity_score": 6,
+      "completeness": "Medium",
+      "notes": "Another gap momentum example. Forex gaps at session opens (especially after weekends) tend to continue. Lower returns than FSTX but still positive expectancy."
+    },
+    {
+      "id": 25,
+      "name": "Post-Earnings Announcement Drift (PEAD)",
+      "type": "Momentum / Event-Driven",
+      "markets": ["US Equities"],
+      "timeframes": ["Daily (hold 1-60 days post-earnings)"],
+      "entry_rules": [
+        "Monitor quarterly earnings announcements",
+        "Compute Standardized Unexpected Earnings (SUE) = (actual_EPS - consensus_EPS) / std_of_past_surprises",
+        "If SUE > threshold (positive surprise): buy stock",
+        "If SUE < -threshold (negative surprise): short stock",
+        "Enter on first trading day after announcement"
+      ],
+      "exit_rules": [
+        "Hold for 60 trading days (one quarter)",
+        "Exit before next earnings announcement",
+        "Or use trailing stop"
+      ],
+      "risk_management": [
+        "Diversified across many earnings events",
+        "Dollar-neutral if running long-short",
+        "Event risk: subsequent announcements can reverse"
+      ],
+      "indicators": [
+        {"name": "Standardized Unexpected Earnings (SUE)", "parameters": {"formula": "(actual_EPS - consensus_EPS) / historical_surprise_std"}},
+        {"name": "Earnings Announcement Date", "parameters": {}}
+      ],
+      "source_chapter": "Chapter 6",
+      "source_pages": "185-190",
+      "backtest_results": {
+        "APR": "6.7%",
+        "Sharpe": 1.5,
+        "period": "2000-2012",
+        "notes": "One of the most robust anomalies in academic finance. Exists because investors underreact to earnings news."
+      },
+      "clarity_score": 7,
+      "completeness": "Medium-High",
+      "notes": "PEAD is one of the oldest and most studied anomalies. Author explains it persists because: (1) institutional investors can't trade small-cap stocks quickly enough, (2) analyst estimates are anchored to prior estimates, (3) behavioral underreaction to new information."
+    },
+    {
+      "id": 26,
+      "name": "Leveraged ETF Rebalancing Momentum",
+      "type": "Momentum / Structural / ETF",
+      "markets": ["Leveraged ETFs: DRN (3x Real Estate Bull), DRV (3x Real Estate Bear)"],
+      "timeframes": ["Daily (near close)"],
+      "entry_rules": [
+        "Leveraged ETFs must rebalance daily to maintain target leverage",
+        "Near market close (3:45-4:00 PM), predict rebalancing flow direction",
+        "If underlying index was UP today: leveraged bull ETF must BUY more (momentum)",
+        "If underlying index was DOWN today: leveraged bull ETF must SELL (add to momentum)",
+        "Trade in direction of predicted rebalancing flow ~15 min before close",
+        "Size based on estimated rebalancing volume"
+      ],
+      "exit_rules": [
+        "Exit at market close or next day open",
+        "Very short holding period"
+      ],
+      "risk_management": [
+        "Very short holding period (15-30 min)",
+        "Rebalancing flows are predictable and mechanical",
+        "Capacity limited by ETF AUM"
+      ],
+      "indicators": [
+        {"name": "Daily Return of Underlying", "parameters": {}},
+        {"name": "Estimated Rebalancing Volume", "parameters": {"formula": "ETF_AUM * leverage * daily_return"}},
+        {"name": "Time of Day", "parameters": {"entry_window": "15:45-16:00"}}
+      ],
+      "source_chapter": "Chapter 6",
+      "source_pages": "190-195",
+      "backtest_results": {
+        "APR": "15%",
+        "Sharpe": 1.8,
+        "period": "2009-2012",
+        "notes": "Very high Sharpe due to predictable mechanical flow. Edge has likely diminished as more traders exploit it."
+      },
+      "clarity_score": 8,
+      "completeness": "High",
+      "notes": "Structural edge: leveraged ETFs MUST rebalance daily by buying high and selling low. This creates predictable end-of-day flows. Author notes this was a well-known strategy by 2013 and capacity/edge may have eroded."
+    },
+    {
+      "id": 27,
+      "name": "Combined Mean Reversion + Momentum on Crude Oil (CL)",
+      "type": "Hybrid / Multi-Signal",
+      "markets": ["Futures: CL (Crude Oil)"],
+      "timeframes": ["Daily"],
+      "entry_rules": [
+        "Signal 1 (Mean Reversion): Z-score of CL calendar spread",
+        "Signal 2 (Momentum): trailing return over lookback period",
+        "Combined signal = weighted average of both signals",
+        "If both signals agree: full position",
+        "If signals disagree: reduced position or flat",
+        "Weight allocation between MR and momentum based on recent regime"
+      ],
+      "exit_rules": [
+        "Combined signal reversal",
+        "Either component hitting exit threshold"
+      ],
+      "risk_management": [
+        "Diversification across signal types",
+        "Position size reflects conviction (agreement between signals)",
+        "Regime awareness"
+      ],
+      "indicators": [
+        {"name": "Calendar Spread Z-Score", "parameters": {"type": "mean_reversion"}},
+        {"name": "Trailing Return", "parameters": {"type": "momentum"}},
+        {"name": "Signal Combination Weight", "parameters": {"method": "weighted_average"}}
+      ],
+      "source_chapter": "Chapters 4-5",
+      "source_pages": "115-155",
+      "backtest_results": {
+        "APR": "12%",
+        "Sharpe": 1.1,
+        "period": "2007-2012",
+        "notes": "Combining MR and momentum on same instrument reduces drawdowns vs either alone"
+      },
+      "clarity_score": 6,
+      "completeness": "Medium - author discusses concept but exact combination method varies",
+      "notes": "Author advocates combining mean reversion and momentum signals on the same instrument. Different timeframes favor different approaches: short-term (mean reversion), long-term (momentum). The combination is more robust than either alone."
+    },
+    {
+      "id": 28,
+      "name": "Kelly Criterion Optimal Leverage",
+      "type": "Risk Management / Position Sizing Framework",
+      "markets": ["Any"],
+      "timeframes": ["Any"],
+      "entry_rules": [
+        "Not a trading strategy per se, but a position sizing framework",
+        "For continuous returns: f = m / s^2 where m = mean excess return, s^2 = variance of returns",
+        "For discrete bets: f = (p*b - q) / b where p = win prob, q = loss prob, b = win/loss ratio",
+        "Apply half-Kelly (f/2) in practice for safety",
+        "Compute f on rolling basis using recent returns"
+      ],
+      "exit_rules": [
+        "Reduce leverage when Kelly fraction decreases",
+        "Increase when Kelly fraction increases",
+        "Never exceed full Kelly"
+      ],
+      "risk_management": [
+        "Half-Kelly reduces risk of ruin dramatically",
+        "Full Kelly maximizes geometric growth but with high variance",
+        "Quarter-Kelly for very risk-averse traders",
+        "Kelly assumes known and stationary distribution (rarely true)"
+      ],
+      "indicators": [
+        {"name": "Kelly Fraction", "parameters": {"formula_continuous": "f = mean / variance", "formula_discrete": "f = (p*b - q) / b"}},
+        {"name": "Rolling Mean Return", "parameters": {}},
+        {"name": "Rolling Variance", "parameters": {}}
+      ],
+      "source_chapter": "Chapter 7: Risk Management",
+      "source_pages": "195-210",
+      "backtest_results": {
+        "notes": "Not a standalone strategy. Author demonstrates that half-Kelly applied to any strategy improves risk-adjusted returns vs fixed sizing."
+      },
+      "clarity_score": 9,
+      "completeness": "High - full mathematical derivation provided",
+      "notes": "Author strongly advocates half-Kelly or less. Full Kelly is too aggressive for real trading because: (1) return distributions are not stationary, (2) fat tails increase risk of ruin, (3) parameter estimation error means true Kelly is unknown. The continuous formula f = m/s^2 is elegant and easy to implement."
+    },
+    {
+      "id": 29,
+      "name": "CPPI (Constant Proportion Portfolio Insurance)",
+      "type": "Risk Management / Drawdown Control",
+      "markets": ["Any"],
+      "timeframes": ["Any"],
+      "entry_rules": [
+        "Set a floor value (maximum acceptable loss, e.g., 80% of initial capital)",
+        "Cushion = portfolio_value - floor",
+        "Multiplier = desired leverage when fully invested (e.g., 5)",
+        "Risky_allocation = min(multiplier * cushion, portfolio_value)",
+        "As portfolio drops toward floor, allocation to risky assets decreases automatically"
+      ],
+      "exit_rules": [
+        "If portfolio hits floor: 100% in risk-free asset (locked out)",
+        "Rebalance allocation continuously as portfolio value changes"
+      ],
+      "risk_management": [
+        "Guarantees minimum portfolio value (the floor)",
+        "Reduces exposure automatically during drawdowns",
+        "Risk: gap risk can breach floor in extreme moves"
+      ],
+      "indicators": [
+        {"name": "Cushion", "parameters": {"formula": "portfolio_value - floor_value"}},
+        {"name": "Risky Allocation", "parameters": {"formula": "multiplier * cushion"}}
+      ],
+      "source_chapter": "Chapter 7",
+      "source_pages": "210-215",
+      "backtest_results": {
+        "notes": "Framework, not standalone strategy. Reduces max drawdown at cost of capping upside in strong trends."
+      },
+      "clarity_score": 8,
+      "completeness": "High",
+      "notes": "CPPI provides a systematic way to implement drawdown control. Author notes the tradeoff: you give up upside in exchange for drawdown protection. The 'lock-out' effect (hitting the floor) can be mitigated by using a partial floor reset."
+    },
+    {
+      "id": 30,
+      "name": "HFT Ratio Trade (Market Making)",
+      "type": "High-Frequency / Market Making",
+      "markets": ["Liquid equities, futures, FX"],
+      "timeframes": ["Tick / Sub-second"],
+      "entry_rules": [
+        "Maintain bid and ask quotes around estimated fair value",
+        "Fair value estimated from order flow imbalance and recent trades",
+        "Buy on bid, sell on ask, capture spread",
+        "Adjust quotes based on inventory: if long, lower ask to reduce inventory",
+        "Cancel and re-quote when order flow suggests adverse selection"
+      ],
+      "exit_rules": [
+        "Inventory management: flatten by end of day",
+        "Cancel stale quotes immediately when conditions change",
+        "Exit all positions if volatility spikes"
+      ],
+      "risk_management": [
+        "Inventory limits (max position size)",
+        "Speed of cancellation is primary risk control",
+        "Adverse selection detection (cancel when informed flow detected)"
+      ],
+      "indicators": [
+        {"name": "Order Flow Imbalance", "parameters": {"measurement": "bid_volume - ask_volume"}},
+        {"name": "Micro Price", "parameters": {"formula": "bid*ask_size + ask*bid_size / (bid_size + ask_size)"}},
+        {"name": "Inventory", "parameters": {}}
+      ],
+      "source_chapter": "Chapter 8: High-Frequency Trading",
+      "source_pages": "215-225",
+      "backtest_results": {
+        "notes": "No specific backtest results. Author discusses conceptually. Requires co-location and sub-millisecond execution."
+      },
+      "clarity_score": 5,
+      "completeness": "Low-Medium - conceptual discussion, not implementable from book alone",
+      "notes": "Author provides a high-level overview of HFT market making. Not implementable without: (1) co-location, (2) direct market access, (3) FIX protocol implementation, (4) sub-millisecond infrastructure. Included for completeness but not practical for retail traders."
+    },
+    {
+      "id": 31,
+      "name": "Momentum Ignition Detection / Stop Hunting",
+      "type": "High-Frequency / Predatory",
+      "markets": ["Liquid equities, futures"],
+      "timeframes": ["Tick / Sub-second"],
+      "entry_rules": [
+        "Detect clusters of stop-loss orders at known technical levels",
+        "Place aggressive orders to push price through stop cluster",
+        "Profit from cascading stop-loss execution (momentum ignition)",
+        "Alternatively: detect when others are doing this and trade with them"
+      ],
+      "exit_rules": [
+        "Exit once stop cascade is exhausted",
+        "Very short holding period (seconds)"
+      ],
+      "risk_management": [
+        "Regulatory risk (momentum ignition may be illegal in some jurisdictions)",
+        "Requires real-time order book data",
+        "Extremely short holding period limits loss"
+      ],
+      "indicators": [
+        {"name": "Stop Loss Cluster Detection", "parameters": {}},
+        {"name": "Order Book Imbalance", "parameters": {}},
+        {"name": "Volume Spike Detection", "parameters": {}}
+      ],
+      "source_chapter": "Chapter 8",
+      "source_pages": "220-225",
+      "backtest_results": {
+        "notes": "No backtest results provided. Conceptual discussion only."
+      },
+      "clarity_score": 4,
+      "completeness": "Low - conceptual only, regulatory concerns",
+      "notes": "Author discusses this as an HFT phenomenon to be aware of, not necessarily to implement. Relevant for understanding why stops get hit at technical levels. Regulatory scrutiny has increased significantly since publication."
+    },
+    {
+      "id": 32,
+      "name": "News Sentiment Momentum",
+      "type": "Momentum / Sentiment / NLP",
+      "markets": ["US Equities"],
+      "timeframes": ["Daily / Intraday"],
+      "entry_rules": [
+        "Process news articles/headlines using sentiment analysis (NLP)",
+        "Compute sentiment score for each stock",
+        "Buy stocks with positive sentiment momentum (improving sentiment)",
+        "Short stocks with negative sentiment momentum (deteriorating sentiment)",
+        "Combine with price momentum for confirmation"
+      ],
+      "exit_rules": [
+        "Sentiment reversal",
+        "Fixed holding period",
+        "Price-based stop loss"
+      ],
+      "risk_management": [
+        "Diversified across many stocks",
+        "Sentiment can be noisy - use aggregation",
+        "Combine with price signals for confirmation"
+      ],
+      "indicators": [
+        {"name": "News Sentiment Score", "parameters": {"source": "news_articles", "method": "NLP"}},
+        {"name": "Sentiment Momentum", "parameters": {"lookback": "varies"}}
+      ],
+      "source_chapter": "Chapter 6",
+      "source_pages": "185-190",
+      "backtest_results": {
+        "notes": "Author references academic research showing sentiment predicts returns. No specific backtest from author."
+      },
+      "clarity_score": 5,
+      "completeness": "Low-Medium - conceptual, requires NLP infrastructure",
+      "notes": "Author discusses news sentiment as a momentum factor. References research by Tetlock (2007) and others. Practical implementation requires: news feed, NLP pipeline, sentiment model. More relevant now (2026) with modern LLMs than when written (2013)."
+    }
+  ],
+  "cross_cutting_themes": {
+    "mean_reversion_vs_momentum": "Author argues most instruments exhibit BOTH mean reversion and momentum at different timeframes. Short timeframes (intraday to days) tend to mean-revert. Long timeframes (weeks to months) tend to trend. The key is matching strategy type to timeframe.",
+    "stationarity_testing": "Before trading any mean reversion strategy, MUST test for stationarity using: (1) ADF test, (2) Hurst exponent (H < 0.5 = mean reverting), (3) Variance ratio test, (4) Half-life of mean reversion. If half-life is too long (>100 days), the strategy is impractical.",
+    "cointegration_over_correlation": "Correlation is not sufficient for pairs trading. Two assets can be highly correlated but NOT cointegrated (they can drift apart permanently). Cointegration means the spread is stationary and will revert. Always use Johansen or CADF test, not just correlation.",
+    "roll_return_as_signal": "Futures term structure (contango vs backwardation) is a powerful signal. Roll return captures supply/demand information that spot price alone misses. Backwardation = bullish, Contango = bearish for the underlying.",
+    "transaction_costs_matter": "Author repeatedly emphasizes that transaction costs (commissions, slippage, market impact) can destroy strategies that look profitable on paper. Higher frequency = more costs. Always include realistic costs in backtests.",
+    "capacity_vs_sharpe_tradeoff": "Higher frequency strategies have higher Sharpe ratios but lower capacity (can't manage large AUM). Lower frequency strategies have lower Sharpe but can manage billions. Retail traders should exploit the high-Sharpe, low-capacity niche.",
+    "regime_changes": "Many strategies that worked pre-2008 failed post-2008. Author warns about: (1) crowded trades (2007 quant crisis), (2) correlation breakdowns during crises, (3) structural market changes (HFT, regulation). Walk-forward testing is essential.",
+    "kelly_criterion": "Use half-Kelly or less. Full Kelly maximizes geometric growth but has unacceptable drawdown risk. The formula f = m/s^2 is simple and powerful but assumes stationary returns (unrealistic).",
+    "futures_pricing_model": "F(t,T) = S(t) * exp(gamma * (T-t)) where gamma is the annualized roll return. Positive gamma = backwardation = bullish. This model is fundamental to understanding futures vs spot returns."
+  },
+  "key_concepts": {
+    "adf_test": "Augmented Dickey-Fuller test for stationarity. Null hypothesis: series has a unit root (non-stationary). Reject null (p < 0.05) to confirm mean reversion.",
+    "hurst_exponent": "H < 0.5: mean reverting, H = 0.5: random walk, H > 0.5: trending. Computed via variance of lagged differences.",
+    "variance_ratio_test": "VR(q) = Var(q-period return) / (q * Var(1-period return)). VR < 1: mean reverting, VR = 1: random walk, VR > 1: trending.",
+    "half_life": "Time for spread to revert halfway to mean. Computed from OU regression: delta_y = lambda * y_lag + noise. Halflife = -log(2) / lambda. Used as lookback for rolling statistics.",
+    "johansen_test": "Tests for cointegration among multiple time series simultaneously. Returns eigenvectors (hedge ratios) and eigenvalues (strength of cointegration). Superior to Engle-Granger for multi-leg strategies.",
+    "ornstein_uhlenbeck": "Mean-reverting stochastic process: dX = theta * (mu - X) * dt + sigma * dW. theta = speed of reversion, mu = long-run mean. Used to model spread dynamics.",
+    "kalman_filter": "Recursive state estimation. Dynamically estimates hedge ratio without fixed lookback window. State equation: hedge_ratio(t) = hedge_ratio(t-1) + noise. Observation: y = hedge_ratio * x + noise.",
+    "sharpe_ratio": "Sharpe = (annual_return - risk_free_rate) / annual_std. Author targets Sharpe > 1.0 for viable strategies, > 2.0 for excellent.",
+    "maximum_drawdown": "Largest peak-to-trough decline. Author considers >25% unacceptable for most strategies.",
+    "profit_factor": "Not explicitly used by author (prefers Sharpe), but implied in discussion of win rate and payoff ratio."
+  },
+  "analysis_metadata": {
+    "total_strategies_extracted": 32,
+    "mean_reversion_count": 14,
+    "momentum_count": 12,
+    "risk_management_frameworks": 2,
+    "hft_concepts": 2,
+    "hybrid_strategies": 1,
+    "event_driven": 1,
+    "average_clarity_score": 7.3,
+    "highly_codifiable_count": 20,
+    "conceptual_only_count": 5,
+    "requires_infrastructure_count": 7,
+    "analysis_date": "2026-03-25",
+    "analyst_notes": "This book is highly technical and quantitative. The strongest strategies are the mean reversion pairs (especially Kalman Filter) and the roll return momentum strategies. The HFT section is conceptual only. Most strategies require daily or lower frequency data and are implementable by retail algo traders with basic infrastructure."
+  }
+}

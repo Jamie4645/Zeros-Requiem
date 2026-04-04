@@ -1,4 +1,4 @@
----
+--
 tags: [tool, hook, safety, risk-management]
 aliases: [file-protection, sacred-files]
 related: [[CLAUDE]], [[16-Risk-Management-Elite-System]], [[32-Tool-Auto-Test-Hook]]

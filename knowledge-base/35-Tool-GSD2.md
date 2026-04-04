@@ -1,4 +1,4 @@
----
+--
 tags: [tool, workflow, GSD, automation, development]
 aliases: [GSD, GSD-2, get-shit-done]
 related: [[CLAUDE]], [[32-Tool-Auto-Test-Hook]], [[31-Tool-Backtest]]
@@ -19,19 +19,19 @@ Each task runs in a fresh context window, so Claude never loses track.
 
 ## Key Commands
 
-| Command | What It Does | When to Use |
-|---------|-------------|-------------|
-| `/gsd` | Step-by-step execution | Default — review each step |
-| `/gsd auto` | Fully autonomous mode | Grinding through known-good work |
-| `/gsd next` | Advance one step | After reviewing a completed step |
-| `/gsd quick` | Execute without planning | Small, obvious tasks |
-| `/gsd stop` | Halt autonomous mode | When something looks wrong |
-| `/gsd discuss` | Architecture conversation | Safe during auto — won't pollute execution |
-| `/gsd status` | Progress dashboard | Check where you are |
-| `/gsd steer` | Modify plans mid-execution | When backtest results change priorities |
-| `/gsd doctor` | Health check with auto-fixes | When things feel broken |
-| `/gsd forensics` | Investigate auto-mode failures | Post-mortem on failed runs |
-| `/gsd logs` | Activity and metrics | Review token usage and progress |
+| Command          | What It Does                   | When to Use                                |
+| ---------------- | ------------------------------ | ------------------------------------------ |
+| `/gsd`           | Step-by-step execution         | Default — review each step                 |
+| `/gsd auto`      | Fully autonomous mode          | Grinding through known-good work           |
+| `/gsd next`      | Advance one step               | After reviewing a completed step           |
+| `/gsd quick`     | Execute without planning       | Small, obvious tasks                       |
+| `/gsd stop`      | Halt autonomous mode           | When something looks wrong                 |
+| `/gsd discuss`   | Architecture conversation      | Safe during auto — won't pollute execution |
+| `/gsd status`    | Progress dashboard             | Check where you are                        |
+| `/gsd steer`     | Modify plans mid-execution     | When backtest results change priorities    |
+| `/gsd doctor`    | Health check with auto-fixes   | When things feel broken                    |
+| `/gsd forensics` | Investigate auto-mode failures | Post-mortem on failed runs                 |
+| `/gsd logs`      | Activity and metrics           | Review token usage and progress            |
 
 ## How It Fits Zeros Requiem
 

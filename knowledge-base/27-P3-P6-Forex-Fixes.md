@@ -1,4 +1,4 @@
----
+--
 tags: [priority, forex, USD-JPY, AUD-USD, rejection]
 aliases: [Forex Fixes, JPY Fix, AUD Rejection]
 related: [[21-Priority-3-4-New-Pairs]], [[26-P1-Gold-BE-Stop-Fix]], [[28-P4-Monte-Carlo]], [[00-MOC-Zeros-Requiem]]

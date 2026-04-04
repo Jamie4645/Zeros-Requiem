@@ -1,0 +1,685 @@
+{
+  "book_metadata": {
+    "title": "Day Trading the Currency Market: Technical and Fundamental Strategies to Profit from Market Swings",
+    "author": "Kathy Lien",
+    "edition": "1st Edition",
+    "year": 2005,
+    "publisher": "Wiley",
+    "focus": "Forex day trading and swing trading",
+    "total_strategies_extracted": 12,
+    "analysis_date": "2026-03-25",
+    "notes": "First edition. Some strategies may differ from the 2nd edition (2008). Written when FX retail trading was nascent. Session times in EST. Data references 2002-2005 period."
+  },
+  "strategies": [
+    {
+      "id": "LIEN1_FADE_DOUBLE_ZEROS",
+      "name": "Fading the Double Zeros",
+      "type": "mean_reversion",
+      "source_chapter": "Chapter 8 - Technical Trading Strategies",
+      "forex_pairs": ["EUR/USD", "USD/JPY", "USD/CAD", "GBP/USD", "crosses", "commodity_currencies"],
+      "timeframes": ["10min", "15min"],
+      "classification": "intraday",
+      "description": "Fade price at psychologically important round number levels (double zeros like 1.2800, 105.00) where take-profit order clusters create predictable contra-trend bounces. Exploits market microstructure where dealers gun stops beyond round numbers.",
+      "entry_rules": {
+        "long": [
+          "Locate currency pair trading well below its 20-period SMA on 10min or 15min chart",
+          "Price is approaching a double zero level (last two digits are 00, e.g., 1.2800, 105.00)",
+          "Enter long several pips below the double zero figure (no more than 10 pips below)"
+        ],
+        "short": [
+          "Locate currency pair trading well above its 20-period SMA on 10min or 15min chart",
+          "Price is approaching a double zero level from below",
+          "Enter short several pips above the double zero figure (no more than 10 pips above)"
+        ]
+      },
+      "exit_rules": {
+        "stop_loss": "20 pips from entry (fixed)",
+        "take_profit_1": "Close half position when profit equals double the risk (40 pips if 20 pip stop)",
+        "take_profit_2": "Trail stop on remaining half using 2-bar low (long) or 2-bar high (short)",
+        "breakeven": "Move stop to breakeven on remaining half after TP1 hit"
+      },
+      "risk_management": {
+        "risk_per_trade": "20 pips max stop",
+        "risk_reward_ratio": "1:2 minimum on first half",
+        "position_sizing": "Half position exits at 2R, half trailed"
+      },
+      "indicators": [
+        {"name": "SMA", "period": 20, "timeframe": "10min or 15min", "purpose": "Confirm extended move toward round number"}
+      ],
+      "filters": [
+        "Works best in quieter market conditions (no major economic releases as catalyst)",
+        "Most successful for pairs with tighter trading ranges, crosses, and commodity currencies",
+        "Higher probability when double zero coincides with key technical level (Fibonacci, moving averages, Bollinger bands)",
+        "Triple zero levels (e.g., 1.2000) are even more significant than double zeros"
+      ],
+      "clarity_score": 9,
+      "completeness_score": 9,
+      "codifiability": "HIGH - All rules are precise and mechanical",
+      "example_trades": [
+        {"pair": "EUR/USD", "entry": 1.2795, "stop": 1.2775, "tp1": 1.2835, "tp2": 1.2831, "result_pips": 76},
+        {"pair": "USD/JPY", "entry": 104.95, "stop": 104.75, "tp1": 105.35, "tp2": 105.71, "result_pips": 116},
+        {"pair": "USD/CAD", "entry": 1.1995, "stop": 1.1975, "tp1": 1.2035, "tp2": 1.2081, "result_pips": 126}
+      ],
+      "notes": "One of the most codifiable strategies in the book. The microstructure rationale (dealers gunning stops at round numbers, take-profit clustering) remains valid today. Triple zeros are rarer but more powerful. Book examples are all longs but strategy works for shorts too."
+    },
+    {
+      "id": "LIEN1_WAITING_REAL_DEAL",
+      "name": "Waiting for the Real Deal (London Open Fake-Out)",
+      "type": "session_breakout",
+      "source_chapter": "Chapter 8 - Technical Trading Strategies",
+      "forex_pairs": ["GBP/USD"],
+      "timeframes": ["15min", "5min"],
+      "classification": "intraday",
+      "description": "Exploits the tendency of UK/European dealers to gun stops on both sides during the Frankfurt/London power hour (1-2am EST), then trade the real directional move that follows. Based on the premise that initial London open moves are stop hunts, not real directional moves.",
+      "entry_rules": {
+        "long": [
+          "Define range as GBP/USD price action between 1:00 AM EST and 2:00 AM EST (Frankfurt-London power hour)",
+          "Wait for GBP/USD to make a new range low at least 25 pips below the opening price",
+          "Wait for pair to reverse and penetrate the range high",
+          "Place entry order to buy 10 pips above the high of the range"
+        ],
+        "short": [
+          "GBP/USD opens in Europe and trades more than 25 pips above the high of the Frankfurt-London power hour range",
+          "Wait for pair to reverse and penetrate the range low",
+          "Place entry order to sell 10 pips below the low of the range"
+        ]
+      },
+      "exit_rules": {
+        "stop_loss": "20 pips from entry (fixed)",
+        "take_profit_1": "Close half when profit equals double the amount risked (40 pips)",
+        "take_profit_2": "Trail stop on remaining half using 2-bar high/low",
+        "breakeven": "Move stop to breakeven after TP1 hit"
+      },
+      "risk_management": {
+        "risk_per_trade": "20 pips max stop",
+        "risk_reward_ratio": "1:2 minimum on first half",
+        "position_sizing": "Half exits at TP1, half trailed"
+      },
+      "indicators": [],
+      "filters": [
+        "GBP/USD specific - relies on UK dealer behavior and London session dynamics",
+        "Works best following U.S. open or after major economic release",
+        "Requires the initial fake move to be at least 25 pips",
+        "Wait for noise to settle before entering the real move"
+      ],
+      "session_specific": {
+        "setup_window": "1:00 AM - 2:00 AM EST (Frankfurt-London power hour)",
+        "entry_window": "After 2:00 AM EST through U.S. open",
+        "key_concept": "UK dealers hunt stops on both sides during power hour, then real move begins"
+      },
+      "clarity_score": 8,
+      "completeness_score": 8,
+      "codifiability": "HIGH - Session-based rules are precise and time-bound",
+      "example_trades": [
+        {"pair": "GBP/USD", "date": "May 2005", "entry": 1.8794, "stop": 1.8814, "tp1_pips": 40, "tp2_pips": 54, "total_pips": 94},
+        {"pair": "GBP/USD", "date": "Apr 2005", "entry": 1.8811, "stop": 1.8861, "tp1_pips": 40, "tp2_pips": 52, "total_pips": 92},
+        {"pair": "GBP/USD", "date": "Mar 2005", "entry": 1.8943, "stop": 1.8963, "tp1_pips": 40, "tp2_pips": 90, "total_pips": 130}
+      ],
+      "notes": "Unique session-based strategy exploiting London dealer behavior. The 25-pip minimum move filter is important to avoid false signals. Strategy concept of 'stop hunting before real move' is a well-known institutional behavior pattern. May need adaptation for modern markets where algorithms have changed London open dynamics."
+    },
+    {
+      "id": "LIEN1_INSIDE_DAY_BREAKOUT",
+      "name": "Inside Day Breakout Play",
+      "type": "volatility_breakout",
+      "source_chapter": "Chapter 8 - Technical Trading Strategies",
+      "forex_pairs": ["EUR/GBP", "NZD/USD", "EUR/CAD", "all_majors", "all_crosses"],
+      "timeframes": ["daily"],
+      "classification": "swing",
+      "description": "Trade breakouts from inside day patterns (where daily range is contained within prior day's range). Requires at least 2 consecutive inside days. The more inside days, the more powerful the breakout. Includes stop-and-reverse mechanism for false breakouts.",
+      "entry_rules": {
+        "setup": [
+          "Identify at least 2 consecutive inside days on daily chart",
+          "Inside day = day's high and low do not exceed previous day's high and low"
+        ],
+        "long": [
+          "Place buy order 10 pips above the high of the most recent inside day"
+        ],
+        "short": [
+          "Place sell order 10 pips below the low of the most recent inside day"
+        ],
+        "stop_and_reverse": [
+          "If initial breakout direction fails, place stop-and-reverse order on opposite side",
+          "Stop-and-reverse is placed 10 pips beyond the low/high of the most recent inside day"
+        ]
+      },
+      "exit_rules": {
+        "stop_loss": "10 pips beyond the opposite side of the most recent inside day",
+        "take_profit": "Double the amount risked (2R)",
+        "trailing_stop": "Optional - use for aggressive traders to capture larger trend moves",
+        "false_breakout_handling": "Stop-and-reverse order reverses position if initial direction fails"
+      },
+      "risk_management": {
+        "risk_per_trade": "Distance from entry to opposite inside day extreme + 10 pips",
+        "risk_reward_ratio": "1:2",
+        "note": "Risk can be high on daily charts due to wide inside day ranges"
+      },
+      "indicators": [
+        {"name": "MACD Histogram", "purpose": "Optional directional bias filter - positive histogram favors upside breakout"},
+        {"name": "Chart Patterns", "purpose": "Ascending triangles favor upside, descending favor downside"}
+      ],
+      "filters": [
+        "More inside days = higher probability breakout",
+        "Higher lows within inside days suggest upside breakout",
+        "Lower highs suggest downside breakout",
+        "Use MACD histogram direction for bias",
+        "Fibonacci and MA support zones below inside days indicate higher probability of upside break",
+        "These breakouts are often precursors to big trends"
+      ],
+      "clarity_score": 8,
+      "completeness_score": 8,
+      "codifiability": "HIGH - Pattern recognition is mechanical, entry/exit rules are precise",
+      "example_trades": [
+        {"pair": "EUR/GBP", "entry": 0.6634, "stop": 0.6579, "result_pips": 90, "direction": "long"},
+        {"pair": "NZD/USD", "entry": 0.6638, "stop": 0.6560, "result_pips": 78, "notes": "False breakout then reversed for +156 pips short, net +78"},
+        {"pair": "EUR/CAD", "entry": 1.6008, "stop": 1.5905, "result_pips": 200, "direction": "long"}
+      ],
+      "notes": "Classic volatility contraction/expansion strategy. The stop-and-reverse mechanism is clever for handling false breakouts. Works on all forex pairs. The 2nd edition likely has similar rules. Can be applied to any timeframe but originally designed for daily."
+    },
+    {
+      "id": "LIEN1_FADER",
+      "name": "The Fader (False Breakout Fade)",
+      "type": "mean_reversion",
+      "source_chapter": "Chapter 8 - Technical Trading Strategies",
+      "forex_pairs": ["EUR/USD", "GBP/USD", "less_volatile_pairs"],
+      "timeframes": ["daily", "hourly"],
+      "classification": "intraday_to_swing",
+      "description": "Fade false breakouts in range-bound markets. Uses ADX to confirm low-trend environment, waits for price to break one side of range by 15+ pips, then enters when price reverses through the opposite side. A variation of the 'Waiting for the Real Deal' strategy using daily charts for environment and hourly for entry.",
+      "entry_rules": {
+        "long": [
+          "14-period ADX is less than 35 (ideally trending downward)",
+          "Wait for market to break below previous day's low by at least 15 pips",
+          "Place entry order to buy 15 pips above previous day's high",
+          "Entry only after the downside fake-out has occurred"
+        ],
+        "short": [
+          "14-period ADX is less than 35 (ideally trending downward)",
+          "Wait for move above previous day's high by at least 15 pips",
+          "Place entry order to sell 15 pips below previous day's low"
+        ]
+      },
+      "exit_rules": {
+        "stop_loss": "30 pips from entry (fixed)",
+        "take_profit": "60 pips (double the risk)",
+        "risk_reward_ratio": "1:2 fixed"
+      },
+      "risk_management": {
+        "risk_per_trade": "30 pips fixed stop",
+        "risk_reward_ratio": "1:2",
+        "position_sizing": "Single position, no scaling"
+      },
+      "indicators": [
+        {"name": "ADX", "period": 14, "purpose": "Must be below 35 and ideally declining to confirm range-bound environment"}
+      ],
+      "filters": [
+        "Works best when no significant economic data scheduled for release",
+        "Avoid ahead of NFP, FOMC, and similar high-impact events",
+        "Best with less volatile currency pairs with narrower trading ranges",
+        "ADX should be trending downward for highest probability"
+      ],
+      "clarity_score": 9,
+      "completeness_score": 9,
+      "codifiability": "HIGH - All rules are mechanical with specific pip values",
+      "example_trades": [
+        {"pair": "EUR/USD", "entry": 1.2269, "stop": 1.2239, "tp": 1.2329, "result_pips": 60, "direction": "long"}
+      ],
+      "notes": "Very clean, codifiable strategy. The ADX < 35 filter is key to avoiding trend environments where fading would be dangerous. The 15-pip minimum breakout filter prevents entering on noise. Fixed 30/60 pip stop/target makes position sizing straightforward."
+    },
+    {
+      "id": "LIEN1_FILTER_FALSE_BREAKOUTS",
+      "name": "Filtering False Breakouts",
+      "type": "trend_continuation",
+      "source_chapter": "Chapter 8 - Technical Trading Strategies",
+      "forex_pairs": ["GBP/USD", "USD/CAD", "USD/JPY", "all_majors"],
+      "timeframes": ["daily"],
+      "classification": "swing",
+      "description": "Enter strongly trending markets after weaker players have been flushed out by a false breakout. Look for a new 20-day high/low, followed by a reversal to make a 2-day high/low, then re-entry when the original 20-day extreme is breached again within 3 days.",
+      "entry_rules": {
+        "long": [
+          "Currency pair makes a new 20-day high",
+          "Over next 3 days, pair reverses to make a 2-day low",
+          "Buy if pair takes out the original 20-day high within 3 days of the 2-day low",
+          "Entry a few pips above the 20-day high"
+        ],
+        "short": [
+          "Currency pair makes a new 20-day low",
+          "Over next 3 days, pair reverses to make a 2-day high",
+          "Sell if pair trades below the original 20-day low within 3 days of the 2-day high",
+          "Entry a few pips below the 20-day low"
+        ]
+      },
+      "exit_rules": {
+        "stop_loss": "A few pips beyond the 2-day high (short) or 2-day low (long) identified in step 2",
+        "take_profit": "Double the amount risked (2R), or use trailing stop",
+        "trailing_stop": "2-bar high (short) or 2-bar low (long)"
+      },
+      "risk_management": {
+        "risk_per_trade": "Variable - depends on distance between 20-day extreme and 2-day reversal extreme",
+        "risk_reward_ratio": "1:2 minimum"
+      },
+      "indicators": [
+        {"name": "20-day high/low", "purpose": "Identify initial breakout"},
+        {"name": "2-day high/low", "purpose": "Identify reversal/flush"}
+      ],
+      "filters": [
+        "3-day time window for the reversal",
+        "3-day time window for the re-breakout",
+        "Works best in trending markets where weak hands get flushed before continuation"
+      ],
+      "clarity_score": 8,
+      "completeness_score": 8,
+      "codifiability": "HIGH - All lookback periods and timing windows are specified",
+      "example_trades": [
+        {"pair": "GBP/USD", "date": "Nov 2004", "entry_level": 1.8631, "direction": "long"},
+        {"pair": "USD/JPY", "date": "Oct 2004", "entry": 109.20, "stop": 110.30, "result_pips": 220, "direction": "short"}
+      ],
+      "notes": "Excellent trend continuation strategy. The logic of 'flush weak hands then continue' is a well-known institutional pattern. The strict time windows (3 days for reversal, 3 days for re-break) make it very codifiable. This may differ from 2nd edition which could have refined the timing windows."
+    },
+    {
+      "id": "LIEN1_CHANNEL_BREAKOUT",
+      "name": "Channel Breakout Strategy",
+      "type": "breakout",
+      "source_chapter": "Chapter 8 - Technical Trading Strategies",
+      "forex_pairs": ["USD/CAD", "EUR/GBP", "EUR/USD", "all_pairs"],
+      "timeframes": ["15min", "30min", "daily"],
+      "classification": "intraday_to_swing",
+      "description": "Identify narrow price channels (drawn with parallel trendlines) and trade the breakout. Particularly effective before major economic releases or market opens when channels form during quiet sessions (e.g., Asian session channels breaking at London/US open).",
+      "entry_rules": {
+        "long": [
+          "Identify a narrow price channel on intraday or daily chart using parallel trendlines",
+          "Place entry order 10 pips above the upper channel line",
+          "Simultaneously place entry order 10 pips below the lower channel line (for short)"
+        ],
+        "short": [
+          "Same channel identification",
+          "Entry 10 pips below the lower channel line"
+        ]
+      },
+      "exit_rules": {
+        "stop_loss": "10 pips inside the channel from the breakout side (e.g., 10 pips below upper channel line for longs)",
+        "take_profit": "Double the channel range",
+        "trailing_stop": "Optional trailing stop as alternative to fixed TP"
+      },
+      "risk_management": {
+        "risk_per_trade": "Approximately 10 pips + channel line proximity",
+        "risk_reward_ratio": "Varies based on channel width; target is 2x channel range"
+      },
+      "indicators": [
+        {"name": "Trendlines", "purpose": "Draw parallel channel lines containing price action"},
+        {"name": "Economic Calendar", "purpose": "Identify potential catalysts for channel break"}
+      ],
+      "filters": [
+        "Common scenario: channel during Asian session, breakout at London or US open",
+        "Economic releases are frequent triggers for channel breaks",
+        "If at top of channel and big US number expected, look to buy the breakout not fade it",
+        "Narrower channels tend to produce more explosive breakouts"
+      ],
+      "clarity_score": 6,
+      "completeness_score": 6,
+      "codifiability": "MEDIUM - Channel drawing is somewhat subjective; entry/exit rules are mechanical once channel is defined",
+      "example_trades": [
+        {"pair": "USD/CAD", "timeframe": "15min", "channel_range_pips": 30, "entry": 1.2395, "stop": 1.2375, "target": 1.2455},
+        {"pair": "EUR/GBP", "timeframe": "30min", "channel_range_pips": 15, "entry": 0.6796}
+      ],
+      "notes": "Channel identification is the subjective part. However, the session-based application (Asian session channels breaking at London/US open) is a well-documented pattern. Could be automated with Donchian channels or Bollinger bands as proxy for channel boundaries."
+    },
+    {
+      "id": "LIEN1_PERFECT_ORDER",
+      "name": "Perfect Order (Moving Average Alignment)",
+      "type": "trend_following",
+      "source_chapter": "Chapter 8 - Technical Trading Strategies",
+      "forex_pairs": ["EUR/USD", "USD/CAD", "all_majors"],
+      "timeframes": ["daily"],
+      "classification": "swing_to_position",
+      "description": "Enter when moving averages align in 'perfect order' (10 > 20 > 50 > 100 > 200 SMA for uptrend, reverse for downtrend). This alignment indicates the beginning of a strong trend. Hold until the perfect order breaks down.",
+      "entry_rules": {
+        "long": [
+          "Identify when SMAs align in perfect ascending order: 10 > 20 > 50 > 100 > 200",
+          "Confirm ADX is above 20 and pointing upward",
+          "Enter 5 bars after perfect order is confirmed (wait for confirmation)",
+          "Stop below the lowest SMA in the stack at entry"
+        ],
+        "short": [
+          "Identify when SMAs align in perfect descending order: 10 < 20 < 50 < 100 < 200",
+          "Confirm ADX is above 20 and pointing upward",
+          "Enter 5 bars after perfect order is confirmed",
+          "Stop above the highest SMA in the stack at entry"
+        ]
+      },
+      "exit_rules": {
+        "primary_exit": "Exit when perfect order no longer holds (e.g., 20-day SMA crosses below 10-day SMA in uptrend)",
+        "stop_loss": "Below/above the formation's key SMA at entry",
+        "trailing_stop": "Optionally trail with the 50-day SMA"
+      },
+      "risk_management": {
+        "risk_per_trade": "Variable - distance from entry to SMA-based stop",
+        "risk_reward_ratio": "Typically very favorable (3:1 to 5:1) due to trend capture"
+      },
+      "indicators": [
+        {"name": "SMA", "period": 10, "purpose": "Fastest MA in the stack"},
+        {"name": "SMA", "period": 20, "purpose": "Short-term trend"},
+        {"name": "SMA", "period": 50, "purpose": "Medium-term trend"},
+        {"name": "SMA", "period": 100, "purpose": "Longer-term trend"},
+        {"name": "SMA", "period": 200, "purpose": "Long-term trend baseline"},
+        {"name": "ADX", "period": 14, "purpose": "Must be > 20 and rising to confirm trend strength"}
+      ],
+      "filters": [
+        "Perfect orders do not happen often - the premise is to capture them when they first form",
+        "ADX must be above 20 and trending upward",
+        "Wait 5 bars after alignment to confirm it is holding"
+      ],
+      "clarity_score": 7,
+      "completeness_score": 7,
+      "codifiability": "HIGH - MA alignment check is fully mechanical; entry after 5 bars is precise",
+      "example_trades": [
+        {"pair": "EUR/USD", "entry": 1.1830, "exit": 1.1420, "result_pips": 410, "risk_pips": 97, "direction": "short"},
+        {"pair": "USD/CAD", "entry": 1.2588, "exit": 1.2115, "result_pips": 443, "risk_pips": 149, "direction": "short"}
+      ],
+      "notes": "Long-duration trend-following strategy. The MA alignment concept is well-known (also called 'ribbon' or 'fan'). The 5-bar wait after formation is a smart confirmation filter. Exit when alignment breaks keeps you in the trend. Results show 3:1 to 4:1 R:R on examples, which is excellent."
+    },
+    {
+      "id": "LIEN1_MULTIPLE_TIMEFRAME",
+      "name": "Multiple Time Frame Analysis",
+      "type": "trend_following",
+      "source_chapter": "Chapter 8 - Technical Trading Strategies",
+      "forex_pairs": ["AUD/USD", "GBP/USD", "CHF/JPY", "all_pairs"],
+      "timeframes": ["daily+hourly", "hourly+15min"],
+      "classification": "intraday_to_swing",
+      "description": "Use higher timeframe (daily) to identify the overall trend direction, then use lower timeframe (hourly or 15min) to pinpoint entries using Fibonacci retracements. Buy dips in uptrends, sell rallies in downtrends. The core framework is to never trade against the higher timeframe trend.",
+      "entry_rules": {
+        "long": [
+          "Confirm uptrend on daily chart (price above key MAs, higher highs/lows)",
+          "Switch to hourly or 15min chart",
+          "Draw Fibonacci retracements from the most recent swing",
+          "Enter long at key Fibonacci levels (38.2%, 50%, 61.8%, 76.4%) acting as support",
+          "For bearish daily + hourly downtrend: fade breakouts above Fibonacci resistance on 15min chart"
+        ],
+        "short": [
+          "Confirm downtrend on daily chart",
+          "Switch to hourly or 15min chart",
+          "Enter short at Fibonacci resistance levels",
+          "Look for price below 200-day SMA with 20-day SMA below 100-day SMA for confirmation"
+        ]
+      },
+      "exit_rules": {
+        "stop_loss": "Below Fibonacci level for longs, above for shorts",
+        "take_profit": "Next Fibonacci level or swing high/low",
+        "note": "Exit rules not precisely specified - left to trader discretion"
+      },
+      "risk_management": {
+        "note": "General guidance: maintain minimum 1:2 risk-reward"
+      },
+      "indicators": [
+        {"name": "Fibonacci Retracements", "purpose": "Primary entry tool on lower timeframe"},
+        {"name": "SMA", "periods": [20, 100, 200], "purpose": "Trend confirmation on daily"},
+        {"name": "ADX", "purpose": "Range/trend identification - trade in direction of trend only when ADX > 25"}
+      ],
+      "filters": [
+        "ADX < 25 and trending down on daily = range-bound, use range strategies instead",
+        "Never trade against the higher timeframe trend",
+        "76.4% Fibonacci retracement serves as key support in strong uptrends",
+        "38.2% Fibonacci often acts as resistance in downtrends"
+      ],
+      "clarity_score": 7,
+      "completeness_score": 6,
+      "codifiability": "MEDIUM - Framework is clear but specific entry/exit parameters are not fully defined",
+      "notes": "This is more of a framework than a precise strategy. The key insight is the combination of daily trend + intraday Fibonacci entries. The ADX < 25 rule for identifying range environments is a useful addition. Works across all forex pairs."
+    },
+    {
+      "id": "LIEN1_CARRY_TRADE",
+      "name": "Leveraged Carry Trade",
+      "type": "carry_trade",
+      "source_chapter": "Chapter 9 - Fundamental Trading Strategies",
+      "forex_pairs": ["AUD/CHF", "AUD/JPY", "NZD/JPY", "high_yield_vs_low_yield"],
+      "timeframes": ["daily", "weekly"],
+      "classification": "position",
+      "description": "Buy high-yielding currencies and sell low-yielding currencies to earn the interest rate differential, amplified by leverage. A 2.5% differential becomes 25% on 10x leverage. Most profitable during low risk-aversion environments; most dangerous during risk-off events.",
+      "entry_rules": {
+        "setup": [
+          "Identify currency pair with largest interest rate differential",
+          "Buy the high-yielding currency, sell the low-yielding currency",
+          "Classic pairs: AUD/CHF, AUD/JPY, NZD/JPY (high yield vs low yield)"
+        ],
+        "risk_aversion_check": [
+          "Monitor bond yield spreads (wider = higher risk aversion = avoid carry trades)",
+          "Check equity market volatility (VIX equivalent)",
+          "Look for stable, low-volatility environment",
+          "Carry trades are most profitable during low risk aversion"
+        ],
+        "currency_appreciation_check": [
+          "Prefer pairs where the high-yield currency is also likely to appreciate",
+          "Check trade balance of high-yield country (surplus = supportive)",
+          "Look for economic momentum in high-yield country"
+        ]
+      },
+      "exit_rules": {
+        "exit_triggers": [
+          "Sharp increase in risk aversion (global crisis, geopolitical event)",
+          "Interest rate differential narrows significantly",
+          "High-yield currency begins depreciating faster than interest earned"
+        ],
+        "note": "No specific pip-based exits - fundamentally driven"
+      },
+      "risk_management": {
+        "leverage": "5-10x maximum recommended",
+        "time_horizon": "Minimum 6 months commitment",
+        "key_risk": "Sharp risk-off events can wipe out months of carry in hours",
+        "historical_examples": [
+          "1998 Russian debt crisis: JPY appreciated 20% in 2 months (destroyed carry trades)",
+          "2001 Sept 11: CHF rose 7% in 10 days"
+        ]
+      },
+      "indicators": [
+        {"name": "Bond Yield Spreads", "purpose": "Monitor widening/narrowing of rate differentials"},
+        {"name": "Risk Aversion Gauges", "purpose": "Bond spread widening, equity volatility spikes indicate danger"},
+        {"name": "Interest Rate Calendars", "purpose": "Track central bank rate decisions"}
+      ],
+      "filters": [
+        "Most profitable during stable, low-volatility global environment",
+        "Dangerous during: global crises, political instability, sudden risk-off events",
+        "Not using excessive leverage allows holding through short-term fluctuations",
+        "Consider trade balance and current account of both countries"
+      ],
+      "clarity_score": 7,
+      "completeness_score": 7,
+      "codifiability": "MEDIUM - Fundamentally driven, requires judgment on risk aversion levels",
+      "notes": "Classic institutional strategy. The risk aversion framework is the key value-add. The concept remains valid in 2026 but specific pairs change as interest rate differentials shift. Modern implementation would use VIX, credit spreads, and EM bond spreads as risk aversion proxies."
+    },
+    {
+      "id": "LIEN1_STRONGEST_PAIRING",
+      "name": "Picking the Strongest Pairing",
+      "type": "relative_strength",
+      "source_chapter": "Chapter 9 - Fundamental Trading Strategies",
+      "forex_pairs": ["cross_rates", "GBP/JPY", "AUD/JPY", "EUR/JPY"],
+      "timeframes": ["daily", "weekly"],
+      "classification": "swing_to_position",
+      "description": "When a macro event creates a strong directional bias for one currency (e.g., USD strength after Fed), express the view through the cross pair that offers the most favorable setup by pairing the strong currency against the weakest counter-currency. For example, if USD is strong, sell JPY (weak economy) rather than GBP (strong economy).",
+      "entry_rules": {
+        "setup": [
+          "Identify a macro catalyst creating strong directional bias for one currency",
+          "Determine which counter-currencies are fundamentally strongest and weakest",
+          "Express the view by pairing the strong currency against the weakest counter-currency",
+          "Example: Post-Fed USD strength -> go long USD/JPY (weak JPY) rather than short GBP/USD (strong GBP)"
+        ]
+      },
+      "exit_rules": {
+        "note": "Framework-level strategy - use technical stops and targets from other strategies"
+      },
+      "risk_management": {
+        "note": "Position sizing based on volatility of chosen pair"
+      },
+      "indicators": [
+        {"name": "Economic Calendar", "purpose": "Identify macro catalysts"},
+        {"name": "Relative Economic Strength", "purpose": "Compare GDP, employment, interest rate outlook of counter-currencies"}
+      ],
+      "clarity_score": 6,
+      "completeness_score": 5,
+      "codifiability": "LOW - Requires fundamental judgment; more a framework than a strategy",
+      "example_trades": [
+        {"scenario": "Post FOMC USD strength", "best_expression": "Long USD/JPY", "reason": "JPY weakest due to recession risk", "result": "USD/JPY rallied 300 pips over 2 weeks"},
+        {"scenario": "Same event", "worse_expression": "Short GBP/USD", "reason": "GBP fundamentally strong, recovered quickly"}
+      ],
+      "notes": "This is a pair selection framework rather than a standalone strategy. Valuable for choosing which pair to trade when you have a directional view. Could be codified using economic surprise indices and relative strength rankings."
+    },
+    {
+      "id": "LIEN1_BOND_SPREAD_LEADING",
+      "name": "Bond Spreads as Leading Indicator for FX",
+      "type": "fundamental_leading_indicator",
+      "source_chapter": "Chapter 9 - Fundamental Trading Strategies",
+      "forex_pairs": ["AUD/USD", "GBP/USD", "USD/CAD", "USD/JPY"],
+      "timeframes": ["daily", "weekly"],
+      "classification": "swing_to_position",
+      "description": "Use 10-year government bond yield differentials as a leading indicator for currency pair movements. When yield spread widens in favor of a currency, that currency generally appreciates. Track LIBOR or 10-year yields to anticipate currency moves before they happen.",
+      "entry_rules": {
+        "setup": [
+          "Calculate interest rate differential: base currency yield minus quote currency yield",
+          "Track the trend in the differential over time",
+          "When yield spread increases in favor of a currency, go long that currency",
+          "Example: If AUD 10Y yield rises from 5.50% to 5.75% while US 10Y stays at 2.00%, go long AUD/USD"
+        ],
+        "confirmation": [
+          "Look for consistent trend in yield differential widening",
+          "Best used over longer time periods (weeks to months)",
+          "Combine with technical entry for timing"
+        ]
+      },
+      "exit_rules": {
+        "exit_when": "Yield differential trend reverses or narrows significantly"
+      },
+      "risk_management": {
+        "note": "Use technical stops; this provides directional bias, not precise entry/exit"
+      },
+      "indicators": [
+        {"name": "10-Year Bond Yields", "purpose": "Primary input - calculate differential between two countries"},
+        {"name": "1-Month LIBOR Rates", "purpose": "Alternative short-term interest rate differential"},
+        {"name": "Central Bank Rate Decisions", "purpose": "Catalyst for yield differential changes"}
+      ],
+      "data_sources": ["Bloomberg.com for bond yields", "Central bank websites for rate decisions"],
+      "clarity_score": 7,
+      "completeness_score": 6,
+      "codifiability": "MEDIUM - Yield data is accessible; trend detection can be automated; entry/exit timing is discretionary",
+      "notes": "Based on empirical study of 2002-2005 data showing yield differentials lead currency movements. The relationship is well-documented in academic literature. Best pairs cited: AUD/USD, GBP/USD, USD/CAD. Modern implementation would use real-time bond yield feeds."
+    },
+    {
+      "id": "LIEN1_RISK_REVERSALS",
+      "name": "Risk Reversals as Sentiment Indicator",
+      "type": "contrarian_sentiment",
+      "source_chapter": "Chapter 9 - Fundamental Trading Strategies",
+      "forex_pairs": ["EUR/USD", "GBP/USD", "USD/JPY", "USD/CHF"],
+      "timeframes": ["daily", "weekly"],
+      "classification": "swing",
+      "description": "Use FX option risk reversals (difference in implied volatility between 25-delta calls and puts) as a sentiment gauge. At extreme levels (1 standard deviation from mean), risk reversals give contrarian signals indicating overbought/oversold conditions.",
+      "entry_rules": {
+        "contrarian_signal": [
+          "Calculate rolling average and standard deviation of risk reversals",
+          "When risk reversal reaches +1 standard deviation (extreme call premium), market is overbought -> look to sell",
+          "When risk reversal reaches -1 standard deviation (extreme put premium), market is oversold -> look to buy"
+        ],
+        "trend_following_signal": [
+          "Risk reversals near zero = indecision, no trade",
+          "Risk reversals consistently favoring one direction = trending environment"
+        ]
+      },
+      "exit_rules": {
+        "exit_when": "Risk reversal returns toward zero or crosses to opposite extreme"
+      },
+      "risk_management": {
+        "note": "Sentiment indicator - use with technical stops from other strategies"
+      },
+      "indicators": [
+        {"name": "25-Delta Risk Reversals", "periods": ["1M", "3M", "6M", "1Y"], "purpose": "Primary sentiment gauge"},
+        {"name": "Standard Deviation Bands", "purpose": "Identify extreme levels for contrarian signals"}
+      ],
+      "clarity_score": 7,
+      "completeness_score": 6,
+      "codifiability": "MEDIUM - Requires option data feed; statistical calculation is straightforward; entry timing is discretionary",
+      "notes": "Unique fundamental/options-based strategy. Risk reversal data is available from institutional sources. The contrarian application at extreme levels is well-documented. Works best as a filter or confirmation tool rather than standalone entry signal. The 1st edition uses FXCM's IFR news plug-in for data, which may no longer exist."
+    },
+    {
+      "id": "LIEN1_OPTION_VOL_BREAKOUT",
+      "name": "Option Volatility Breakout Timing",
+      "type": "volatility_regime",
+      "source_chapter": "Chapter 9 - Fundamental Trading Strategies",
+      "forex_pairs": ["AUD/CAD", "USD/JPY", "all_pairs"],
+      "timeframes": ["daily"],
+      "classification": "swing",
+      "description": "Use the relationship between short-term (1-month) and long-term (3-month) implied option volatilities to predict breakouts and range-bound conditions. When short-term vol drops below long-term vol, expect a breakout. When short-term vol spikes above long-term vol, expect reversion to range.",
+      "entry_rules": {
+        "breakout_signal": [
+          "Short-term implied volatility (1-month) falls significantly below long-term implied volatility (3-month)",
+          "This signals an imminent breakout - direction is not defined by this signal alone",
+          "Use price action or other indicators to determine direction"
+        ],
+        "range_signal": [
+          "Short-term implied volatility (1-month) spikes significantly above long-term implied volatility (3-month)",
+          "This signals reversion to range trading",
+          "Use range strategies (oscillators, support/resistance)"
+        ]
+      },
+      "exit_rules": {
+        "for_range_traders": "Close position if short-term vol drops well below long-term vol (breakout imminent)",
+        "for_breakout_traders": "Verify breakout by checking that implied vol is constant or rising, not spiking"
+      },
+      "risk_management": {
+        "note": "This is a timing/regime identification tool, not a standalone entry strategy"
+      },
+      "indicators": [
+        {"name": "1-Month Implied Volatility", "purpose": "Short-term volatility measure"},
+        {"name": "3-Month Implied Volatility", "purpose": "Long-term volatility baseline"},
+        {"name": "Vol Spread", "purpose": "Difference between 1M and 3M implied vol"}
+      ],
+      "rules_summary": [
+        "Rule 1: Short-term vol << Long-term vol -> Expect breakout (direction unknown)",
+        "Rule 2: Short-term vol >> Long-term vol -> Expect reversion to range"
+      ],
+      "clarity_score": 8,
+      "completeness_score": 7,
+      "codifiability": "MEDIUM-HIGH - Vol data accessible; spread calculation is mechanical; but breakout direction requires additional analysis",
+      "example_trades": [
+        {"pair": "AUD/CAD", "signal": "1M vol dropped below 3M vol", "result": "Significant upside breakout followed"},
+        {"pair": "USD/JPY", "signal": "1M vol spiked above 3M vol", "result": "Spot continued to range, then 1M vol drop preceded breakout higher"}
+      ],
+      "notes": "Excellent regime identification tool. The vol term structure (1M vs 3M) concept is used by professional FX and options traders. Can be automated by tracking the spread. Useful as a filter for other strategies: apply breakout strategies when vol spread signals breakout, range strategies when it signals range. Modern data sources: Bloomberg, Refinitiv, or broker option analytics."
+    }
+  ],
+  "market_context_insights": {
+    "session_volatility_data": {
+      "description": "Average pip ranges by session (2002-2004 data)",
+      "sessions": {
+        "asian": {"hours_est": "7PM-4AM", "most_volatile_pairs": ["USD/JPY", "GBP/JPY", "GBP/CHF"], "avg_range": "55-112 pips"},
+        "european": {"hours_est": "2AM-12PM", "most_volatile_pairs": ["GBP/CHF", "GBP/JPY", "USD/CHF"], "avg_range": "53-150 pips"},
+        "us": {"hours_est": "8AM-5PM", "most_volatile_pairs": ["GBP/CHF", "GBP/JPY", "USD/CHF"], "avg_range": "40-129 pips"},
+        "us_europe_overlap": {"hours_est": "8AM-12PM", "note": "70% of European range and 80% of US range occurs here"},
+        "europe_asia_overlap": {"hours_est": "2AM-4AM", "note": "Very thin trading, good for positioning"}
+      }
+    },
+    "top_market_moving_indicators_2004": [
+      "1. Nonfarm Payrolls (193-208 pips avg move)",
+      "2. FOMC Rate Decisions",
+      "3. Trade Balance",
+      "4. CPI (Inflation)",
+      "5. Retail Sales",
+      "6. GDP (only 43 pips in first 20 min)",
+      "7. Current Account",
+      "8. Durable Goods",
+      "9. TIC Data (Foreign Purchases of Treasuries)"
+    ],
+    "correlation_key_findings": {
+      "strong_positive": ["EUR/USD & NZD/USD (0.94)", "EUR/USD & GBP/USD (0.92)", "AUD/USD & NZD/USD (0.96)"],
+      "strong_negative": ["EUR/USD & USD/CHF (-0.99)", "USD/JPY & EUR/USD (-0.92)"],
+      "implication": "Avoid doubling up on correlated positions; use correlations for hedging"
+    },
+    "commodity_currency_correlations": {
+      "AUD/USD_gold": "+0.80 correlation",
+      "NZD/USD_gold": "+0.80 correlation",
+      "USD/CAD_gold": "-0.84 correlation (CAD/USD +0.84)",
+      "USD/CAD_oil": "Negative correlation with oil (CAD strengthens with oil)",
+      "key_insight": "Commodity prices are a LEADING indicator for these currency pairs"
+    },
+    "trading_environment_classification": {
+      "range_indicators": ["ADX < 20", "Decreasing implied volatility", "Risk reversals near zero/flipping"],
+      "trend_indicators": ["ADX > 25", "Momentum consistent with direction", "Risk reversals strongly biased"],
+      "critical_rule": "Identify environment BEFORE choosing strategy"
+    }
+  },
+  "edition_differences_notes": "This is the 1st edition (2005). The 2nd edition (2008) likely includes: updated session volatility data post-2005, additional strategies from the 2006-2008 period, revised commodity correlations, discussion of the 2007-2008 financial crisis impact on carry trades, possibly updated ADX thresholds and economic indicator rankings. Key 1st edition specifics: FXCM data references, pre-crisis carry trade emphasis, 100x leverage references (pre-regulation), specific 2002-2005 data tables."
+}

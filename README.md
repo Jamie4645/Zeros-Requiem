@@ -1,95 +1,129 @@
-# Zero's Requiem - SCAF 2.0
+# Zero's Requiem
 
-**Sovereign Cross-Asset Framework** -- A regime-aware algorithmic trading system for Gold, Forex, and Crypto.
+**Systematic Algo Trading** — Breakout-retest strategies for Gold and Forex Indices, built on 3-4 years of profitable discretionary trading.
 
-Version 4.1.0 | Python 3.10+
+Python 3.10+ | OANDA (Live) | IBKR (Data)
 
 ---
 
-## Architecture
+## What This Is
 
-SCAF 2.0 uses a three-layer execution protocol across three distinct market regimes:
+Zero's Requiem codifies a proven discretionary edge into a fully automated trading system. The core strategy — **SBRS (Sovereign Breakout Retest Strategy)** — detects structure breaks, waits for price to retest the broken level, and enters with moving average confirmation.
 
-**Execution Layers:**
-1. **Liquidity Sweep** -- Detect when price pokes beyond key levels (PDH/PDL, weekly H/L, swing H/L, Asian range)
-2. **Displacement Factor (Df)** -- Confirm institutional participation via candle body Z-score
-3. **Fair Value Gap (FVG)** -- Enter at the imbalance zone left by the displacement candle
+This is **not** AI-generated alpha or parameter-optimized curve fitting. Every parameter comes from real trading experience.
 
-**Regimes:**
-- **Gold** -- Asia Mean Reversion (Bollinger Band fades) + NY/Daily Momentum (sweep + displacement)
-- **Forex** -- Killzone Strategy (London/NY session, Asian range trap). JPY pairs use breakout logic.
-- **Crypto** -- Volatility Compression (VR < 0.8 coiled spring) + Trend Momentum (EMA cross + sweep)
+---
 
-## Supported Symbols
+## Strategy: SBRS 1.1
 
-| Asset Class | Symbols |
-|-------------|---------|
-| Gold | GC=F |
-| Forex | EURUSD=X, GBPUSD=X, USDJPY=X |
-| Crypto | BTC-USD, ETH-USD |
+**Edge:** Breakout + Retest + MA Confirmation
+
+**Entry (all 5 must pass):**
+1. **Trend Context** — Price above/below WMA(9) on 4H, with recent WMA/SMMA cross
+2. **Structure Break** — Price closes beyond a swing high/low (20-bar lookback)
+3. **Retest** — Price returns to within 0.5 ATR of the broken level
+4. **MA Cross** — WMA(9) crossed SMMA(7) within last 10 bars on candle close
+5. **Filters** — Not choppy, not against 4H trend, not 16-20 GMT, R:R >= 3.0
+
+**Exit (first triggered):**
+- Take Profit (3R) | Stop Loss | Breakeven at 1.5R | MA reversal | Structure break against | 40-bar max hold
+
+**Risk:** 1% per trade, ATR-based position sizing
+
+---
+
+## Current Status
+
+| Asset | Status | Data Source | Validation |
+|-------|--------|-------------|------------|
+| **Gold 1H** | Live on OANDA | OANDA (20Y) | 10Y walk-forward, 75% consistency, 1,152 trades |
+| **S&P 500 1H** | Pending | IBKR (10Y) | Walk-forward pending |
+| **NASDAQ 1H** | Pending | IBKR (10Y) | Walk-forward pending |
+| **DAX 1H** | Pending | IBKR (10Y) | Walk-forward pending |
+
+**Crypto:** Tested and rejected — no consistent edge with breakout-retest logic.
+
+---
 
 ## Usage
 
 ```bash
-# Single symbol
-py main.py --symbol GC=F --interval 4h --period 1y
+# Backtest Gold
+py main.py --symbol GC=F --interval 1h --period 10y
 
-# All symbols in a regime
-py main.py --multi forex --interval 4h --period 1y
+# Walk-forward validation (8 sequential windows)
+py main.py --walk-forward GC=F --interval 1h --windows 8
 
-# Full portfolio (all 6 symbols)
-py main.py --all --interval 4h --period 1y
+# Backtest an index (requires IBKR Gateway or cached data)
+py main.py --symbol ^GSPC --interval 1h --period 10y
 
-# Walk-forward analysis (max available data)
-py main.py --walk-forward GC=F --interval 1d --windows 8
+# Run tests
+py -m pytest tests/ -v --tb=short
+
+# Test IBKR connection
+py -m src.data.ibkr_fetcher
 ```
 
-## Performance (Latest Backtest)
-
-**4H / 1 Year -- 155 trades, +$3,426 combined**
-| Symbol | Trades | WR | PnL | Sharpe | PF |
-|--------|--------|-----|-----|--------|-----|
-| Gold | 73 | 42% | +$2,428 | 1.47 | 1.67 |
-| GBP/USD | 26 | 50% | +$747 | 0.72 | 1.55 |
-| ETH | 8 | 63% | +$492 | 0.61 | 2.31 |
-
-**Walk-Forward Validated: Gold Daily -- 88% consistency over 5 years (7/8 windows profitable)**
-
-## Risk Management
-
-5-layer system:
-1. Daily loss limit (3%)
-2. Drawdown circuit breaker (10%)
-3. Max concurrent risk (6-8%, timeframe-adaptive)
-4. Direction concentration limits
-5. Volatility-adjusted position sizing: `(Equity * 1%) / (ATR(14) * 2)`
-
-Breakeven stop at 1.5R profit (forex/crypto only -- Gold momentum lets winners run).
+---
 
 ## Project Structure
 
 ```
-main.py                     # CLI entry point
+main.py                         # CLI entry point
 src/
   core/
-    engine.py               # Backtest engine + elite metrics
-    risk_manager.py         # 5-layer risk management
-    walk_forward.py         # Walk-forward testing framework
-  data/
-    fetcher.py              # Yahoo Finance data + symbol registry
-  execution/
-    liquidity.py            # Sweep detection (multi-bar, swing/weekly levels)
-    displacement.py         # FVG detection (with near-FVG tolerance)
-    entries.py              # Three-layer entry validation
-  indicators/
-    technical.py            # ATR, EMA, SMA, BB, RSI, Df, VR, sessions
-    candlestick.py          # Engulfing, pin bar, expansion candle
+    engine.py                   # Backtest engine
+    risk_manager.py             # 5-layer risk management
+    walk_forward.py             # Walk-forward validation
+    monte_carlo.py              # Monte Carlo simulation
   regimes/
-    gold.py                 # Gold regime (Asia MR + NY/Daily momentum)
-    forex.py                # Forex regime (killzone + JPY breakout)
-    crypto.py               # Crypto regime (compression + trend momentum)
-knowledge-base/             # Development documentation
+    sbrs_gold.py                # SBRS strategy implementation
+  indicators/
+    technical.py                # WMA, SMMA, ATR, swing detection
+  execution/
+    entries.py                  # Trade setup classes
+  data/
+    fetcher.py                  # Data routing (OANDA → IBKR → Yahoo)
+    oanda_fetcher.py            # OANDA historical data (Gold, Forex)
+    ibkr_fetcher.py             # IBKR historical data (Indices)
+    migrate_to_sqlite.py        # JSON → SQLite migration
+  live/
+    runner.py                   # Hourly live trading loop
+    oanda_executor.py           # OANDA order execution
+    state.py                    # Trade state management + SQLite
+    alerts.py                   # Trade notifications
+  visualization/
+    charts.py                   # Equity curves, trade maps, heatmaps
+tests/                          # Pytest suite + manual analysis scripts
+knowledge-base/                 # Obsidian vault (development docs)
+state/                          # Live trading state (JSON)
+data/                           # SQLite DB + IBKR cache
 ```
+
+---
+
+## Data Sources
+
+| Source | Instruments | History | Purpose |
+|--------|------------|---------|---------|
+| **OANDA** | Gold, Forex | 20+ years | Live trading + historical data |
+| **IBKR** | S&P 500, NASDAQ, DAX | 10+ years | Index walk-forward validation |
+| **Yahoo Finance** | All | 1-2Y intraday | Fallback only |
+
+---
+
+## Validation Standards
+
+Every strategy must pass before live deployment:
+
+- 500+ trades over 10+ years of data
+- Walk-forward: 8 windows, 75%+ profitable
+- Slippage modeled at 1.5 pips
+- Monte Carlo: <5% probability of 20% drawdown
+
+**Red flags (stop and investigate):** Win rate >70%, Sharpe >3.0, Profit Factor >3.0
+
+---
 
 ## The 5 Fundamental Truths (Mark Douglas)
 

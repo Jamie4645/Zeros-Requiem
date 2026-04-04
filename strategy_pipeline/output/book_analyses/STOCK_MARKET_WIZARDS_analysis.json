@@ -1,0 +1,826 @@
+{
+  "book": {
+    "title": "Stock Market Wizards: Interviews with America's Top Stock Traders",
+    "author": "Jack D. Schwager",
+    "year": 2001,
+    "total_strategies_extracted": 22,
+    "analysis_date": "2026-03-25"
+  },
+  "strategies": [
+    {
+      "id": "SMW-001",
+      "name": "Blessed Stock Momentum",
+      "trader": "Stuart Walton",
+      "type": "Momentum / Growth",
+      "markets": ["US Equities"],
+      "timeframes": ["Swing (days to weeks)", "Position (weeks to months)"],
+      "entry_rules": [
+        "Identify stocks that are 'blessed' by the market - stocks that go up on good news AND hold up on bad news",
+        "Stock must show relative linearity (steady uptrend without wild swings)",
+        "Verify strong fundamental catalyst (earnings growth, new product, sector tailwind)",
+        "Confirm stock is difficult to buy (orders fill above limit price, showing demand)",
+        "Wait for stock to respond positively to first piece of negative news (proves institutional support)"
+      ],
+      "exit_rules": [
+        "Exit when stock fails to rally on good news (blessing has been removed)",
+        "Exit when stock breaks down on negative news it previously would have shrugged off",
+        "Exit immediately if macro environment shifts against the sector",
+        "Willingness to buy back at higher prices if setup reasserts"
+      ],
+      "risk_management": [
+        "Adapt strategy to current market environment (momentum stocks in momentum markets, value in value markets)",
+        "Keep a small separate 'gambling account' for tip-based trades to avoid contaminating main portfolio",
+        "Work alone to avoid influence from others' opinions",
+        "Take trading hiatus during personal difficulties (divorce, health issues)"
+      ],
+      "indicators": [
+        {"name": "Price response to news", "parameters": "Qualitative assessment"},
+        {"name": "Relative linearity", "parameters": "Visual chart assessment"},
+        {"name": "Volume on advances vs declines", "parameters": "Qualitative"}
+      ],
+      "source_chapter": "Stuart Walton - Back from the Abyss",
+      "clarity_score": 5,
+      "completeness": 4,
+      "notes": "Walton's approach is 25% fundamentals, 25% technical, 25% news response, 25% gut feel. Highly discretionary. Key insight: how a stock responds to news is more important than the news itself. Lost entire stake twice before succeeding. Emphasis on flexibility - 'float like a jellyfish'."
+    },
+    {
+      "id": "SMW-002",
+      "name": "Deep Value Six-Screen Process",
+      "trader": "Michael Lauer",
+      "type": "Deep Value / Fundamental",
+      "markets": ["US Equities", "Small/Mid Cap"],
+      "timeframes": ["Position (6-12 months)"],
+      "entry_rules": [
+        "Screen 1 - Industry Knowledge: Identify industry with which you have deep familiarity",
+        "Screen 2 - Price Decline: Stock must have declined 50%+ from highs (market-adjusted)",
+        "Screen 3 - Strong Balance Sheet: Low debt, healthy cash flow, adequate liquidity",
+        "Screen 4 - Insider Buying: Significant insider purchases relative to salary/net worth",
+        "Screen 5 - Compelling Value: P/E below market, price near book value, price/cash flow attractive",
+        "Screen 6 - Identifiable Catalyst: What specific event will make this stock go up? (earnings turnaround, restructuring, new management, sector rotation, share buyback)"
+      ],
+      "exit_rules": [
+        "Target: 100% gain (double your money) within 12 months",
+        "Exit if catalyst fails to materialize or is negated",
+        "Exit if market fails to respond to anticipated positive catalyst",
+        "Upgrade portfolio: replace holdings with better risk/reward opportunities even if current position still has upside"
+      ],
+      "risk_management": [
+        "Maximum 15 concentrated positions",
+        "Never use leverage (learned from 1987 crash margin call)",
+        "Screens 1-5 are defensive (capital preservation); Screen 6 is offensive (profit generation)",
+        "Short positions held only 1-2 weeks as short-term trades with tight stops",
+        "Value alone is not sufficient - catalyst is mandatory"
+      ],
+      "indicators": [
+        {"name": "Market-adjusted price decline", "parameters": ">50% from highs"},
+        {"name": "P/E ratio", "parameters": "Below market average"},
+        {"name": "Price/Book Value", "parameters": "Near or below 1.0"},
+        {"name": "Debt/Cash Flow ratio", "parameters": "Conservative levels"},
+        {"name": "Insider buying vs salary", "parameters": "Purchases > annual salary = significant"}
+      ],
+      "source_chapter": "Michael Lauer - The Longs and Shorts of It",
+      "clarity_score": 9,
+      "completeness": 9,
+      "notes": "One of the most codifiable strategies in the book. The six-screen process is systematic and replicable. Key insight: 'This business is not about investing in great companies, it's about profiting from inefficiently priced stocks.' Anti-diversification: concentrated portfolio beats index. Warns against leverage after 1987 crash wiped out gains despite correct stock picks."
+    },
+    {
+      "id": "SMW-003",
+      "name": "Small Cap Value with Communication Research",
+      "trader": "Steve Watson",
+      "type": "Small Cap Value / Catalyst-Driven",
+      "markets": ["US Equities", "Small Cap ($100M-$500M)"],
+      "timeframes": ["Position (months)"],
+      "entry_rules": [
+        "Screen for stocks with P/E ratios of 8-12x (value territory)",
+        "Identify catalyst through extensive communication: call CFO, competitors, distributors, customers",
+        "Insider buying must be present as confirmation",
+        "Company must have identifiable reason to move higher in near term",
+        "Apply 'pig-at-the-trough' philosophy: constantly seek better opportunities"
+      ],
+      "exit_rules": [
+        "Replace current holdings with better risk/reward stocks (continuous portfolio upgrade)",
+        "Exit if catalyst is negated or fails to materialize",
+        "Exit if stock responds poorly to good news",
+        "Summarize reason for holding in 4 sentences or fewer (Peter Lynch rule) - if you can't, sell"
+      ],
+      "risk_management": [
+        "100+ positions for diversification in illiquid small caps",
+        "Maximum 3% per position",
+        "Short positions: 20-30% stop losses, focus on high-P/E one-product companies",
+        "Must be willing to take losses - 'people who are successful are people willing to lose money'"
+      ],
+      "indicators": [
+        {"name": "P/E Ratio", "parameters": "8-12x"},
+        {"name": "Insider buying", "parameters": "Present and significant"},
+        {"name": "Revenue growth", "parameters": "Positive trend"},
+        {"name": "Cash flow", "parameters": "Positive and growing"}
+      ],
+      "source_chapter": "Steve Watson - Dialing for Dollars",
+      "clarity_score": 7,
+      "completeness": 7,
+      "notes": "Watson's edge is primary research via phone calls - calling companies, competitors, distributors, and customers directly. This 'boots on the ground' approach finds catalysts before Wall Street. Short selling targets: high-priced, single-product companies where product doesn't live up to claims or has no barrier to entry. Key insight: common sense research (trying the product, visiting stores) often beats Wall Street analysis."
+    },
+    {
+      "id": "SMW-004",
+      "name": "Pure Short Selling - Fundamental Deterioration",
+      "trader": "Dana Galante",
+      "type": "Short Selling / Fundamental",
+      "markets": ["US Equities"],
+      "timeframes": ["Swing to Position (weeks to months)"],
+      "entry_rules": [
+        "Identify red flags: (1) High receivables, (2) Auditor changes, (3) CFO turnover, (4) Company blaming shorts for decline, (5) Company changing core business to chase hot trend",
+        "Stock must have very high P/E ratio",
+        "Identifiable catalyst for near-term decline (earnings deterioration, accounting issues, product failure)",
+        "Uptrend has stalled or reversed (price action confirmation)",
+        "All three conditions must be met: high P/E + catalyst + stalling price"
+      ],
+      "exit_rules": [
+        "Cover at support levels (take partial profits at technical levels)",
+        "Cover 1/3 of position at 20% loss",
+        "Cover if stock rallies on news you expected to be bearish",
+        "Never fight the market - if the news is out and stock doesn't drop, cover"
+      ],
+      "risk_management": [
+        "50-60 short positions for diversification",
+        "Maximum 3% of portfolio per stock",
+        "Cover 1/3 of any position at 20% adverse move",
+        "Maintain diversification across sectors",
+        "Recognize that the long-term upward bias of markets works against shorts"
+      ],
+      "indicators": [
+        {"name": "P/E Ratio", "parameters": "Very high (>40x or sector-relative)"},
+        {"name": "Receivables/Revenue ratio", "parameters": "Increasing trend"},
+        {"name": "Price trend", "parameters": "Uptrend stalling or reversing"},
+        {"name": "Accounting quality flags", "parameters": "Auditor changes, CFO turnover"}
+      ],
+      "source_chapter": "Dana Galante - Against the Current",
+      "clarity_score": 8,
+      "completeness": 8,
+      "notes": "One of the clearest short-selling frameworks in the book. Key insight: 'A good company could be a bad stock and vice versa.' Red flags are highly specific and verifiable. The three-part entry condition (high P/E + catalyst + stalling price) prevents premature shorting. Galante warns against shorting based solely on valuation - you need a catalyst for timing."
+    },
+    {
+      "id": "SMW-005",
+      "name": "Cumulative Tick Oscillator - S&P Day Trading",
+      "trader": "Mark D. Cook",
+      "type": "Day Trading / Technical",
+      "markets": ["S&P 500 Index", "US Index Options"],
+      "timeframes": ["Intraday"],
+      "entry_rules": [
+        "Track NYSE cumulative tick throughout the day",
+        "Oversold signal: Cumulative tick falls below 5th percentile of historical readings",
+        "Overbought signal: Cumulative tick rises above 95th percentile of historical readings",
+        "IMPORTANT: Extreme high tick readings are SELL signals (opposite of conventional wisdom)",
+        "Extreme low tick readings are BUY signals"
+      ],
+      "exit_rules": [
+        "Profit target hit (relatively small targets)",
+        "Time stop: exit if target not reached within defined time window",
+        "Use profit objectives - don't try to squeeze maximum from each trade",
+        "Accept low return-per-trade in exchange for high probability"
+      ],
+      "risk_management": [
+        "Require 75%+ probability of winning before taking any trade",
+        "Low risk/reward ratio per trade compensated by very high win rate",
+        "Tape 'GET SMALLER' note to monitor - reduce size when losing",
+        "Stop trading during personal difficulties",
+        "Keep detailed daily diary of market observations"
+      ],
+      "indicators": [
+        {"name": "NYSE Cumulative Tick", "parameters": "Running sum of uptick minus downtick stocks"},
+        {"name": "Percentile ranking", "parameters": "5th percentile = oversold, 95th = overbought"}
+      ],
+      "source_chapter": "Mark D. Cook - Harvesting S&P Profits",
+      "clarity_score": 7,
+      "completeness": 6,
+      "notes": "Cook's key discovery: everyone told him high tick = bullish, but his own research proved the opposite. Lesson: verify everything yourself. The cumulative tick is built from daily observation journals kept for years. Cook went bankrupt due to leverage before succeeding. Critical insight: the process of keeping a daily market diary was instrumental to developing all his strategies."
+    },
+    {
+      "id": "SMW-006",
+      "name": "Conjunction Trade",
+      "trader": "Mark D. Cook",
+      "type": "Day Trading / Technical",
+      "markets": ["S&P 500 Index"],
+      "timeframes": ["Intraday"],
+      "entry_rules": [
+        "NYSE Tick drops below -400",
+        "AND NYSE TIKI (Dow 30 tick) drops below -22",
+        "Both conditions must occur simultaneously (conjunction)",
+        "Buy signal on conjunction"
+      ],
+      "exit_rules": [
+        "Time stop: 21 minutes maximum hold",
+        "Profit target: 3 S&P points",
+        "Stop loss: 6 S&P points"
+      ],
+      "risk_management": [
+        "Strict time limit prevents overstaying",
+        "Defined profit target and stop loss before entry",
+        "Only take when probability exceeds 75%"
+      ],
+      "indicators": [
+        {"name": "NYSE Tick", "parameters": "Below -400"},
+        {"name": "TIKI (Dow 30 Tick)", "parameters": "Below -22"}
+      ],
+      "source_chapter": "Mark D. Cook - Harvesting S&P Profits",
+      "clarity_score": 9,
+      "completeness": 8,
+      "notes": "One of the most specific and codifiable strategies in the entire book. Clear entry conditions, defined time limit, specific profit target and stop. The 21-minute time stop is unusual and data-driven. Risk/reward is 2:1 against (3pt target vs 6pt stop) but compensated by very high win rate."
+    },
+    {
+      "id": "SMW-007",
+      "name": "Bond Ratio Trade",
+      "trader": "Mark D. Cook",
+      "type": "Day Trading / Intermarket",
+      "markets": ["S&P 500 Index", "Bond Market"],
+      "timeframes": ["Intraday"],
+      "entry_rules": [
+        "Monitor the ratio between S&P movement and bond movement",
+        "When S&P and bonds diverge from their typical relationship, trade the convergence",
+        "Specific ratio thresholds not disclosed in interview"
+      ],
+      "exit_rules": [
+        "Convergence of the ratio back to normal",
+        "Time stop if divergence persists"
+      ],
+      "risk_management": [
+        "Same framework as other Cook trades: 75%+ probability required"
+      ],
+      "indicators": [
+        {"name": "S&P/Bond ratio", "parameters": "Proprietary thresholds"}
+      ],
+      "source_chapter": "Mark D. Cook - Harvesting S&P Profits",
+      "clarity_score": 3,
+      "completeness": 3,
+      "notes": "Mentioned but not detailed. The concept of intermarket divergence between stocks and bonds for day trading is sound but specifics are lacking."
+    },
+    {
+      "id": "SMW-008",
+      "name": "Catapult Trade",
+      "trader": "Mark D. Cook",
+      "type": "Day Trading / Technical",
+      "markets": ["S&P 500 Index"],
+      "timeframes": ["Intraday"],
+      "entry_rules": [
+        "Specific pattern identified by Cook through years of market observation",
+        "Details not fully disclosed in interview"
+      ],
+      "exit_rules": [
+        "Specific profit targets and time stops (not disclosed)"
+      ],
+      "risk_management": [
+        "75%+ win probability required"
+      ],
+      "indicators": [
+        {"name": "Proprietary pattern", "parameters": "Not disclosed"}
+      ],
+      "source_chapter": "Mark D. Cook - Harvesting S&P Profits",
+      "clarity_score": 1,
+      "completeness": 1,
+      "notes": "Named but not detailed. Included for completeness."
+    },
+    {
+      "id": "SMW-009",
+      "name": "Dividend Capture Arbitrage",
+      "trader": "Alphonse 'Buddy' Fletcher Jr.",
+      "type": "Arbitrage / Income",
+      "markets": ["US Equities"],
+      "timeframes": ["Short-term (days around ex-dividend date)"],
+      "entry_rules": [
+        "Buy stock before ex-dividend date",
+        "Simultaneously hedge with options or paired positions to eliminate directional risk",
+        "Capture the dividend payment while remaining market-neutral",
+        "Requires very low transaction costs to be profitable"
+      ],
+      "exit_rules": [
+        "Close position after ex-dividend date",
+        "Unwind hedge simultaneously"
+      ],
+      "risk_management": [
+        "Fully hedged - no directional exposure",
+        "Risk comes from execution and transaction costs",
+        "Never make a bet you can't afford to lose (mentor Elliot Wolk's rule)"
+      ],
+      "indicators": [
+        {"name": "Ex-dividend date calendar", "parameters": "Days before/after"},
+        {"name": "Option pricing", "parameters": "For hedging cost calculation"}
+      ],
+      "source_chapter": "Alphonse Fletcher Jr. - The Flexibility of True Genius",
+      "clarity_score": 5,
+      "completeness": 4,
+      "notes": "Fletcher's early strategy. Simple concept but requires institutional-level transaction costs to be viable. Fletcher evolved from this to more complex structured deals. His key principle: opportunities arise when market participants are treated differently from each other."
+    },
+    {
+      "id": "SMW-010",
+      "name": "Deep Value Bargain Hunter",
+      "trader": "Ahmet Okumus",
+      "type": "Deep Value / Concentrated",
+      "markets": ["US Equities"],
+      "timeframes": ["Position (months to years)"],
+      "entry_rules": [
+        "Stock must have declined 60-70%+ from highs",
+        "P/E ratio under 12",
+        "Price near or below book value",
+        "Growing earnings, revenue, and cash flow (despite price decline)",
+        "Significant insider buying (compare purchase amount to buyer's salary - must exceed annual salary)",
+        "Verify insider buying is actual share purchase, NOT option exercises",
+        "Sell out-of-the-money puts at desired buy price as entry mechanism"
+      ],
+      "exit_rules": [
+        "Profit target: 20-25% gain",
+        "Patiently wait for value to be recognized",
+        "Upgrade to better opportunities when available"
+      ],
+      "risk_management": [
+        "Maximum 10 concentrated positions",
+        "Extreme patience: willing to miss 80% of stocks to get the right price",
+        "Will sit in cash (as low as 13% invested) when no bargains exist",
+        "Put-selling strategy provides income while waiting AND lowers cost basis if filled"
+      ],
+      "indicators": [
+        {"name": "Price decline from high", "parameters": ">60-70%"},
+        {"name": "P/E ratio", "parameters": "<12"},
+        {"name": "Price/Book Value", "parameters": "Near or below 1.0"},
+        {"name": "Earnings growth", "parameters": "Positive"},
+        {"name": "Revenue growth", "parameters": "Positive"},
+        {"name": "Cash flow growth", "parameters": "Positive"},
+        {"name": "Insider buying/salary ratio", "parameters": ">1.0x annual salary"}
+      ],
+      "source_chapter": "Ahmet Okumus - From Istanbul to the Bull's Eye",
+      "clarity_score": 9,
+      "completeness": 9,
+      "notes": "Extremely codifiable with clear quantitative screens. 90%+ win rate reported (likely due to extreme selectivity). The put-selling entry mechanism is a brilliant addition - you get paid while waiting for your price. Key insight: insider buying must be real purchases, not option exercises. Maximum concentration (10 positions) because 'my top ten ideas will always perform better than my top hundred.'"
+    },
+    {
+      "id": "SMW-011",
+      "name": "SEPA Momentum - Price Action Sandwich",
+      "trader": "Mark Minervini",
+      "type": "Momentum / Technical / Growth",
+      "markets": ["US Equities"],
+      "timeframes": ["Swing to Position (days to months)"],
+      "entry_rules": [
+        "Long-term screen: Stock must have highest relative strength (top performers in the market)",
+        "Fundamental confirmation: Above-average P/E (growth stocks), newer companies, price above $20",
+        "Short-term entry: Proprietary chart patterns (~20 patterns developed through personal research)",
+        "Stock should be difficult to buy (fills above limit price shows strong demand)",
+        "Stock must be in a confirmed uptrend"
+      ],
+      "exit_rules": [
+        "Maximum loss per trade: ~10% (absolute cap, no exceptions)",
+        "Have a re-entry plan if stopped out (don't abandon winners just because you got shaken out)",
+        "Partial profit-taking allowed (you don't have to make all-or-nothing decisions)",
+        "Trail stops as position moves in your favor"
+      ],
+      "risk_management": [
+        "Loss capping at fixed maximum level is THE most important rule",
+        "50% win rate acceptable if winners are much larger than losers",
+        "Risk control is 90% of the battle regardless of strategy",
+        "Never hold a losing position out of concern about looking stupid",
+        "Analyze all past trades to find patterns in your errors"
+      ],
+      "indicators": [
+        {"name": "Relative Strength (vs market)", "parameters": "Top percentile"},
+        {"name": "P/E Ratio", "parameters": "Above average (growth screen)"},
+        {"name": "Stock price", "parameters": ">$20"},
+        {"name": "Proprietary chart patterns", "parameters": "~20 patterns, not disclosed"}
+      ],
+      "source_chapter": "Mark Minervini - Stock Trader",
+      "clarity_score": 6,
+      "completeness": 6,
+      "notes": "Minervini's 'SEPA' (Specific Entry Point Analysis) is described in concept but proprietary chart patterns are not disclosed. The framework is clear: long-term relative strength screen, fundamental growth confirmation, then short-term technical entry. Key insight: 'Concentrate on mastering one style that suits your personality.' Lost everything initially buying cheap stocks making new lows - the exact opposite of what eventually made him successful."
+    },
+    {
+      "id": "SMW-012",
+      "name": "Mutual Fund Timing System",
+      "trader": "Steve Lescarbeau",
+      "type": "Systematic / Market Timing",
+      "markets": ["US Mutual Funds", "S&P 500"],
+      "timeframes": ["Swing (days to weeks)"],
+      "entry_rules": [
+        "Computer-generated signals based on proprietary systems",
+        "In the market approximately 50-55% of the time",
+        "Multiple systems running simultaneously",
+        "Specific entry criteria not disclosed"
+      ],
+      "exit_rules": [
+        "System-generated exit signals",
+        "Specific exit criteria not disclosed"
+      ],
+      "risk_management": [
+        "Out of market 45-50% of the time (huge risk reduction)",
+        "Maximum drawdown: ~3% (extraordinary)",
+        "Systems have limited lifespans - constantly develop replacements",
+        "Never miss a market day (even on day of knee surgery)",
+        "Occasionally increase leverage on highest-probability setups (never lost on these)"
+      ],
+      "indicators": [
+        {"name": "Proprietary system signals", "parameters": "Not disclosed"}
+      ],
+      "source_chapter": "Steve Lescarbeau - The Unpredictable Expert",
+      "clarity_score": 1,
+      "completeness": 1,
+      "notes": "Lescarbeau refused to reveal any specifics. Reported 70%+ average annual returns with 3% max drawdown - extraordinary if true. Key philosophical insights: (1) Never make predictions, (2) Systems have finite lifespans - always research replacements, (3) Shorting stocks is dumb because the long-term upward bias works against you. The only strategy details: mutual fund timing, in market ~50% of time, computer-based."
+    },
+    {
+      "id": "SMW-013",
+      "name": "Catalyst-Driven Multi-Factor Model",
+      "trader": "Michael Masters",
+      "type": "Catalyst-Driven / Systematic",
+      "markets": ["US Equities"],
+      "timeframes": ["Swing (2-4 weeks)"],
+      "entry_rules": [
+        "Identify catalyst: earnings surprises, same-store sales, management changes, sector events, product launches",
+        "Stack multiple probability-enhancing factors (no single factor is sufficient)",
+        "Factors compiled from years of hand-written observations on business cards",
+        "Key patterns: how stocks respond to specific types of catalysts",
+        "Earnings surprise patterns: direction, magnitude, sector response"
+      ],
+      "exit_rules": [
+        "Time stop: exit if position hasn't performed within defined time window (typically 2-4 weeks)",
+        "Catalyst has played out (event has passed)",
+        "Position fails to respond as expected to catalyst"
+      ],
+      "risk_management": [
+        "Average net exposure ~40% long (significant hedging)",
+        "70%+ win rate reported",
+        "Use time stops to prevent dead money",
+        "Write down lessons from every trade",
+        "Multiple factors must align (never trade on single factor)"
+      ],
+      "indicators": [
+        {"name": "Earnings surprise magnitude", "parameters": "Positive or negative vs consensus"},
+        {"name": "Same-store sales", "parameters": "vs expectations"},
+        {"name": "Sector relative performance", "parameters": "vs broad market"},
+        {"name": "Multiple proprietary probability factors", "parameters": "Compiled from observation notes"}
+      ],
+      "source_chapter": "Michael Masters - Swimming with the Current",
+      "clarity_score": 6,
+      "completeness": 6,
+      "notes": "Masters built his entire model from notes jotted on business cards over years. The concept of multi-factor probability stacking is powerful and codifiable. Time stops are a key differentiator. Key insight: individual factors may have small edges, but combining multiple aligned factors creates high-probability trades. 40% net long average exposure suggests significant risk management through hedging."
+    },
+    {
+      "id": "SMW-014",
+      "name": "Non-Normal Probability Option Trading",
+      "trader": "John Bender",
+      "type": "Options / Volatility",
+      "markets": ["US Equities", "Equity Options", "Index Options"],
+      "timeframes": ["Swing to Position (days to months)"],
+      "entry_rules": [
+        "Estimate actual probability distribution for specific stock/index (case by case, NOT using Black-Scholes assumptions)",
+        "Identify situations where price behavior will be non-random: strong support/resistance, trend-following stop clusters, flow-driven markets",
+        "Compare your estimated probability distribution to the market's implied distribution (from option prices)",
+        "Buy options that are underpriced relative to YOUR estimated probabilities",
+        "Sell options that are overpriced relative to YOUR estimated probabilities"
+      ],
+      "exit_rules": [
+        "Position hits profit target based on probability estimate",
+        "Time decay erodes edge",
+        "Probability assessment changes based on new information"
+      ],
+      "risk_management": [
+        "Each trade is custom-structured based on probability assessment",
+        "Hedge positions to isolate the specific probability bet",
+        "Trade both US and Japanese markets (works night shifts for Japan)",
+        "Reject Black-Scholes assumption that price movements are random/normal"
+      ],
+      "indicators": [
+        {"name": "Custom probability curves", "parameters": "Case-by-case estimation"},
+        {"name": "Support/Resistance levels", "parameters": "As probability barriers"},
+        {"name": "Known stop-loss clusters", "parameters": "As flow drivers"},
+        {"name": "Implied vs estimated volatility", "parameters": "Edge identification"}
+      ],
+      "source_chapter": "John Bender - Questioning the Obvious",
+      "clarity_score": 5,
+      "completeness": 5,
+      "notes": "Bender's core insight: Black-Scholes assumes random/normal price distributions, but real markets have non-normal distributions due to human behavior (stops, support/resistance, herding). By estimating the ACTUAL probability distribution and comparing it to the ASSUMED distribution in option prices, you find mispriced options. Requires deep understanding of option pricing, probability theory, and market microstructure. Highly intellectual approach but conceptually brilliant."
+    },
+    {
+      "id": "SMW-015",
+      "name": "Acquisition Finance - Structured Equity Deals",
+      "trader": "Claudio Guazzoni",
+      "type": "Private Equity / Structured Finance",
+      "markets": ["Private Companies", "Restricted Stock"],
+      "timeframes": ["Long-term (1-3 years)"],
+      "entry_rules": [
+        "Identify consolidator companies with strong CEO track record",
+        "Structure preferred equity investment with guaranteed minimum return (10-20%)",
+        "CEO must demonstrate superior deal-sourcing ability and operational skill",
+        "Negotiate downside protection: if stock drops 40%, receive additional shares",
+        "Deal must have 'belt and suspenders' protection - profitable even if stock drops 50%"
+      ],
+      "exit_rules": [
+        "Hold to maturity of preferred structure",
+        "Exit when guaranteed return has been achieved",
+        "Exit if CEO track record deteriorates or business fundamentals change"
+      ],
+      "risk_management": [
+        "Structured deals with contractual downside protection",
+        "Preferred equity position (senior to common stock)",
+        "Anti-dilution provisions",
+        "Philosophy: 'Eliminate the downside. If you eliminate the downside, you end up making money.'"
+      ],
+      "indicators": [
+        {"name": "CEO track record", "parameters": "Qualitative assessment of deal history"},
+        {"name": "Deal structure terms", "parameters": "Guaranteed preferred returns, anti-dilution"},
+        {"name": "Company cash flow", "parameters": "Must support acquisition debt service"}
+      ],
+      "source_chapter": "Claudio Guazzoni - Eliminating the Downside",
+      "clarity_score": 4,
+      "completeness": 4,
+      "notes": "Not replicable by retail traders - requires tens of millions in capital and ability to negotiate private deals. However, the PHILOSOPHY is universally applicable: buy assets at deep discounts with structural downside protection. Key insight: 'Every period of time has its own opportunities where you can find investments that are extremely discounted and have a very well protected downside.' Complexity is not necessary for success - his first strategy (buying restricted stock at 50 cents on the dollar) was brilliantly simple."
+    },
+    {
+      "id": "SMW-016",
+      "name": "Restricted Stock Discount Strategy",
+      "trader": "Claudio Guazzoni",
+      "type": "Private Equity / Value",
+      "markets": ["Restricted Stock (post-IPO)"],
+      "timeframes": ["Long-term (1-3 year lockup)"],
+      "entry_rules": [
+        "Identify company insiders holding restricted stock post-IPO",
+        "Search SEC insider ownership filings for large holdings",
+        "Contact insiders and offer to buy small portion of restricted holdings at 50 cents on the dollar",
+        "Take on the restriction period yourself in exchange for the discount"
+      ],
+      "exit_rules": [
+        "Hold until restriction period expires",
+        "Sell on open market once restriction lifts"
+      ],
+      "risk_management": [
+        "50% discount provides significant margin of safety",
+        "Negotiate additional protection: if stock drops 40%, receive more shares from seller",
+        "Only buy small portion of insider holdings (they keep skin in the game)"
+      ],
+      "indicators": [
+        {"name": "SEC insider ownership filings", "parameters": "Identify large restricted holders"},
+        {"name": "Discount to market price", "parameters": "Target 50% discount"},
+        {"name": "Restriction period length", "parameters": "Was 3 years, now reduced to 1 year"}
+      ],
+      "source_chapter": "Claudio Guazzoni - Eliminating the Downside",
+      "clarity_score": 8,
+      "completeness": 7,
+      "notes": "No longer viable in original form because SEC reduced restriction period to 1 year, shrinking available discounts. However, the CONCEPT of exploiting structural inefficiencies where some market participants are treated differently remains powerful. A perfect example of finding opportunity in regulatory asymmetry."
+    },
+    {
+      "id": "SMW-017",
+      "name": "Multi-Strategy Statistical Arbitrage",
+      "trader": "David Shaw (D.E. Shaw)",
+      "type": "Quantitative / Statistical Arbitrage",
+      "markets": ["Global Equities", "Options", "Warrants", "Convertible Bonds"],
+      "timeframes": ["Intraday to Short-term"],
+      "entry_rules": [
+        "Combine 20+ different predictive techniques (no single technique is sufficient)",
+        "Each strategy based on hypothesis-first approach (NOT data mining)",
+        "Identify pricing discrepancies between related securities across global markets",
+        "Multiple weak signals that are individually unprofitable combine to overcome transaction costs",
+        "Use fundamental data (balance sheets, income statements, volume) in addition to price data"
+      ],
+      "exit_rules": [
+        "Systematic exit when pricing discrepancy closes",
+        "Dynamic model adjustment as market conditions change",
+        "Drop strategies that cease to work, introduce new ones"
+      ],
+      "risk_management": [
+        "Balance all long positions with correlated short positions (market-neutral)",
+        "Hedge against: market direction, currency exposure, interest rate moves, sector rotation",
+        "Minimize exposure to all risk factors you cannot predict",
+        "Maintain exposure only to factors where you have predictive ability",
+        "Avoid excessive leverage (lesson from LTCM collapse)"
+      ],
+      "indicators": [
+        {"name": "Pricing discrepancy models", "parameters": "20+ proprietary techniques"},
+        {"name": "Balance sheet data", "parameters": "Fundamental inputs"},
+        {"name": "Volume data", "parameters": "Flow and liquidity inputs"},
+        {"name": "Cross-market correlations", "parameters": "Global equity, currency, rate relationships"}
+      ],
+      "source_chapter": "David Shaw - The Quantitative Edge",
+      "clarity_score": 3,
+      "completeness": 2,
+      "notes": "Shaw refused to reveal specifics. Key conceptual insights for any trader: (1) Individual weak signals can combine into strong ones when they agree (synergy principle), (2) Hypothesis-first testing prevents data mining, (3) Easy market inefficiencies are long gone - remaining edges require combining multiple small advantages, (4) Barriers to entry in quantitative trading are very high and increasing. 22% average annual return with 11% max drawdown over 11 years. The synergy principle (marginal indicators becoming useful in combination) is applicable to any trading approach."
+    },
+    {
+      "id": "SMW-018",
+      "name": "Pairs Trading (Statistical Arbitrage)",
+      "trader": "David Shaw (conceptual description)",
+      "type": "Statistical Arbitrage / Market Neutral",
+      "markets": ["US Equities"],
+      "timeframes": ["Short-term"],
+      "entry_rules": [
+        "Define pairs of stocks that historically move together (high correlation)",
+        "Monitor each pair for statistically significant performance divergence",
+        "When divergence exceeds threshold: sell the outperformer, buy the underperformer",
+        "Bet on convergence back to historical relationship"
+      ],
+      "exit_rules": [
+        "Close when pair relationship converges back to normal",
+        "Stop loss if divergence widens beyond acceptable threshold"
+      ],
+      "risk_management": [
+        "Market neutral by construction (long one stock, short the other)",
+        "Diversify across many pairs",
+        "Monitor for structural breaks in pair relationships"
+      ],
+      "indicators": [
+        {"name": "Price correlation between stocks", "parameters": "Historical rolling correlation"},
+        {"name": "Performance spread", "parameters": "Standard deviations from mean spread"},
+        {"name": "Mean reversion of spread", "parameters": "Statistical significance test"}
+      ],
+      "source_chapter": "David Shaw - The Quantitative Edge (conceptual explanation)",
+      "clarity_score": 7,
+      "completeness": 6,
+      "notes": "Described as a conceptual illustration, not Shaw's actual strategy. Referenced a 1999 Yale study (Gatev, Goetzmann, Rouwenhort) showing pairs trading was profitable 1963-1993 but deteriorated significantly 1994-1997 as more firms adopted it. Schwager notes this is likely much simpler than what Shaw actually does. Important warning: strategies that work can stop working when they become popular."
+    },
+    {
+      "id": "SMW-019",
+      "name": "Tape Reading / Intuitive Trading",
+      "trader": "Steve Cohen",
+      "type": "Discretionary / Tape Reading",
+      "markets": ["US Equities (all sectors)"],
+      "timeframes": ["Day Trading to Swing"],
+      "entry_rules": [
+        "50% gut feel based on tape reading (price action, volume, order flow)",
+        "Trade off tape action, sector rotation, or specific catalysts (three different trigger types)",
+        "Require a good reason for every trade (never short just because 'stock is too high')",
+        "40% of stock movement = market, 30% = sector, 30% = stock-specific",
+        "Place limit orders away from market before major announcements to capture overreactions"
+      ],
+      "exit_rules": [
+        "If catalyst is negated, exit immediately (IBM earnings example: covered at $187 same night, opened $197 next day)",
+        "If wrong and don't know why: take off half immediately, can always re-enter",
+        "Do this twice and you've reduced 75% of position painlessly",
+        "Let the market tell you if your theory is right, don't fight it"
+      ],
+      "risk_management": [
+        "55% win rate is normal for best traders (63% is exceptional)",
+        "Make sure losses are smaller than winners",
+        "Never take position too big relative to portfolio (common mistake)",
+        "Diversify by sector with specialized traders covering each area",
+        "5% of trades account for virtually all profits - know when to bet big"
+      ],
+      "indicators": [
+        {"name": "Tape/Order flow", "parameters": "Price action and volume reading"},
+        {"name": "Sector rotation", "parameters": "Relative performance across sectors"},
+        {"name": "Market breadth", "parameters": "Rally participation (big caps only vs broad)"},
+        {"name": "Catalyst identification", "parameters": "Earnings, index additions, IPO events"}
+      ],
+      "source_chapter": "Steve Cohen - The Trading Room",
+      "clarity_score": 4,
+      "completeness": 4,
+      "notes": "Cohen's edge cannot be taught - it is a distillation of tens of thousands of trades into intuitive pattern recognition. 45% annual return (90% gross before 50% performance fee). Key codifiable lessons: (1) Always have a catalyst/reason, (2) Cut losses reflexively, (3) Take half off when uncertain, (4) 5% of trades make all the money - sizing matters, (5) Match trading style to personality, (6) Pair traders with analysts for sector expertise. Employed psychiatrist Ari Kiev full-time to optimize trader psychology."
+    },
+    {
+      "id": "SMW-020",
+      "name": "Sector Catalyst Short Selling",
+      "trader": "Steve Cohen",
+      "type": "Short Selling / Catalyst-Driven",
+      "markets": ["US Equities"],
+      "timeframes": ["Swing (days to weeks)"],
+      "entry_rules": [
+        "Identify stock in weak sector that is rising for artificial reasons (e.g., index fund buying, fad product)",
+        "Wait for the artificial buying catalyst to expire (e.g., index rebalance complete, IPO lockup)",
+        "Position short just before catalyst expiration (2-3 days before)",
+        "Must have a specific, time-bound catalyst for the trade"
+      ],
+      "exit_rules": [
+        "Cover if catalyst event passes and stock does not decline",
+        "Take profits on sharp decline",
+        "Cover immediately if thesis is wrong"
+      ],
+      "risk_management": [
+        "Short-term trades with defined catalyst and time horizon",
+        "Never hold shorts without a catalyst",
+        "Don't fight momentum without a reason"
+      ],
+      "indicators": [
+        {"name": "Sector relative performance", "parameters": "Weak sector identification"},
+        {"name": "Index rebalancing dates", "parameters": "Known fund buying/selling events"},
+        {"name": "Catalyst timeline", "parameters": "Specific date/event for expected decline"}
+      ],
+      "source_chapter": "Steve Cohen - The Trading Room",
+      "clarity_score": 7,
+      "completeness": 6,
+      "notes": "Cohen's example: shorted 1 million shares of a stock in a weak sector that was rising only due to S&P index addition buying. Once index fund buying completed, stock collapsed. Stock also reported disappointing earnings, turning it into a home run. The key principle: know WHY a stock is moving and whether that reason is temporary."
+    },
+    {
+      "id": "SMW-021",
+      "name": "Out-of-the-Money Put Selling as Entry Mechanism",
+      "trader": "Ahmet Okumus",
+      "type": "Options Income / Value Entry",
+      "markets": ["US Equities Options"],
+      "timeframes": ["Monthly option cycles"],
+      "entry_rules": [
+        "Identify stock you want to buy at a lower price using deep value criteria",
+        "Sell out-of-the-money puts at your desired purchase price (strike = target entry)",
+        "Collect premium while waiting for stock to decline to your price"
+      ],
+      "exit_rules": [
+        "If stock stays above strike: puts expire worthless, keep premium as pure profit",
+        "If stock falls below strike: you are assigned the stock at your target price, MINUS the premium collected (lower effective cost basis)",
+        "Either outcome is acceptable by design"
+      ],
+      "risk_management": [
+        "Only sell puts on stocks you genuinely want to own at the strike price",
+        "Stock must pass all deep value screens first",
+        "Downside risk: stock could fall well below strike, but you wanted to own it there anyway",
+        "Premium income reduces cost basis and provides income during periods of no action"
+      ],
+      "indicators": [
+        {"name": "Same as Deep Value Bargain Hunter (SMW-010)", "parameters": "All value screens must pass first"},
+        {"name": "Option premium/time value", "parameters": "Must provide meaningful income"}
+      ],
+      "source_chapter": "Ahmet Okumus - From Istanbul to the Bull's Eye",
+      "clarity_score": 9,
+      "completeness": 9,
+      "notes": "Brilliant enhancement to value investing. Instead of placing a limit buy order at your target price (which earns nothing while waiting), sell puts at that price and collect income. If filled, your cost basis is lower. If not filled, you earned pure premium. Win-win by design. Highly replicable by any investor with options approval. Schwager highlights this as an approach 'that could be very useful to many investors but is probably utilized by very few.'"
+    },
+    {
+      "id": "SMW-022",
+      "name": "Event Overreaction Fade",
+      "trader": "Steve Cohen",
+      "type": "Event-Driven / Mean Reversion",
+      "markets": ["US Equities", "Index Futures"],
+      "timeframes": ["Intraday"],
+      "entry_rules": [
+        "Before major announcement (Fed decision, earnings, economic data), place limit orders well away from current price in BOTH directions",
+        "If market overreacts in either direction, your limit order gets filled (fading the extreme)",
+        "The orders capture 'something stupid' the market might do in the heat of the moment"
+      ],
+      "exit_rules": [
+        "Quick reversal trade - exit once initial overreaction subsides",
+        "If the move is fundamentally justified (not overreaction), cut quickly"
+      ],
+      "risk_management": [
+        "Orders placed at extreme levels so only filled on genuine overreaction",
+        "Small position size relative to portfolio",
+        "Must be able to distinguish overreaction from genuine repricing"
+      ],
+      "indicators": [
+        {"name": "Economic calendar", "parameters": "Fed announcements, earnings dates, data releases"},
+        {"name": "Distance from current price", "parameters": "Orders placed at extreme levels"}
+      ],
+      "source_chapter": "Steve Cohen - The Trading Room",
+      "clarity_score": 6,
+      "completeness": 5,
+      "notes": "Observed during the interview: Cohen placed buy and sell orders well away from market before a Fed announcement, explaining 'in case the market does something stupid.' This is a defined, repeatable approach to capturing post-announcement overreactions. Requires fast execution and willingness to be wrong sometimes."
+    }
+  ],
+  "meta_insights": {
+    "universal_principles": [
+      "Discipline is the only trait shared by ALL successful traders",
+      "There is no single right way to trade - methods must match personality",
+      "Risk control is more important than entry strategy (90% of the battle per Minervini)",
+      "Confidence appears to be an inherent trait of successful traders, not just a result of success",
+      "Hard work and obsessiveness are common traits among market wizards",
+      "Successful traders are innovators, not followers - they develop original approaches",
+      "All traders should keep detailed records of observations and trade lessons",
+      "Catalysts are essential - value alone is not sufficient reason to buy",
+      "When market behavior contradicts your thesis, exit immediately",
+      "Great traders continuously evolve and adapt to changing markets",
+      "5% of trades often account for nearly all profits - knowing when to bet big is crucial",
+      "Past performance means nothing if conditions have changed",
+      "Popularity destroys sound strategies (portfolio insurance 1987, pairs trading 1990s)",
+      "Data mining without hypothesis testing produces worthless trading systems",
+      "Short selling reduces portfolio risk when viewed as a hedge, not a standalone trade"
+    ],
+    "key_risk_management_rules": [
+      "Never make a bet you can't afford to lose (Fletcher/Wolk)",
+      "GET SMALLER when losing (Cook)",
+      "Take off half when uncertain, can always re-enter (Cohen)",
+      "Cap losses at a fixed maximum (Minervini: ~10%)",
+      "Use time stops to avoid dead money (Masters, Cook)",
+      "Short positions MUST have stop losses due to unlimited risk",
+      "Never use excessive leverage (Lauer 1987, Cook early career, LTCM)",
+      "Stop trading during personal difficulties (Cook, Walton)"
+    ],
+    "most_codifiable_strategies": [
+      "SMW-002: Lauer's Six-Screen Deep Value Process (clarity: 9, completeness: 9)",
+      "SMW-010: Okumus Deep Value Bargain Hunter (clarity: 9, completeness: 9)",
+      "SMW-021: Okumus Put-Selling Entry Mechanism (clarity: 9, completeness: 9)",
+      "SMW-006: Cook Conjunction Trade (clarity: 9, completeness: 8)",
+      "SMW-004: Galante Short Selling Framework (clarity: 8, completeness: 8)",
+      "SMW-013: Masters Catalyst Multi-Factor Model (clarity: 6, completeness: 6)"
+    ],
+    "strategies_with_modern_relevance": {
+      "high": [
+        "Deep value with catalyst (Lauer, Okumus) - timeless approach",
+        "Short selling red flags (Galante) - accounting fraud still exists",
+        "Put-selling as entry mechanism (Okumus) - works in any market",
+        "Multi-factor probability stacking (Masters) - universally applicable",
+        "Catalyst-driven trading (Cohen, Masters) - events still move stocks",
+        "Risk management principles - universally applicable forever"
+      ],
+      "medium": [
+        "Momentum/relative strength (Minervini) - works in trending markets",
+        "Options mispricing via probability estimation (Bender) - still viable with skill",
+        "Cumulative tick day trading (Cook) - concept valid, specific levels may have shifted",
+        "Event overreaction fading (Cohen) - algo competition has increased"
+      ],
+      "low": [
+        "Pairs trading (Shaw description) - largely arbitraged away by quant firms",
+        "Dividend capture arbitrage (Fletcher) - margins too thin for retail",
+        "Restricted stock discount (Guazzoni) - SEC rule changes eliminated opportunity",
+        "Mutual fund timing (Lescarbeau) - most funds now have short-term redemption fees",
+        "Statistical arbitrage (Shaw) - requires institutional infrastructure"
+      ]
+    }
+  }
+}

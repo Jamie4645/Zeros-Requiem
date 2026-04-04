@@ -1,4 +1,4 @@
----
+--
 tags: [tool, MCP, debugging, reasoning]
 aliases: [sequential-thinking, MCP-server]
 related: [[CLAUDE]], [[35-Tool-GSD2]], [[31-Tool-Backtest]]

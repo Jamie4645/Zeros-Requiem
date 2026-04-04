@@ -1,13 +1,9 @@
 """
-Walk-Forward Testing Framework for SCAF 2.0
+Walk-Forward Testing Framework
 
-Priority 5: Splits data into sequential non-overlapping windows and runs
-the full backtest on each, measuring whether the edge persists across
+Splits data into sequential non-overlapping windows and runs the full
+backtest on each, measuring whether the SBRS edge persists across
 different time periods.
-
-Since SCAF 2.0 is rule-based (not optimised per-window), walk-forward
-here means: "does the same strategy work in every period, or was it
-only profitable due to a specific market condition?"
 
 Key outputs:
 - Per-window results (trades, WR, PnL, PF, Sharpe)

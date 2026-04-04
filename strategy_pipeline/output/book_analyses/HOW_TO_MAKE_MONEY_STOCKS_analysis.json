@@ -1,0 +1,976 @@
+{
+  "book_metadata": {
+    "title": "How to Make Money in Stocks: A Winning System in Good Times and Bad",
+    "author": "William J. O'Neil",
+    "edition": "4th Edition",
+    "year": 2009,
+    "publisher": "McGraw-Hill",
+    "analysis_date": "2026-03-25",
+    "analyst": "Claude Opus 4.6 (Sovereign Quant-Tactician)"
+  },
+  "system_overview": {
+    "name": "CAN SLIM",
+    "type": "Growth Stock Selection + Market Timing",
+    "markets": ["US Equities"],
+    "timeframes": ["Daily", "Weekly"],
+    "holding_period": "3 weeks to 6+ months",
+    "philosophy": "Buy the best growth stocks breaking out of sound chart bases during confirmed market uptrends. Cut all losses quickly and let winners run.",
+    "core_principle": "Combine fundamental analysis (earnings, sales, institutional sponsorship) with technical analysis (chart patterns, volume, relative strength) and market timing (distribution days, follow-through days)."
+  },
+  "strategies": [
+    {
+      "id": "CANSLIM_CORE",
+      "name": "CAN SLIM Growth Stock System",
+      "type": "Momentum / Growth",
+      "markets": ["US Equities"],
+      "timeframes": ["Daily", "Weekly"],
+      "source_chapter": "Chapters 1-9 (Full System)",
+      "clarity_score": 9,
+      "completeness": "High",
+      "description": "Complete 7-factor stock selection system combining fundamental screening with technical chart pattern breakouts during confirmed bull markets.",
+      "components": {
+        "C_current_quarterly_earnings": {
+          "description": "Current Quarterly Earnings Per Share",
+          "rules": [
+            "Minimum 25-30% increase in current quarterly EPS vs same quarter prior year",
+            "Best winners show 40-500%+ EPS growth in quarter before breakout",
+            "Acceleration in earnings growth rate is preferred (e.g., 15% -> 25% -> 40%)",
+            "Revenue/sales should also be up 25%+ in most recent quarter or accelerating over last 3 quarters",
+            "Earnings must come from actual operations, not one-time events",
+            "Look for companies where after-tax profit margins are expanding",
+            "Two consecutive quarters of major EPS deceleration is a warning sign"
+          ],
+          "thresholds": {
+            "minimum_eps_growth_pct": 25,
+            "preferred_eps_growth_pct": 40,
+            "minimum_sales_growth_pct": 25
+          }
+        },
+        "A_annual_earnings": {
+          "description": "Annual Earnings Increases",
+          "rules": [
+            "Annual earnings growth rate of 25%+ for each of last 3 years",
+            "Annual ROE of 17%+ minimum",
+            "If ROE below 17%, look for pre-tax profit margins in top quartile of industry",
+            "Earnings should show consistent uptrend (not erratic year-to-year)",
+            "Analyst consensus earnings estimates for coming year should be UP"
+          ],
+          "thresholds": {
+            "minimum_annual_eps_growth_pct": 25,
+            "years_required": 3,
+            "minimum_roe_pct": 17
+          }
+        },
+        "N_new_products_highs": {
+          "description": "New Product, New Management, or New High in Price",
+          "rules": [
+            "Company should have a major new product, service, or management change driving earnings",
+            "Stock should be making new 52-week or all-time highs",
+            "Buy stocks as they emerge from proper chart base patterns into new high ground",
+            "Do NOT buy stocks making new lows or in downtrends",
+            "Don't chase stocks more than 5-10% past proper pivot/buy point"
+          ],
+          "thresholds": {
+            "max_chase_above_pivot_pct": 5,
+            "extended_chase_limit_pct": 10
+          }
+        },
+        "S_supply_demand": {
+          "description": "Supply and Demand - Shares Outstanding + Volume",
+          "rules": [
+            "Volume on breakout day should be 40-50%+ above 50-day average volume",
+            "Some of the best breakouts show 100-500%+ volume increases",
+            "Volume should dry up (decrease) at the lows of the base pattern",
+            "Heavy volume on up-days and light volume on down-days = accumulation",
+            "Look for companies with reasonable float (not too large, not too small)",
+            "Management ownership is a plus (insiders have skin in the game)",
+            "Companies buying back their own stock is positive",
+            "Excessive stock splits can dilute demand"
+          ],
+          "thresholds": {
+            "minimum_breakout_volume_increase_pct": 40,
+            "preferred_breakout_volume_increase_pct": 50,
+            "volume_dryup_at_base_lows": true
+          }
+        },
+        "L_leader_or_laggard": {
+          "description": "Leader or Laggard - Relative Price Strength",
+          "rules": [
+            "Relative Price Strength (RS) Rating must be 80+ minimum",
+            "Best performers have RS Rating of 90+ before their major moves",
+            "Buy the #1 or #2 stock in the leading industry group",
+            "Never buy laggard stocks (RS below 70) even if they look 'cheap'",
+            "Sympathy plays (buying #4 or #5 in a group) rarely work as well",
+            "Avoid bargain hunting - cheap stocks are cheap for a reason"
+          ],
+          "thresholds": {
+            "minimum_rs_rating": 80,
+            "preferred_rs_rating": 90,
+            "avoid_below_rs_rating": 70
+          }
+        },
+        "I_institutional_sponsorship": {
+          "description": "Institutional Sponsorship",
+          "rules": [
+            "Stock should have increasing number of institutional owners (mutual funds, pensions) over recent quarters",
+            "Look for quality institutional sponsors (top-performing funds)",
+            "A few recent quarter additions by well-known growth funds is better than hundreds of average funds",
+            "Avoid stocks with decreasing institutional ownership",
+            "Some institutional sponsorship required (provides liquidity and validation)"
+          ],
+          "thresholds": {
+            "institutional_owners_trend": "increasing",
+            "quality_funds_preferred": true
+          }
+        },
+        "M_market_direction": {
+          "description": "Market Direction - Bull vs Bear",
+          "rules": [
+            "3 out of 4 stocks follow the general market direction",
+            "Must determine if market is in confirmed uptrend or downtrend before buying",
+            "Use distribution day count to detect market tops",
+            "Use follow-through days to confirm new uptrends",
+            "Reduce exposure dramatically when market shifts to correction/downtrend",
+            "Go to cash during bear markets - sitting out IS a valid strategy"
+          ],
+          "distribution_day_rules": {
+            "definition": "A day where a major index closes down 0.2%+ on volume higher than previous day",
+            "top_signal": "3-5 distribution days within 4-5 week period signals potential market top",
+            "stalling_days": "Index closes up slightly but volume is heavy and index gives back gains = stealth distribution",
+            "reset": "Distribution days expire after 25 trading days or if index rallies 5%+ from distribution day close"
+          },
+          "follow_through_day_rules": {
+            "definition": "A day where a major index rises 1.0%+ on volume higher than prior day, occurring on day 4-7 of an attempted rally",
+            "timing": "Must occur on day 4 through day 7 of a new rally attempt from a market low",
+            "day_1": "First day the index closes higher after making a new low (rally attempt begins)",
+            "volume_requirement": "Volume MUST be higher than the prior trading day",
+            "gain_requirement": "Index must gain at least 1.0%+ (stronger follow-throughs = 1.5-2%+)",
+            "failure_rate": "Not all follow-through days lead to sustained rallies, but NO bull market has ever started without one"
+          }
+        }
+      },
+      "entry_rules": [
+        "All 7 CAN SLIM factors must be favorable before buying",
+        "Market must be in confirmed uptrend (M factor = bullish)",
+        "Stock must be breaking out of a proper base pattern (cup-with-handle, double bottom, flat base, etc.)",
+        "Breakout must occur on volume 40-50%+ above 50-day average",
+        "Buy at the pivot point (breakout price) or within 5% above it",
+        "Never chase a stock more than 5-10% past its proper buy point",
+        "RS Rating must be 80+ (ideally 90+)",
+        "Current quarterly EPS up 25%+ and annual EPS up 25%+ for 3 years"
+      ],
+      "exit_rules": [
+        "Cut ALL losses at 7-8% below purchase price - NO EXCEPTIONS",
+        "In bear markets, cut losses at 3-4%",
+        "Take profits at 20-25% gain (normal profit target)",
+        "If stock gains 20%+ in less than 3 weeks, HOLD for at least 8 weeks from breakout",
+        "Sell on climax top signals (see climax_top_sell_rules)",
+        "Sell if stock drops below 10-week moving average on heavy volume after long advance",
+        "Sell if stock makes new high on dramatically lower volume",
+        "Sell if stock forms late-stage (3rd or 4th) base breakout that fails"
+      ],
+      "risk_management": {
+        "max_loss_per_trade_pct": 8,
+        "bear_market_max_loss_pct": 4,
+        "normal_profit_target_pct": 25,
+        "quick_gain_hold_rule": "Hold 8 weeks if up 20% in under 3 weeks",
+        "position_sizing_by_account": {
+          "under_5000": {"max_positions": 2, "note": "Very concentrated"},
+          "5000_to_20000": {"max_positions": 3, "note": "Concentrated"},
+          "20000_to_100000": {"max_positions": 4, "note": "Core portfolio"},
+          "100000_to_250000": {"max_positions": 5, "note": "Standard"},
+          "250000_plus": {"max_positions": 7, "note": "Diversified growth"}
+        },
+        "pyramiding_rules": [
+          "Only add to winning positions (average UP, never DOWN)",
+          "Add when stock is up 2-3% from initial buy",
+          "Second add: smaller than first position",
+          "Third add: even smaller (if at all)",
+          "Total position should be built within 5% of initial buy point",
+          "Never add more than 3 times to a position"
+        ]
+      },
+      "indicators": [
+        "Relative Price Strength Rating (RS 80+ required)",
+        "50-day Moving Average (support during uptrend)",
+        "200-day Moving Average (major trend identifier)",
+        "10-week Moving Average (weekly chart support)",
+        "40-week Moving Average (weekly major trend)",
+        "Volume (50-day average volume for comparison)",
+        "EPS Rating",
+        "Industry Group Relative Strength",
+        "Accumulation/Distribution Rating"
+      ],
+      "notes": "This is the master system. All other strategies in this analysis are sub-components. O'Neil emphasizes that ALL factors must align - partial setups lead to lower-probability trades."
+    },
+    {
+      "id": "CUP_WITH_HANDLE",
+      "name": "Cup-with-Handle Base Pattern",
+      "type": "Chart Pattern Breakout",
+      "markets": ["US Equities"],
+      "timeframes": ["Daily", "Weekly"],
+      "source_chapter": "Chapter 2",
+      "clarity_score": 10,
+      "completeness": "Very High",
+      "description": "The most common and reliable base pattern. Price forms a rounded U-shape (the cup) followed by a short downward drift (the handle), then breaks out above the handle high.",
+      "pattern_rules": {
+        "duration": {
+          "cup_minimum_weeks": 7,
+          "cup_maximum_weeks": 65,
+          "cup_typical_weeks": "7-28",
+          "handle_minimum_weeks": 1,
+          "handle_typical_weeks": "1-4"
+        },
+        "depth": {
+          "cup_correction_minimum_pct": 12,
+          "cup_correction_maximum_pct": 33,
+          "cup_correction_typical_pct": "12-33",
+          "cup_correction_bear_market_max_pct": 50,
+          "handle_correction_maximum_pct": 12,
+          "handle_correction_typical_pct": "8-12"
+        },
+        "cup_shape": [
+          "Should be rounded U-shape, NOT a sharp V-bottom",
+          "V-shapes are more failure-prone than rounded bottoms",
+          "Some wedging down at the bottom is acceptable",
+          "Left side = sell-off, bottom = base-building, right side = recovery"
+        ],
+        "handle_rules": [
+          "Handle must form in the UPPER HALF of the cup",
+          "Handle should drift DOWN along its price lows (not drift up = wedging up is bad)",
+          "Handle should be 1-4 weeks typically",
+          "Handle correction should be 8-12% from handle high to handle low",
+          "Volume should dry up (decrease) in the handle - shows selling pressure has exhausted",
+          "Handle forming below the midpoint of the cup is a DEFECT (weakness sign)"
+        ],
+        "volume_signature": [
+          "Volume should be heavy on left side decline",
+          "Volume should decrease/dry up at the base lows",
+          "Volume should increase as right side rises",
+          "Volume should dry up again in the handle",
+          "Breakout day volume must be 40-50%+ above 50-day average"
+        ]
+      },
+      "entry_rules": [
+        "Buy point (pivot) = highest price in the handle + $0.10",
+        "Buy on the breakout day as stock crosses above pivot price",
+        "Volume on breakout day must be 40-50%+ above 50-day average",
+        "Do not chase more than 5% above the pivot point",
+        "Confirm RS Rating is 80+ (preferably 90+)"
+      ],
+      "exit_rules": [
+        "Stop loss: 7-8% below purchase price",
+        "Profit target: 20-25% from buy point",
+        "Hold 8 weeks if up 20% in under 3 weeks from breakout"
+      ],
+      "risk_management": {
+        "max_loss_pct": 8,
+        "profit_target_pct": 25,
+        "chase_limit_above_pivot_pct": 5
+      },
+      "indicators": ["50-day MA", "10-week MA", "Volume (50-day avg)", "RS Rating"],
+      "notes": "Most reliable base pattern per O'Neil. First and second stage bases have highest success rates. Third and fourth stage bases are progressively more failure-prone."
+    },
+    {
+      "id": "DOUBLE_BOTTOM",
+      "name": "Double Bottom Base Pattern",
+      "type": "Chart Pattern Breakout",
+      "markets": ["US Equities"],
+      "timeframes": ["Daily", "Weekly"],
+      "source_chapter": "Chapter 2",
+      "clarity_score": 9,
+      "completeness": "High",
+      "description": "A W-shaped pattern where the stock makes two distinct lows. The second low should undercut the first low (shakeout), then rally above the middle peak of the W.",
+      "pattern_rules": {
+        "duration": {
+          "minimum_weeks": 7,
+          "typical_weeks": "7-28"
+        },
+        "depth": {
+          "correction_maximum_pct": 33,
+          "correction_bear_market_max_pct": 50
+        },
+        "shape_rules": [
+          "Must form a clear W shape with two distinct bottoms",
+          "Second bottom SHOULD undercut the first bottom (critical - shakeout of weak holders)",
+          "If second bottom does NOT undercut, pattern is less reliable",
+          "Middle peak of the W defines the pivot/buy point",
+          "Handle may form near the top of the W (increases reliability)"
+        ],
+        "volume_signature": [
+          "Volume should dry up on second bottom (less selling than first bottom)",
+          "Breakout above middle peak should occur on heavy volume (40-50%+ above average)"
+        ]
+      },
+      "entry_rules": [
+        "Buy point (pivot) = middle peak of the W + $0.10",
+        "Buy as stock breaks above the middle peak on heavy volume",
+        "Second bottom must have undercut the first bottom for best setups",
+        "Volume on breakout must be 40-50%+ above 50-day average",
+        "Do not chase more than 5% above pivot"
+      ],
+      "exit_rules": [
+        "Stop loss: 7-8% below purchase price",
+        "Profit target: 20-25% from buy point"
+      ],
+      "risk_management": {
+        "max_loss_pct": 8,
+        "profit_target_pct": 25,
+        "chase_limit_above_pivot_pct": 5
+      },
+      "indicators": ["50-day MA", "Volume (50-day avg)", "RS Rating"],
+      "notes": "Second most common base pattern. The undercut on the second bottom is key - it shakes out weak holders before the real advance begins. Without the undercut, success rate drops."
+    },
+    {
+      "id": "FLAT_BASE",
+      "name": "Flat Base Pattern",
+      "type": "Chart Pattern Breakout",
+      "markets": ["US Equities"],
+      "timeframes": ["Daily", "Weekly"],
+      "source_chapter": "Chapter 2",
+      "clarity_score": 8,
+      "completeness": "High",
+      "description": "A tight sideways consolidation after a stock has already advanced from a prior base. Shows the stock is digesting gains with minimal correction, indicating strong institutional holding.",
+      "pattern_rules": {
+        "duration": {
+          "minimum_weeks": 5,
+          "typical_weeks": "5-8"
+        },
+        "depth": {
+          "correction_minimum_pct": 0,
+          "correction_maximum_pct": 15,
+          "correction_typical_pct": "10-15"
+        },
+        "shape_rules": [
+          "Stock moves sideways in a relatively tight range",
+          "Correction from high to low is only 10-15%",
+          "Usually forms as a second-stage base (after a prior advance from an earlier pattern)",
+          "Shows very strong institutional support (they won't sell)",
+          "Tight weekly closes in the pattern are a plus sign"
+        ]
+      },
+      "entry_rules": [
+        "Buy point = highest price in the flat base + $0.10",
+        "Breakout must occur on volume 40-50%+ above average",
+        "Must occur after a prior advance of at least 20% from an earlier base",
+        "Do not chase more than 5% above pivot"
+      ],
+      "exit_rules": [
+        "Stop loss: 7-8% below purchase price",
+        "Profit target: 20-25% from buy point"
+      ],
+      "risk_management": {
+        "max_loss_pct": 8,
+        "profit_target_pct": 25
+      },
+      "indicators": ["50-day MA", "Volume (50-day avg)", "RS Rating"],
+      "notes": "Very powerful second-stage pattern. The tightness indicates institutions are firmly holding. Often leads to another 20-25%+ advance."
+    },
+    {
+      "id": "SQUARE_BOX",
+      "name": "Square Box / Flat Base Variant",
+      "type": "Chart Pattern Breakout",
+      "markets": ["US Equities"],
+      "timeframes": ["Daily", "Weekly"],
+      "source_chapter": "Chapter 2",
+      "clarity_score": 7,
+      "completeness": "Medium",
+      "description": "A compact consolidation lasting 4-7 weeks with a correction of only 10-15%. Similar to a flat base but can occur as a first-stage pattern.",
+      "pattern_rules": {
+        "duration": {
+          "minimum_weeks": 4,
+          "maximum_weeks": 7
+        },
+        "depth": {
+          "correction_range_pct": "10-15"
+        }
+      },
+      "entry_rules": [
+        "Buy point = highest price in the box + $0.10",
+        "Breakout on volume 40-50%+ above average"
+      ],
+      "exit_rules": [
+        "Stop loss: 7-8% below purchase price",
+        "Profit target: 20-25%"
+      ],
+      "risk_management": {
+        "max_loss_pct": 8,
+        "profit_target_pct": 25
+      },
+      "indicators": ["50-day MA", "Volume (50-day avg)"],
+      "notes": "Less common pattern. O'Neil mentions it briefly alongside flat bases."
+    },
+    {
+      "id": "HIGH_TIGHT_FLAG",
+      "name": "High Tight Flag Pattern",
+      "type": "Chart Pattern Breakout",
+      "markets": ["US Equities"],
+      "timeframes": ["Daily", "Weekly"],
+      "source_chapter": "Chapter 2",
+      "clarity_score": 9,
+      "completeness": "High",
+      "description": "The most powerful but rarest base pattern. Stock doubles (up 100-120%) in 4-8 weeks, then corrects only 10-25% over 3-5 weeks before resuming its advance. Extremely bullish continuation pattern.",
+      "pattern_rules": {
+        "duration": {
+          "flag_pole_weeks": "4-8",
+          "flag_correction_weeks": "3-5"
+        },
+        "magnitude": {
+          "flag_pole_advance_pct": "100-120",
+          "flag_correction_pct": "10-25",
+          "flag_correction_maximum_pct": 25
+        },
+        "shape_rules": [
+          "Stock must first advance 100-120%+ in 4-8 weeks (the flag pole)",
+          "Then corrects only 10-25% over 3-5 weeks (the flag)",
+          "The small correction after such a huge move shows extraordinary demand",
+          "Very rare pattern - most investors never see one form in real time",
+          "Usually occurs in revolutionary growth companies"
+        ]
+      },
+      "entry_rules": [
+        "Buy point = highest price in the flag portion + $0.10",
+        "Breakout on massive volume",
+        "Must have the prior 100%+ advance in 4-8 weeks to qualify",
+        "Don't confuse with normal flags - the prior advance must be extreme"
+      ],
+      "exit_rules": [
+        "Stop loss: 7-8% below purchase price",
+        "Given explosive nature, may want to hold longer than standard 20-25% profit target"
+      ],
+      "risk_management": {
+        "max_loss_pct": 8,
+        "profit_target_pct": "25+"
+      },
+      "indicators": ["Volume", "RS Rating"],
+      "notes": "Rarest and most powerful pattern. O'Neil found these in only the most explosive growth stocks (think early Google, early Apple iPhone era). Very few qualify. If you find one with CAN SLIM fundamentals, it can be a massive winner."
+    },
+    {
+      "id": "ASCENDING_BASE",
+      "name": "Ascending Base Pattern",
+      "type": "Chart Pattern Breakout",
+      "markets": ["US Equities"],
+      "timeframes": ["Weekly"],
+      "source_chapter": "Chapter 2",
+      "clarity_score": 8,
+      "completeness": "High",
+      "description": "A pattern of three pullbacks, each with a higher low, showing persistent institutional accumulation. Usually forms during a market correction while the stock refuses to break down.",
+      "pattern_rules": {
+        "duration": {
+          "typical_weeks": "9-16"
+        },
+        "structure": {
+          "number_of_pullbacks": 3,
+          "pullback_depth_pct": "10-20",
+          "each_pullback": "Higher low than the previous pullback"
+        },
+        "shape_rules": [
+          "Must have exactly 3 pullbacks (corrections)",
+          "Each pullback corrects 10-20% from its high",
+          "Each subsequent low must be HIGHER than the previous low",
+          "Pattern shows stock resisting market weakness",
+          "Often forms during general market corrections",
+          "Indicates very strong institutional accumulation"
+        ]
+      },
+      "entry_rules": [
+        "Buy point = peak price before the third pullback + $0.10",
+        "Or buy as stock breaks above the high of the third pullback recovery",
+        "Volume should confirm with 40-50%+ increase on breakout"
+      ],
+      "exit_rules": [
+        "Stop loss: 7-8% below purchase price",
+        "Profit target: 20-25%"
+      ],
+      "risk_management": {
+        "max_loss_pct": 8,
+        "profit_target_pct": 25
+      },
+      "indicators": ["50-day MA", "Volume (50-day avg)", "RS Rating"],
+      "notes": "Pattern of strength in the face of market weakness. The higher lows show institutions keep buying dips. Very bullish when it resolves upward."
+    },
+    {
+      "id": "SAUCER_WITH_HANDLE",
+      "name": "Saucer-with-Handle Pattern",
+      "type": "Chart Pattern Breakout",
+      "markets": ["US Equities"],
+      "timeframes": ["Weekly"],
+      "source_chapter": "Chapter 2",
+      "clarity_score": 7,
+      "completeness": "Medium",
+      "description": "A longer, more shallow version of the cup-with-handle. The saucer shape implies slower, more gradual institutional accumulation over a longer period.",
+      "pattern_rules": {
+        "duration": {
+          "minimum_weeks": 7,
+          "typical_weeks": "15-65",
+          "note": "Tends to be longer duration than cup-with-handle"
+        },
+        "depth": {
+          "correction_pct": "12-30",
+          "note": "Shallower correction relative to duration"
+        },
+        "shape_rules": [
+          "Wide, gradual U-shape (more like a saucer than a cup)",
+          "Handle rules same as cup-with-handle (upper half, downward drift, volume dry-up)",
+          "Right side rises more gradually than a standard cup"
+        ]
+      },
+      "entry_rules": [
+        "Same as cup-with-handle: buy at handle high + $0.10 on heavy volume"
+      ],
+      "exit_rules": [
+        "Same as standard: 7-8% stop loss, 20-25% profit target"
+      ],
+      "risk_management": {
+        "max_loss_pct": 8,
+        "profit_target_pct": 25
+      },
+      "indicators": ["50-day MA", "Volume (50-day avg)"],
+      "notes": "More common in larger-cap, slower-growth names. The extended base duration implies heavier institutional accumulation."
+    },
+    {
+      "id": "BASE_ON_BASE",
+      "name": "Base-on-Base Pattern",
+      "type": "Chart Pattern Breakout",
+      "markets": ["US Equities"],
+      "timeframes": ["Weekly"],
+      "source_chapter": "Chapter 2",
+      "clarity_score": 7,
+      "completeness": "Medium",
+      "description": "A second base forms directly on top of a first base without significant price advance between them. Often caused by a general market correction interrupting a breakout.",
+      "pattern_rules": {
+        "shape_rules": [
+          "First base forms normally (cup, double bottom, etc.)",
+          "Stock breaks out of first base but general market turns down",
+          "Stock forms a second base on TOP of the first (doesn't give back all gains)",
+          "The second base's low should be above the midpoint of the first base",
+          "When market turns up, the second base breakout can be very powerful"
+        ]
+      },
+      "entry_rules": [
+        "Buy point = high of the second base + $0.10",
+        "Only buy when market confirms new uptrend (follow-through day)",
+        "Volume 40-50%+ above average on breakout"
+      ],
+      "exit_rules": [
+        "Stop loss: 7-8% below purchase price",
+        "Profit target: 20-25%"
+      ],
+      "risk_management": {
+        "max_loss_pct": 8,
+        "profit_target_pct": 25
+      },
+      "indicators": ["50-day MA", "Volume (50-day avg)", "Market Direction"],
+      "notes": "The base-on-base is bullish because the stock held up during market weakness. Shows strong hands are holding. Market timing (M factor) is especially important here."
+    },
+    {
+      "id": "MARKET_DIRECTION_MODEL",
+      "name": "Market Direction Model (M Factor)",
+      "type": "Market Timing",
+      "markets": ["US Indices (S&P 500, NASDAQ)"],
+      "timeframes": ["Daily"],
+      "source_chapter": "Chapter 9",
+      "clarity_score": 9,
+      "completeness": "Very High",
+      "description": "O'Neil's system for determining whether the general market is in an uptrend (safe to buy) or downtrend (go to cash). Uses distribution days to detect tops and follow-through days to confirm bottoms.",
+      "entry_rules": [
+        "Only buy stocks after a confirmed follow-through day",
+        "Follow-through day = major index up 1%+ on higher volume than prior day, occurring day 4-7 of rally attempt",
+        "Day 1 of rally attempt = first day index closes UP after making a new low",
+        "Days 2-3 = index must hold above day 1 low (if it makes new low, reset count)",
+        "Day 4-7 = look for follow-through: 1%+ gain on higher volume",
+        "Stronger follow-through (1.5-2%+) is more reliable",
+        "Not all follow-through days work, but no bull market has started without one"
+      ],
+      "exit_rules": [
+        "Begin selling when distribution day count hits 3-5 within 4-5 weeks",
+        "Distribution day = index down 0.2%+ on higher volume than prior day",
+        "Stalling day counts as distribution (up slightly but heavy volume, gives back gains)",
+        "Distribution days expire after 25 trading days",
+        "Distribution days also expire if index rallies 5%+ from that day's close",
+        "When distribution count hits danger zone: reduce exposure, tighten stops, stop new buys",
+        "Major sell signal: 5-6+ distribution days clustered in 4-5 weeks"
+      ],
+      "risk_management": {
+        "market_exposure_rules": [
+          "Confirmed uptrend: Full buying mode (up to 100% invested)",
+          "Uptrend under pressure: Reduce to 50-75% invested, tighten stops",
+          "Market in correction: 0-25% invested, no new buys",
+          "Downtrend/bear market: 100% cash - do NOT fight the trend"
+        ]
+      },
+      "indicators": [
+        "S&P 500 daily price and volume",
+        "NASDAQ Composite daily price and volume",
+        "Distribution day count (rolling 25-day window)",
+        "Put/call ratio (sentiment extreme indicator)",
+        "Advance/decline line"
+      ],
+      "notes": "O'Neil considers this the MOST important factor. 3 out of 4 stocks follow the general market direction. Getting the M factor right prevents catastrophic losses during bear markets."
+    },
+    {
+      "id": "FOLLOW_THROUGH_DAY",
+      "name": "Follow-Through Day Signal",
+      "type": "Market Timing Entry",
+      "markets": ["US Indices"],
+      "timeframes": ["Daily"],
+      "source_chapter": "Chapter 9",
+      "clarity_score": 10,
+      "completeness": "Very High",
+      "description": "The specific signal that confirms a new market uptrend has begun. Used to time re-entry into the market after a correction or bear market.",
+      "entry_rules": [
+        "Step 1: Market makes a significant low (index closes at new low)",
+        "Step 2: Day 1 = first day index closes HIGHER (rally attempt begins)",
+        "Step 3: Days 2-3 = index must not make new lows (if it does, reset day count)",
+        "Step 4: Day 4-7 = one of the major indices must gain 1.0%+ on volume higher than the prior day",
+        "Step 5: THIS is the follow-through day - signal to begin buying leading stocks",
+        "Follow-through on day 4-5 is more powerful than day 6-7",
+        "NASDAQ follow-through is often more significant than S&P",
+        "Multiple indices confirming simultaneously strengthens the signal"
+      ],
+      "exit_rules": [
+        "If the follow-through day is immediately followed by heavy selling, it may fail",
+        "If a second follow-through day occurs, it adds confirmation",
+        "Begin buying gradually, not all at once"
+      ],
+      "risk_management": {
+        "initial_exposure_pct": 25,
+        "scale_up_rule": "Add exposure as breakouts work and market continues to advance",
+        "failure_action": "If initial buys fail (hit 7-8% stops), reduce exposure back to cash"
+      },
+      "indicators": ["Index daily close", "Index daily volume", "Prior day volume (for comparison)"],
+      "notes": "Historical stat from O'Neil's research: EVERY bull market in history began with a follow-through day. However, not every follow-through day leads to a bull market. Roughly 25-30% of follow-through days fail."
+    },
+    {
+      "id": "DISTRIBUTION_DAY_COUNT",
+      "name": "Distribution Day Sell Model",
+      "type": "Market Timing Exit",
+      "markets": ["US Indices"],
+      "timeframes": ["Daily"],
+      "source_chapter": "Chapter 9",
+      "clarity_score": 9,
+      "completeness": "Very High",
+      "description": "System for detecting when institutional investors are distributing (selling) shares en masse, signaling a potential market top.",
+      "entry_rules": [],
+      "exit_rules": [
+        "Count distribution days on S&P 500 and NASDAQ separately",
+        "Distribution day = index closes DOWN 0.2%+ on volume HIGHER than prior day",
+        "Stalling day = index closes UP slightly but on heavy volume and gives back most gains (counts as distribution)",
+        "Days expire after 25 trading days",
+        "Days expire if index rallies 5%+ from that day's close",
+        "WARNING: 3-4 distribution days in 3-4 weeks = market under pressure",
+        "DANGER: 5-6+ distribution days in 4-5 weeks = high probability of significant decline",
+        "The CLUSTERING matters more than the count - 5 distribution days in 2 weeks is worse than 5 spread over 5 weeks"
+      ],
+      "risk_management": {
+        "action_at_3_dist_days": "Tighten stops, reduce new buying",
+        "action_at_5_dist_days": "Sell weakest positions, go to 50% cash or more",
+        "action_at_6_plus": "Sell everything, go to cash"
+      },
+      "indicators": ["Daily index close change %", "Daily volume vs prior day volume"],
+      "notes": "O'Neil's key insight: market tops are NOT announced. They happen through a gradual increase in heavy-volume selling days (distribution). By the time it's obvious the market is in trouble, the best stocks have already topped."
+    },
+    {
+      "id": "LOSS_CUTTING_SYSTEM",
+      "name": "7-8% Loss Cutting Rule",
+      "type": "Risk Management",
+      "markets": ["US Equities"],
+      "timeframes": ["Daily"],
+      "source_chapter": "Chapter 10",
+      "clarity_score": 10,
+      "completeness": "Very High",
+      "description": "The absolute #1 rule in O'Neil's system. Cut every single loss at 7-8% below purchase price with NO exceptions. This is the insurance policy that keeps you in the game.",
+      "entry_rules": [],
+      "exit_rules": [
+        "Sell immediately if stock drops 7-8% below your purchase price",
+        "This rule has ZERO exceptions - no hoping, no waiting, no averaging down",
+        "In bear markets, tighten to 3-4% maximum loss",
+        "If a stock triggers the stop, you can always re-buy it later if it sets up again",
+        "Do NOT rationalize holding: 'it will come back', 'it's oversold', 'the fundamentals are good'",
+        "The market does not care about your opinion",
+        "A 50% loss requires a 100% gain to break even - cutting at 8% only needs 8.7% to recover",
+        "Most big losses started as small losses that were ignored"
+      ],
+      "risk_management": {
+        "absolute_max_loss_pct": 8,
+        "bear_market_max_loss_pct": 4,
+        "suggested_loss_levels": {
+          "aggressive_growth": 7,
+          "normal_market": 8,
+          "bear_market": 4,
+          "uncertain_market": 5
+        },
+        "portfolio_impact": "With 5 stocks and 7-8% max loss each, worst-case portfolio loss = 7-8%",
+        "recovery_math": {
+          "8_pct_loss": "Requires 8.7% gain to recover",
+          "25_pct_loss": "Requires 33% gain to recover",
+          "50_pct_loss": "Requires 100% gain to recover",
+          "75_pct_loss": "Requires 300% gain to recover"
+        }
+      },
+      "indicators": ["Purchase price tracking"],
+      "notes": "O'Neil considers this the MOST IMPORTANT rule. He states that if you follow no other rule, follow this one. The inability to cut losses quickly is the #1 reason amateur investors fail. This rule alone would save most investors from devastating portfolio losses."
+    },
+    {
+      "id": "PROFIT_TAKING_SYSTEM",
+      "name": "Profit Taking and Selling Rules",
+      "type": "Exit Strategy",
+      "markets": ["US Equities"],
+      "timeframes": ["Daily", "Weekly"],
+      "source_chapter": "Chapter 11",
+      "clarity_score": 9,
+      "completeness": "Very High",
+      "description": "Comprehensive profit-taking system including normal profit targets, the 8-week hold rule for big winners, and climax top identification.",
+      "entry_rules": [],
+      "exit_rules": [
+        "Take most profits at 20-25% gain from buy point",
+        "If stock gains 20%+ in LESS than 3 weeks: HOLD for minimum 8 weeks from breakout date",
+        "After 8-week hold: evaluate whether to continue holding or sell",
+        "The 8-week rule captures potential 100-200%+ mega-winners",
+        "If combining 3:1 profit/loss ratio: 25% gains and 8% losses, you only need to be right 1 out of 3 times to break even"
+      ],
+      "climax_top_sell_rules": [
+        "1. Largest daily price run-up: If stock makes its LARGEST single-day point gain since breakout, consider selling - shows exhaustion",
+        "2. Heaviest daily volume: If stock trades its HIGHEST daily volume since breakout but price stalls or closes poorly, sell",
+        "3. Exhaustion gap: Stock gaps up on huge volume after already advancing substantially - this is often the FINAL move up",
+        "4. Rapid 2-3 week advance: Stock surges 25-50% in only 2-3 weeks after already being extended - climax behavior",
+        "5. Railroad tracks (churning): Two or more days of heavy volume with little price progress - distribution",
+        "6. Upper channel line break: Stock breaks above its upper price channel (overextension)",
+        "7. Stock makes new high but RS line does NOT make new high - bearish divergence",
+        "8. Increase in weekly volume with little price progress - heavy distribution",
+        "9. Stock 70-100% above 200-day moving average - extremely overextended",
+        "10. 3rd or 4th stage base breakout fails - late-stage failure"
+      ],
+      "additional_sell_signals": [
+        "New highs on dramatically lower volume (no demand)",
+        "Stock drops below 50-day moving average on heavy volume and fails to recover within 1-2 days",
+        "Stock has been below 10-week MA for 8+ consecutive weeks",
+        "Key support trendline broken on heavy volume",
+        "Biggest weekly decline since beginning of the advance",
+        "Stock closes below prior week's low on heavy volume (break of support)"
+      ],
+      "risk_management": {
+        "normal_profit_target_pct": 25,
+        "minimum_profit_target_pct": 20,
+        "quick_gain_hold_weeks": 8,
+        "quick_gain_threshold_pct": 20,
+        "quick_gain_threshold_weeks": 3,
+        "profit_loss_ratio": "3:1 minimum (25% gains vs 8% losses)"
+      },
+      "indicators": ["50-day MA", "200-day MA", "10-week MA", "Daily volume", "RS line"],
+      "notes": "The 8-week hold rule is counterintuitive but critical. O'Neil's research shows that stocks gaining 20%+ in under 3 weeks from a proper base have a high probability of becoming 100%+ winners. Selling too early is almost as costly as holding losers too long."
+    },
+    {
+      "id": "STAGE_ANALYSIS",
+      "name": "Base Stage Analysis",
+      "type": "Risk Assessment",
+      "markets": ["US Equities"],
+      "timeframes": ["Weekly"],
+      "source_chapter": "Chapter 2",
+      "clarity_score": 8,
+      "completeness": "High",
+      "description": "Count the number of bases (stages) a stock has formed. Earlier stages have higher success rates. Later stages (3rd, 4th) are increasingly risky.",
+      "entry_rules": [
+        "Prefer 1st stage bases (first breakout after extended downtrend/base) - highest success rate",
+        "2nd stage bases are also very good - stock has proven itself",
+        "3rd stage bases: proceed with more caution, consider smaller position size",
+        "4th stage bases: high failure rate, generally AVOID buying breakouts",
+        "5th+ stage: DO NOT BUY - exhaustion is very likely"
+      ],
+      "exit_rules": [
+        "If a 3rd or 4th stage breakout fails quickly (within 1-2 weeks), sell immediately",
+        "Late-stage failures are often preceded by the stock's RS line failing to make new highs"
+      ],
+      "risk_management": {
+        "stage_1_risk": "Full position size",
+        "stage_2_risk": "Full position size",
+        "stage_3_risk": "Reduced position size (50-75%)",
+        "stage_4_risk": "Very small or avoid entirely",
+        "stage_5_plus": "Do not buy"
+      },
+      "indicators": ["Base count from weekly chart", "RS line behavior at breakout"],
+      "notes": "Stage counting starts after a stock has declined 30-50%+ and bottomed. The first proper base after a major decline = Stage 1. Each subsequent base after an advance = next stage. Most major winners occur from Stage 1 and 2 bases."
+    },
+    {
+      "id": "BUYING_CHECKLIST",
+      "name": "Complete Buying Checklist",
+      "type": "Entry Filter",
+      "markets": ["US Equities"],
+      "timeframes": ["Daily"],
+      "source_chapter": "Chapter 20 (23 Important Rules)",
+      "clarity_score": 9,
+      "completeness": "Very High",
+      "description": "O'Neil's complete buying checklist distilled from his 23 important rules and full system. Every item must be checked before buying.",
+      "entry_rules": [
+        "1. Market is in confirmed uptrend (follow-through day confirmed, distribution count low)",
+        "2. Stock has EPS growth 25%+ current quarter vs year-ago quarter",
+        "3. Stock has annual EPS growth 25%+ for last 3 years",
+        "4. Sales growth 25%+ in most recent quarter",
+        "5. ROE 17%+ or expanding profit margins",
+        "6. RS Rating 80+ (preferably 90+)",
+        "7. Stock is forming or breaking out of a proper base pattern (cup-with-handle, double bottom, flat base, etc.)",
+        "8. Base is 1st or 2nd stage (avoid 3rd+ stage)",
+        "9. Volume on breakout is 40-50%+ above 50-day average",
+        "10. Stock is the #1 or #2 leader in its industry group",
+        "11. Industry group is in top 40 of 197 groups (top 20%)",
+        "12. Stock has increasing institutional sponsorship (quality funds buying)",
+        "13. Stock has a new product, management, or condition driving growth",
+        "14. Buy at the pivot point, not more than 5% above it",
+        "15. Stock is making new 52-week or all-time highs (not buying off lows)"
+      ],
+      "exit_rules": [],
+      "risk_management": {
+        "position_concentration": "4-7 stocks maximum depending on account size",
+        "never_average_down": true,
+        "only_average_up": true
+      },
+      "indicators": ["EPS Rating", "RS Rating", "Industry Group Rank", "Volume", "Institutional Sponsorship Rating", "Accumulation/Distribution Rating"],
+      "notes": "O'Neil's 23 rules distilled into a practical checklist. No trade should be taken unless the vast majority of these items are checked. The more items that are NOT met, the lower the probability of success."
+    },
+    {
+      "id": "ONEIL_23_RULES",
+      "name": "O'Neil's 23 Important Investment Rules",
+      "type": "Master Rules List",
+      "markets": ["US Equities"],
+      "timeframes": ["All"],
+      "source_chapter": "Chapter 20",
+      "clarity_score": 10,
+      "completeness": "Very High",
+      "description": "The complete list of O'Neil's 23 most important investment rules, summarized from Chapter 20.",
+      "rules": [
+        "1. Cut all losses at no more than 7-8% below your purchase price. No exceptions.",
+        "2. Buy stocks when they are coming out of sound base/consolidation patterns on increased volume.",
+        "3. Current quarterly earnings should be up at least 25-30%. Best stocks show 40-500%.",
+        "4. Annual earnings should show significant growth in each of the last 3 years.",
+        "5. Stock should have a new product, new management, or new price high.",
+        "6. Look for stocks with relatively small number of shares outstanding. Smaller floats move more on demand.",
+        "7. Buy leading stocks in leading industry groups.",
+        "8. Stock should have a few quality institutional sponsors with strong recent track records.",
+        "9. Market must be in confirmed uptrend (follow general market direction).",
+        "10. Daily and weekly chart patterns are essential (never buy without chart analysis).",
+        "11. Don't buy because a stock looks cheap or on P/E alone. A low P/E often means trouble.",
+        "12. Learn to use charts to detect sound consolidation patterns before breakouts.",
+        "13. Don't buy stocks below their 200-day moving average line.",
+        "14. Don't buy stocks when they are extended more than 5-10% past their proper buy point.",
+        "15. Don't average down. Never add to a losing position.",
+        "16. Avoid buying too many stocks. Concentrate on 4-7 best ideas.",
+        "17. Don't hold stocks with declining earnings for multiple consecutive quarters.",
+        "18. Always have predetermined sell rules and follow them.",
+        "19. Learn when the general market has topped by counting distribution days.",
+        "20. Be willing to sell stocks that are not performing and move to cash.",
+        "21. Don't let personal opinions or ego prevent you from selling at a loss.",
+        "22. Study every investment mistake to learn what to avoid in the future.",
+        "23. Learn from the greatest stock market winners in history - they all share common characteristics."
+      ],
+      "notes": "These 23 rules represent the distilled wisdom of O'Neil's entire career and decades of IBD research. Rule #1 (loss cutting) and Rule #9 (market direction) are considered the most critical."
+    }
+  ],
+  "codifiability_assessment": {
+    "fully_codifiable": [
+      {
+        "strategy": "Market Direction Model (M Factor)",
+        "score": 9.5,
+        "reason": "Distribution days and follow-through days have precise numerical definitions (0.2% decline, higher volume, day 4-7 timing). Can be coded directly."
+      },
+      {
+        "strategy": "7-8% Loss Cutting Rule",
+        "score": 10,
+        "reason": "Purely mechanical: sell at 7-8% below purchase price. No discretion required."
+      },
+      {
+        "strategy": "Profit Taking (20-25% rule, 8-week hold)",
+        "score": 9,
+        "reason": "Clear numerical targets. 20-25% profit = sell. Up 20% in under 3 weeks = hold 8 weeks. Fully mechanical."
+      },
+      {
+        "strategy": "CAN SLIM Fundamental Screening (C, A, L, I)",
+        "score": 9,
+        "reason": "EPS growth 25%+, ROE 17%+, RS 80+, institutional ownership increasing - all are database queries."
+      },
+      {
+        "strategy": "Volume Breakout Confirmation",
+        "score": 9.5,
+        "reason": "Volume 40-50%+ above 50-day average is a simple calculation."
+      }
+    ],
+    "partially_codifiable": [
+      {
+        "strategy": "Cup-with-Handle Pattern",
+        "score": 7,
+        "reason": "Duration (7-65 weeks), depth (12-33%), handle position (upper half) are codifiable. But 'rounded U-shape vs V-bottom' requires some pattern matching sophistication."
+      },
+      {
+        "strategy": "Double Bottom Pattern",
+        "score": 7.5,
+        "reason": "W-shape detection and second-bottom-undercuts-first are codifiable. The 'clean' look is somewhat discretionary."
+      },
+      {
+        "strategy": "Flat Base / Square Box",
+        "score": 8,
+        "reason": "Tight range (10-15% correction) over 5+ weeks is straightforward to detect programmatically."
+      },
+      {
+        "strategy": "Climax Top Signals",
+        "score": 7,
+        "reason": "Most signals are codifiable (largest daily gain, heaviest volume, exhaustion gap). But 'railroad tracks' and channel analysis require more judgment."
+      },
+      {
+        "strategy": "Stage Analysis",
+        "score": 6.5,
+        "reason": "Counting bases requires defining what constitutes a 'base' vs a 'pullback' - boundary can be fuzzy."
+      }
+    ],
+    "difficult_to_codify": [
+      {
+        "strategy": "New Product/Management Assessment (N factor)",
+        "score": 3,
+        "reason": "Evaluating whether a company has a truly revolutionary new product requires qualitative judgment."
+      },
+      {
+        "strategy": "Quality of Institutional Sponsors (I factor depth)",
+        "score": 4,
+        "reason": "Counting institutional owners is easy. Judging the 'quality' of fund managers is subjective."
+      },
+      {
+        "strategy": "Industry Group Leadership",
+        "score": 5,
+        "reason": "Ranking industry groups is doable. Identifying the #1 stock in a group requires both fundamental and technical assessment."
+      }
+    ]
+  },
+  "summary_statistics": {
+    "total_strategies_extracted": 16,
+    "fully_codifiable_count": 5,
+    "partially_codifiable_count": 5,
+    "difficult_to_codify_count": 3,
+    "average_clarity_score": 8.6,
+    "key_numbers": {
+      "min_quarterly_eps_growth": "25%",
+      "min_annual_eps_growth": "25% for 3 years",
+      "min_rs_rating": 80,
+      "preferred_rs_rating": 90,
+      "min_roe": "17%",
+      "breakout_volume_increase": "40-50% above 50-day avg",
+      "max_loss_per_trade": "7-8%",
+      "bear_market_max_loss": "3-4%",
+      "normal_profit_target": "20-25%",
+      "quick_gain_hold_rule": "20% in <3 weeks = hold 8 weeks",
+      "cup_duration_weeks": "7-65",
+      "cup_depth_pct": "12-33%",
+      "handle_depth_pct": "8-12%",
+      "flat_base_depth_pct": "10-15%",
+      "flat_base_min_weeks": 5,
+      "double_bottom_min_weeks": 7,
+      "high_tight_flag_advance": "100-120% in 4-8 weeks",
+      "high_tight_flag_correction": "10-25% in 3-5 weeks",
+      "ascending_base_pullbacks": 3,
+      "ascending_base_pullback_depth": "10-20%",
+      "distribution_day_threshold": "3-5 in 4-5 weeks",
+      "follow_through_day_timing": "Day 4-7 of rally attempt",
+      "follow_through_min_gain": "1.0%+",
+      "max_positions": "4-7 depending on account size",
+      "max_chase_above_pivot": "5%",
+      "pyramiding_trigger": "Up 2-3% from initial buy"
+    }
+  }
+}

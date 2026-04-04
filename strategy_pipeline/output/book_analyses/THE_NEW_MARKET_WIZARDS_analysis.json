@@ -1,0 +1,424 @@
+{
+  "book_title": "The New Market Wizards: Conversations with America's Top Traders",
+  "author": "Jack D. Schwager",
+  "year": 1992,
+  "total_traders": 17,
+  "total_strategies_extracted": 10,
+  "traders": [
+    {
+      "name": "Bill Lipschutz",
+      "style": "Discretionary - Forex Fundamental + Flow",
+      "codifiability": "low",
+      "key_rules": [
+        "Scale into and out of positions - never all-in or all-out at once",
+        "Don't need to be right >50% of the time - ride winners, cut losers",
+        "Missing an opportunity is as bad as being on the wrong side",
+        "When hurt in the market, get out immediately regardless of price",
+        "Reduce position size during losing streaks to restore confidence",
+        "Always know exactly where you stand - risk control is paramount",
+        "Don't concentrate too much capital in one trade or correlated group",
+        "If fundamentals change but price doesn't confirm, get out"
+      ],
+      "strategies_extracted": []
+    },
+    {
+      "name": "Randy McKay",
+      "style": "Discretionary - Trend Following + Market Psychology",
+      "codifiability": "medium",
+      "key_rules": [
+        "Watch how markets respond to fundamental information, not the info itself",
+        "If bad news can't push market down, it's going higher (and vice versa)",
+        "Never try to pick tops or bottoms - trade the middle of the move",
+        "When government intervention fails to hold a level, trade against it",
+        "When hurt, get out immediately - decisions impaired after losses",
+        "Prognostication 25%, execution 75% in modern markets",
+        "Trade easy part of moves - beginning and end are hardest"
+      ],
+      "strategies_extracted": ["news_reaction_system"]
+    },
+    {
+      "name": "William Eckhardt",
+      "style": "Systematic Trend Following (Turtle co-creator)",
+      "codifiability": "high",
+      "key_rules": [
+        "Don't buy retracements - buy strength (if market retraced enough to matter, trade isn't as good)",
+        "Avoid comfort - comfortable trades are usually wrong",
+        "RSI, stochastics, Fibonacci, Gann are near worthless",
+        "Moving averages work if you add risk management",
+        "Missing a good trade is worse than taking a bad trade",
+        "System should have 3-4 parameters max (7-8 is too many)",
+        "Use robust statistics, not delicate ones - weight indicators 1 or 0",
+        "If system results don't sock you in the eye, not worth pursuing",
+        "Try your best to disprove your system - if it survives, maybe it's valid",
+        "Chart patterns: 98% of what looks good doesn't work",
+        "Mechanical system outperformed his discretionary overrides",
+        "Overriding should be rare - save ingenuity for research, not trading"
+      ],
+      "strategies_extracted": ["eckhardt_trend_system"]
+    },
+    {
+      "name": "Monroe Trout",
+      "style": "Systematic + Discretionary Hybrid",
+      "codifiability": "high",
+      "key_rules": [
+        "Risk management rules: 1.5% max loss per trade, 4% max loss per day, 10% max loss per month",
+        "Set maximum position size per market at start of each month",
+        "If down 4% in a day, close ALL positions and wait until next day",
+        "Best daily Sharpe ratio = best trader (not just return)",
+        "Moving averages are useful indicators; Fibonacci, Gann, RSI, stochastics are not",
+        "Diversify across strategies AND time horizons",
+        "50% system, 50% discretionary execution timing",
+        "Stops: don't place at obvious levels (above/below prior day high/low)",
+        "Instead, place 10 ticks before or 10 ticks after the obvious level",
+        "Markets drawn to round numbers (magnet effect) - trade into them",
+        "Play for streaks: trade bigger when winning, smaller when losing",
+        "67% avg annual return with max 8% drawdown over 5 years"
+      ],
+      "strategies_extracted": ["trout_statistical_system"]
+    },
+    {
+      "name": "Al Weiss",
+      "style": "Technical Systems - Long-term Chart Patterns",
+      "codifiability": "medium",
+      "key_rules": [
+        "Study 100+ years of chart history for patterns",
+        "Factor economic cycle position (inflationary vs deflationary) into pattern interpretation",
+        "Look for patterns within patterns within patterns (nested confirmation)",
+        "A 50% accurate pattern is profitable with good risk control",
+        "Follow system >90% of the time, override only selectively",
+        "52% average annual return, max 17% drawdown over 10 years",
+        "Total risk on all open positions never exceeds 4%"
+      ],
+      "strategies_extracted": []
+    },
+    {
+      "name": "Stanley Druckenmiller",
+      "style": "Discretionary - Top-Down Macro",
+      "codifiability": "low",
+      "key_rules": [
+        "Focus on liquidity and central bank policy, not earnings",
+        "When you have conviction, bet big (Soros influence: 'It's not whether you're right or wrong, but how much you make when right')",
+        "Cut losses quickly - never let a position become a prayer",
+        "Watch what market does on news more than the news itself",
+        "If market can't rally on bullish news, it's going lower"
+      ],
+      "strategies_extracted": []
+    },
+    {
+      "name": "Richard Driehaus",
+      "style": "Growth Stock Momentum",
+      "codifiability": "high",
+      "key_rules": [
+        "Buy high, sell higher - don't buy low",
+        "Stock must have accelerating earnings AND revenue growth",
+        "Relative strength must be top 10-20% of market",
+        "Use charts for timing but fundamentals for selection",
+        "Buy on big gap-up days on significant news (don't wait for pullback)",
+        "More losers than winners is fine - cut losses, ride winners",
+        "Small cap, lightly covered stocks offer greatest inefficiency",
+        "P/E ratios mostly irrelevant for growth stocks",
+        "Never buy a stock that's dropping, even with good fundamentals",
+        "A few home runs account for bulk of performance"
+      ],
+      "strategies_extracted": ["driehaus_momentum"]
+    },
+    {
+      "name": "Gil Blake",
+      "style": "Systematic - Mutual Fund Timing",
+      "codifiability": "high",
+      "key_rules": [
+        "5 steps: (1) find vehicle that suits personality (2) identify non-random behavior (3) prove it statistically (4) set trading rules (5) follow rules",
+        "Markets are mostly random but have pockets of non-randomness",
+        "45% avg annual return, 96% winning months, worst year +24%",
+        "Holding period 1-4 days, purely technical models",
+        "Adaptability is key: when approach stops working, research new one",
+        "Do your own thing (independence) + do the right thing (discipline)"
+      ],
+      "strategies_extracted": ["blake_fund_timing"]
+    },
+    {
+      "name": "Victor Sperandeo",
+      "style": "Technical - Market Age Analysis",
+      "codifiability": "high",
+      "key_rules": [
+        "Markets have statistically significant life-expectancy profiles",
+        "Median intermediate bull market upmove is 20% over 107 days",
+        "Once move exceeds median age, technical signals become MORE reliable",
+        "Don't apply technical patterns indiscriminately - context of market age matters",
+        "Always predetermine exit point before entering trade",
+        "When trading large, positions must make money immediately or cut",
+        "Stay in business first, get rich second",
+        "18 consecutive winning years, 72% avg annual return",
+        "Poker analogy: speculating (odds in favor) vs gambling (odds against)"
+      ],
+      "strategies_extracted": ["sperandeo_age_system"]
+    },
+    {
+      "name": "Tom Basso",
+      "style": "Systematic Trend Following",
+      "codifiability": "high",
+      "key_rules": [
+        "Normalize volatility across all positions (equal volatility weighting)",
+        "Use trailing stops based on ATR",
+        "Stress-free trading through complete systematic approach",
+        "Focus on process not outcome",
+        "If system has edge, let it play out over hundreds of trades"
+      ],
+      "strategies_extracted": ["basso_volatility_normalized"]
+    },
+    {
+      "name": "Linda Bradford Raschke",
+      "style": "Technical - Swing Trading",
+      "codifiability": "high",
+      "key_rules": [
+        "Trade pattern recognition: 3-pushes to a high/low, Wolfe Waves",
+        "Look for divergence between price and oscillators at extremes",
+        "First hour range breakout as day-trade signal",
+        "Swing trading: 2-5 day holding period",
+        "Cut losses ruthlessly - if trade doesn't work in expected time, exit",
+        "Buy strength, sell weakness - same as Eckhardt's philosophy",
+        "Market internal indicators more useful than price indicators alone"
+      ],
+      "strategies_extracted": ["raschke_swing_patterns"]
+    },
+    {
+      "name": "Mark Ritchie",
+      "style": "Discretionary - Fundamental + Intuition",
+      "codifiability": "low",
+      "key_rules": [
+        "Patience - wait for the perfect trade",
+        "When convinced, bet big",
+        "Cut losses immediately when wrong"
+      ],
+      "strategies_extracted": []
+    },
+    {
+      "name": "Joe Ritchie",
+      "style": "Options Market Making + Arbitrage",
+      "codifiability": "medium",
+      "key_rules": [
+        "Theoretical edge from options mispricing",
+        "Risk management: know your exposure at all times",
+        "Simplify complex problems to their essence"
+      ],
+      "strategies_extracted": []
+    },
+    {
+      "name": "Blair Hull",
+      "style": "Statistical Arbitrage - Options",
+      "codifiability": "medium",
+      "key_rules": [
+        "Find an edge (statistical), then manage risk",
+        "Blackjack card-counting analogy: bet more when odds favor you",
+        "Options: buy underpriced volatility, sell overpriced volatility",
+        "Discipline is more important than intelligence"
+      ],
+      "strategies_extracted": []
+    },
+    {
+      "name": "Jeff Yass",
+      "style": "Options - Game Theory + Probability",
+      "codifiability": "medium",
+      "key_rules": [
+        "Think in terms of expected value, not win rate",
+        "Diversify across many small-edge trades",
+        "Don't get emotionally attached to any single position",
+        "Horse racing analogy: bet when odds are mispriced"
+      ],
+      "strategies_extracted": []
+    },
+    {
+      "name": "Charles Faulkner",
+      "style": "Trading Psychology / NLP",
+      "codifiability": "none",
+      "key_rules": [
+        "Model the strategies of successful traders using NLP",
+        "Beliefs drive behavior drive results",
+        "Internal representations determine trading decisions",
+        "Reframe losses as cost of doing business"
+      ],
+      "strategies_extracted": []
+    },
+    {
+      "name": "Robert Krausz",
+      "style": "Trading Psychology / Hypnotherapy",
+      "codifiability": "none",
+      "key_rules": [
+        "Subconscious mind drives trading decisions more than conscious",
+        "Visualization and mental rehearsal improve execution",
+        "Identify and remove self-sabotaging beliefs"
+      ],
+      "strategies_extracted": []
+    }
+  ],
+  "strategies": [
+    {
+      "id": "eckhardt_trend_system",
+      "name": "Eckhardt Robust Trend System",
+      "source_traders": ["William Eckhardt"],
+      "category": "trend_following",
+      "codifiability": "high",
+      "timeframe": "daily",
+      "markets": ["futures", "forex", "commodities"],
+      "entry_logic": "Buy breakouts on strength (NOT retracements). Enter when price exceeds recent range with momentum. Mechanical system with 3-4 parameters max.",
+      "exit_logic": "Trailing stop. Override only when system clearly violates design intent (e.g., staying short bonds during a stock crash).",
+      "position_sizing": "Equal risk across all trades. Either take a trade at full size or don't take it at all (1 or 0 weighting).",
+      "stop_loss": "System-defined, ATR-based",
+      "take_profit": "Ride the trend - no fixed targets",
+      "filters": ["Moving averages for trend direction", "Avoid RSI/stochastics/Fibonacci", "Minimum 3 parameters, maximum 4"],
+      "confidence": "very_high",
+      "notes": "Co-creator of Turtle Trading. Proved mechanical system beat his own discretionary overrides. Key insight: avoid comfort, buy strength not weakness."
+    },
+    {
+      "id": "trout_statistical_system",
+      "name": "Trout Statistical Multi-System",
+      "source_traders": ["Monroe Trout"],
+      "category": "statistical",
+      "codifiability": "high",
+      "timeframe": "intraday_to_weekly",
+      "markets": ["futures", "stocks", "bonds"],
+      "entry_logic": "Dozens of statistical models running simultaneously. 50% system signals, 50% discretionary timing. Uses magnet effect (buy ahead of round numbers). Monitors floor noise and order flow for confirmation.",
+      "exit_logic": "Hard rules: exit if down 1.5% on single trade, exit ALL if down 4% on day, exit ALL if down 10% in month. Mental stops, not placed stops.",
+      "position_sizing": "Max position per market set monthly. Trade bigger during winning streaks, smaller during losing.",
+      "stop_loss": "Mental stops - avoid obvious placement (not 1 tick above/below prior high/low)",
+      "take_profit": "System-determined based on statistical patterns",
+      "filters": ["Floor noise/volume as confirmation", "Avoid placing stops at obvious levels", "Round number magnet effect"],
+      "confidence": "very_high",
+      "notes": "67% avg annual return, max 8% drawdown. Best return/risk ratio of 100+ CTAs surveyed. Low transaction costs are critical edge."
+    },
+    {
+      "id": "driehaus_momentum",
+      "name": "Driehaus Growth Momentum",
+      "source_traders": ["Richard Driehaus"],
+      "category": "momentum_growth",
+      "codifiability": "high",
+      "timeframe": "daily_to_weekly",
+      "markets": ["stocks"],
+      "entry_logic": "Buy stocks with accelerating earnings AND revenue growth. Relative strength top 10-20%. Buy on big gap-up days on significant news. Never buy declining stocks. Buy near highs, not near lows.",
+      "exit_logic": "Sell when: earnings decelerate, technical breakdown, fundamental story changes. Cut losses but no fixed stop - balance conviction with price action.",
+      "position_sizing": "Largest positions on highest-conviction ideas (concentrated portfolio). More losers than winners is acceptable.",
+      "stop_loss": "No fixed stop - fundamental + technical deterioration triggers exit",
+      "take_profit": "Hold as long as fundamental and technical conditions intact. Don't cut winners short.",
+      "filters": ["Relative strength >80 percentile", "Market environment must favor growth stocks", "Lightly covered stocks preferred (greater inefficiency)"],
+      "confidence": "high",
+      "notes": "Very similar to O'Neil/CANSLIM but more aggressive on entry timing. Buys on strength, not pullbacks. Key: few home runs account for bulk of returns."
+    },
+    {
+      "id": "sperandeo_age_system",
+      "name": "Sperandeo Market Age Analysis",
+      "source_traders": ["Victor Sperandeo"],
+      "category": "trend_reversal",
+      "codifiability": "high",
+      "timeframe": "daily_to_weekly",
+      "markets": ["stocks", "futures"],
+      "entry_logic": "Classify market age using historical duration/magnitude statistics. Median bull intermediate move = 20% over 107 days. When move exceeds median, apply technical analysis with higher confidence. Look for reversal patterns ONLY in 'old age' markets.",
+      "exit_logic": "Predetermined exit point set BEFORE entry. When trading large, exit immediately if not profitable quickly.",
+      "position_sizing": "Reduce to 50% max when market exceeds historical median move. Scale based on market age (young = bigger, old = smaller).",
+      "stop_loss": "Always predetermined before entry",
+      "take_profit": "Based on historical duration/magnitude profiles",
+      "filters": ["Market must be classified by bull/bear cycle age", "Don't apply reversal patterns to 'young' markets", "Dow Theory confirmation for major turns"],
+      "confidence": "high",
+      "notes": "18 consecutive winning years, 72% avg annual return. Unique approach of combining market life-expectancy with technical analysis. Very relevant to systematic trading."
+    },
+    {
+      "id": "basso_volatility_normalized",
+      "name": "Basso Volatility-Normalized Trend",
+      "source_traders": ["Tom Basso"],
+      "category": "trend_following",
+      "codifiability": "high",
+      "timeframe": "daily",
+      "markets": ["futures", "forex", "commodities"],
+      "entry_logic": "Trend-following signals with volatility normalization. All positions sized to equal volatility contribution.",
+      "exit_logic": "ATR-based trailing stops. Systematic - no discretionary overrides.",
+      "position_sizing": "Volatility-normalized: position_size = target_risk / current_ATR",
+      "stop_loss": "ATR-multiple trailing stop",
+      "take_profit": "Ride the trend",
+      "filters": ["Volatility normalization across all markets"],
+      "confidence": "high",
+      "notes": "Mr. Serenity - completely stress-free systematic approach. Focus on process. Very similar to SBRS risk management principles."
+    },
+    {
+      "id": "raschke_swing_patterns",
+      "name": "Raschke Swing Trading Patterns",
+      "source_traders": ["Linda Bradford Raschke"],
+      "category": "swing_trading",
+      "codifiability": "high",
+      "timeframe": "intraday_to_weekly",
+      "markets": ["futures", "stocks"],
+      "entry_logic": "Pattern recognition: 3-pushes to high/low (reversal signal), first-hour range breakout (day trade), Wolfe Waves. Confirm with oscillator divergence at extremes.",
+      "exit_logic": "Time stop: if trade doesn't work in expected time, exit. Cut losses ruthlessly.",
+      "position_sizing": "Standard risk-based sizing",
+      "stop_loss": "Beyond pattern boundary",
+      "take_profit": "Pattern-projected targets",
+      "filters": ["Market internals must confirm", "Oscillator divergence at extremes", "Buy strength, sell weakness"],
+      "confidence": "high",
+      "notes": "One of few female Market Wizards. Swing trading approach with 2-5 day holding period. Very pattern-focused but disciplined."
+    },
+    {
+      "id": "blake_fund_timing",
+      "name": "Blake Mutual Fund Timing",
+      "source_traders": ["Gil Blake"],
+      "category": "mean_reversion",
+      "codifiability": "high",
+      "timeframe": "daily",
+      "markets": ["mutual_funds", "sector_funds"],
+      "entry_logic": "Purely technical models identifying non-random price behavior in mutual fund NAVs. Switch between sector funds and money market based on signals. 1-4 day holding period.",
+      "exit_logic": "System-determined, typically 1-4 day reversal",
+      "position_sizing": "Full allocation switches",
+      "stop_loss": "System-defined",
+      "take_profit": "System-defined",
+      "filters": ["Must identify statistically significant non-random behavior", "Adapt when approach effectiveness diminishes"],
+      "confidence": "high",
+      "notes": "45% avg annual, 96% winning months, worst year +24%. Unique niche: mutual fund switching. Not directly applicable to futures/forex but demonstrates that statistical edges exist."
+    },
+    {
+      "id": "news_reaction_system",
+      "name": "McKay News Reaction System",
+      "source_traders": ["Randy McKay"],
+      "category": "sentiment",
+      "codifiability": "medium",
+      "timeframe": "daily",
+      "markets": ["futures", "forex", "commodities"],
+      "entry_logic": "Watch how market responds to fundamental information. If bad news fails to push market down, buy. If good news fails to push market up, sell. Enter after confirmation of non-reaction.",
+      "exit_logic": "When move decelerates or contrary news reaction observed. Exit immediately when hurt.",
+      "position_sizing": "Scale with market ease - bigger in trending markets, smaller in choppy",
+      "stop_loss": "Exit immediately when hurt, don't wait",
+      "take_profit": "Ride the middle of the move, don't try to pick tops/bottoms",
+      "filters": ["Government intervention failing = trade against it", "Deceleration of moves = warning sign", "Only trade easy part of moves"],
+      "confidence": "medium",
+      "notes": "$2K to tens of millions over 20 years, 18/20 profitable years. News reaction concept is codifiable but requires judgment on what constitutes 'significant' news."
+    }
+  ],
+  "cross_cutting_themes": [
+    {
+      "theme": "Risk Management Over Everything",
+      "supporters": ["Lipschutz", "Eckhardt", "Trout", "Sperandeo", "McKay", "Basso"],
+      "consensus": "Predetermine risk before entry. Hard rules: Trout's 1.5%/4%/10% limits. Sperandeo's predetermined exit. Universal agreement: survive first, profit second."
+    },
+    {
+      "theme": "Mechanical Systems Beat Discretionary Overrides",
+      "supporters": ["Eckhardt", "Trout", "Blake", "Basso"],
+      "consensus": "Eckhardt proved his system outperformed him. Save creativity for research, not trading. Override only in unprecedented situations."
+    },
+    {
+      "theme": "Buy Strength, Not Weakness",
+      "supporters": ["Eckhardt", "Driehaus", "McKay", "Raschke"],
+      "consensus": "Don't buy retracements. If market retraced enough to matter, the trade isn't as good. Buy high, sell higher."
+    },
+    {
+      "theme": "Markets Are Non-Random (But Mostly Random)",
+      "supporters": ["Blake", "Eckhardt", "Trout"],
+      "consensus": "Pockets of non-random behavior exist and are tradeable. But most apparent patterns are noise. Statistically prove your edge."
+    },
+    {
+      "theme": "Most Popular Indicators Don't Work",
+      "supporters": ["Eckhardt", "Trout"],
+      "consensus": "RSI, stochastics, Fibonacci retracements, Gann angles show near-zero edge. Moving averages are the one public indicator worth using."
+    },
+    {
+      "theme": "News Reaction > News Itself",
+      "supporters": ["McKay", "Druckenmiller", "Lipschutz"],
+      "consensus": "How the market responds to news matters more than the news. If market can't rally on bullish news, it's going lower."
+    }
+  ]
+}

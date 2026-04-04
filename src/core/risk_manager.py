@@ -1,18 +1,11 @@
 """
-Risk Management for SCAF 2.0 -- The Mark Douglas Risk Kernel
+Risk Management — 5-Layer System
 
-5 layers of professional risk management:
 1. Daily loss limit (3%)
 2. Drawdown circuit breaker (10%)
-3. Max concurrent risk (6%)
-4. Correlation awareness (timeframe-adaptive)
-5. Volatility-adjusted position sizing (ATR * 2)
-
-Position Size = (Equity * 0.01) / (ATR(14) * 2)
-This ensures every trade risks exactly 1% of capital regardless of asset.
-
-O3 optimisation: max_same_direction is now timeframe-adaptive.
-1H data generates clustered signals — needs higher concurrency limit.
+3. Max concurrent risk (6-8%, timeframe-adaptive)
+4. Direction concentration limits
+5. Volatility-adjusted position sizing: (Equity * 1%) / (ATR(14) * 2)
 """
 
 import pandas as pd
