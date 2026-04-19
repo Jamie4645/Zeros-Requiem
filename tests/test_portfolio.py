@@ -30,6 +30,15 @@ MARKETS = [
     # Forex REMOVED from SBRS — no consistent edge with breakout-retest logic
 ]
 
+import pytest
+
+# Do not fetch OANDA during pytest collection; run manually: py tests/test_portfolio.py
+if __name__ != '__main__':
+    pytest.skip(
+        'Portfolio integration script — run: py tests/test_portfolio.py',
+        allow_module_level=True,
+    )
+
 print("=" * 80)
 print("  SBRS 1.1 — COMBINED PORTFOLIO")
 print("  Single $10K Account | 1% Risk Per Trade | 4 Markets Simultaneously")
