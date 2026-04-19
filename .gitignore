@@ -31,3 +31,13 @@ venv/
 
 # Generated charts
 *.png
+
+# Runtime / crash dumps
+*.stackdump
+.pytest_full_run.txt
+
+# Claude Code local overrides
+.claude/settings.local.json
+
+# Obsidian workspace state (per-user)
+knowledge-base/.obsidian/
