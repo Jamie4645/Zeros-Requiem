@@ -59,13 +59,19 @@ DURATION_PER_REQUEST = {
 
 
 def is_ibkr_available() -> bool:
-    """Check if ib_insync is installed and TWS/Gateway is reachable."""
+    """
+    Check if TWS/IB Gateway is reachable on port 7497.
+
+    Uses a raw TCP socket check first (avoids ib_insync asyncio issues),
+    then confirms the connection is responsive.
+    """
+    import socket
     try:
-        from ib_insync import IB
-        ib = IB()
-        ib.connect('127.0.0.1', 7497, clientId=99, timeout=5)
-        ib.disconnect()
-        return True
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(3)
+        result = sock.connect_ex(('127.0.0.1', 7497))
+        sock.close()
+        return result == 0  # 0 = connection successful
     except Exception:
         return False
 
@@ -81,13 +87,31 @@ def _get_cache_path(symbol: str, interval: str) -> Path:
     return CACHE_DIR / f'{safe_symbol}_{interval}.csv'
 
 
+_CACHE_STALENESS_DAYS = 7  # Round 5 Y2: refuse caches older than one week
+
+
 def _load_cache(symbol: str, interval: str) -> Optional[pd.DataFrame]:
-    """Load cached data if it exists and is recent enough."""
+    """Load cached data if it exists AND is fresher than _CACHE_STALENESS_DAYS.
+
+    Round 5 Y2 — the outer `fetch_ibkr` wrapper used to be the only place that
+    checked cache age, which meant any other call site that consumed this
+    primitive would happily serve month-old bars. Now the primitive itself
+    enforces the guard and logs a staleness warning when it triggers.
+    """
     path = _get_cache_path(symbol, interval)
     if not path.exists():
         return None
 
     try:
+        mtime = datetime.fromtimestamp(path.stat().st_mtime)
+        age_days = (datetime.now() - mtime).days
+        if age_days > _CACHE_STALENESS_DAYS:
+            print(
+                f"  [ibkr_fetcher] WARNING: cache for {symbol} {interval} is "
+                f"{age_days}d old (>{_CACHE_STALENESS_DAYS}d guard) — refusing to serve."
+            )
+            return None
+
         df = pd.read_csv(path, index_col=0, parse_dates=True)
         df.index = pd.to_datetime(df.index, utc=True)
         return df
@@ -183,10 +207,19 @@ def fetch_ibkr(
             return dt_obj.replace(tzinfo=None)
         return dt_obj
 
-    # Connect to TWS/Gateway
+    # Python 3.12+ requires an event loop to exist before ib_insync can run
+    import asyncio as _asyncio
+    try:
+        _asyncio.get_running_loop()
+    except RuntimeError:
+        # No running loop — create and set one so ib_insync can use it
+        _loop = _asyncio.new_event_loop()
+        _asyncio.set_event_loop(_loop)
+
+    # Connect to TWS/Gateway (no timeout arg — not supported outside async context)
     ib = IB()
     try:
-        ib.connect('127.0.0.1', 7497, clientId=10, timeout=15)
+        ib.connect('127.0.0.1', 7497, clientId=10)
     except Exception as e:
         # Fall back to cached data if available
         cached = _load_cache(symbol, interval)

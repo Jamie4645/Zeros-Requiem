@@ -32,6 +32,16 @@ class TradeSetup:
     retest_bar: int = 0             # Bar index of the confirmed retest
     break_bar: int = 0              # Bar index of the structure break
 
+    # SBRS 2.0 context (optional, backward-compatible defaults)
+    confluence_score: float = 0.0       # Total confluence score at entry
+    fvg_present: bool = False           # Fair Value Gap detected at entry
+    liquidity_sweep: bool = False       # Liquidity sweep detected
+    ma_cross_confirmed: bool = False    # MA cross was part of confluence
+    is_counter_trend: bool = False      # Counter-trend trade
+    level_touches: int = 0             # S/R level quality (touch count)
+    in_squeeze: bool = False           # Entered during Bollinger squeeze
+    breakout_attempt: int = 1          # Which breakout attempt (1st, 2nd, etc.)
+
     # Execution tracking
     filled: bool = False
     fill_index: Optional[int] = None

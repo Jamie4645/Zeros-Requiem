@@ -264,3 +264,22 @@ def get_recent_swing_low(
             return (i, lows.iloc[i])
 
     return None
+
+
+# ============================================================
+# Bollinger Bands
+# ============================================================
+
+def bollinger_bands(
+    series: pd.Series, period: int = 20, std_dev: float = 2.0
+) -> Tuple[pd.Series, pd.Series, pd.Series]:
+    """
+    Bollinger Bands: middle +/- std_dev * rolling_std.
+
+    Returns (upper, middle, lower).
+    """
+    middle = series.rolling(window=period).mean()
+    rolling_std = series.rolling(window=period).std()
+    upper = middle + std_dev * rolling_std
+    lower = middle - std_dev * rolling_std
+    return upper, middle, lower

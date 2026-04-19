@@ -1,15 +1,19 @@
 """
-Zeros Requiem — SBRS 1.1 (Sovereign Breakout Retest Strategy)
+Zeros Requiem — SBRS (Sovereign Breakout Retest Strategy)
 
 Systematic algo trading for Gold and Forex Indices.
 
 Usage:
-    Single symbol:
+    Single symbol (SBRS 1.1):
         py main.py --symbol GC=F --interval 1h --period 10y
         py main.py --symbol ^GSPC --interval 1h --period 10y
 
+    Single symbol (SBRS 2.0):
+        py main.py --symbol GC=F --interval 1h --period 10y --strategy sbrs_v2
+
     Walk-forward validation (8 sequential windows):
         py main.py --walk-forward GC=F --interval 1h --windows 8
+        py main.py --walk-forward GC=F --interval 1h --windows 8 --strategy sbrs_v2
 
     Monte Carlo simulation:
         py main.py --symbol GC=F --interval 1h --period 10y --monte-carlo
@@ -29,17 +33,33 @@ from src.core.walk_forward import run_walk_forward, print_walk_forward_report
 from src.core.monte_carlo import run_monte_carlo, print_monte_carlo_report
 
 
-def _analyze_symbol(symbol, df, capital, risk):
+def _analyze_symbol(symbol, df, capital, risk, strategy='sbrs_v1'):
     """Route a symbol to the SBRS analyzer with correct asset class."""
     asset_class = detect_asset_class(symbol)
 
-    if asset_class in ('gold', 'commodity'):
-        return analyze_gold_sbrs(df, capital, risk, asset_class='gold')
-    elif asset_class == 'indices':
-        return analyze_gold_sbrs(df, capital, risk, asset_class='indices', symbol=symbol)
+    if strategy == 'sbrs_v2':
+        from src.regimes.sbrs_v2 import analyze_sbrs_v2
+        if asset_class in ('gold', 'commodity'):
+            return analyze_sbrs_v2(df, capital, risk, asset_class='gold', symbol=symbol)
+        elif asset_class == 'indices':
+            return analyze_sbrs_v2(df, capital, risk, asset_class='indices', symbol=symbol)
+        elif asset_class == 'forex':
+            return analyze_sbrs_v2(df, capital, risk, asset_class='forex', symbol=symbol)
+        elif asset_class == 'crypto':
+            return analyze_sbrs_v2(df, capital, risk, asset_class='crypto', symbol=symbol)
+        else:
+            print(f"  WARNING: Unsupported asset class '{asset_class}' for SBRS 2.0, trying as forex")
+            return analyze_sbrs_v2(df, capital, risk, asset_class='forex', symbol=symbol)
     else:
-        print(f"  WARNING: Unsupported asset class '{asset_class}' for SBRS")
-        return []
+        if asset_class in ('gold', 'commodity'):
+            return analyze_gold_sbrs(df, capital, risk, asset_class='gold')
+        elif asset_class == 'indices':
+            return analyze_gold_sbrs(df, capital, risk, asset_class='indices', symbol=symbol)
+        elif asset_class == 'forex':
+            return analyze_gold_sbrs(df, capital, risk, asset_class='forex', symbol=symbol)
+        else:
+            print(f"  WARNING: Unsupported asset class '{asset_class}' for SBRS")
+            return []
 
 
 def _print_result(result, symbol_name=""):
@@ -85,14 +105,17 @@ def run_single(args):
     """Run backtest on a single symbol."""
     asset_class = detect_asset_class(args.symbol)
     name = get_symbol_name(args.symbol)
+    strategy = args.strategy
+    strategy_label = 'SBRS 2.0' if strategy == 'sbrs_v2' else 'SBRS 1.1'
 
     print(f"""
     ================================================================
-      ZERO'S REQUIEM — SBRS 1.1
+      ZERO'S REQUIEM — {strategy_label}
       Sovereign Breakout Retest Strategy
     ================================================================
       Symbol:   {args.symbol} ({name})
       Class:    {asset_class}
+      Strategy: {strategy_label}
       Interval: {args.interval}
       Period:   {args.period}
       Capital:  ${args.capital:,.2f}
@@ -106,15 +129,23 @@ def run_single(args):
     print(f"  Loaded {len(df)} candles from {df.index[0]} to {df.index[-1]}")
 
     print("  Analyzing...")
-    setups = _analyze_symbol(args.symbol, df, args.capital, args.risk)
+    setups = _analyze_symbol(args.symbol, df, args.capital, args.risk, strategy=strategy)
     print(f"  Found {len(setups)} trade setups")
 
     print("  Running backtest...")
-    risk_config = risk_config_for_interval(args.interval, args.risk)
-    sbrs_ind = get_sbrs_indicators(df)
-    result = run_backtest(df, setups, args.capital, risk_config,
-                          apply_slippage=not args.no_slippage,
-                          sbrs_indicators=sbrs_ind)
+    risk_config = risk_config_for_interval(args.interval, args.risk, asset_class, symbol=args.symbol)
+
+    if strategy == 'sbrs_v2':
+        from src.regimes.sbrs_v2 import get_sbrs_v2_indicators
+        sbrs_v2_ind = get_sbrs_v2_indicators(df)
+        result = run_backtest(df, setups, args.capital, risk_config,
+                              apply_slippage=not args.no_slippage,
+                              sbrs_v2_indicators=sbrs_v2_ind)
+    else:
+        sbrs_ind = get_sbrs_indicators(df)
+        result = run_backtest(df, setups, args.capital, risk_config,
+                              apply_slippage=not args.no_slippage,
+                              sbrs_indicators=sbrs_ind)
 
     _print_result(result, name)
 
@@ -134,6 +165,8 @@ def run_walk_forward_cmd(args):
     """Run walk-forward analysis on a symbol with longest available data."""
     symbol = args.walk_forward
     name = get_symbol_name(symbol)
+    strategy = args.strategy
+    strategy_label = 'SBRS 2.0' if strategy == 'sbrs_v2' else 'SBRS 1.1'
 
     from src.data.oanda_fetcher import is_oanda_available, is_oanda_instrument
     from src.data.ibkr_fetcher import is_ibkr_available, is_ibkr_instrument
@@ -152,9 +185,10 @@ def run_walk_forward_cmd(args):
 
     print(f"""
     ================================================================
-      ZERO'S REQUIEM — WALK-FORWARD ANALYSIS (SBRS 1.1)
+      ZERO'S REQUIEM — WALK-FORWARD ANALYSIS ({strategy_label})
     ================================================================
       Symbol:     {symbol} ({name})
+      Strategy:   {strategy_label}
       Interval:   {interval}
       Period:     {max_period} (maximum available)
       Windows:    {n_windows}
@@ -178,16 +212,43 @@ def run_walk_forward_cmd(args):
 
     print(f"  Running walk-forward with {n_windows} windows...")
 
-    wf_result = run_walk_forward(
-        df=df,
-        analyze_fn=analyze_gold_sbrs,
-        n_windows=n_windows,
-        initial_capital=args.capital,
-        risk_pct=args.risk,
-        apply_slippage=not args.no_slippage,
-        min_bars=100,
-        sbrs_indicator_fn=get_sbrs_indicators
-    )
+    asset_class = detect_asset_class(symbol)
+
+    if strategy == 'sbrs_v2':
+        from src.regimes.sbrs_v2 import analyze_sbrs_v2, get_sbrs_v2_indicators
+        analyze_fn = lambda df, eq, rp: analyze_sbrs_v2(
+            df, eq, rp, asset_class=asset_class, symbol=symbol
+        )
+        wf_result = run_walk_forward(
+            df=df,
+            analyze_fn=analyze_fn,
+            n_windows=n_windows,
+            initial_capital=args.capital,
+            risk_pct=args.risk,
+            apply_slippage=not args.no_slippage,
+            min_bars=100,
+            sbrs_indicator_fn=get_sbrs_v2_indicators,
+            interval=interval,
+            asset_class=asset_class,
+            symbol=symbol,
+        )
+    else:
+        analyze_fn = lambda df, eq, rp: analyze_gold_sbrs(
+            df, eq, rp, asset_class=asset_class, symbol=symbol
+        )
+        wf_result = run_walk_forward(
+            df=df,
+            analyze_fn=analyze_fn,
+            n_windows=n_windows,
+            initial_capital=args.capital,
+            risk_pct=args.risk,
+            apply_slippage=not args.no_slippage,
+            min_bars=100,
+            sbrs_indicator_fn=get_sbrs_indicators,
+            interval=interval,
+            asset_class=asset_class,
+            symbol=symbol,
+        )
 
     print_walk_forward_report(wf_result, name)
     return wf_result
@@ -195,13 +256,15 @@ def run_walk_forward_cmd(args):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Zeros Requiem — SBRS 1.1 (Sovereign Breakout Retest Strategy)",
+        description="Zeros Requiem — SBRS (Sovereign Breakout Retest Strategy)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
   py main.py --symbol GC=F --interval 1h --period 10y
+  py main.py --symbol GC=F --interval 1h --period 10y --strategy sbrs_v2
   py main.py --symbol ^GSPC --interval 1h --period 10y
   py main.py --walk-forward GC=F --interval 1h --windows 8
+  py main.py --walk-forward GC=F --interval 1h --windows 8 --strategy sbrs_v2
   py main.py --symbol GC=F --interval 1h --period 10y --monte-carlo
         """
     )
@@ -220,6 +283,9 @@ Examples:
     parser.add_argument('--capital', type=float, default=10000.0)
     parser.add_argument('--risk', type=float, default=0.01, help='Risk per trade (0.01 = 1%%)')
     parser.add_argument('--no-slippage', action='store_true', help='Disable slippage modelling')
+    parser.add_argument('--strategy', type=str, default='sbrs_v2',
+                        choices=['sbrs_v1', 'sbrs_v2'],
+                        help='Strategy version (default: sbrs_v2 — v1 is retained only for ablation/comparison)')
     parser.add_argument('--monte-carlo', action='store_true',
                         help='Run Monte Carlo simulation after backtest')
     parser.add_argument('--mc-sims', type=int, default=10000,

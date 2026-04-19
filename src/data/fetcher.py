@@ -1,7 +1,14 @@
 """
-Data Fetcher — Triple Source Routing
+Data Fetcher — Tiered Source Routing
 
-OANDA (Gold, 20Y+) → IBKR (Indices, 10Y+) → Yahoo Finance (fallback).
+Priority:
+  Gold (GC=F):    OANDA (20Y+) — mandatory, no Yahoo fallback
+  Forex:          OANDA (20Y+) — mandatory for registered pairs
+  Indices:        IBKR (10Y+)  — mandatory when available, Yahoo fallback ONLY
+  Crypto:         Binance (5Y+) — preferred, Yahoo fallback
+  Other:          Yahoo Finance
+
+Yahoo Finance is ONLY used for symbols not supported by premium sources.
 """
 
 import pandas as pd
@@ -10,6 +17,10 @@ from typing import Optional, Dict, List
 
 from .oanda_fetcher import is_oanda_available, is_oanda_instrument, fetch_oanda
 from .ibkr_fetcher import is_ibkr_available, is_ibkr_instrument, fetch_ibkr
+from .binance_fetcher import is_binance_available, is_binance_instrument, fetch_binance
+
+# Symbols that MUST use premium sources — Yahoo is forbidden for these
+PREMIUM_ONLY_SYMBOLS = {'GC=F', '^GSPC', '^IXIC', '^GDAXI'}
 
 
 # ============================================================
@@ -25,6 +36,16 @@ SYMBOLS = {
         '^IXIC',        # NASDAQ Composite
         '^GDAXI',       # DAX (Germany)
     ],
+    'forex': [
+        'EURUSD=X',     # EUR/USD
+        'GBPUSD=X',     # GBP/USD
+        'USDJPY=X',     # USD/JPY
+        'AUDUSD=X',     # AUD/USD
+    ],
+    'crypto': [
+        'BTC-USD',      # Bitcoin
+        'ETH-USD',      # Ethereum
+    ],
 }
 
 SYMBOL_NAMES = {
@@ -32,13 +53,28 @@ SYMBOL_NAMES = {
     '^GSPC': 'S&P 500',
     '^IXIC': 'NASDAQ',
     '^GDAXI': 'DAX',
+    'EURUSD=X': 'EUR/USD',
+    'GBPUSD=X': 'GBP/USD',
+    'USDJPY=X': 'USD/JPY',
+    'AUDUSD=X': 'AUD/USD',
+    'BTC-USD': 'Bitcoin (BTC)',
+    'ETH-USD': 'Ethereum (ETH)',
 }
+
+
+FOREX_SYMBOLS = {'EURUSD=X', 'GBPUSD=X', 'USDJPY=X', 'AUDUSD=X',
+                  'NZDUSD=X', 'USDCAD=X', 'USDCHF=X', 'EURGBP=X'}
+CRYPTO_SYMBOLS = {'BTC-USD', 'ETH-USD', 'SOL-USD', 'XRP-USD', 'BNB-USD'}
 
 
 def detect_asset_class(symbol: str) -> str:
     """Auto-detect asset class from symbol format."""
     s = symbol.upper()
 
+    if symbol in CRYPTO_SYMBOLS or s.endswith('-USD') and not s.startswith('^'):
+        return 'crypto'
+    if symbol in FOREX_SYMBOLS or (s.endswith('=X') and not s.endswith('=F')):
+        return 'forex'
     if s.startswith('^'):
         return 'indices'
     if s.endswith('=F') or s in ('XAUUSD', 'XAGUSD'):
@@ -80,36 +116,79 @@ def fetch(
 
     Returns:
         DataFrame with Open, High, Low, Close, Volume columns
-    """
-    use_oanda = (
-        source not in ('yahoo', 'ibkr')
-        and is_oanda_available()
-        and is_oanda_instrument(symbol)
-        and (source == 'oanda' or True)
-    )
 
-    if use_oanda:
-        try:
+    Raises:
+        RuntimeError: If a premium-only symbol (Gold, indices) cannot be fetched
+                      from its required source. Yahoo is never used for these.
+    """
+    # ── OANDA: Gold and Forex ─────────────────────────────────
+    # OANDA is the mandatory source for Gold. No Yahoo fallback.
+    if source != 'yahoo' and source != 'ibkr':
+        if is_oanda_instrument(symbol):
+            if not is_oanda_available():
+                raise RuntimeError(
+                    f"OANDA credentials not configured but {symbol} requires OANDA. "
+                    f"Check your .env file (OANDA_API_KEY, OANDA_ACCOUNT_ID)."
+                )
+            print(f"  Fetching {symbol} from OANDA...")
             df = fetch_oanda(symbol, interval, period, start_date, end_date)
             if len(df) > 0:
                 return df
-        except Exception as e:
-            print(f"  OANDA fetch failed for {symbol}, trying next source: {e}")
+            raise RuntimeError(f"OANDA returned empty data for {symbol}.")
 
-    use_ibkr = (
-        source not in ('yahoo', 'oanda')
-        and is_ibkr_instrument(symbol)
-        and (source == 'ibkr' or True)
-    )
+    # ── IBKR: Indices ─────────────────────────────────────────
+    # IBKR is the mandatory source for indices. Yahoo only as last resort
+    # if IBKR is unavailable (TWS not running) AND symbol is not premium-only.
+    if source != 'yahoo' and source != 'oanda':
+        if is_ibkr_instrument(symbol):
+            if is_ibkr_available():
+                print(f"  Fetching {symbol} from IBKR...")
+                try:
+                    df = fetch_ibkr(symbol, interval, period, start_date, end_date)
+                    if len(df) > 0:
+                        return df
+                except Exception as e:
+                    print(f"  IBKR fetch failed for {symbol}: {e}")
+            else:
+                print(f"  IBKR not available (TWS/Gateway not running).")
 
-    if use_ibkr:
-        try:
-            df = fetch_ibkr(symbol, interval, period, start_date, end_date)
-            if len(df) > 0:
-                return df
-        except Exception as e:
-            print(f"  IBKR fetch failed for {symbol}, falling back to Yahoo: {e}")
+            # Check cache before falling back
+            from .ibkr_fetcher import _load_cache
+            cached = _load_cache(symbol, interval)
+            if cached is not None and len(cached) > 100:
+                print(f"  Using cached IBKR data for {symbol} ({len(cached)} bars)")
+                return cached
 
+            if symbol in PREMIUM_ONLY_SYMBOLS:
+                raise RuntimeError(
+                    f"{symbol} requires IBKR (10Y+ data). "
+                    f"Start TWS or IB Gateway on port 7497, then retry."
+                )
+            print(f"  WARNING: Falling back to Yahoo for {symbol} (limited to ~2Y for 1H)")
+
+    # ── Binance: Crypto ─────────────────────────────────────────
+    if source != 'yahoo' and source != 'oanda' and source != 'ibkr':
+        if is_binance_instrument(symbol):
+            if is_binance_available():
+                print(f"  Fetching {symbol} from Binance...")
+                try:
+                    df = fetch_binance(symbol, interval, period, start_date, end_date)
+                    if len(df) > 0:
+                        return df
+                except Exception as e:
+                    print(f"  Binance fetch failed for {symbol}: {e}")
+            else:
+                print(f"  Binance not available. Checking cache...")
+
+            from .binance_fetcher import _load_cache as _load_binance_cache
+            cached = _load_binance_cache(symbol, interval)
+            if cached is not None and len(cached) > 100:
+                print(f"  Using cached Binance data for {symbol} ({len(cached)} bars)")
+                return cached
+
+            print(f"  WARNING: Falling back to Yahoo for {symbol}")
+
+    # ── Yahoo Finance: fallback for non-premium symbols only ──
     return _fetch_yahoo(symbol, interval, period, start_date, end_date)
 
 

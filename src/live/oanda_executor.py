@@ -1,17 +1,19 @@
 """
-SBRS 1.1 — OANDA v20 Order Execution
+SBRS 2.0 — OANDA v20 Order Execution (Multi-Instrument)
 
-Handles all broker operations:
+Handles all broker operations for Gold, Forex, and Index CFDs:
 - Place market orders with SL/TP
 - Modify stop loss (breakeven, trailing)
 - Close positions
 - Sync open positions with broker
 - Fetch current price
 
+Supports: XAU_USD, GBP_USD, EUR_USD, USD_JPY, DE30_EUR, NAS100_USD, etc.
 Uses the same credentials and API as oanda_fetcher.py.
 """
 
 import os
+import time
 import requests
 from typing import Optional, Dict, List, Tuple
 from pathlib import Path
@@ -33,7 +35,18 @@ OANDA_URLS = {
 }
 BASE_URL = OANDA_URLS.get(OANDA_ENV, OANDA_URLS['practice'])
 
-INSTRUMENT = 'XAU_USD'  # Gold
+DEFAULT_INSTRUMENT = 'XAU_USD'
+
+INSTRUMENT_CONFIG = {
+    'XAU_USD':    {'decimals': 2, 'unit_type': 'int'},
+    'GBP_USD':    {'decimals': 5, 'unit_type': 'int'},
+    'EUR_USD':    {'decimals': 5, 'unit_type': 'int'},
+    'USD_JPY':    {'decimals': 3, 'unit_type': 'int'},
+    'AUD_USD':    {'decimals': 5, 'unit_type': 'int'},
+    'DE30_EUR':   {'decimals': 1, 'unit_type': 'decimal'},
+    'NAS100_USD': {'decimals': 1, 'unit_type': 'decimal'},
+    'SPX500_USD': {'decimals': 1, 'unit_type': 'decimal'},
+}
 
 
 def _headers() -> dict:
@@ -47,21 +60,35 @@ def _account_url() -> str:
     return f"{BASE_URL}/v3/accounts/{OANDA_ACCOUNT_ID}"
 
 
+def _format_price(price: float, instrument: str) -> str:
+    """Format a price with the correct number of decimals for the instrument."""
+    decimals = INSTRUMENT_CONFIG.get(instrument, {}).get('decimals', 2)
+    return f"{price:.{decimals}f}"
+
+
+def _format_units(units: float, instrument: str) -> str:
+    """Format units as string — integer for most, decimal for index CFDs."""
+    unit_type = INSTRUMENT_CONFIG.get(instrument, {}).get('unit_type', 'int')
+    if unit_type == 'decimal':
+        return f"{units:.2f}"
+    return str(int(units))
+
+
 # ── Price ─────────────────────────────────────────────────────
 
-def get_current_price() -> Optional[Tuple[float, float, float]]:
+def get_current_price(instrument: str = DEFAULT_INSTRUMENT) -> Optional[Tuple[float, float, float]]:
     """
-    Get current bid/ask/mid price for Gold.
-    
+    Get current bid/ask/mid price for an instrument.
+
     Returns:
         (bid, ask, mid) or None if failed
     """
     try:
         url = f"{BASE_URL}/v3/accounts/{OANDA_ACCOUNT_ID}/pricing"
-        params = {'instruments': INSTRUMENT}
+        params = {'instruments': instrument}
         resp = requests.get(url, headers=_headers(), params=params, timeout=10)
         resp.raise_for_status()
-        
+
         data = resp.json()
         prices = data.get('prices', [])
         if prices:
@@ -71,7 +98,7 @@ def get_current_price() -> Optional[Tuple[float, float, float]]:
             mid = (bid + ask) / 2
             return (bid, ask, mid)
     except Exception as e:
-        print(f"  Error getting price: {e}")
+        print(f"  Error getting price for {instrument}: {e}")
     return None
 
 
@@ -108,69 +135,66 @@ def place_market_order(
     direction: str,
     units: float,
     stop_loss: float,
-    take_profit: float
+    take_profit: float,
+    instrument: str = DEFAULT_INSTRUMENT
 ) -> Optional[str]:
     """
-    Place a market order on Gold with SL and TP.
-    
+    Place a market order with SL and TP.
+
     Args:
         direction: 'long' or 'short'
-        units: Number of units (positive for long, negative for short)
+        units: Number of units (positive)
         stop_loss: Stop loss price
         take_profit: Take profit price
-    
+        instrument: OANDA instrument name (e.g. 'XAU_USD', 'GBP_USD', 'DE30_EUR')
+
     Returns:
         OANDA trade ID if successful, None if failed
     """
-    # OANDA uses positive units for buy, negative for sell
     signed_units = abs(units) if direction == 'long' else -abs(units)
-    
+
     order_data = {
         'order': {
             'type': 'MARKET',
-            'instrument': INSTRUMENT,
-            'units': str(int(signed_units)),  # OANDA expects string, integer units for Gold
+            'instrument': instrument,
+            'units': _format_units(signed_units, instrument),
             'stopLossOnFill': {
-                'price': f"{stop_loss:.2f}",  # Gold uses 2 decimal places
+                'price': _format_price(stop_loss, instrument),
             },
             'takeProfitOnFill': {
-                'price': f"{take_profit:.2f}",
+                'price': _format_price(take_profit, instrument),
             },
-            'timeInForce': 'FOK',  # Fill or Kill
+            'timeInForce': 'FOK',
         }
     }
-    
+
     try:
         url = f"{_account_url()}/orders"
         resp = requests.post(url, headers=_headers(), json=order_data, timeout=15)
         resp.raise_for_status()
-        
+
         data = resp.json()
-        
-        # Check if order was filled
+
         if 'orderFillTransaction' in data:
             fill = data['orderFillTransaction']
             trade_id = fill.get('tradeOpened', {}).get('tradeID', '')
             if trade_id:
                 return trade_id
-        
-        # Check for rejection
+
         if 'orderRejectTransaction' in data:
             reject = data['orderRejectTransaction']
             reason = reject.get('rejectReason', 'unknown')
-            print(f"  Order REJECTED: {reason}")
+            print(f"  Order REJECTED on {instrument}: {reason}")
             return None
-        
-        # Fallback: try to extract trade ID from response
+
         if 'relatedTransactionIDs' in data:
-            # Get the most recent trade from open trades
             return _get_latest_trade_id()
-        
-        print(f"  Unexpected order response: {data}")
+
+        print(f"  Unexpected order response for {instrument}: {data}")
         return None
-        
+
     except Exception as e:
-        print(f"  Error placing order: {e}")
+        print(f"  Error placing order on {instrument}: {e}")
     return None
 
 
@@ -184,14 +208,15 @@ def _get_latest_trade_id() -> Optional[str]:
 
 # ── Trade Management ──────────────────────────────────────────
 
-def modify_stop_loss(trade_id: str, new_sl: float) -> bool:
+def modify_stop_loss(trade_id: str, new_sl: float, instrument: str = DEFAULT_INSTRUMENT) -> bool:
     """
     Modify the stop loss on an open trade.
-    
+
     Args:
         trade_id: OANDA trade ID
         new_sl: New stop loss price
-    
+        instrument: For price formatting
+
     Returns:
         True if successful
     """
@@ -199,7 +224,7 @@ def modify_stop_loss(trade_id: str, new_sl: float) -> bool:
         url = f"{_account_url()}/trades/{trade_id}/orders"
         data = {
             'stopLoss': {
-                'price': f"{new_sl:.2f}",
+                'price': _format_price(new_sl, instrument),
             }
         }
         resp = requests.put(url, headers=_headers(), json=data, timeout=10)
@@ -213,10 +238,7 @@ def modify_stop_loss(trade_id: str, new_sl: float) -> bool:
 def close_trade(trade_id: str) -> Optional[Dict]:
     """
     Close an open trade at market price.
-    
-    Args:
-        trade_id: OANDA trade ID
-    
+
     Returns:
         Close transaction details or None
     """
@@ -224,7 +246,7 @@ def close_trade(trade_id: str) -> Optional[Dict]:
         url = f"{_account_url()}/trades/{trade_id}/close"
         resp = requests.put(url, headers=_headers(), json={}, timeout=10)
         resp.raise_for_status()
-        
+
         data = resp.json()
         if 'orderFillTransaction' in data:
             fill = data['orderFillTransaction']
@@ -242,13 +264,7 @@ def close_trade(trade_id: str) -> Optional[Dict]:
 # ── Position Sync ─────────────────────────────────────────────
 
 def get_open_trades() -> List[Dict]:
-    """
-    Get all open trades on the account.
-    
-    Returns:
-        List of trade dicts with id, instrument, currentUnits, price, 
-        stopLossOrder, takeProfitOrder, unrealizedPL
-    """
+    """Get all open trades on the account."""
     try:
         url = f"{_account_url()}/openTrades"
         resp = requests.get(url, headers=_headers(), timeout=10)
@@ -274,27 +290,25 @@ def get_trade_details(trade_id: str) -> Optional[Dict]:
 def get_closed_trade_details(trade_id: str) -> Optional[Dict]:
     """
     Look up a closed trade's actual exit price, P&L, and close reason
-    from OANDA's transaction history.
-
-    Returns:
-        Dict with 'exit_price', 'pnl', 'close_reason' or None if not found
+    from OANDA's transaction history. Retries on transient API errors.
     """
-    try:
-        # First try getting the trade directly — OANDA keeps closed trades
-        url = f"{_account_url()}/trades/{trade_id}"
-        resp = requests.get(url, headers=_headers(), timeout=10)
-        resp.raise_for_status()
-        trade = resp.json().get('trade', {})
+    last_err: Optional[Exception] = None
+    for attempt in range(3):
+        try:
+            url = f"{_account_url()}/trades/{trade_id}"
+            resp = requests.get(url, headers=_headers(), timeout=10)
+            resp.raise_for_status()
+            trade = resp.json().get('trade', {})
 
-        if trade.get('state') == 'CLOSED':
+            if trade.get('state') != 'CLOSED':
+                return None
+
             pnl = float(trade.get('realizedPL', 0))
             close_price = float(trade.get('averageClosePrice', 0))
 
-            # Determine close reason from closing transaction
             close_reason = 'unknown'
             closing_ids = trade.get('closingTransactionIDs', [])
             if closing_ids:
-                # Look up the closing transaction to determine reason
                 last_close_id = closing_ids[-1]
                 tx_url = f"{_account_url()}/transactions/{last_close_id}"
                 tx_resp = requests.get(tx_url, headers=_headers(), timeout=10)
@@ -319,18 +333,19 @@ def get_closed_trade_details(trade_id: str) -> Optional[Dict]:
                 'pnl': pnl,
                 'close_reason': close_reason,
             }
-    except Exception as e:
-        print(f"  Error getting closed trade details for {trade_id}: {e}")
+        except Exception as e:
+            last_err = e
+            if attempt < 2:
+                time.sleep(0.4 * (attempt + 1))
+    if last_err:
+        print(f"  Error getting closed trade details for {trade_id}: {last_err}")
     return None
 
 
 def sync_positions(state_trades: List[Dict]) -> List[Dict]:
     """
     Sync local state with broker positions.
-
-    Checks if trades we think are open are still open on the broker.
-    Returns list of trades that were closed on the broker side
-    (TP/SL hit between runs), enriched with actual exit price and P&L.
+    Returns list of trades closed on broker side (TP/SL hit between runs).
     """
     broker_trades = get_open_trades()
     broker_ids = {t['id'] for t in broker_trades}
@@ -339,13 +354,18 @@ def sync_positions(state_trades: List[Dict]) -> List[Dict]:
     for st in state_trades:
         oanda_id = st.get('oanda_trade_id', '')
         if oanda_id and oanda_id not in broker_ids:
-            # Trade was closed on broker (TP/SL hit between runs)
-            # Look up actual exit details from OANDA
             details = get_closed_trade_details(oanda_id)
-            if details:
-                st['_broker_exit_price'] = details['exit_price']
-                st['_broker_pnl'] = details['pnl']
-                st['_broker_close_reason'] = details['close_reason']
+            if not details:
+                # Trade closed on broker but API did not return fill details — do not
+                # treat as closed with $0 PnL (would corrupt equity and history).
+                print(
+                    f"  sync_positions: trade {oanda_id} missing close details — "
+                    "skipping local close; retry next run"
+                )
+                continue
+            st['_broker_exit_price'] = details['exit_price']
+            st['_broker_pnl'] = details['pnl']
+            st['_broker_close_reason'] = details['close_reason']
             closed_on_broker.append(st)
 
     return closed_on_broker

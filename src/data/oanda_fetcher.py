@@ -68,7 +68,13 @@ SYMBOL_MAP = {
     'GBPUSD=X': 'GBP_USD',     # GBP/USD
     'USDJPY=X': 'USD_JPY',     # USD/JPY
     'AUDUSD=X': 'AUD_USD',     # AUD/USD
-    # Crypto not available on OANDA -- stays on Yahoo Finance
+    'AUDJPY=X': 'AUD_JPY',     # AUD/JPY (Round 7 scout)
+    'EURJPY=X': 'EUR_JPY',     # EUR/JPY (Round 7 scout)
+    'NZDUSD=X': 'NZD_USD',     # NZD/USD (Round 7 scout)
+    'USDCHF=X': 'USD_CHF',     # USD/CHF (Round 7 scout)
+    '^GDAXI': 'DE30_EUR',      # DAX (Germany 30 CFD)
+    '^IXIC': 'NAS100_USD',     # NASDAQ (US Nas 100 CFD)
+    '^GSPC': 'SPX500_USD',     # S&P 500 CFD (for future use)
 }
 
 # Reverse map for lookups
@@ -224,6 +230,11 @@ def fetch_oanda(
             
         except requests.exceptions.RequestException as e:
             print(f"  OANDA API error: {e}")
+            if all_candles:
+                raise ValueError(
+                    f"OANDA fetch interrupted after {len(all_candles)} candles "
+                    f"(partial history is invalid for research): {e}"
+                ) from e
             break
         
         candles = data.get('candles', [])
