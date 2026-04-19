@@ -30,6 +30,7 @@ from ..indicators.technical import (
     get_recent_swing_high, get_recent_swing_low
 )
 from ..execution.entries import TradeSetup, TradeDirection
+from .sbrs_v2 import causal_4h_trend_series, drop_incomplete_last_4h_bar, resample_to_4h
 
 
 # ── Core Parameters (DO NOT OPTIMIZE) ─────────────────────────
@@ -466,17 +467,11 @@ def analyze_gold_sbrs(
         return []
     
     # ================================================================
-    # Phase 1: Pre-computation
+    # Phase 1: Pre-computation (causal 4H trend — see sbrs_v2)
     # ================================================================
-    
-    # 4H context: resample, compute trend, map back to 1H
-    df_4h = resample_to_4h(df)
-    if len(df_4h) < WMA_PERIOD + SMMA_PERIOD:
-        return []
-    
-    df_4h = compute_4h_context(df_4h)
-    trend_context = map_4h_to_1h(df, df_4h)
-    
+
+    trend_context = causal_4h_trend_series(df)
+
     # 1H indicators
     wma_1h = wma(df['Close'], WMA_PERIOD)
     smma_1h = smma(df['Close'], SMMA_PERIOD)
@@ -485,10 +480,6 @@ def analyze_gold_sbrs(
     # Swing detection (pre-compute full masks)
     swing_high_mask = detect_swing_high(df['High'], left=SWING_WINDOW, right=SWING_WINDOW)
     swing_low_mask = detect_swing_low(df['Low'], left=SWING_WINDOW, right=SWING_WINDOW)
-    
-    # 4H MA values for cross checking (optional stronger signal)
-    wma_4h = wma(df_4h['Close'], WMA_PERIOD) if len(df_4h) >= WMA_PERIOD else None
-    smma_4h = smma(df_4h['Close'], SMMA_PERIOD) if len(df_4h) >= SMMA_PERIOD else None
     
     # ================================================================
     # Phase 2: Bar-by-bar loop
@@ -506,7 +497,7 @@ def analyze_gold_sbrs(
         current_low = df['Low'].iloc[i]
         current_atr = atr_vals.iloc[i]
         current_trend = trend_context.iloc[i]
-        
+
         if np.isnan(current_atr) or current_atr <= 0:
             continue
         
@@ -638,18 +629,20 @@ def analyze_gold_sbrs(
                 wma_1h, smma_1h, i, pending.direction, MA_CROSS_LOOKBACK
             )
             
-            # Check 4H cross (stronger signal — accept either)
+            # Check 4H cross (stronger signal — accept either), causal: no future 1H
             ma_cross_4h = False
-            if wma_4h is not None and smma_4h is not None and len(df_4h) > 1:
-                # Find the 4H bar index corresponding to current 1H bar
-                mask_4h = df_4h.index <= df.index[i]
-                if mask_4h.any():
-                    idx_4h = mask_4h.sum() - 1  # iloc position
-                    if idx_4h > 0:
-                        ma_cross_4h = check_ma_cross(
-                            wma_4h, smma_4h, idx_4h, pending.direction, 
-                            TREND_CROSS_LOOKBACK
-                        )
+            sub_1h = df.iloc[: i + 1]
+            df_4h_c = resample_to_4h(sub_1h)
+            df_4h_c = drop_incomplete_last_4h_bar(df_4h_c, sub_1h)
+            if len(df_4h_c) > 1:
+                wma_4h_c = wma(df_4h_c['Close'], WMA_PERIOD)
+                smma_4h_c = smma(df_4h_c['Close'], SMMA_PERIOD)
+                idx_4h = len(df_4h_c) - 1
+                if idx_4h > 0:
+                    ma_cross_4h = check_ma_cross(
+                        wma_4h_c, smma_4h_c, idx_4h, pending.direction,
+                        TREND_CROSS_LOOKBACK
+                    )
             
             # Shorts require stronger confirmation: 4H MA cross mandatory
             # (Longs accept either 1H or 4H cross)

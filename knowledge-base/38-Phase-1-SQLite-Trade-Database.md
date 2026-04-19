@@ -1,5 +1,5 @@
 ---
-tags: [phase-1, sqlite, database, mcp, trades]
+tags: [infra, tooling]
 aliases: [Phase 1, SQLite Database, Trade Database]
 ---
 

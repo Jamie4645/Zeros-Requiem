@@ -1,1 +1,1 @@
-"""SBRS 1.1 Live Trading Module — Paper & Live execution via OANDA."""
+"""SBRS 2.0 Live Trading Module — Multi-symbol paper & live execution via OANDA."""

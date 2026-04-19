@@ -1,5 +1,5 @@
 ---
-tags: [priority, forex, diversification, new-pairs]
+tags: [archive, expansion, forex]
 aliases: [P3-P4 New Pairs]
 related: [[20-Priority-2-Gold-Daily-Fix]], [[22-Priority-5-6-Metrics-WalkForward]], [[27-P3-P6-Forex-Fixes]], [[00-MOC-Zeros-Requiem]]
 ---

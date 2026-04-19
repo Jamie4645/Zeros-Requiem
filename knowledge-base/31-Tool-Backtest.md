@@ -1,5 +1,5 @@
 --
-tags: [tool, skill, backtesting, validation]
+tags: [tooling, skill, validation]
 aliases: [backtest, run-backtest]
 related: [[CLAUDE]], [[25-Walk-Forward-Full-Results]], [[28-P4-Monte-Carlo]], [[22-Priority-5-6-Metrics-WalkForward]]
 ---

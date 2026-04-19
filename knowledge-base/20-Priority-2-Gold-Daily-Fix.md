@@ -1,5 +1,5 @@
 ---
-tags: [priority, gold, daily, bug-fix]
+tags: [archive, bug-fix, gold]
 aliases: [P2 Gold Daily Fix]
 related: [[19-Priority-1-Signal-Generation]], [[21-Priority-3-4-New-Pairs]], [[25-Walk-Forward-Full-Results]], [[00-MOC-Zeros-Requiem]]
 ---

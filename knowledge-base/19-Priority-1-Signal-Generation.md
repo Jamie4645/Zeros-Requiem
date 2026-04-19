@@ -1,5 +1,5 @@
 ---
-tags: [priority, signal-generation, SCAF, optimisation]
+tags: [archive, optimisation]
 aliases: [P1 Signal Generation]
 related: [[20-Priority-2-Gold-Daily-Fix]], [[00-MOC-Zeros-Requiem]], [[43-Phase-6-SCAF-Removal]]
 ---

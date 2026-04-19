@@ -1,5 +1,5 @@
 --
-tags: [tool, MCP, debugging, reasoning]
+tags: [tooling, automation]
 aliases: [sequential-thinking, MCP-server]
 related: [[CLAUDE]], [[35-Tool-GSD2]], [[31-Tool-Backtest]]
 ---
@@ -32,23 +32,34 @@ This is especially valuable for trading system debugging where a wrong conclusio
 
 ## Configuration
 
-Located in `.claude/settings.local.json`:
+Canonical source: `@modelcontextprotocol/server-sequential-thinking` (npm). Reinstalled on **2026-04-17** using the Claude Code MCP CLI:
 
-```json
-{
-  "mcpServers": {
-    "sequential-thinking": {
-      "command": "npx",
-      "args": ["-y", "@anthropic/sequential-thinking-mcp"]
-    }
-  }
-}
+```bash
+claude mcp add sequential-thinking -- npx -y @modelcontextprotocol/server-sequential-thinking
+```
+
+This writes to `C:\Users\jamie\.claude.json` at the project scope. Verify with:
+
+```bash
+claude mcp list
+# sequential-thinking: npx -y @modelcontextprotocol/server-sequential-thinking - ✓ Connected
 ```
 
 ### Requirements
 - Node.js installed (for `npx`)
 - Internet access on first run (downloads the package)
 - After first run, cached locally
+
+### Project-specific usage in Zeros Requiem
+
+Use the `sequential_thinking` MCP tool in these SBRS scenarios:
+
+| Trigger | Why sequential thinking helps |
+|---|---|
+| Walk-forward window failure ("Why did W7 GBPUSD collapse?") | Forces explicit hypothesis → evidence → revision chain, preventing premature parameter tweaks |
+| Cross-arbiter synthesis disagreements | When arbiter-forex says one thing and arbiter-execution another, sequential thinking reconciles the contradiction |
+| Ablation artefact diagnosis (e.g., MA-convention PF 5.23 chimera) | Breaks the "too-good-to-be-true" result into testable sub-steps |
+| Live-trading bug root cause | Complements [[65-Sovereign-Quant-Arbiters\|bug-hunter agent]] by structuring the hypothesis tree |
 
 ## When NOT to Use
 

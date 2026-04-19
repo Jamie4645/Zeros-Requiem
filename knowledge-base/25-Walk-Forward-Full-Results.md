@@ -1,5 +1,5 @@
 ---
-tags: [walk-forward, validation, results, elite-benchmark, core]
+tags: [validation, methodology, milestone]
 aliases: [Walk-Forward Results, WF Results]
 related: [[CLAUDE]], [[22-Priority-5-6-Metrics-WalkForward]], [[24-Optimisation-Round-2]], [[28-P4-Monte-Carlo]], [[31-Tool-Backtest]], [[00-MOC-Zeros-Requiem]]
 ---

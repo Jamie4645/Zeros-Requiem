@@ -1,5 +1,5 @@
 ---
-tags: [priority, monte-carlo, validation, risk-management, elite-benchmark]
+tags: [validation, risk, methodology]
 aliases: [Monte Carlo, MC Simulation]
 related: [[CLAUDE]], [[16-Risk-Management-Elite-System]], [[25-Walk-Forward-Full-Results]], [[29-P5-P7-P8-OANDA-Portfolio]], [[00-MOC-Zeros-Requiem]]
 ---

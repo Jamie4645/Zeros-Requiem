@@ -1,5 +1,5 @@
 ---
-tags: [phase-6, cleanup, scaf-removal, sbrs]
+tags: [infra, archive]
 aliases: [Phase 6, SCAF Removal]
 ---
 

@@ -1,5 +1,5 @@
 ---
-tags: [data, oanda, ibkr, yahoo, pipeline]
+tags: [infra, reference]
 aliases: [Data Pipeline, Data Sources]
 ---
 

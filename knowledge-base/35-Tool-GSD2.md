@@ -1,5 +1,5 @@
 --
-tags: [tool, workflow, GSD, automation, development]
+tags: [tooling, automation]
 aliases: [GSD, GSD-2, get-shit-done]
 related: [[CLAUDE]], [[32-Tool-Auto-Test-Hook]], [[31-Tool-Backtest]]
 ---

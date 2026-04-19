@@ -1,5 +1,5 @@
 ---
-tags: [guide, platform, QuantConnect]
+tags: [reference, infra]
 aliases: [QuantConnect Guide]
 related: [[05-Deployment-Options-Platform-Comparison]], [[07-Guide-Python-Broker-APIs]], [[00-MOC-Zeros-Requiem]]
 ---

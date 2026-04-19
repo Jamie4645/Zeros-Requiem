@@ -1,5 +1,5 @@
 ---
-tags: [priority, walk-forward, metrics, validation, elite-benchmark]
+tags: [validation, methodology]
 aliases: [P5-P6 Walk-Forward Metrics]
 related: [[21-Priority-3-4-New-Pairs]], [[23-Optimisation-Weak-Areas]], [[25-Walk-Forward-Full-Results]], [[28-P4-Monte-Carlo]], [[00-MOC-Zeros-Requiem]]
 ---

@@ -1,5 +1,5 @@
 ---
-tags: [sbrs, parameters, reference, sacred]
+tags: [strategy, reference]
 aliases: [SBRS Parameters, Parameters Reference]
 ---
 

@@ -18,7 +18,7 @@ from typing import List, Dict, Callable, Optional
 from dataclasses import dataclass, field
 
 from .engine import run_backtest, BacktestResult
-from .risk_manager import RiskConfig
+from .risk_manager import RiskConfig, risk_config_for_interval
 from ..execution.entries import TradeSetup
 
 
@@ -96,7 +96,10 @@ def run_walk_forward(
     risk_pct: float = 0.01,
     apply_slippage: bool = True,
     min_bars: int = 100,
-    sbrs_indicator_fn: Optional[Callable] = None
+    sbrs_indicator_fn: Optional[Callable] = None,
+    interval: str = '1h',
+    asset_class: str = 'gold',
+    symbol: Optional[str] = None,
 ) -> WalkForwardResult:
     """
     Run walk-forward analysis on a single symbol.
@@ -113,7 +116,8 @@ def run_walk_forward(
         apply_slippage: Whether to model slippage
         min_bars: Minimum bars per window
         sbrs_indicator_fn: Optional function to compute SBRS indicators per window
-                           (pass get_sbrs_indicators for SBRS strategy)
+        interval: Timeframe (for risk config selection)
+        asset_class: Asset class (for risk config selection)
     
     Returns:
         WalkForwardResult with per-window and aggregate statistics
@@ -121,7 +125,7 @@ def run_walk_forward(
     windows_data = split_into_windows(df, n_windows, min_bars)
     
     window_results: List[WindowResult] = []
-    risk_config = RiskConfig(risk_per_trade=risk_pct)
+    risk_config = risk_config_for_interval(interval, risk_pct, asset_class, symbol=symbol)
     
     for idx, window_df in enumerate(windows_data):
         # Get date range for this window

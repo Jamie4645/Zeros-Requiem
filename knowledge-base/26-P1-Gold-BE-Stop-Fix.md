@@ -1,5 +1,5 @@
 ---
-tags: [priority, gold, breakeven-stop, bug-fix, critical]
+tags: [bug-fix, risk, gold]
 aliases: [BE Stop Fix, Breakeven Stop Fix]
 related: [[CLAUDE]], [[25-Walk-Forward-Full-Results]], [[27-P3-P6-Forex-Fixes]], [[16-Risk-Management-Elite-System]], [[00-MOC-Zeros-Requiem]]
 ---

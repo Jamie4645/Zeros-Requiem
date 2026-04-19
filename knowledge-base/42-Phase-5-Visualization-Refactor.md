@@ -1,5 +1,5 @@
 ---
-tags: [phase-5, visualization, charts, skill]
+tags: [infra, tooling]
 aliases: [Phase 5, Visualization, Charts]
 ---
 

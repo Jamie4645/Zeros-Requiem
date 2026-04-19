@@ -1,5 +1,5 @@
 ---
-tags: [risk-management, core, elite-benchmark]
+tags: [risk, strategy, methodology]
 aliases: [Risk Management, 5-Layer Risk]
 related: [[CLAUDE]], [[33-Tool-Protected-Files-Hook]], [[28-P4-Monte-Carlo]], [[00-MOC-Zeros-Requiem]]
 ---
