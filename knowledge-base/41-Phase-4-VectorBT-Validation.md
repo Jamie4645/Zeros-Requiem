@@ -1,5 +1,5 @@
 ---
-tags: [phase-4, vectorbt, validation, cross-check]
+tags: [infra, validation]
 aliases: [Phase 4, VectorBT Validation]
 ---
 

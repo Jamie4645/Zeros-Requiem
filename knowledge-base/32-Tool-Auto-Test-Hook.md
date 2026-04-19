@@ -1,5 +1,5 @@
 --
-tags: [tool, hook, testing, automation]
+tags: [tooling, automation]
 aliases: [auto-test, post-tool-hook]
 related: [[CLAUDE]], [[31-Tool-Backtest]], [[33-Tool-Protected-Files-Hook]]
 ---

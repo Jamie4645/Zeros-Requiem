@@ -1,5 +1,5 @@
 ---
-tags: [phase-3, pytest, testing, migration]
+tags: [infra, tooling]
 aliases: [Phase 3, Pytest Migration]
 ---
 

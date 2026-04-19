@@ -1,5 +1,5 @@
 ---
-tags: [optimisation, tuning, weak-areas]
+tags: [archive, optimisation]
 aliases: [Optimisation Weak Areas]
 related: [[22-Priority-5-6-Metrics-WalkForward]], [[24-Optimisation-Round-2]], [[25-Walk-Forward-Full-Results]], [[00-MOC-Zeros-Requiem]]
 ---

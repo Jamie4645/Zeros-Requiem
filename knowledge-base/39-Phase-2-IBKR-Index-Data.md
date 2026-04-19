@@ -1,5 +1,5 @@
 ---
-tags: [phase-2, ibkr, data, indices, walk-forward]
+tags: [infra, expansion, indices]
 aliases: [Phase 2, IBKR Data, Index Data]
 ---
 

@@ -1,5 +1,5 @@
 ---
-tags: [guide, broker-api, python, OANDA]
+tags: [reference, infra, broker]
 aliases: [Broker API Guide]
 related: [[05-Deployment-Options-Platform-Comparison]], [[08-Guide-QuantConnect]], [[29-P5-P7-P8-OANDA-Portfolio]], [[00-MOC-Zeros-Requiem]]
 ---

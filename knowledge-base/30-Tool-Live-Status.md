@@ -1,5 +1,5 @@
 --
-tags: [tool, skill, live-trading, SBRS]
+tags: [tooling, skill, live]
 aliases: [live-status, runner-status]
 related: [[CLAUDE]], [[29-P5-P7-P8-OANDA-Portfolio]], [[16-Risk-Management-Elite-System]]
 ---

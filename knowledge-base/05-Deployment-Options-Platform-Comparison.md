@@ -1,5 +1,5 @@
 ---
-tags: [infrastructure, deployment, platform]
+tags: [reference, infra]
 aliases: [Deployment Options]
 related: [[07-Guide-Python-Broker-APIs]], [[08-Guide-QuantConnect]], [[00-MOC-Zeros-Requiem]]
 ---
