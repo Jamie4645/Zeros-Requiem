@@ -141,6 +141,13 @@ def fetch(
     # if IBKR is unavailable (TWS not running) AND symbol is not premium-only.
     if source != 'yahoo' and source != 'oanda':
         if is_ibkr_instrument(symbol):
+            if symbol == '^IXIC':
+                # 2026-07-02 audit: OANDA resolves ^IXIC to NAS100 (Nasdaq-100)
+                # but IBKR resolves it to COMP (Nasdaq Composite) — a DIFFERENT
+                # index. Mixing sources silently corrupts any validation run.
+                print("  WARNING: ^IXIC via IBKR = Nasdaq COMPOSITE (COMP), but "
+                      "OANDA/canon = Nasdaq-100 (NAS100). These are different "
+                      "indices — do NOT mix this data with OANDA-based results.")
             if is_ibkr_available():
                 print(f"  Fetching {symbol} from IBKR...")
                 try:
