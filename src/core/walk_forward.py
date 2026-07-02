@@ -123,10 +123,19 @@ def run_walk_forward(
         WalkForwardResult with per-window and aggregate statistics
     """
     windows_data = split_into_windows(df, n_windows, min_bars)
-    
+
     window_results: List[WindowResult] = []
     risk_config = risk_config_for_interval(interval, risk_pct, asset_class, symbol=symbol)
-    
+
+    # 2026-07-02 audit fix: carry the drawdown circuit-breaker state across
+    # windows. Previously each window built a fresh RiskManager (peak_equity
+    # reset), so the breaker was neutralized every window and WF results were
+    # systematically optimistic vs a continuous/live run — worst exactly when
+    # drawdowns were material (the real R6-5 mechanism). Windows still size
+    # off the same initial_capital for cross-window comparability; only the
+    # RELATIVE drawdown fraction persists.
+    carry_dd = 0.0
+
     for idx, window_df in enumerate(windows_data):
         # Get date range for this window
         try:
@@ -142,13 +151,24 @@ def run_walk_forward(
         # Compute SBRS indicators for this window if needed
         sbrs_ind = sbrs_indicator_fn(window_df) if sbrs_indicator_fn else None
         
-        # Run backtest on this window
+        # Run backtest on this window (peak carried in via initial_peak_equity)
+        initial_peak = (
+            initial_capital / (1.0 - carry_dd)
+            if 0.0 < carry_dd < 1.0 else None
+        )
         result = run_backtest(
             window_df, setups, initial_capital,
             risk_config, apply_slippage,
-            sbrs_indicators=sbrs_ind
+            sbrs_indicators=sbrs_ind,
+            initial_peak_equity=initial_peak
         )
-        
+
+        # Persist end-of-window relative drawdown for the next window
+        peak = result.risk_stats.get('peak_equity', initial_capital)
+        carry_dd = (
+            max(0.0, (peak - result.final_capital) / peak) if peak > 0 else 0.0
+        )
+
         window_results.append(WindowResult(
             window_id=idx + 1,
             start_date=start_date,

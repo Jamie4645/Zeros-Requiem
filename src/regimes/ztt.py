@@ -142,7 +142,8 @@ def shift_signals(d: pd.DataFrame, setup: 'ZTTSetup', p: ZTTParams = ZTTParams()
     fvg = detect_fvg_near_level(d, bi, setup.level_price, setup.direction, a,
                                 lookback=p.FVG_LOOKBACK)
     sweep = detect_liquidity_sweep(d, bi, d['swing_high'], d['swing_low'],
-                                   setup.direction, lookback=p.SWEEP_LOOKBACK)
+                                   setup.direction, lookback=p.SWEEP_LOOKBACK,
+                                   swing_confirm_lag=p.SWING_W)
     return {'momentum': bool(momentum), 'fvg': bool(fvg), 'sweep': bool(sweep)}
 
 

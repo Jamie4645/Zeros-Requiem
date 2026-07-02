@@ -104,7 +104,8 @@ def detect_liquidity_sweep(
     df: pd.DataFrame, current_idx: int,
     swing_high_mask: pd.Series, swing_low_mask: pd.Series,
     direction: str, lookback: int = 20,
-    sweep_confirm_bars: int = 3
+    sweep_confirm_bars: int = 3,
+    swing_confirm_lag: int = 3
 ) -> bool:
     """
     Detect if a liquidity sweep occurred before the current bar.
@@ -113,14 +114,21 @@ def detect_liquidity_sweep(
     it within sweep_confirm_bars.
     For SHORTS: price broke ABOVE a recent swing high then reversed back below
     it within sweep_confirm_bars.
+
+    swing_confirm_lag: the swing masks are built with `right` future bars
+    (detect_swing_high/low, default 3), so a swing at bar i is only CONFIRMED
+    at bar i+lag. Only swings with i + swing_confirm_lag <= current_idx are
+    visible at decision time. Without this cutoff the +1.0 confluence booster
+    read up to 3 future bars (2026-07-02 audit: look-ahead leakage).
     """
     search_start = max(0, current_idx - lookback)
+    newest_visible = current_idx - swing_confirm_lag
 
     if direction == 'long':
-        # Find most recent swing low
+        # Find most recent CONFIRMED-visible swing low
         swing_level = None
         swing_idx = None
-        for i in range(current_idx - 1, search_start - 1, -1):
+        for i in range(newest_visible, search_start - 1, -1):
             if swing_low_mask.iloc[i]:
                 swing_level = df['Low'].iloc[i]
                 swing_idx = i
@@ -140,10 +148,10 @@ def detect_liquidity_sweep(
                 break  # Only check first sweep
 
     elif direction == 'short':
-        # Find most recent swing high
+        # Find most recent CONFIRMED-visible swing high
         swing_level = None
         swing_idx = None
-        for i in range(current_idx - 1, search_start - 1, -1):
+        for i in range(newest_visible, search_start - 1, -1):
             if swing_high_mask.iloc[i]:
                 swing_level = df['High'].iloc[i]
                 swing_idx = i
