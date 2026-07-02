@@ -108,6 +108,9 @@ def run_single(args):
     strategy = args.strategy
     strategy_label = 'SBRS 2.0' if strategy == 'sbrs_v2' else 'SBRS 1.1'
 
+    risk_config = risk_config_for_interval(args.interval, args.risk, asset_class, symbol=args.symbol)
+    slip_display = 'OFF' if args.no_slippage else f'ON ({risk_config.slippage_pips} pips)'
+
     print(f"""
     ================================================================
       ZERO'S REQUIEM — {strategy_label}
@@ -120,7 +123,7 @@ def run_single(args):
       Period:   {args.period}
       Capital:  ${args.capital:,.2f}
       Risk:     {args.risk*100:.1f}% per trade
-      Slippage: {'OFF' if args.no_slippage else 'ON (1.5 pips)'}
+      Slippage: {slip_display}
     ================================================================
     """)
 
@@ -133,7 +136,6 @@ def run_single(args):
     print(f"  Found {len(setups)} trade setups")
 
     print("  Running backtest...")
-    risk_config = risk_config_for_interval(args.interval, args.risk, asset_class, symbol=args.symbol)
 
     if strategy == 'sbrs_v2':
         from src.regimes.sbrs_v2 import get_sbrs_v2_indicators
@@ -183,6 +185,10 @@ def run_walk_forward_cmd(args):
 
     n_windows = args.windows
 
+    asset_class_preview = detect_asset_class(symbol)
+    risk_config_preview = risk_config_for_interval(interval, args.risk, asset_class_preview, symbol=symbol)
+    slip_display = 'OFF' if args.no_slippage else f'ON ({risk_config_preview.slippage_pips} pips)'
+
     print(f"""
     ================================================================
       ZERO'S REQUIEM — WALK-FORWARD ANALYSIS ({strategy_label})
@@ -193,7 +199,7 @@ def run_walk_forward_cmd(args):
       Period:     {max_period} (maximum available)
       Windows:    {n_windows}
       Capital:    ${args.capital:,.2f} (per window)
-      Slippage:   {'OFF' if args.no_slippage else 'ON (1.5 pips)'}
+      Slippage:   {slip_display}
     ================================================================
     """)
 

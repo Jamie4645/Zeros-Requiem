@@ -1,0 +1,3 @@
+id,instrument,timeframe,direction,entry_time,timezone,entry_price,stop_loss,take_profit,outcome,exit_time,exit_price,reasoning
+1,XAUUSD,1h,long,2024-03-12 14:00,UTC,2158.40,2151.00,2180.00,,,,"retest of broken resistance turned support; SMMA>WMA bullish; entered on close back above level"
+2,XAUUSD,4h,short,2024-04-02 08:00,UTC,2280.00,2295.00,2235.00,,,,"broke range low, retested from below as resistance, targeted prior consolidation low"

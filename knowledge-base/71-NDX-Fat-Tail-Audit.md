@@ -1,4 +1,4 @@
----
+--
 tags: [audit, nasdaq, slippage, round6, fat-tail]
 aliases: [NDX Fat-Tail Audit, R6-1 Resolution, NASDAQ Slippage Isolation]
 related: [[00-MOC-Zeros-Requiem]], [[70-Ablation-Round-6]], [[73-Round-5-Remediation-Log]], [[16-Risk-Management-Elite-System]]

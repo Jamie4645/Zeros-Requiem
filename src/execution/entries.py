@@ -45,3 +45,4 @@ class TradeSetup:
     # Execution tracking
     filled: bool = False
     fill_index: Optional[int] = None
+    is_limit: bool = False              # True => fill as a resting limit at entry_price (touch required)

@@ -1,3 +1,6 @@
+> [!warning] SUPERSEDED (2026-07-02 blank-slate re-read)
+> This note is a strategy-extraction catalog from the SBRS era and must NOT be treated as canon. The 2026-07 fresh re-read of the full book text found extraction-focus, missing load-bearing content, and in several notes fabricated material (invented quotes/parameters). Durable record: knowledge-base/92-Books-Blank-Slate-Review.md.
+
 ---
 tags: [pipeline, book-analysis, risk, probability, taleb, trading]
 aliases: [Fooled by Randomness Analysis, Taleb Analysis]

@@ -1,4 +1,4 @@
----
+--
 tags: [validation, round-7, council, sbrs-v2, post-change, canonical]
 aliases: [Round 7, Round 7 Canon, Round 7 Post-Validation, 2026-04-18 Canon]
 related: [[67-Round-5-Post-Council-Validation]], [[70-Ablation-Round-6]], [[71-NDX-Fat-Tail-Audit]], [[73-Round-5-Remediation-Log]], [[00-MOC-Zeros-Requiem]]
@@ -8,7 +8,8 @@ related: [[67-Round-5-Post-Council-Validation]], [[70-Ablation-Round-6]], [[71-N
 
 **Date:** 2026-04-18
 **Trigger:** User approval of slippage recalibration blocker from Round 5 remediation (Phase E closure from [[73-Round-5-Remediation-Log]]).
-**Scope:** Re-run full BT + WF + MC on all Round 5/6 candidates under the recalibrated B1 bracket, promote/demote tiers accordingly, close open R6 items.
+**Scope:** R
+e-run full BT + WF + MC on all Round 5/6 candidates under the recalibrated B1 bracket, promote/demote tiers accordingly, close open R6 items.
 **Outcome:** 9/10 portfolio score restored. 4 Tier 1 + USDJPY Tier 2 candidate canonical.
 
 ---

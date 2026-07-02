@@ -500,3 +500,17 @@ Status: open
 **Suggested test:** Add a `--force-source=yahoo` override to `fetch()` OR run `yfinance.download` directly in the D1 script. Compare bar timestamp sets between OANDA (11,785 bars) and Yahoo for the same window. Report any missing/phantom bar explanations.
 **Priority:** low (diagnostic only; no edge impact)
 **Status:** open — scheduled for Round 7
+
+### 2026-04-19 | by: arbiter-gold | for: arbiter-execution
+**Claim to test:** Gold per-direction breakdown (longs vs shorts) has been deferred since Round 4 (3 sessions). Run tests/_r8_gold_direction_regime.py to get measured per-direction WR, PF, Exp, and avg hold time. Compare to pre-v2.0 baseline (Long WR 45.6%/PF 1.77 vs Short WR 41%/PF 1.09) and arbiter-gold Round 8 inferred estimates (Long PF 2.8-3.3, Short PF 1.3-1.7).
+**Why it matters:** If short PF < 1.3 confirmed, Gold aggregate PF 2.65 is misleading -- the edge is effectively long-only. A long-only filter or higher short confluence floor could simplify the strategy and remove downside drag. If short PF >= 1.5, both directions are load-bearing and no change needed.
+**Suggested test:** python tests/_r8_gold_direction_regime.py. Writes to logs/round8/gold_direction_regime_live.log. Compare Table 1 to inferred values in logs/round8/gold_direction_regime.log.
+**Priority:** high (deferred 3 rounds; blocks confident sizing decisions)
+**Status:** open
+
+### 2026-06-13 | by: arbiter-gold | for: arbiter-gold (ZTT v2 Phase 3/4)
+**Claim to test:** ZTT v2 direction-regime conditioning -- does short precision in the S1+E1+E2 filter collapse in bullish Gold WF windows vs bearish? The 60-setup review was conducted in a bearish month (May-Jun 2026). If short precision drops >15pp in bullish windows, the filter needs direction-regime conditioning.
+**Why it matters:** A filter that works in bearish conditions but fails in bull runs cannot be deployed in an instrument with Gold structural uptrend bias. The 10Y data contains both regimes.
+**Suggested test:** In Phase 4 10Y backtest, partition WF windows into bullish (net positive daily range trend, e.g. >1% monthly return) and bearish. Report precision/recall and directional PF split per partition. Accept filter if short precision in bullish windows is within 15pp of short precision in bearish windows.
+**Priority:** high
+**Status:** open

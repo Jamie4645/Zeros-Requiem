@@ -131,6 +131,17 @@ def get_account_summary() -> Optional[Dict]:
 
 # ── Order Placement ───────────────────────────────────────────
 
+# Populated by place_market_order() whenever OANDA returns an
+# orderFillTransaction. Callers can read this right after the call to
+# reconcile against the expected (modeled) entry. See src/live/slip_logger.py.
+_last_fill_price: Optional[float] = None
+
+
+def get_last_fill_price() -> Optional[float]:
+    """Return the actual fill price from the most recent place_market_order call."""
+    return _last_fill_price
+
+
 def place_market_order(
     direction: str,
     units: float,
@@ -151,6 +162,11 @@ def place_market_order(
     Returns:
         OANDA trade ID if successful, None if failed
     """
+    # Reset the module-level fill slot at entry so a failed/rejected order on
+    # THIS call can never let the slip logger reconcile against a prior trade's
+    # (possibly prior instrument's) fill price. See src/live/slip_logger.py.
+    globals()['_last_fill_price'] = None
+
     signed_units = abs(units) if direction == 'long' else -abs(units)
 
     order_data = {
@@ -178,6 +194,13 @@ def place_market_order(
         if 'orderFillTransaction' in data:
             fill = data['orderFillTransaction']
             trade_id = fill.get('tradeOpened', {}).get('tradeID', '')
+            # Capture the fill price so the slip logger (Falsifier #1) can
+            # reconcile against the modeled entry. Stored in a module-level
+            # slot the runner reads after calling place_market_order().
+            try:
+                globals()['_last_fill_price'] = float(fill.get('price'))
+            except (TypeError, ValueError):
+                globals()['_last_fill_price'] = None
             if trade_id:
                 return trade_id
 
@@ -188,21 +211,24 @@ def place_market_order(
             return None
 
         if 'relatedTransactionIDs' in data:
-            return _get_latest_trade_id()
+            # Fill succeeded but the response did not inline orderFillTransaction.
+            # Recover both the trade ID and the actual fill price from the open
+            # trade so Falsifier #1 reconciliation stays correct for THIS symbol.
+            trades = get_open_trades()
+            if trades:
+                latest = trades[-1]
+                try:
+                    globals()['_last_fill_price'] = float(latest.get('price'))
+                except (TypeError, ValueError):
+                    globals()['_last_fill_price'] = None
+                return latest.get('id', None)
+            return None
 
         print(f"  Unexpected order response for {instrument}: {data}")
         return None
 
     except Exception as e:
         print(f"  Error placing order on {instrument}: {e}")
-    return None
-
-
-def _get_latest_trade_id() -> Optional[str]:
-    """Get the most recent open trade ID."""
-    trades = get_open_trades()
-    if trades:
-        return trades[-1].get('id', None)
     return None
 
 
