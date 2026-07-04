@@ -72,8 +72,13 @@ def _strategy(name: str):
 def _run_cell(gen, Params, cell: dict, df, atr_v):
     p = Params(**cell)
     setups = gen(df, p)
+    # min_risk_frac + block_rollover added post-verdict per 2026-07-04 ultrareview
+    # defects #1/#4 (gap-collapse guard, rollover hard-gate). The original
+    # pre-registered artifacts (no suffix) are preserved; corrected runs use
+    # the '_corrected' suffix and did not change any verdict.
     trades, unables = simulate(setups, df, atr_v, one_position=True,
-                               max_hold=MAX_HOLD, target_rr=getattr(p, 'RR_TARGET', 1.8))
+                               max_hold=MAX_HOLD, target_rr=getattr(p, 'RR_TARGET', 1.8),
+                               block_rollover=True, min_risk_frac=0.5)
     return setups, trades, unables
 
 
@@ -160,8 +165,8 @@ class _NullSetup:
     break_index: int = 0
 
 
-def run(name: str, n_perm: int):
-    log = Log(ROOT / f'logs/fresh_strategy/gauntlet_{name}.log')
+def run(name: str, n_perm: int, suffix: str = ''):
+    log = Log(ROOT / f'logs/fresh_strategy/gauntlet_{name}{suffix}.log')
     res = {'strategy': name, 'gates': {}, 'verdict': None}
     rng = np.random.default_rng(SEED)
     log(f"==== GAUNTLET {name.upper()} — pre-registered KB-93 N1-N8 ====")
@@ -197,7 +202,7 @@ def run(name: str, n_perm: int):
     log(f"\nN2 sample sanity: center-cell trades={n_center} -> {res['gates']['N2']['verdict']}")
     if res['gates']['N2']['verdict'] == 'KILL':
         kill('N2', f'trade count {n_center} outside [150, 6000]')
-        return _finish(res, cells, log, name)
+        return _finish(res, cells, log, name, suffix)
 
     pfs = np.array([c['pf'] for c in cells])
     grid_avg_pf = float(pfs.mean())
@@ -217,17 +222,7 @@ def run(name: str, n_perm: int):
 
     if res['gates']['N3']['verdict'] == 'KILL':
         kill('N3', f'grid-avg PF {grid_avg_pf:.3f} / plateau {plateau * 100:.0f}%')
-        return _finish(res, cells, log, name)
-
-    # ── N7 red-flag inversion (checked before celebrating N3) ──
-    flags = []
-    if m['wr'] > 70: flags.append(f"WR {m['wr']:.1f}%>70%")
-    if m['profit_factor'] > 3.0: flags.append(f"PF {m['profit_factor']:.2f}>3.0")
-    res['gates']['N7'] = dict(flags=flags, verdict='HALT-INVESTIGATE' if flags else 'PASS')
-    log(f"N7 red-flags: {flags or 'none'} -> {res['gates']['N7']['verdict']}")
-    if flags:
-        kill('N7', '; '.join(flags))
-        return _finish(res, cells, log, name)
+        return _finish(res, cells, log, name, suffix)
 
     # ── N4 walk-forward partition ──
     wf = _wf_windows(center_trades, df)
@@ -239,7 +234,18 @@ def run(name: str, n_perm: int):
     log(f"N4 walk-forward: {n_prof}/8 profitable (pass>=6, kill<5) -> {res['gates']['N4']['verdict']}")
     if res['gates']['N4']['verdict'] == 'KILL':
         kill('N4', f'{n_prof}/8 windows profitable')
-        return _finish(res, cells, log, name)
+        return _finish(res, cells, log, name, suffix)
+
+    # ── N7 red-flag inversion (KB-93 order: after WF so the Sharpe leg exists) ──
+    flags = []
+    if m['wr'] > 70: flags.append(f"WR {m['wr']:.1f}%>70%")
+    if m['profit_factor'] > 3.0: flags.append(f"PF {m['profit_factor']:.2f}>3.0")
+    if m['information_ratio'] > 3.0: flags.append(f"WF Sharpe/IR {m['information_ratio']:.2f}>3.0")
+    res['gates']['N7'] = dict(flags=flags, verdict='HALT-INVESTIGATE' if flags else 'PASS')
+    log(f"N7 red-flags: {flags or 'none'} -> {res['gates']['N7']['verdict']}")
+    if flags:
+        kill('N7', '; '.join(flags))
+        return _finish(res, cells, log, name, suffix)
 
     # ── N5 block-bootstrap MC ──
     r = np.array([t['r'] for t in center_trades])
@@ -250,7 +256,7 @@ def run(name: str, n_perm: int):
         f"Prob(20%DD)={prob_dd * 100:.2f}% (kill>=5%) -> {res['gates']['N5']['verdict']}")
     if res['gates']['N5']['verdict'] == 'KILL':
         kill('N5', f'Prob(20%DD) {prob_dd * 100:.2f}%')
-        return _finish(res, cells, log, name)
+        return _finish(res, cells, log, name, suffix)
 
     # ── N6 permutation null (adjacency-preserving circular shift) ──
     log(f"\n-- N6: permutation null ({n_perm} shifts) --")
@@ -260,7 +266,7 @@ def run(name: str, n_perm: int):
         f"(mean {pn['null_mean']:+.1f}R, p={pn['empirical_p']:.4f}) -> {res['gates']['N6']['verdict']}")
     if not pn['beats']:
         kill('N6', f"net R {pn['actual_net_r']:.1f} <= null p95 {pn['null_p95']:.1f}")
-        return _finish(res, cells, log, name)
+        return _finish(res, cells, log, name, suffix)
 
     # ── N8 buy-and-hold gate (long-bias beta check) ──
     long_pnl = sum(t['pnl'] for t in center_trades if t['direction'] == 'long')
@@ -274,16 +280,16 @@ def run(name: str, n_perm: int):
         f"beats B&H IR: {beats} -> {res['gates']['N8']['verdict']}")
     if res['gates']['N8']['verdict'] == 'KILL':
         kill('N8', f'long-share {long_share * 100:.0f}% and IR does not beat buy-and-hold')
-        return _finish(res, cells, log, name)
+        return _finish(res, cells, log, name, suffix)
 
     res['verdict'] = 'SURVIVES N1-N8 (candidate for council review — NOT live; 0.00% size)'
     log(f"\n==== {name.upper()} verdict: {res['verdict']} ====")
-    return _finish(res, cells, log, name)
+    return _finish(res, cells, log, name, suffix)
 
 
-def _finish(res, cells, log, name):
+def _finish(res, cells, log, name, suffix=''):
     res['grid'] = cells
-    out = ROOT / f'logs/fresh_strategy/gauntlet_{name}.json'
+    out = ROOT / f'logs/fresh_strategy/gauntlet_{name}{suffix}.json'
     out.write_text(json.dumps(res, indent=1, default=str), encoding='utf-8')
     log(f"\nJSON -> {out}")
     return res
@@ -292,5 +298,6 @@ def _finish(res, cells, log, name):
 if __name__ == '__main__':
     which = sys.argv[1] if len(sys.argv) > 1 else 'all'
     n_perm = int(sys.argv[2]) if len(sys.argv) > 2 else 1000
+    sfx = sys.argv[3] if len(sys.argv) > 3 else ''
     for nm in (['mpb', 'vtc'] if which == 'all' else [which]):
-        run(nm, n_perm)
+        run(nm, n_perm, sfx)

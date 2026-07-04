@@ -1,4 +1,30 @@
-# 93 — Fresh Gold Strategy Candidates: MPB + VTC (pre-registration)
+# 93 — Fresh Gold Strategy Candidates: MPB + VTC (pre-registration → KILLED)
+
+> # ⛔ OUTCOME (2026-07-04, same day): BOTH CANDIDATES KILLED AT N3
+> Pre-registered gauntlet result (`logs/fresh_strategy/gauntlet_{mpb,vtc}.{log,json}`):
+> **MPB grid-avg PF 0.439, VTC 0.409, 0 of 18 grid cells PF > 1.0** at session-gated
+> realistic cost. WR ≈ 36% = the pre-cost breakeven for R:R 1.8 — the entries carry no
+> signal; cost-skeptic's zero-cost sweep confirms the raw mechanisms are only breakeven
+> (PF 1.01 / 0.99) even with cost stripped. Negative in every calendar year and every
+> vol/trend/ADX bucket (post-hoc corroboration, not pre-registered evidence).
+> **16-agent ultrareview council: both KILLs upheld as deserved; pre-registration
+> integrity CLEAN (git-timestamp verified); no harness bug affects the verdicts.**
+> Full brief: `logs/fresh_strategy/ultrareview_brief.md`.
+>
+> Process defects found by the council — all fixed same day:
+> 1. Gap-collapse fill guard added to `ztt_sim.simulate` (`min_risk_frac`, default 0.0
+>    preserves canon behavior) + collected test `tests/test_gap_collapse_guard.py`.
+>    (One weekend-gap trade had realized risk $0.046 → r = −73.9, kurtosis 1037.)
+> 2. N7 moved after N4 and the missing WF-Sharpe leg implemented.
+> 3. Rollover hard-gate (`block_rollover=True`) wired into the gauntlet.
+> 4. Corrected grid re-run published (`gauntlet_*_corrected.*`): **verdicts unchanged**
+>    (MPB 0.445 / VTC 0.415, plateau still 0%), kurtosis pathology gone (1037 → −1.4).
+>
+> **Strategic flag (arbiter-socrates, unadjudicated):** SBRS → ZTT → MPB/VTC is now
+> three independent mechanization attempts dead at different gates. Whether
+> "book/theory → frozen-grid mechanism" is itself a falsified discovery method for this
+> user's edge is the open question a candidate #4 must answer BEFORE being built.
+> **Live size stays 0.00% — deploy-gate invariant confirmed untouched by the council.**
 
 **Date:** 2026-07-04
 **Status:** PRE-REGISTERED — this note was written and committed BEFORE any backtest of either

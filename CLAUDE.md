@@ -50,6 +50,17 @@
 > PF 0.82–0.90 (loses traded blind). **SHIPPED: high-recall SCREENER** `src/live/ztt_screener.py` (Gold 10m; alerts fresh
 > break-retests w/ %-cap TP/SL → `logs/ztt_screener/decisions.csv` for user take/skip; the user IS the selection layer).
 > Path to autonomy = collect labels across more months/regimes (the 30 takes were 1 down-month, short-biased). Still **0.00% auto-size**.
+>
+> **Fresh-candidate sweep — 2026-07-04 (MPB + VTC): BOTH KILLED at pre-registered N3.** Two non-break-retest
+> candidates from a 5-reader ideation pass (MPB = WMA144/SMMA5 pullback-bounce; VTC = 1.5×ATR thrust+CLV
+> continuation) were pre-registered (KB-93, falsifiers N1–N8, frozen 9-cell grids, committed BEFORE any backtest)
+> and killed at realistic cost: **grid-avg PF 0.439 / 0.409, 0 of 18 cells PF>1.0, WR≈36% = pre-cost breakeven**
+> (zero-cost sweep: raw mechanisms breakeven → no edge to uncover). 16-agent ultrareview upheld both kills;
+> pre-registration integrity CLEAN. Same-day fixes: gap-collapse fill guard in `ztt_sim` (+`tests/
+> test_gap_collapse_guard.py`), N7 WF-Sharpe leg, rollover gate wired; corrected re-run identical verdicts.
+> **Socrates flag: SBRS → ZTT → MPB/VTC = three dead mechanizations; before any candidate #4, answer whether
+> "book/theory → frozen-grid mechanism" is itself the falsified method.** New assets: 172-row calibration
+> dataset (`analysis/calibration/`), ideation corpus, `knowledge-base/93-Fresh-Gold-Strategy-MPB-VTC.md`.
 
 > # ✅ AUDIT + REMEDIATION — 2026-07-02 (dual-workflow full-codebase review)
 > Two council-judged workflows (31-agent codebase audit; 17-agent blank-slate books +
@@ -764,7 +775,7 @@ When I (the user) ask you to do something:
 
 **End of System Prompt**
 
-*Last Updated: 2026-07-02 (full-codebase audit remediation — see "AUDIT + REMEDIATION" banner near top).*
+*Last Updated: 2026-07-04 (MPB/VTC fresh-candidate sweep: both KILLED at N3 — see ZTT banner; KB-93).*
 *True state: NO validated mechanical edge. SBRS retired. ZTT screener shipped + pipeline repaired; the user's discretionary selection is statistically supported retrospectively (permutation p<0.0001) and under forward test F8.*
 *Current Focus: label collection (bar-replay Jan–Feb batch + forward screener decisions, 27-col schema with reason-codes), toward the F8 gate (300 decisions or 2026-12-31).*
 *Live sizes: 0.00% across the board — now a CODE invariant (`src/live/deploy_gate.py`), not just documentation. Do not deploy capital.*

@@ -38,7 +38,8 @@ def simulate(setups, df: pd.DataFrame, atr_v: np.ndarray,
              regime_df: Optional[pd.DataFrame] = None, risk: float = 0.01,
              start_eq: float = START_EQ, max_hold: int = MAX_HOLD,
              outlier_atr: float = OUTLIER_ATR, block_rollover: bool = False,
-             one_position: bool = True, target_rr: float = TARGET_RR):
+             one_position: bool = True, target_rr: float = TARGET_RR,
+             min_risk_frac: float = 0.0):
     """Return (trades, unables). Each trade dict carries pnl, r, exit_reason
     ('sl'|'tp'|'cap'|'timeout'), entry/exit time+index, mfe_r, regime, direction.
 
@@ -82,6 +83,15 @@ def simulate(setups, df: pd.DataFrame, atr_v: np.ndarray,
         risk_dist = abs(entry - s.stop_loss)
         if risk_dist <= 0:
             continue
+        # Gap-collapse guard (2026-07-04 ultrareview defect #1): a fill that gaps
+        # toward the stop can shrink realized risk_dist far below the signal-time
+        # distance, exploding position size (observed: $0.046 dist -> r=-73.9).
+        # min_risk_frac=0.0 preserves historical behavior for all canon runs.
+        if min_risk_frac > 0.0:
+            signal_dist = abs(s.entry_price - s.stop_loss)
+            if signal_dist > 0 and risk_dist < min_risk_frac * signal_dist:
+                unables += 1
+                continue
         if (s.direction == 'long' and s.stop_loss >= entry) or \
            (s.direction == 'short' and s.stop_loss <= entry):
             continue

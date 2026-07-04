@@ -1,0 +1,137 @@
+{
+ "strategy": "mpb",
+ "gates": {
+  "N2": {
+   "center_trades": 3753,
+   "verdict": "PASS"
+  },
+  "N3": {
+   "grid_avg_pf": 0.43908482602584,
+   "plateau_frac": 0.0,
+   "verdict": "KILL"
+  }
+ },
+ "verdict": "KILL at N3: grid-avg PF 0.439 / plateau 0%",
+ "center_scoreboard": {
+  "n": 3753,
+  "wr": 35.97122302158273,
+  "information_ratio": -2.8563237263846593,
+  "sortino": -2.187585777121851,
+  "calmar": -0.7010214413840336,
+  "ulcer": 95.25591735425793,
+  "max_dd_pct": 99.99943694501323,
+  "net_pnl": -9999.941683802628,
+  "final_equity": 0.058316197371823364,
+  "compounded_return_pct": -99.99941683802628,
+  "worst_sequence_pnl": -10034.720410646372,
+  "net_r": -1118.9073513507933,
+  "mean_r": -0.298136784266132,
+  "excess_kurtosis": 1037.3094362269553,
+  "kurtosis_leak_flag": true,
+  "profit_factor": 0.4424364982836104,
+  "live_expectation_ir": -1.4281618631923296,
+  "buy_hold_info_ratio": 0.6892460018393766,
+  "beats_buy_hold": false
+ },
+ "grid": [
+  {
+   "cell": {
+    "ER_MIN": 0.25,
+    "RR_TARGET": 1.7
+   },
+   "n_setups": 5527,
+   "n_trades": 4285,
+   "unables": 22,
+   "pf": 0.40359477374206193,
+   "net_pnl": -9999.992902964535
+  },
+  {
+   "cell": {
+    "ER_MIN": 0.25,
+    "RR_TARGET": 1.8
+   },
+   "n_setups": 6081,
+   "n_trades": 4565,
+   "unables": 26,
+   "pf": 0.43547726236382456,
+   "net_pnl": -9999.985017501507
+  },
+  {
+   "cell": {
+    "ER_MIN": 0.25,
+    "RR_TARGET": 2.0
+   },
+   "n_setups": 6081,
+   "n_trades": 4452,
+   "unables": 25,
+   "pf": 0.45815029268893115,
+   "net_pnl": -9999.980196119857
+  },
+  {
+   "cell": {
+    "ER_MIN": 0.3,
+    "RR_TARGET": 1.7
+   },
+   "n_setups": 4315,
+   "n_trades": 3500,
+   "unables": 19,
+   "pf": 0.419962797332663,
+   "net_pnl": -9999.888715374644
+  },
+  {
+   "cell": {
+    "ER_MIN": 0.3,
+    "RR_TARGET": 1.8
+   },
+   "n_setups": 4757,
+   "n_trades": 3753,
+   "unables": 21,
+   "pf": 0.4424364982836104,
+   "net_pnl": -9999.941683802628
+  },
+  {
+   "cell": {
+    "ER_MIN": 0.3,
+    "RR_TARGET": 2.0
+   },
+   "n_setups": 4757,
+   "n_trades": 3659,
+   "unables": 21,
+   "pf": 0.45340294065734854,
+   "net_pnl": -9999.942958742278
+  },
+  {
+   "cell": {
+    "ER_MIN": 0.35,
+    "RR_TARGET": 1.7
+   },
+   "n_setups": 3312,
+   "n_trades": 2808,
+   "unables": 17,
+   "pf": 0.437972440878358,
+   "net_pnl": -9997.736063559802
+  },
+  {
+   "cell": {
+    "ER_MIN": 0.35,
+    "RR_TARGET": 1.8
+   },
+   "n_setups": 3655,
+   "n_trades": 3012,
+   "unables": 19,
+   "pf": 0.44822758411285785,
+   "net_pnl": -9998.59215034057
+  },
+  {
+   "cell": {
+    "ER_MIN": 0.35,
+    "RR_TARGET": 2.0
+   },
+   "n_setups": 3655,
+   "n_trades": 2957,
+   "unables": 19,
+   "pf": 0.4525388441729047,
+   "net_pnl": -9998.554742364198
+  }
+ ]
+}

@@ -59,6 +59,10 @@ retrospectively; forward falsifier **F8** registered.
 - [[91-Full-Codebase-Audit-2026-07]] — findings → fixes table (entry point)
 - [[92-Books-Blank-Slate-Review]] — 13-book synthesis, kill list, permutation result
 - [[90-Pre-Registered-Falsifier-ZTT]] — F8 added (discretionary-selection forward gate)
+- [[93-Fresh-Gold-Strategy-MPB-VTC]] — 2026-07-04: fresh candidates MPB+VTC pre-registered
+  (N1–N8, frozen grids) → **both KILLED at N3** (PF 0.44/0.41, 0/18 cells); 16-agent
+  ultrareview upheld the kills, pre-registration integrity CLEAN; gap-collapse guard added
+  to ztt_sim; socrates flag: 3rd dead mechanization → question the discovery method itself
 
 ---
 
