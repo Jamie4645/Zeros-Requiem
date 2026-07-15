@@ -4,6 +4,11 @@ aliases: [Ablation Study, Feature Testing, Feature Isolation]
 related: [[47-SBRS-2.0-Upgrade]], [[49-MA-Convention-Discovery]], [[51-Confluence-Scoring-System]], [[CLAUDE]], [[00-MOC-Zeros-Requiem]]
 ---
 
+> ⛔ **VOID/RETIRED (see root `CLAUDE.md`).** This ablation ran on SBRS 2.0's phantom-fill engine
+> (2026-06-01 audit) and SBRS is now fully retired. Feature-contribution numbers below are void
+> artifacts, not current state. Retained as historical record only. Current strategy: ZTT
+> (`knowledge-base/89-ZTT-Rebuild.md`).
+
 # Ablation Study — Feature Contribution Analysis
 
 **Date:** 2026-04-05

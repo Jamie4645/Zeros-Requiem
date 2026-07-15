@@ -29,6 +29,11 @@ def acquire_live_lock() -> None:
     try:
         if sys.platform == 'win32':
             import msvcrt
+            # msvcrt.locking locks bytes at the CURRENT file position. The file
+            # is opened 'a+' (position = EOF), so without this seek two processes
+            # lock disjoint bytes and BOTH acquire the "single-instance" lock
+            # (duplicate live orders). Lock byte 0 unconditionally.
+            fp.seek(0)
             msvcrt.locking(fp.fileno(), msvcrt.LK_NBLCK, 1)
         else:
             import fcntl

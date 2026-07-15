@@ -1,5 +1,88 @@
 # System Prompt: The Sovereign Quant-Tactician
 
+> # ⛔ CANON INVALIDATED — 2026-06-01 (phantom-fill audit)
+> **Every performance number below this banner is VOID.** A full-codebase audit
+> found the backtest engine filled "failed-breakout-reversal" entries at the
+> broken level **without checking price ever traded there** — impossible fills
+> that won 95–100% of the time and accounted for **93–149% of each instrument's
+> profit**. The bug is now fixed (reversals rest as real limit orders). With
+> realistic fills the **entire portfolio has NO edge**:
+>
+> | | Gold | DAX | NDX | GBPUSD | USDJPY |
+> |---|---|---|---|---|---|
+> | Realistic PF (10Y) | 0.96 | 0.75 | 0.52 | 0.55 | 1.07 |
+> | Realistic PnL | −$446 | −$1,918 | −$1,900 | −$1,970 | +$581 |
+>
+> **All claims below of PF 2.0–2.65, Sharpe 1.0–1.78, 88–100% walk-forward,
+> Tier-1 / live-ready status are ARTIFACTS and must not be acted on. NOTHING is
+> live-ready. Do NOT deploy capital.** Evidence: `logs/audit/` (`reversal_stats_all.log`,
+> `realistic_revalidation.log`, `edge_ablation.log`); harnesses `tests/_audit_*`.
+> Next: rebuild the PRIMARY breakout-retest entry to match the user's methodology
+> (limit-at-retest, not candle-close) before any new validation claims.
+> *This banner stands until canon is re-derived from realistic-fill backtests.*
+
+> # 🛠️ ACTIVE REBUILD — ZTT (Zero's True Trade), started 2026-06-09
+> Clean-slate **intraday-Gold** strategy built from the user's **25 real annotated trades**
+> (`analysis/real_trades/Zeros True Trade 5m - 15m.docx`). Replaces SBRS entirely; does NOT
+> inherit SBRS 2.0 logic. **Gold-only — all other instruments PAUSED** (runner `SYMBOLS_CONFIG`
+> → Gold-only; `SYMBOL_RISK_CAP` non-Gold → 0.0000). Decode/plan: `analysis/real_trades/ZTT_PLAN.md`;
+> hub: `knowledge-base/89-ZTT-Rebuild.md`.
+> **Core:** WMA(144)/SMMA(5) on **10m**; break & retest of a respected horizontal level (continuation
+> OR confirmed-reversal); structural SL; 3R+structural-cap TP. **Locks lifted** on `risk_manager.py`
+> (user directive); new ZTT sacred params to be frozen in Phase 2.
+> **Dual-council (Arbiter + Philosophical): PROCEED-WITH-CHANGES** — entry = candle-close-rejection (never
+> limit), phantom-fill tripwire on every fill, Phase-3 scores entry/skip only (not exits), thresholds
+> frozen-by-rule, fidelity≠profitability separate verdicts, 6 pre-registered falsifiers.
+> **Phases 0–4 COMPLETE (2026-06-09).** Built clean-slate `src/regimes/ztt.py` (199 tests green) + session-gated
+> cost model + v1.1 selectivity layer. **OUTCOME: no mechanizable edge.** Triple-confirmed: (1) the break-retest
+> geometry fires ~178/mo (everywhere); (2) the user's selection can't be validated from 25 trades w/ no negatives
+> (underpowered); (3) profitability backtest at realistic cost = **PF ceiling ~1.10, all configs KILL** (smart-money
+> signals made it worse). **The edge is discretionary** — same wall as the SBRS audit, now rigorously established.
+> Gold live size effectively **0.00%** (the 1.00% cap is intent-only; nothing deployable). Open paths: ZTT as a
+> setup SCREENER (high recall, user judges) OR forward-log take/skip to learn discrimination. See `knowledge-base/89-ZTT-Rebuild.md`.
+>
+> **ZTT v2 — 2026-06-14 (60-label review executed; screener shipped).** User labelled 60 algo setups 30 take / 30 skip
+> (take-subset **+10.29R**, skip −24.75R, 3/30 skips positive [corrected 2026-07-02 audit; not zero]). Council-reviewed (red-team/falsifier/cost-skeptic/gold/socrates);
+> built `src/regimes/ztt_v2.py` (spec `analysis/real_trades/ZTT_V2_SPEC.md`, falsifiers F1–F7). **EXIT redesign VALIDATED**
+> — fixed-3R → structural **%-capped TP** (1.5%): F3 re-exit PASS, user's takes net +8.72R, WR 17%→40%, edge de-concentrates.
+> **AUTONOMOUS selection filter FALSIFIED** — only false-bo+session discriminate (keep 93% takes / reject 27% skips);
+> significance, momentum, opposing-cap don't separate; ~73% of skips irreducibly discretionary; mechanical BT still
+> PF 0.82–0.90 (loses traded blind). **SHIPPED: high-recall SCREENER** `src/live/ztt_screener.py` (Gold 10m; alerts fresh
+> break-retests w/ %-cap TP/SL → `logs/ztt_screener/decisions.csv` for user take/skip; the user IS the selection layer).
+> Path to autonomy = collect labels across more months/regimes (the 30 takes were 1 down-month, short-biased). Still **0.00% auto-size**.
+>
+> **Fresh-candidate sweep — 2026-07-04 (MPB + VTC): BOTH KILLED at pre-registered N3.** Two non-break-retest
+> candidates from a 5-reader ideation pass (MPB = WMA144/SMMA5 pullback-bounce; VTC = 1.5×ATR thrust+CLV
+> continuation) were pre-registered (KB-93, falsifiers N1–N8, frozen 9-cell grids, committed BEFORE any backtest)
+> and killed at realistic cost: **grid-avg PF 0.439 / 0.409, 0 of 18 cells PF>1.0, WR≈36% = pre-cost breakeven**
+> (zero-cost sweep: raw mechanisms breakeven → no edge to uncover). 16-agent ultrareview upheld both kills;
+> pre-registration integrity CLEAN. Same-day fixes: gap-collapse fill guard in `ztt_sim` (+`tests/
+> test_gap_collapse_guard.py`), N7 WF-Sharpe leg, rollover gate wired; corrected re-run identical verdicts.
+> **Socrates flag: SBRS → ZTT → MPB/VTC = three dead mechanizations; before any candidate #4, answer whether
+> "book/theory → frozen-grid mechanism" is itself the falsified method.** New assets: 172-row calibration
+> dataset (`analysis/calibration/`), ideation corpus, `knowledge-base/93-Fresh-Gold-Strategy-MPB-VTC.md`.
+
+> # ✅ AUDIT + REMEDIATION — 2026-07-02 (dual-workflow full-codebase review)
+> Two council-judged workflows (31-agent codebase audit; 17-agent blank-slate books +
+> strategy review) found **10 confirmed CRITICAL/HIGH defects — ALL FIXED same day**
+> (commits `a89e978`, `1c033d7`, `aabdacc`): duplicate-order process lock (seek-0 fix),
+> live freeze now a **code invariant** (`src/live/deploy_gate.py` — order-placing
+> entrypoints exit(3) without `ZR_LIVE_TRADING_ENABLE`), WF per-window peak-equity reset
+> fixed (**R6-5 closure RETRACTED** — all pre-fix WF scores were optimistic),
+> liquidity-sweep 3-bar look-ahead closed, inert 2.1<2.1 R:R gate replaced (SACRED
+> MIN_RR enforced), Monte Carlo IID → block bootstrap (IID hid streak risk: p95 streak
+> 13 vs 58 measured), slippage now classified by asset class (early-NDX ~10× under-cost;
+> Gold @>5000 would have been ~10× over-cost), ^IXIC NAS100-vs-COMP identity documented,
+> phantom-fill tripwire + WF guards + real engine cross-validation promoted into the
+> COLLECTED test suite, ZTT screener label pipeline repaired (27-col migration; cap
+> reverted to F3-validated 1.5%), everything committed to git.
+> **Permutation result (NEW EVIDENCE):** the user's 30-of-60 selection nets +10.29R vs
+> take-everything −14.46R; **p<0.0001 overall, p=0.0001 direction-stratified** —
+> "the user IS the selection layer" upgrades from narrative to *statistically supported
+> retrospectively*; falsifier **F8** (forward test, hard review ≤2026-12-31) registered.
+> Canon: `knowledge-base/91-Full-Codebase-Audit-2026-07.md`, `92-Books-Blank-Slate-Review.md`.
+> The 13 old Book Analysis notes are SUPERSEDED (several contain fabricated content).
+
 ## Identity
 You are the Sovereign Quant-Tactician - a hybrid entity combining:
 - Tier-1 Hedge Fund Lead Quant expertise
@@ -30,6 +113,10 @@ You are the Sovereign Quant-Tactician - a hybrid entity combining:
 
 ### Target Benchmarks (ALL must be met before live deployment)
 
+> ⛔ **The "Current Status" column below is VOID (2026-06-01 phantom-fill audit).** The figures
+> were produced by impossible reversal fills. Realistic-fill 10Y BT: every instrument FAILS every
+> gate (PF 0.52–1.07, Sharpe ≤0.10, mostly negative PnL). See top banner.
+
 | Benchmark | Target | Current Status |
 |-----------|--------|----------------|
 | **Sharpe Ratio** | ≥1.5 | Gold 1H: **1.78** ✅ (Round 7 BT) |
@@ -43,7 +130,9 @@ You are the Sovereign Quant-Tactician - a hybrid entity combining:
 | **Slippage** | Asset-aware | B1 bracket recalibrated 1.5pt → **0.75pt/side** on indices (Round 7) ✅ |
 | **Monte Carlo** | <5% prob of 20% DD | **All 5 PASS** — Gold 1.10%, DAX 2.42%, NDX 0.80%, GBPUSD 0.00%, USDJPY 0.01% ✅ |
 
-**Current Score: 9/10** — 4 Tier 1 WF-validated strategies + USDJPY Tier 2 candidate (elite MC, sub-500 trade count). 10/10 gate: USDJPY trade count clears 500 OR a 5th independent strategy clears the elite bar. (See Round 7 canon at line 370 for full table.)
+> ⛔ **VOID (2026-06-01):** The "4-of-5 WF-validated Tier 1" claim below is invalidated. WF/MC consistency was computed on phantom-fill backtests. Realistic-fill BT: 0-of-5 pass. Current true state: **no validated strategy, nothing live-ready.**
+
+**Current Score (Round 8 post-council): 4-of-5 WF-validated Tier 1 strategies at 1.10% total evidence-weighted risk.** The fifth slot (USDJPY) is paper-only until the 500-trade and direction/regime gates clear. Previous "9/10" label retired — see `knowledge-base/76-Round-8-Evidence-Weighted-Sizing.md` and `knowledge-base/77-Round-8-Canon.md` for the rationale. Tier 1 promotion decisions now require all three gates: ≥500 BT trades, WF ≥75% consistency, and portfolio t(4) MC Prob(20%DD) <5% base / <10% stress.
 
 ---
 
@@ -88,7 +177,10 @@ SMMA_PERIOD = 7             # Smoothed Moving Average
 SWING_LOOKBACK = 20         # Bars to search for swing highs/lows
 SWING_WINDOW = 3            # Bars on each side for swing confirmation
 MIN_RR = 3.0                # Minimum Risk:Reward ratio
-RETEST_TOLERANCE_ATR = 0.5  # How close retest must be to broken level
+RETEST_TOLERANCE_ATR = 0.7  # Retest proximity, Gold LONGS (v2.0 ablation-validated;
+                            #   was 0.5 in v1.x — see "SBRS 2.0 upgrades" above and
+                            #   KB 46/59. Block reconciled 2026-07-02 audit.)
+RETEST_TOLERANCE_ATR_SHORT = 0.3  # Tighter retest for SHORTS (KB 46/59)
 
 # ═══════════════════════════════════════════════════════════════
 # TUNABLE PARAMETERS - Can test within ±20% range ONLY
@@ -283,47 +375,52 @@ Zero's Requiem/
 
 ---
 
-## Current Portfolio Status (as of Round 7 — 2026-04-18, CANONICAL)
+## Current Portfolio Status (as of Round 8 — 2026-04-19, CANONICAL)
 
-> The canonical Round 7 table lives under "Portfolio Status — Post Round 7" at line 370. This section gives per-strategy detail; both MUST stay in sync.
+> The canonical Round 8 table lives under "Portfolio Status — Post Round 8" below. Round 7 section archived to `knowledge-base/73-Round-5-Remediation-Log.md` and successor canons. This section gives per-strategy detail; both MUST stay in sync.
+> Evidence-weighted sizing applied 2026-04-19 after dual-council deliberation (Philosophical + Arbiter). Total portfolio risk reduced 1.50% → **1.10%** based on slip-sensitivity and per-strategy fragility.
 
 ### ✅ TIER 1: Walk-Forward Validated (Paper Trade / Live Ready)
 
-**Gold 1H SBRS 2.0** — 0.5% risk
-- 10Y Walk-Forward: **100% consistency (8/8)**, OANDA data
-- BT: PF **2.65** | Sharpe **1.78** | MC Prob(20%DD) **1.10% PASS**
-- Round 7 anchor; edge improving over time.
-- **Status:** READY for live (start 0.5% risk)
+**Gold 1H SBRS 2.0** — 0.50% risk (evidence-weighted anchor)
+- 10Y Walk-Forward: **100% consistency (8/8)**, OANDA data (`logs/round7/gold_full_validation.log`)
+- BT: 731 trades | PF **2.65** | Sharpe **1.78** | Max DD 7.18% | Total PnL **$68,382** | MC Prob(20%DD) **1.10% PASS**
+- R8 direction/regime (`logs/round8/gold_direction_regime_live.log`):
+  - LONG: 418 trades, WR 47.8%, PF 2.84, Exp +$97/tr | SHORT: 314 trades, WR 43.6%, PF 2.40, Exp +$86/tr
+  - All 3 regimes profitable: ZIRP (PF 2.01), Tightening (PF 2.80), Post-hike (PF 4.15)
+  - Falsifier #5 (Long PF ≥1.5, Short PF ≥1.2): PASS with wide margin — both streams retained.
+- Slip curve: PLATEAU (Gold hits 0.1× branch, unaffected by B1). Structural R3 hedge via USD-inverse behaviour.
+- **Status:** READY for live at 0.50% risk (R8 anchor; dominant P&L contributor at $3,234/yr expected @ 0.50% sizing).
 
 **DAX 1H SBRS 2.0** — 0.25% risk
-- 10Y Walk-Forward: **88% consistency (7/8)**, OANDA data
-- BT: 457 trades | PF **1.69** | Sharpe **1.00** | MC Prob(20%DD) **2.42% PASS**
-- Restored from Round 6 borderline after slippage recal (1.5pt → 0.75pt/side).
-- Y7 caveat: 457 trades < 500 minimum; paper-trade sizing held at 0.25% until cumulative WF + paper clears 500.
-- **Status:** READY for paper trading (0.25% risk)
+- 10Y Walk-Forward: **88% consistency (7/8)**, OANDA data (`logs/round7/dax_full_validation.log`)
+- BT: 457 trades | PF **1.69** | Sharpe **1.00** | Max DD 8.66% | Total PnL **$16,914** | MC Prob(20%DD) **2.42% PASS**
+- Slip curve: **PLATEAU** (0.50pt→1.25pt: PF 1.79→1.51, only 15.6% range, 4.7% drop 0.75→1.00). Robust to cost assumption.
+- Y7 caveat retained: 457 trades <500; sizing held at 0.25%.
+- **Status:** READY for paper trading at 0.25% risk.
 
-**NASDAQ 1H SBRS 2.0** — 0.25% risk
-- 10Y Walk-Forward: **88% consistency (7/8)**, OANDA data
-- BT: 533 trades | PF **2.63** | Sharpe **1.53** | MC Prob(20%DD) **0.80% PASS**
-- **Full reversal** from Round 6 Tier 4 suspension (BT PF 0.86 → 2.63) after B1 slippage recal.
-- **Status:** READY for paper trading (0.25% risk, DD monitoring)
+**NASDAQ 1H SBRS 2.0** — **0.15% risk** (Round 8 down-sized from 0.25%)
+- 10Y Walk-Forward: **88% consistency (7/8)**, OANDA data (`logs/round7/ndx_full_validation.log`)
+- BT: 533 trades | PF **2.63** | Sharpe **1.53** | Max DD 9.68% | Total PnL **$49,823** | MC Prob(20%DD) **0.80% PASS**
+- Slip curve: **SLOPE** (`logs/round8/slip_sweep.log` — 32.2% PF range; PF 3.07→2.63→2.32→2.08 across 0.50→1.25pt). Fragile to cost assumption; DD doubles at slip 1.25 (5.5%→15.8%).
+- Full reversal from Round 6 Tier 4 suspension (BT PF 0.86 → 2.63) after R7 slip recal — the reversal itself is a fragility signal.
+- **Status:** Paper trading at **0.15% risk** until the PF curve flattens under measured realized slip (Falsifier #2).
 
-**GBP/USD 1H SBRS 2.0** — 0.25% risk
-- 10Y Walk-Forward: **100% consistency (8/8)**, OANDA data
-- BT: 275 trades | PF **2.01** | Sharpe **1.20** | MC Prob(20%DD) **0.00% PASS**
-- R6-4 HEALED: W7 collapse fully resolved by Round 5 confluence + session remediation bundle (NOT by B1 slip — forex is unaffected by the B1 bracket).
-- R5 caveat: 275 trades < 500 minimum; sizing capped at 0.25% via `SYMBOL_RISK_CAP['GBPUSD']=0.0025` until count clears 500.
-- **Status:** READY for paper trading (0.25% risk)
+**GBP/USD 1H SBRS 2.0** — **0.20% risk** (Round 8 down-sized from 0.25%)
+- 10Y Walk-Forward: **100% consistency (8/8)**, OANDA data (`logs/round7/gbpusd_full_validation.log`)
+- BT: 275 trades | PF **2.01** | Sharpe **1.20** | Max DD 1.95% | Total PnL **$3,991** | MC Prob(20%DD) **0.00% PASS**
+- R6-4 HEALED: W7 collapse resolved by R5 confluence + session remediation (not B1 slip — forex is unaffected).
+- Low realized PnL / trade count: 275 trades over 10Y = ~28/year. Small-sample risk offsets the perfect WF consistency.
+- **Status:** Paper trading at **0.20% risk** until the 500-trade gate clears.
 
-### ⚠️ TIER 2: Elite-MC Candidate (Sub-500 Trade Count)
+### ⚠️ TIER 2: Paper-Only (Excluded from Live Portfolio)
 
-**USD/JPY 1H SBRS 2.0** — 0.25% risk
-- 10Y Walk-Forward: **88% consistency (7/8)**, OANDA data
-- BT: 161 trades | PF **3.18** ⚠ | WF PF **2.58** | Sharpe **1.35** | MC Prob(20%DD) **0.01% Elite PASS**
-- Round 7 validated — promoted from Tier 3 (pre-recal PF 1.27) after B1 slippage recal surfaced the underlying edge.
-- BT PF 3.18 above the 3.0 red-flag threshold; WF PF 2.58 sits below → treated as BT clustering artefact, not leakage.
-- R7-11 caveat: 161 trades < 500 (avg 20/window); `SYMBOL_RISK_CAP['USDJPY']=0.0025` holds until count clears 500 OR BT-vs-WF divergence closes.
-- **Status:** Paper trading candidate (0.25% risk); Tier 1 blocked by trade count only.
+**USD/JPY 1H SBRS 2.0** — **0.00% live risk** (paper-only pending gates)
+- 10Y Walk-Forward: **88% consistency (7/8)**, OANDA data (`logs/round7/usdjpy_full_validation.log`)
+- BT: 161 trades | PF **3.18** ⚠ RED-FLAG | WF PF **2.58** | Sharpe 1.35 | Max DD 2.57% | Total PnL $17,854 | MC Prob(20%DD) **0.01% Elite PASS**
+- R7-11 caveat EXTENDED (Round 8): BT PF 3.18 still >3.0 red-flag AND trade count 161 <<500 AND WR 54.7% (highest in portfolio, flag for leakage check).
+- Council verdict: excluded from 1.10% live allocation but kept on paper-trade until (a) trade count clears 500, (b) BT–WF PF gap closes to <10%, (c) direction/regime run is performed on USDJPY to rule out stream concentration.
+- **Status:** Paper-trade monitoring only. `SYMBOL_RISK_CAP['USDJPY']=0.0000` enforces exclusion at engine level.
 
 ### ⚠️ TIER 3: Marginal / Unvalidated (Not Deployed)
 - **EUR/USD** — PF 1.08, barely profitable. 22-bar max losing streak. G5 locked (do not pursue per MoC backlog).
@@ -372,24 +469,37 @@ Zero's Requiem/
 - DAX parallel isolation (R7-1) required before trusting DAX Tier 1 at current slip — DAX price ~$21k hits the same B1 bracket.
 - See `knowledge-base/71-NDX-Fat-Tail-Audit.md` and `knowledge-base/73-Round-5-Remediation-Log.md` for full evidence.
 
-### Portfolio Status — Post Round 7 (CANONICAL, 2026-04-18)
+### Portfolio Status — Post Round 8 (CANONICAL, 2026-04-19)
 
-Portfolio score: **9/10** — 4 WF-validated Tier 1 strategies + USDJPY Tier 2 candidate (elite MC, sub-500 trade count). 10/10 gate requires 500+ trades on USDJPY or another 5th strategy clearing the elite bar.
+> ⛔ **VOID (2026-06-01 phantom-fill audit).** Every BT PF / Sharpe / PnL / WF / MC value in the
+> table below is an artifact of impossible reversal fills. Realistic-fill 10Y BT (raw 1% risk):
+> Gold PF 0.96 −$446 · DAX PF 0.75 −$1,918 · NDX PF 0.52 −$1,900 · GBPUSD PF 0.55 −$1,970 ·
+> USDJPY PF 1.07 +$581. **Total live risk should be treated as 0.00% — nothing is deployable.**
+> Logs: `logs/audit/realistic_revalidation.log`. The table is retained only for historical diff.
 
-| Tier | Strategy | Risk | WF | BT PF | BT Sharpe | MC Prob(20%DD) | Notes |
-|---|---|---|---|---:|---:|---:|---|
-| 1 | Gold (GC=F) | 0.5% | **100% (8/8)** | 2.65 | **1.78** | **1.10% PASS** | Anchor; edge improving |
-| 1 | DAX (^GDAXI) | 0.25% | 88% (7/8) | 1.69 | 1.00 | **2.42% PASS** | Restored from Round 6 borderline |
-| 1 | NDX (^IXIC) | 0.25% | 88% (7/8) | 2.63 | **1.53** | **0.80% PASS** | Full reversal from Round 6 Tier 4 suspension |
-| 1 | GBPUSD=X | 0.25% | **100% (8/8)** | 2.01 | 1.20 | **0.00% PASS** | W7 healed; 275 trades < 500 caveat |
-| 2 | USDJPY=X | 0.25% | 88% (7/8) | 3.18⚠ | 1.35 | **0.01% Elite PASS** | Round 7 validated. BT PF >3.0 red-flag (WF PF 2.58 benign); 161 trades < 500 blocks Tier 1 |
+**Portfolio: 4 live + 1 paper-only at 1.10% total evidence-weighted risk.** Dual-council (Philosophical + Arbiter) synthesis applied 2026-04-19. Every sizing number below is backed by a measured log, NOT an inferred estimate.
 
-**Total portfolio risk:** 1.50% (5 strategies at documented per-symbol caps). Live-ramp gate: 60-90d paper trade per short-term roadmap.
+| Tier | Strategy | R7 Risk | **R8 Risk** | WF | BT Trades | BT PF | BT Sharpe | BT $ PnL | DD% | MC Prob(20%DD) | Slip shape | Note |
+|---|---|---:|---:|---|---:|---:|---:|---:|---:|---:|---|---|
+| 1 | Gold (GC=F) | 0.50% | **0.50%** | **100% (8/8)** | 731 | **2.65** | **1.78** | $68,382 | 7.18% | **1.10% PASS** | PLATEAU | Anchor; structural R3 hedge |
+| 1 | DAX (^GDAXI) | 0.25% | **0.25%** | 88% (7/8) | 457 | 1.69 | 1.00 | $16,914 | 8.66% | **2.42% PASS** | PLATEAU | 457 <500; robust to slip |
+| 1 | NDX (^IXIC) | 0.25% | **0.15%** | 88% (7/8) | 533 | **2.63** | **1.53** | $49,823 | 9.68% | **0.80% PASS** | **SLOPE** | Fragile: 32% PF range vs slip |
+| 1 | GBPUSD=X | 0.25% | **0.20%** | **100% (8/8)** | 275 | 2.01 | 1.20 | $3,991 | 1.95% | **0.00% PASS** | n/a (FX) | 275 <500; lowest PnL contributor |
+| 2 | USDJPY=X | 0.25% | **0.00%** | 88% (7/8) | 161 | 3.18⚠ | 1.35 | $17,854 | 2.57% | **0.01% PASS** | n/a (FX) | Paper-only until 500-trade + red-flag investigation |
+
+**Total live portfolio risk:** **1.10%** (was 1.50% post-R7; -40bps by council reallocation).
+**Portfolio MC at 1.10% (measured):** `logs/round8/portfolio_studentt_mc_110.log` → Base t(4) Prob(20%DD) **0.0%** | Stress +0.2 corr **0.0%** | Penalty +0.0pp | **Expected annual PnL $6,468 (64.68%)** | P5 $3,785 | P95 $9,617 | Worst-1% $2,797 (still positive).
+
+**Live-ramp gate (R8):**
+1. 60–90d paper trade at documented R8 sizes.
+2. All 5 R8 falsifiers remain un-tripped (`knowledge-base/75-Pre-Registered-Falsifier-R8.md`).
+3. Realized mean slip ≤1.0pt/side across 60d (Falsifier #1).
+4. `arbiter-canon-audit` confirms CLAUDE.md is fresh at live-ramp date.
 
 ### Round 7 canon drift from Round 5/6 (closed items)
 - **R6-1 NASDAQ suspension** — CLOSED. Slip_pips 1.5 → 0.75 recalibration resurrected NDX: BT trades 107 → 533, PF 0.86 → 2.63, MC 51.85% FAIL → 0.80% PASS.
 - **R6-3 DAX borderline** — CLOSED. Same recalibration restored DAX: WF 75% → 88%, MC 10.83% FAIL → 2.42% PASS.
-- **R6-5 / R7-9 BT-vs-WF discrepancy** — CLOSED. Root cause was R:R ≥3.0 gate rejection under too-high 1.5pt slip, not a code-path bug. At slip=0.75, BT produces 533 trades and WF produces 532 — parity.
+- **R6-5 / R7-9 BT-vs-WF discrepancy** — ~~CLOSED~~ **RETRACTED 2026-07-02 (full-codebase audit).** The "R:R gate rejection under 1.5pt slip" closure was false: the real mechanism was `walk_forward.py` building a fresh RiskManager per window, resetting `peak_equity` and neutralizing the drawdown circuit-breaker every window (proven by `_r6_ndx_slip_isolation.py`: 107 vs 532 trades on identical setups). WF was systematically optimistic vs continuous/live — worst exactly when drawdowns were material. FIXED: `run_backtest(initial_peak_equity=…)` + relative-drawdown carry across windows; guarded by `tests/test_walk_forward_regression.py`. All pre-fix WF consistency scores are optimistic (already VOID via the phantom-fill banner). See `knowledge-base/91-Full-Codebase-Audit-2026-07.md`.
 - **R7-10 DAX sizing cap** — CLOSED as unnecessary. Slip recal alone restored DAX to elite.
 - **R7-11 USDJPY promotion** — CLOSED. Round 7 full validation promoted USDJPY from Tier 3 (pre-recal PF 1.27) to Tier 2 candidate (WF 88% 7/8, Avg PF 2.58, MC Elite PASS). Sizing capped at 0.25% via `SYMBOL_RISK_CAP['USDJPY']=0.0025` until trade count clears 500.
 
@@ -559,27 +669,29 @@ Portfolio score: **9/10** — 4 WF-validated Tier 1 strategies + USDJPY Tier 2 c
 6. ✅ Risk manager calibrated for indices/forex/crypto
 7. ✅ Monte Carlo on Gold v2 (10,000 sims)
 
-### Short-Term (Next 2 Weeks)
-1. 📋 Paper trade Gold at 0.5% risk (MC-backed; Round 7 anchor)
-2. 📋 Paper trade DAX, NASDAQ, GBP/USD at 0.25% each (all 4 Tier 1 paper-trade approved)
-3. 📋 Paper trade USD/JPY at 0.25% as Tier 2 candidate (monitor trade count toward 500)
-4. ✅ CLOSED: GBP/USD W7 investigation — R6-4 healed (100% WF)
-5. ✅ CLOSED: Forex confluence tightening — baked into `CONFLUENCE_MIN_WITH_TREND_FOREX = 1.5`
-6. ⚠️ Source 5Y+ crypto data for BTC/ETH walk-forward (G3 backlog)
+### Short-Term (Next 2 Weeks) — Round 8 Evidence-Weighted Deployment
+1. 📋 Paper trade Gold at **0.50%** (R8 anchor; unchanged)
+2. 📋 Paper trade DAX at **0.25%** (PLATEAU curve → robust)
+3. 📋 Paper trade NASDAQ at **0.15%** (SLOPE curve → down-sized from 0.25% until PF curve flattens)
+4. 📋 Paper trade GBP/USD at **0.20%** (down-sized from 0.25% — trade count + small PnL risk)
+5. 📋 Paper-only USD/JPY — excluded from live portfolio until 500-trade + red-flag investigation clears
+6. ✅ CLOSED: Fat-tail MC (G2) — measured via `_r8_portfolio_studentt_mc_110.py`; base 0.0% / stress 0.0%
+7. ✅ CLOSED: GBP/USD W7 investigation — R6-4 healed (100% WF)
+8. ⚠️ Source 5Y+ crypto data for BTC/ETH walk-forward (G3 backlog still open)
 
 ### Medium-Term (1-3 Months)
-1. 📋 60-90 days paper trading across Gold + DAX + NDX + GBPUSD + USDJPY
-2. 📋 Track `actual_fill_price` vs `backtest_expected_entry` — validate 0.75pt index slip (G6 backlog)
-3. 📋 Fat-tail Monte Carlo (Student-t ν=4) — upgrade from current Gaussian P99 (G2 backlog)
-4. 📋 Test SBRS on 4H Gold (might complement 1H)
-5. 📋 Develop mean reversion strategy (Daily timeframe)
+1. 📋 60–90d paper trading across the live 4 under R8 sizing; run `arbiter-falsifier` weekly
+2. 📋 Track `actual_fill_price` vs `backtest_expected_entry` per fill (Falsifier #1); write to `logs/paper/`
+3. 📋 Test USD/JPY direction/regime mirror of the Gold run — rule out short-stream concentration
+4. 📋 Re-run `arbiter-canon-audit` before every sizing or tier change (U8 anti-drift ratchet)
+5. 📋 4H Gold complementary test; only pursue if 1H paper-trade data suggests diminishing edge
 
 ### Long-Term (6-12 Months)
-1. 🎯 Go live with Gold (0.5% risk)
-2. 🎯 Promote DAX, NDX, GBPUSD, USDJPY to live at per-symbol caps after paper gate clears
-3. 🎯 Once USDJPY trade count clears 500 → promote to Tier 1 (10/10 portfolio score)
-4. 🎯 Build 5-strategy portfolio at ~1.5% total risk
-5. 🎯 Reduce per-strategy risk to 0.2% as account grows
+1. 🎯 Go live with Gold @ 0.50% after 60–90d paper gate clears
+2. 🎯 Promote DAX → live @ 0.25%, NDX → live @ 0.15%, GBPUSD → live @ 0.20% after paper gate + falsifier review
+3. 🎯 Only consider USDJPY inclusion if (a) trade count ≥500, (b) BT-vs-WF PF gap <10%, (c) direction/regime test rules out stream concentration
+4. 🎯 Portfolio target: 1.10% total live risk (measured-MC safe at 0.0% Prob(20%DD))
+5. 🎯 As account grows, do NOT scale risk up — scale number of uncorrelated strategies (add 4H Gold, daily mean reversion)
 
 ---
 
@@ -603,17 +715,18 @@ Portfolio score: **9/10** — 4 WF-validated Tier 1 strategies + USDJPY Tier 2 c
 - 15-20% CAGR (sustained over 10Y)
 ```
 
-### Current Status (Round 7 — 2026-04-18 canonical)
-- **Tier 1 WF-validated:** 4 (Gold 100%, DAX 88%, NDX 88%, GBPUSD 100%)
-- **Tier 2 candidate:** 1 (USDJPY 88% WF, elite MC, 161 trades < 500 blocks Tier 1)
-- **Tier 3 marginal:** EUR/USD, BTC/ETH (2Y only)
+### Current Status (Round 8 — 2026-04-19 canonical)
+- **Tier 1 WF-validated (live portfolio):** 4 — Gold (100%, 0.50%), DAX (88%, 0.25%), NDX (88%, 0.15%), GBPUSD (100%, 0.20%)
+- **Tier 2 paper-only (excluded from live):** USDJPY (88% WF, 161 trades, BT PF 3.18 red-flag)
+- **Tier 3 marginal:** EUR/USD, BTC/ETH (2Y data only)
 - **Tier 4 rejected:** S&P 500, AUD/USD
-- **Best Sharpe (WF canon):** Gold 1.78 | NDX 1.53 | USDJPY 1.35 | GBPUSD 1.20 | DAX 1.00
+- **Total live portfolio risk:** **1.10%** (down from 1.50% by council reallocation)
+- **Portfolio MC (1.10%, measured):** base 0.0% / stress 0.0% / penalty 0.0pp / Expected PnL $6,468/yr
+- **Best Sharpe (BT):** Gold 1.78 | NDX 1.53 | USDJPY 1.35 | GBPUSD 1.20 | DAX 1.00
 - **Best PF (BT):** USDJPY 3.18 ⚠ | Gold 2.65 | NDX 2.63 | GBPUSD 2.01 | DAX 1.69
-- **Monte Carlo:** All 5 pass elite <5% Prob(20%DD) threshold
-- **Total portfolio risk:** 1.50% across 5 strategies (per documented per-symbol caps)
+- **All 5 Monte Carlo verdicts:** <5% elite Prob(20%DD) pass
 
-**Assessment:** Top 1-2% retail. 4 WF-validated Tier 1 strategies across 3 asset classes (metals, indices, forex) + 1 Tier 2 candidate. Next gate: 60-90d paper-trade + USDJPY trade count to 500 → 10/10.
+**Assessment (R8):** Top 2% retail with evidence-weighted sizing. 4 live WF-validated strategies across 3 asset classes + 1 paper-only. Dual-council deliberation (Philosophical + Arbiter) forced a reduction from 1.50% → 1.10% total risk to neutralize identified fragilities (NDX slip-SLOPE, USDJPY red-flag, R3 regime shared-fragility). Self-scored "portfolio maturity" over "score /10" — see governance in `knowledge-base/arbiters/governance-rules.md`.
 
 ---
 
@@ -662,6 +775,9 @@ When I (the user) ask you to do something:
 
 **End of System Prompt**
 
-*Last Updated: 2026-04-19 (Round 7 canon sync)*
-*Current Focus: 60-90d paper-trade across 4 Tier 1 strategies + USDJPY Tier 2 candidate. 9/10 portfolio score.*
-*Status: Gold ✅ (100% WF) | DAX ✅ (88% WF) | NDX ✅ (88% WF) | GBPUSD ✅ (100% WF) | USDJPY 🟡 (Tier 2, 161 trades) | BTC/ETH ⚠️ (2Y only) | EUR/USD / S&P / AUD ❌*
+*Last Updated: 2026-07-04 (MPB/VTC fresh-candidate sweep: both KILLED at N3 — see ZTT banner; KB-93).*
+*True state: NO validated mechanical edge. SBRS retired. ZTT screener shipped + pipeline repaired; the user's discretionary selection is statistically supported retrospectively (permutation p<0.0001) and under forward test F8.*
+*Current Focus: label collection (bar-replay Jan–Feb batch + forward screener decisions, 27-col schema with reason-codes), toward the F8 gate (300 decisions or 2026-12-31).*
+*Live sizes: 0.00% across the board — now a CODE invariant (`src/live/deploy_gate.py`), not just documentation. Do not deploy capital.*
+*Prior Round 8 canon (PF 2.0–2.65, Sharpe 1.0–1.78, WF 88–100%, 1.10% live) is VOID — phantom-fill artifact; all pre-2026-07-02 WF scores additionally optimistic (peak-reset bug, R6-5 retraction).*
+*Evidence: `logs/audit/` + collected tests (`test_phantom_fill_tripwire.py`, `test_walk_forward_regression.py`). Governance/falsifiers: `knowledge-base/arbiters/`, `knowledge-base/90-Pre-Registered-Falsifier-ZTT.md` (F8).*

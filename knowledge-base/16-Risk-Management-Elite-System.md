@@ -4,6 +4,11 @@ aliases: [Risk Management, 5-Layer Risk]
 related: [[CLAUDE]], [[33-Tool-Protected-Files-Hook]], [[28-P4-Monte-Carlo]], [[00-MOC-Zeros-Requiem]]
 ---
 
+> ⛔ **VOID (see root `CLAUDE.md`).** This file predates the 2026-06-01 phantom-fill audit and
+> 2026-07-02 full-codebase audit — the SBRS PF/Sharpe/WF/tier numbers below are void artifacts,
+> not current state. Retained as historical record only. Current canon: root `CLAUDE.md` +
+> [[00-MOC-Zeros-Requiem]].
+
 # Risk Management: Elite 5-Layer System (v3.0)
 
 ## Overview

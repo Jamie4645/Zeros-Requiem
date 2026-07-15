@@ -4,6 +4,11 @@ aliases: [Ablation Round 2, Ablation 2026-04-16, Feature Verdict Round 2]
 related: [[00-MOC-Zeros-Requiem]], [[48-Ablation-Study-Results]], [[63-FVG-Downshift-Change]], [[64-Risk-Manager-Gold-Cap-Fix]], [[51-Confluence-Scoring-System]]
 ---
 
+> ⛔ **VOID (see root `CLAUDE.md`).** This file predates the 2026-06-01 phantom-fill audit and
+> 2026-07-02 full-codebase audit — the ablation PF/Sharpe/PnL table below is a void artifact, not
+> current state. Retained as historical record only. Current canon: root `CLAUDE.md` +
+> [[00-MOC-Zeros-Requiem]].
+
 # Ablation Round 2 — SBRS 2.0 Feature Verdict (2026-04-16)
 
 > *"Measure, don't predict. If the ablation says FVG hurts, the ablation says FVG hurts."*

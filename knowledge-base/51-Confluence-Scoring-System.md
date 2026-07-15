@@ -4,6 +4,12 @@ aliases: [Confluence Scoring, Confluence System, Entry Scoring]
 related: [[47-SBRS-2.0-Upgrade]], [[50-Smart-Money-Indicators]], [[48-Ablation-Study-Results]], [[CLAUDE]], [[46-SBRS-Parameters-Reference]], [[00-MOC-Zeros-Requiem]]
 ---
 
+> ⛔ **RETIRED (see root `CLAUDE.md`).** SBRS is fully retired — realistic-fill backtests found no
+> edge on any instrument (PF 0.52–1.07), and the confluence-score ablation dollar figures below
+> (FVG, Liquidity, MA Cross, Counter-Trend impacts) were measured on the pre-audit phantom-fill
+> engine and are void. The ZTT rebuild does not inherit this scoring system. Retained as historical
+> record only. Current strategy: ZTT (`knowledge-base/89-ZTT-Rebuild.md`).
+
 # Confluence Scoring System — SBRS 2.0
 
 **Date:** 2026-04-04

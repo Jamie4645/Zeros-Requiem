@@ -8,6 +8,10 @@ related: [[00-MOC-Zeros-Requiem]], [[16-Risk-Management-Elite-System]], [[25-Wal
 
 > This is a **mirror reference** for Obsidian linking. The authoritative file lives at the project root: `../CLAUDE.md`
 
+> ⛔ **2026-06-01 — all performance/tier claims in this mirror are VOID** (phantom-fill audit). SBRS 2.0
+> has no demonstrated edge with realistic fills (PF 0.52–1.07). See [[81-Audit-2026-06-01-Phantom-Fill]]
+> and the banner in the root `../CLAUDE.md`. "7/7 elite benchmarks met" below is an artifact.
+
 ## What This File Contains
 
 The root `CLAUDE.md` is the **single source of truth** for the Zeros Requiem project. It auto-loads into every Claude Code session and defines:

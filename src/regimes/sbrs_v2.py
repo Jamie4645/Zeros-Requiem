@@ -42,6 +42,24 @@ from ..indicators.smart_money import (
     detect_false_breakout
 )
 from ..execution.entries import TradeSetup, TradeDirection
+from ..core.risk_manager import SYMBOL_RISK_CAP, _normalize_symbol_for_cap
+
+
+def capped_risk_pct(risk_pct: float, symbol: str) -> float:
+    """Clamp caller-requested risk to the authoritative per-symbol ceiling.
+
+    SYMBOL_RISK_CAP (src/core/risk_manager.py) is the single source of truth for
+    the Round 8 evidence-weighted sizing. Applying it HERE — inside the one
+    function shared by backtest, walk-forward, and the live engine — guarantees
+    strategy/live parity: no caller can size above the council-approved ceiling.
+
+    Returns min(risk_pct, cap) when the symbol maps to a cap; otherwise the
+    caller's value unchanged. A 0.0000 cap (e.g. USDJPY paper-only exclusion)
+    returns 0.0, which collapses position_size to 0 and skips every setup.
+    """
+    key = _normalize_symbol_for_cap(symbol)
+    cap = SYMBOL_RISK_CAP.get(key) if key else None
+    return min(risk_pct, cap) if cap is not None else risk_pct
 
 
 # ── Core Parameters (DO NOT OPTIMIZE) ─────────────────────────
@@ -146,7 +164,13 @@ ATR_PCTILE_ENABLED_CRYPTO = False    # crypto is always volatile
 
 # ── Adaptive R:R Based on ATR Regime ─────────────────────────
 ATR_RR_LOOKBACK = 50         # bars for ATR moving average
-ATR_RR_CLAMP_LOW = 0.7      # minimum R:R scaling factor
+ATR_RR_CLAMP_LOW = 1.0      # minimum R:R scaling factor — 2026-07-02 audit fix:
+                            #   was 0.7, which let with-trend targets shrink to
+                            #   2.1R in violation of SACRED MIN_RR=3.0 (canon
+                            #   Step 5: skip if R:R < 3.0). The old "gate" at the
+                            #   call site compared effective_rr to its own clamp
+                            #   floor (2.1 < 2.1) and could never fire. Adaptive
+                            #   widening (up to 1.5x in high vol) is retained.
 ATR_RR_CLAMP_HIGH = 1.5     # maximum R:R scaling factor
 
 # ── Indices Retest (wider for erratic price action) ──────────
@@ -621,7 +645,8 @@ def analyze_sbrs_v2(
     risk_pct: float = 0.01,
     asset_class: str = 'gold',
     symbol: str = '',
-    indices_constrained: bool = False
+    indices_constrained: bool = False,
+    entry_mode: str = 'close'
 ) -> List[TradeSetup]:
     """
     SBRS 2.0 — Confluence-scored Breakout + Retest for Gold, Forex, and Indices.
@@ -658,6 +683,10 @@ def analyze_sbrs_v2(
     Returns:
         List[TradeSetup] for the backtest engine
     """
+    # Enforce the authoritative per-symbol risk ceiling at the single shared
+    # entry point (backtest + walk-forward + live all flow through here).
+    risk_pct = capped_risk_pct(risk_pct, symbol)
+
     is_forex = asset_class == 'forex'
     is_gold = asset_class in ('gold', 'commodity')
     is_indices = asset_class == 'indices'
@@ -886,7 +915,8 @@ def analyze_sbrs_v2(
             )
 
             # Liquidity sweep detected
-            liq = detect_liquidity_sweep(df, i, swing_high_mask, swing_low_mask, pending.direction)
+            liq = detect_liquidity_sweep(df, i, swing_high_mask, swing_low_mask, pending.direction,
+                                         swing_confirm_lag=SWING_WINDOW)
 
             # MA cross confirmation
             ma_valid = check_ma_cross(wma_1h, smma_1h, i, pending.direction, MA_CROSS_LOOKBACK)
@@ -994,7 +1024,11 @@ def analyze_sbrs_v2(
                     take_profit = current_close - (effective_rr * sl_distance)
 
                 rr_ratio = abs(take_profit - current_close) / sl_distance
-                if rr_ratio < min_rr * ATR_RR_CLAMP_LOW:
+                # Defensive invariant, NOT the primary control (rr_ratio is
+                # derived from effective_rr, which compute_adaptive_rr already
+                # clamps to >= min_rr since ATR_RR_CLAMP_LOW = 1.0). Enforces
+                # SACRED MIN_RR if either of those ever drifts again.
+                if rr_ratio < min_rr:
                     continue
 
             # Position sizing: Risk = 1% of equity / SL distance
@@ -1031,6 +1065,23 @@ def analyze_sbrs_v2(
                 in_squeeze=pending.in_squeeze,
                 breakout_attempt=pending.breakout_attempt,
             )
+
+            # Methodology-faithful limit-at-retest entry (A/B mode). Reprice the
+            # entry from the retest-bar close to the broken level — where the
+            # discretionary trader rests the limit ("limit orders exclusively").
+            # The engine then fills only on a real touch of the level. SACRED
+            # params are untouched; only entry pricing + sizing change.
+            if entry_mode == 'limit':
+                lvl = pending.broken_level
+                limit_sl_dist = abs(lvl - stop_loss)
+                if lvl > 0 and limit_sl_dist > 0:
+                    if pending.direction == 'long':
+                        setup.take_profit = lvl + rr_ratio * limit_sl_dist
+                    else:
+                        setup.take_profit = lvl - rr_ratio * limit_sl_dist
+                    setup.entry_price = lvl
+                    setup.position_size = (equity * risk_pct) / limit_sl_dist
+                    setup.is_limit = True
 
             setups.append(setup)
 

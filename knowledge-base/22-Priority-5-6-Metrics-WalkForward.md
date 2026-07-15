@@ -4,6 +4,12 @@ aliases: [P5-P6 Walk-Forward Metrics]
 related: [[21-Priority-3-4-New-Pairs]], [[23-Optimisation-Weak-Areas]], [[25-Walk-Forward-Full-Results]], [[28-P4-Monte-Carlo]], [[00-MOC-Zeros-Requiem]]
 ---
 
+> ⛔ **VOID (see root `CLAUDE.md`).** This file predates the 2026-06-01 phantom-fill audit and
+> 2026-07-02 full-codebase audit — the Sharpe/consistency/PnL numbers below (from the pre-SBRS
+> SCAF-era engine, Feb 2026) are artifacts of the same flawed backtest engine later found to have
+> no realistic-fill edge, not current state. Retained as historical record only. Current canon:
+> root `CLAUDE.md` + [[00-MOC-Zeros-Requiem]].
+
 # Priority 5 & 6: Walk-Forward Testing + Elite Metrics
 
 **Date:** 2026-02-11

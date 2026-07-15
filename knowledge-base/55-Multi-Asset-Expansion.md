@@ -5,6 +5,11 @@ related: [[47-SBRS-2.0-Upgrade]], [[56-Risk-Manager-Calibration]], [[57-Monte-Ca
 date: 2026-04-05
 ---
 
+> ⛔ **VOID/RETIRED (see root `CLAUDE.md`).** Multi-asset SBRS 2.0 numbers below are phantom-fill
+> artifacts (2026-06-01 audit); realistic-fill re-validation found no edge on any instrument, and
+> SBRS is now fully retired (ZTT rebuild is Gold-only, does not inherit SBRS logic). Retained as
+> historical record only.
+
 # 55 — SBRS 2.0 Multi-Asset Expansion
 
 > *"You don't need to know what will happen next to make money."* — Mark Douglas

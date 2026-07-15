@@ -4,6 +4,11 @@ aliases: [Fine-Tuning Process, Strategy Tuning, Ablation-Driven Tuning]
 related: [[47-SBRS-2.0-Upgrade]], [[48-Ablation-Study-Results]], [[49-MA-Convention-Discovery]], [[CLAUDE]], [[00-MOC-Zeros-Requiem]]
 ---
 
+> ⛔ **VOID (see root `CLAUDE.md`).** This file predates the 2026-06-01 phantom-fill audit and
+> 2026-07-02 full-codebase audit — the PF/Sharpe/PnL figures below (the "$513 to $146,256" tuning
+> result) are void artifacts, not current state. Retained as historical record only. Current canon:
+> root `CLAUDE.md` + [[00-MOC-Zeros-Requiem]].
+
 # Fine-Tuning Process — From $513 to $146,256
 
 **Date:** 2026-04-05

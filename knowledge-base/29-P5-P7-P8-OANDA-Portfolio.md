@@ -4,6 +4,11 @@ aliases: [OANDA Portfolio, Portfolio Tiers, P5-P8]
 related: [[CLAUDE]], [[07-Guide-Python-Broker-APIs]], [[25-Walk-Forward-Full-Results]], [[28-P4-Monte-Carlo]], [[30-Tool-Live-Status]], [[00-MOC-Zeros-Requiem]]
 ---
 
+> ⛔ **VOID (see root `CLAUDE.md`).** This file predates every later round and the 2026-06-01
+> phantom-fill audit — portfolio tiers/sizing below are void artifacts, not current state.
+> Live sizing is now 0.00% across the board (code invariant, `src/live/deploy_gate.py`).
+> Retained as historical record only. Current canon: root `CLAUDE.md` + [[00-MOC-Zeros-Requiem]].
+
 # P5: OANDA Integration + P7: Gold 1H Removal + P8: Portfolio Tiers
 
 **Date:** 2026-02-12

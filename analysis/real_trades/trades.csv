@@ -1,0 +1,26 @@
+id,timeframe,direction,entry_local,entry_price,sl,tp,outcome,note
+1,10m,long,2026-06-04 04:40:11,4460.048,4442.347,4509.219,win,downtrend breakout-retest continuation
+2,10m,short,2026-06-01 17:00:16,4511.054,4529.143,4457.307,win,break of 3x-retested level; WMA>SMMA
+3,10m,short,2026-05-26 20:50:16,4507.557,4532.967,4432.198,win,2x-retested level break-retest; 2-3R
+4,10m,short,2026-05-26 01:20:16,4551.590,4564.518,4513.041,win,WMA>SMMA; support-break flip to resistance
+5,5m,long,2026-05-20 15:15:16,4479.035,4464.592,4522.455,win,support retest in downtrend; SMMA>WMA
+6,5m,short,2026-05-14 20:00:00,4671.813,4687.409,4625.027,win,repeated-touch support break; WMA>SMMA
+7,5m,long,2026-05-11 13:21:00,4680.095,4661.728,4735.961,win,NO retest; momentum/liquidity entry (exceptional)
+8,10m,short,2026-05-08 01:00:00,4705.833,4726.417,4644.081,loss,reversal attempt; level not respected before break
+9,10m,long,2026-05-05 12:10:00,4550.006,4524.947,4626.990,win,reversal long; broke LH; SMMA>WMA
+10,10m,short,2026-05-01 06:20:00,4614.544,4637.735,4544.647,loss,2x-respected level; WMA>SMMA; hit SL
+11,10m,long,2026-04-26 05:50:00,4544.277,4523.978,4605.538,win,downtrend break-retest; broke prior LH
+12,10m,long,2026-04-24 14:20:00,4695.947,4674.296,4761.100,loss,MISTAKE: long in downtrend (no HTF check)
+13,10m,short,2026-04-08 13:00:00,4801.441,4824.365,4731.906,win,inclined-support break-retest
+14,10m,short,2026-04-02 03:20:00,4755.886,4804.136,4611.135,miss,never entered; price did not retest
+15,10m,long,2026-03-30 01:10:00,4429.213,4395.447,4532.144,win,waited for LH break then support retest
+16,10m,short,2026-03-25 20:10:00,4538.657,4586.943,4393.797,win,heavily-respected level break-retest
+17,10m,long,2026-03-24 02:00:00,4315.214,4232.464,4562.055,win,respected level break-back-retest
+18,10m,short,2026-03-22 22:30:00,4521.470,4627.774,4202.557,win,downtrend; support-break flip to resistance
+19,10m,short,2026-03-12 02:20:00,5172.065,5201.525,5083.683,win,3-4x-retested support break; WMA>SMMA
+20,10m,long,2026-03-04 06:20:00,5136.965,5079.298,5310.825,loss,long but bigger picture still downtrend
+21,15m,short,2026-03-03 10:00:00,5279.410,5341.380,5093.499,win,downtrend; support break-retest
+22,15m,short,2026-02-24 18:00:00,5164.579,5195.385,5071.981,loss,MISTAKE: short in uptrend
+23,15m,long,2026-02-19 01:00:00,4962.657,4905.097,5135.339,win,reversal long; broke strong LH
+24,15m,long,2026-02-03 02:30:00,4753.521,4640.100,5093.783,win,reversal long; broke strong LH in downtrend
+25,15m,short,2026-01-26 23:45:00,5471.852,5563.320,5195.008,win,reversal short; broke prior HH

@@ -25,6 +25,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from src.data.fetcher import fetch, detect_asset_class
+from src.live.data_cache import fetch_live
 from src.regimes.sbrs_v2 import (
     analyze_sbrs_v2, get_sbrs_v2_indicators,
     WMA_PERIOD, SMMA_PERIOD, ATR_PERIOD, SWING_WINDOW,
@@ -43,30 +44,49 @@ from src.live.state import (
 from src.live.oanda_executor import (
     get_current_price, place_market_order, modify_stop_loss,
     close_trade as broker_close_trade, get_open_trades,
-    sync_positions, is_connected, get_account_balance
+    sync_positions, is_connected, get_account_balance,
+    get_last_fill_price,
 )
+from src.live.slip_logger import log_fill as log_slip_fill
 from src.live import alerts
 from src.live.portfolio_risk import can_open_position, get_portfolio_summary
 from src.live.process_lock import acquire_live_lock
+from src.live.deploy_gate import require_live_authorization
 
 HISTORY_BARS = 300
 
 # ── Symbol Configuration ─────────────────────────────────────
+# Per-symbol sizes mirror the Round 8 evidence-weighted canon
+# (`knowledge-base/76-Round-8-Evidence-Weighted-Sizing.md`).
+# SYMBOL_RISK_CAP in src/core/risk_manager.py is the authoritative clamp —
+# these values are the caller-intended target. Total live: 1.10%.
+# ── PAUSED 2026-06-09 — Gold-only while ZTT is built ─────────
+# Per user directive (ZTT rebuild), ALL non-Gold instruments are paused
+# until the new intraday-Gold "Zero's True Trade" strategy is built,
+# validated, demo-tested and live. The non-Gold configs are preserved in
+# _PAUSED_SYMBOLS below (and SYMBOL_RISK_CAP zeroes them as defense-in-depth)
+# so multi-asset can be restored later. NOTE: the Gold entry below still
+# references the legacy SBRS path/cadence — Phase 7 replaces it with ZTT 10m.
 SYMBOLS_CONFIG = [
     {
         'symbol': 'GC=F',
         'instrument': 'XAU_USD',
         'asset_class': 'gold',
         'state_key': 'GCF',
-        'risk_pct': 0.005,       # 0.5% risk (MC-recommended)
+        'risk_pct': 0.0100,          # 2026-06-09: 1.00% — only live instrument (ZTT freeze); reverts when others return
         'source': 'oanda',
     },
+]
+
+# Restore an entry into SYMBOLS_CONFIG (and un-zero its SYMBOL_RISK_CAP)
+# to bring an instrument back online after ZTT ships.
+_PAUSED_SYMBOLS = [
     {
         'symbol': '^GDAXI',
         'instrument': 'DE30_EUR',    # OANDA DAX CFD
         'asset_class': 'indices',
         'state_key': 'GDAXI',
-        'risk_pct': 0.0025,          # 0.25% risk
+        'risk_pct': 0.0025,
         'source': 'oanda',
     },
     {
@@ -74,7 +94,7 @@ SYMBOLS_CONFIG = [
         'instrument': 'NAS100_USD',  # OANDA NASDAQ CFD
         'asset_class': 'indices',
         'state_key': 'IXIC',
-        'risk_pct': 0.0025,
+        'risk_pct': 0.0015,
         'source': 'oanda',
     },
     {
@@ -82,7 +102,7 @@ SYMBOLS_CONFIG = [
         'instrument': 'GBP_USD',
         'asset_class': 'forex',
         'state_key': 'GBPUSD',
-        'risk_pct': 0.0025,
+        'risk_pct': 0.0020,
         'source': 'oanda',
     },
 ]
@@ -146,7 +166,7 @@ def _run_symbol(config: dict, now: datetime) -> dict:
     # ── Fetch data ────────────────────────────────────────────
     alerts.logger.info(f"[{tag}] Fetching latest {HISTORY_BARS} bars...")
     try:
-        df = fetch(symbol, '1h', '6mo')
+        df = fetch_live(symbol, '1h', '1mo', min_bars=HISTORY_BARS)
         if len(df) > HISTORY_BARS:
             df = df.iloc[-HISTORY_BARS:]
         alerts.logger.info(f"[{tag}] Loaded {len(df)} candles: {df.index[-1]}")
@@ -227,6 +247,19 @@ def _run_symbol(config: dict, now: datetime) -> dict:
             continue
 
         oanda_trade_id = place_market_order(direction, setup.position_size, setup.stop_loss, setup.take_profit, instrument=config['instrument'])
+
+        # Slip reconciliation (Falsifier #1): record expected vs actual fill.
+        log_slip_fill(
+            symbol=symbol,
+            instrument=config['instrument'],
+            direction=direction,
+            expected_entry=setup.entry_price,
+            actual_fill=get_last_fill_price(),
+            oanda_trade_id=oanda_trade_id,
+            units=setup.position_size,
+            asset_class=asset_class,
+            note='runner',
+        )
 
         if oanda_trade_id:
             trade = LiveTrade(
@@ -374,6 +407,7 @@ def _summary(state: AlgoState, symbol: str) -> dict:
 
 def run():
     """Main execution — called once per hour by Task Scheduler."""
+    require_live_authorization('runner')
     acquire_live_lock()
     now = datetime.now(timezone.utc)
     alerts.logger.info(f"{'=' * 60}")

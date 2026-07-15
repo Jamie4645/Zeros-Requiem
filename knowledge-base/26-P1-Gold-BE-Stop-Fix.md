@@ -4,6 +4,12 @@ aliases: [BE Stop Fix, Breakeven Stop Fix]
 related: [[CLAUDE]], [[25-Walk-Forward-Full-Results]], [[27-P3-P6-Forex-Fixes]], [[16-Risk-Management-Elite-System]], [[00-MOC-Zeros-Requiem]]
 ---
 
+> ⛔ **VOID (see root `CLAUDE.md`).** This file predates the 2026-06-01 phantom-fill audit and
+> 2026-07-02 full-codebase audit — the Gold Sharpe/PF/PnL numbers and "Elite Benchmark Status: PASS"
+> table below are artifacts of the same flawed backtest engine later found to have no realistic-fill
+> edge, not current state. Retained as historical record only. Current canon: root `CLAUDE.md` +
+> [[00-MOC-Zeros-Requiem]].
+
 # P1: Gold Breakeven Stop Fix
 
 **Date:** 2026-02-12

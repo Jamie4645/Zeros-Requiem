@@ -4,6 +4,12 @@ aliases: [Forex Fixes, JPY Fix, AUD Rejection]
 related: [[21-Priority-3-4-New-Pairs]], [[26-P1-Gold-BE-Stop-Fix]], [[28-P4-Monte-Carlo]], [[00-MOC-Zeros-Requiem]]
 ---
 
+> ⛔ **VOID (see root `CLAUDE.md`).** This file predates the 2026-06-01 phantom-fill audit and
+> 2026-07-02 full-codebase audit — the USD/JPY and AUD/USD trade/WR/PnL/PF numbers below are
+> artifacts of the same flawed backtest engine later found to have no realistic-fill edge, not
+> current state. Retained as historical record only. Current canon: root `CLAUDE.md` +
+> [[00-MOC-Zeros-Requiem]].
+
 # P3: USD/JPY 4H Fix + P6: AUD/USD Rejection
 
 **Date:** 2026-02-12

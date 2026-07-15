@@ -4,6 +4,10 @@ aliases: [Round 5 Remediation Log, Phase A-E Closure, 2026-04-18 Session Log]
 related: [[00-MOC-Zeros-Requiem]], [[67-Round-5-Post-Council-Validation]], [[70-Ablation-Round-6]], [[71-NDX-Fat-Tail-Audit]], [[72-Gold-Bar-Audit]]
 ---
 
+> ⛔ **VOID/RETIRED (see root `CLAUDE.md`).** This remediation log's SBRS 2.0 numbers are
+> phantom-fill artifacts (2026-06-01 audit) and additionally optimistic pre-2026-07-02 (WF
+> peak-reset bug, R6-5 retracted). SBRS is now fully retired. Retained as historical record only.
+
 # Round 5 Remediation Log — Full Phase A–D Closure (2026-04-18)
 
 > **Directive:** Execute the Round 5 council remediation plan (20 items across 5 RED / 7 YELLOW / 8 GREEN-monitor) with TDD discipline, prioritised by live-money impact. Phase E closure pending user decision on slippage recalibration.

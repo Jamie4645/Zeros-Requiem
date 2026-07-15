@@ -4,6 +4,12 @@ aliases: [Optimisation Weak Areas]
 related: [[22-Priority-5-6-Metrics-WalkForward]], [[24-Optimisation-Round-2]], [[25-Walk-Forward-Full-Results]], [[00-MOC-Zeros-Requiem]]
 ---
 
+> ⛔ **VOID (see root `CLAUDE.md`).** This file predates the 2026-06-01 phantom-fill audit and
+> 2026-07-02 full-codebase audit — the PnL/WR comparison tables below (from the pre-SBRS SCAF-era
+> engine, Feb 2026) are artifacts of the same flawed backtest engine later found to have no
+> realistic-fill edge, not current state. Retained as historical record only. Current canon:
+> root `CLAUDE.md` + [[00-MOC-Zeros-Requiem]].
+
 # Optimisation Pass: Fixing Weak Areas
 
 **Date:** 2026-02-11

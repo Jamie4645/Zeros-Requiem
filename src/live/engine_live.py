@@ -32,6 +32,7 @@ from typing import Dict, Optional
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from src.data.fetcher import fetch
+from src.live.data_cache import fetch_live
 from src.regimes.sbrs_v2 import (
     analyze_sbrs_v2, get_sbrs_v2_indicators,
     WMA_PERIOD, SMMA_PERIOD, ATR_PERIOD, SWING_WINDOW,
@@ -46,47 +47,32 @@ from src.live.state import (
 from src.live.oanda_executor import (
     get_current_price, place_market_order, modify_stop_loss,
     close_trade as broker_close_trade,
-    sync_positions, is_connected, get_account_balance
+    sync_positions, is_connected, get_account_balance,
+    get_last_fill_price,
 )
+from src.live.slip_logger import log_fill as log_slip_fill
 from src.live.portfolio_risk import can_open_position, get_portfolio_summary
 from src.live import alerts
 from src.live.process_lock import acquire_live_lock
+from src.live.deploy_gate import require_live_authorization
 
 HISTORY_BARS = 300
 POLL_INTERVAL_SECONDS = 30    # Check for candle close every 30s
 HEARTBEAT_HOURS = 4           # Send Telegram heartbeat every N hours
 
+# ── Reconciled 2026-07-02 (full-codebase audit) ──────────────────────────
+# This config MUST mirror src/live/runner.py SYMBOLS_CONFIG — the audit found
+# the two launchable entrypoints disagreed (4 symbols @ R8 sizing here vs
+# Gold-only @ 1.00% in runner). Gold-only per the ZTT freeze; non-Gold configs
+# live in runner._PAUSED_SYMBOLS and SYMBOL_RISK_CAP zeroes them as backstop.
+# NOTE: nothing runs live regardless — deploy_gate blocks both entrypoints.
 SYMBOLS_CONFIG = [
     {
         'symbol': 'GC=F',
         'instrument': 'XAU_USD',
         'asset_class': 'gold',
         'state_key': 'GCF',
-        'risk_pct': 0.005,
-        'source': 'oanda',
-    },
-    {
-        'symbol': '^GDAXI',
-        'instrument': 'DE30_EUR',
-        'asset_class': 'indices',
-        'state_key': 'GDAXI',
-        'risk_pct': 0.0025,
-        'source': 'oanda',
-    },
-    {
-        'symbol': '^IXIC',
-        'instrument': 'NAS100_USD',
-        'asset_class': 'indices',
-        'state_key': 'IXIC',
-        'risk_pct': 0.0025,
-        'source': 'oanda',
-    },
-    {
-        'symbol': 'GBPUSD=X',
-        'instrument': 'GBP_USD',
-        'asset_class': 'forex',
-        'state_key': 'GBPUSD',
-        'risk_pct': 0.0025,
+        'risk_pct': 0.0100,          # matches runner.py (ZTT freeze value)
         'source': 'oanda',
     },
 ]
@@ -157,7 +143,7 @@ class LiveEngine:
 
         # Fetch data
         try:
-            df = fetch(symbol, '1h', '6mo')
+            df = fetch_live(symbol, '1h', '1mo', min_bars=HISTORY_BARS)
             if len(df) > HISTORY_BARS:
                 df = df.iloc[-HISTORY_BARS:]
         except Exception as e:
@@ -224,6 +210,18 @@ class LiveEngine:
             oanda_trade_id = place_market_order(
                 direction, setup.position_size, setup.stop_loss,
                 setup.take_profit, instrument=config['instrument']
+            )
+
+            log_slip_fill(
+                symbol=symbol,
+                instrument=config['instrument'],
+                direction=direction,
+                expected_entry=setup.entry_price,
+                actual_fill=get_last_fill_price(),
+                oanda_trade_id=oanda_trade_id,
+                units=setup.position_size,
+                asset_class=asset_class,
+                note='engine_live',
             )
 
             if oanda_trade_id:
@@ -387,6 +385,7 @@ class LiveEngine:
 
     def run(self):
         """Main continuous loop."""
+        require_live_authorization('engine_live')
         acquire_live_lock()
         self.running = True
 

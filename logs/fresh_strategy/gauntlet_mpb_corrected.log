@@ -1,0 +1,21 @@
+==== GAUNTLET MPB — pre-registered KB-93 N1-N8 ====
+
+-- N2/N3: 9-cell frozen grid --
+  {'ER_MIN': 0.25, 'RR_TARGET': 1.7}  setups=5527 trades=4204 unables=22 PF=0.410 pnl=$-10000
+  {'ER_MIN': 0.25, 'RR_TARGET': 1.8}  setups=6081 trades=4477 unables=25 PF=0.445 pnl=$-10000
+  {'ER_MIN': 0.25, 'RR_TARGET': 2.0}  setups=6081 trades=4368 unables=24 PF=0.467 pnl=$-10000
+  {'ER_MIN': 0.3, 'RR_TARGET': 1.7}  setups=4315 trades=3428 unables=20 PF=0.427 pnl=$-9999
+  {'ER_MIN': 0.3, 'RR_TARGET': 1.8}  setups=4757 trades=3673 unables=22 PF=0.453 pnl=$-10000
+  {'ER_MIN': 0.3, 'RR_TARGET': 2.0}  setups=4757 trades=3585 unables=22 PF=0.463 pnl=$-10000
+  {'ER_MIN': 0.35, 'RR_TARGET': 1.7}  setups=3312 trades=2757 unables=16 PF=0.435 pnl=$-9997
+  {'ER_MIN': 0.35, 'RR_TARGET': 1.8}  setups=3655 trades=2952 unables=18 PF=0.450 pnl=$-9998
+  {'ER_MIN': 0.35, 'RR_TARGET': 2.0}  setups=3655 trades=2900 unables=18 PF=0.454 pnl=$-9998
+
+N2 sample sanity: center-cell trades=3673 -> PASS
+N3 realistic-cost: grid-avg PF=0.445 (kill<1.10), plateau 0% cells PF>1.0 (kill<70%) -> KILL
+
+center cell scoreboard: IR=-3.70 Sortino=-4.80 Calmar=-0.65 maxDD=100.0% WR=36.1% netR=-1009.0 PF=0.453 B&H_IR=0.69 beats=False
+
+*** N3 KILL — grid-avg PF 0.445 / plateau 0% ***
+
+JSON -> C:\Users\jamie\OneDrive\Documents\Jamie VS Code\Git\Zeros Requiem\logs\fresh_strategy\gauntlet_mpb_corrected.json

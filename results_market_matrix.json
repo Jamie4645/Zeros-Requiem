@@ -1,0 +1,226 @@
+[
+  {
+    "symbol": "GC=F",
+    "name": "Gold (XAUUSD)",
+    "error": null,
+    "backtest": {
+      "bars": 59085,
+      "trades": 415,
+      "win_rate": 39.04,
+      "total_pnl": 9186.64,
+      "profit_factor": 1.35,
+      "sharpe": 0.69,
+      "max_dd_pct": 10.08,
+      "blocked": 1171
+    },
+    "monte_carlo": {
+      "sims": 5000,
+      "prob_profitable_pct": 9924.0,
+      "prob_20dd_pct": 2276.0,
+      "p95_max_dd_pct": 29.84
+    },
+    "walk_forward": {
+      "windows": 8,
+      "profitable_windows": 6,
+      "consistency_pct": 7500.0,
+      "avg_pf": 1.12,
+      "avg_sharpe": 0.5,
+      "total_pnl": 14053.92
+    }
+  },
+  {
+    "symbol": "^GSPC",
+    "name": "S&P 500",
+    "error": null,
+    "backtest": {
+      "bars": 58983,
+      "trades": 1017,
+      "win_rate": 48.48,
+      "total_pnl": 94317.1,
+      "profit_factor": 2.73,
+      "sharpe": 1.71,
+      "max_dd_pct": 11.54,
+      "blocked": 0
+    },
+    "monte_carlo": {
+      "sims": 5000,
+      "prob_profitable_pct": 10000.0,
+      "prob_20dd_pct": 88.0,
+      "p95_max_dd_pct": 14.74
+    },
+    "walk_forward": {
+      "windows": 8,
+      "profitable_windows": 8,
+      "consistency_pct": 10000.0,
+      "avg_pf": 1.49,
+      "avg_sharpe": 1.31,
+      "total_pnl": 25509.57
+    }
+  },
+  {
+    "symbol": "^IXIC",
+    "name": "NASDAQ",
+    "error": null,
+    "backtest": {
+      "bars": 58984,
+      "trades": 1127,
+      "win_rate": 46.76,
+      "total_pnl": 217060.62,
+      "profit_factor": 4.4,
+      "sharpe": 2.21,
+      "max_dd_pct": 8.58,
+      "blocked": 0
+    },
+    "monte_carlo": {
+      "sims": 5000,
+      "prob_profitable_pct": 10000.0,
+      "prob_20dd_pct": 358.0,
+      "p95_max_dd_pct": 18.73
+    },
+    "walk_forward": {
+      "windows": 8,
+      "profitable_windows": 8,
+      "consistency_pct": 10000.0,
+      "avg_pf": 1.55,
+      "avg_sharpe": 1.48,
+      "total_pnl": 30836.33
+    }
+  },
+  {
+    "symbol": "^GDAXI",
+    "name": "DAX",
+    "error": null,
+    "backtest": {
+      "bars": 47461,
+      "trades": 1207,
+      "win_rate": 46.89,
+      "total_pnl": 22580.05,
+      "profit_factor": 1.35,
+      "sharpe": 0.91,
+      "max_dd_pct": 14.88,
+      "blocked": 0
+    },
+    "monte_carlo": {
+      "sims": 5000,
+      "prob_profitable_pct": 10000.0,
+      "prob_20dd_pct": 2028.0,
+      "p95_max_dd_pct": 28.27
+    },
+    "walk_forward": {
+      "windows": 8,
+      "profitable_windows": 6,
+      "consistency_pct": 7500.0,
+      "avg_pf": 1.16,
+      "avg_sharpe": 0.53,
+      "total_pnl": 9801.77
+    }
+  },
+  {
+    "symbol": "EURUSD=X",
+    "name": "EUR/USD",
+    "error": "ValueError: OANDA fetch interrupted after 41372 candles (partial history is invalid for research): 502 Server Error: Bad Gateway for url: https://api-fxpractice.oanda.com/v3/instruments/EUR_USD/candles?granularity=H1&from=2022-12-02T21%3A00%3A01Z&to=2023-06-07T21%3A00%3A01Z&price=M",
+    "backtest": {
+      "bars": 62171,
+      "trades": 246,
+      "win_rate": 35.77,
+      "total_pnl": -1780.58,
+      "profit_factor": 0.9,
+      "sharpe": -0.15,
+      "max_dd_pct": 20.73,
+      "blocked": 740
+    },
+    "monte_carlo": {
+      "sims": 5000,
+      "prob_profitable_pct": 2420.0,
+      "prob_20dd_pct": 8508.0,
+      "p95_max_dd_pct": 66.24
+    },
+    "walk_forward": null,
+    "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\src\\data\\oanda_fetcher.py\", line 224, in fetch_oanda\n    response.raise_for_status()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\jamie\\AppData\\Roaming\\Python\\Python314\\site-packages\\requests\\models.py\", line 1028, in raise_for_status\n    raise HTTPError(http_error_msg, response=self)\nrequests.exceptions.HTTPError: 502 Server Error: Bad Gateway for url: https://api-fxpractice.oanda.com/v3/instruments/EUR_USD/candles?granularity=H1&from=2022-12-02T21%3A00%3A01Z&to=2023-06-07T21%3A00%3A01Z&price=M\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\scripts\\run_market_matrix.py\", line 127, in main\n    rec[\"backtest\"] = {\n         ^^^^^^^^^^^^^^\n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\scripts\\run_market_matrix.py\", line 53, in run_one_wf\n    sbrs_v2_indicators=ind,\n     ^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\src\\data\\fetcher.py\", line 134, in fetch\n    df = fetch_oanda(symbol, interval, period, start_date, end_date)\n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\src\\data\\oanda_fetcher.py\", line 230, in fetch_oanda\n    raise ValueError(\n    ...<2 lines>...\n    ) from e\nValueError: OANDA fetch interrupted after 41372 candles (partial history is invalid for research): 502 Server Error: Bad Gateway for url: https://api-fxpractice.oanda.com/v3/instruments/EUR_USD/candles?granularity=H1&from=2022-12-02T21%3A00%3A01Z&to=2023-06-07T21%3A00%3A01Z&price=M\n"
+  },
+  {
+    "symbol": "GBPUSD=X",
+    "name": "GBP/USD",
+    "error": "ValueError: OANDA fetch interrupted after 28611 candles (partial history is invalid for research): 502 Server Error: Bad Gateway for url: https://api-fxpractice.oanda.com/v3/instruments/GBP_USD/candles?granularity=H1&from=2020-11-16T21%3A00%3A01Z&to=2021-05-22T21%3A00%3A01Z&price=M",
+    "backtest": null,
+    "monte_carlo": null,
+    "walk_forward": null,
+    "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\src\\data\\oanda_fetcher.py\", line 224, in fetch_oanda\n    response.raise_for_status()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\jamie\\AppData\\Roaming\\Python\\Python314\\site-packages\\requests\\models.py\", line 1028, in raise_for_status\n    raise HTTPError(http_error_msg, response=self)\nrequests.exceptions.HTTPError: 502 Server Error: Bad Gateway for url: https://api-fxpractice.oanda.com/v3/instruments/GBP_USD/candles?granularity=H1&from=2020-11-16T21%3A00%3A01Z&to=2021-05-22T21%3A00%3A01Z&price=M\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\scripts\\run_market_matrix.py\", line 99, in main\n    else:\n    \n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\scripts\\run_market_matrix.py\", line 39, in run_one_backtest\n    for k in (\"gold\", \"indices\", \"forex\", \"crypto\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\src\\data\\fetcher.py\", line 134, in fetch\n    df = fetch_oanda(symbol, interval, period, start_date, end_date)\n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\src\\data\\oanda_fetcher.py\", line 230, in fetch_oanda\n    raise ValueError(\n    ...<2 lines>...\n    ) from e\nValueError: OANDA fetch interrupted after 28611 candles (partial history is invalid for research): 502 Server Error: Bad Gateway for url: https://api-fxpractice.oanda.com/v3/instruments/GBP_USD/candles?granularity=H1&from=2020-11-16T21%3A00%3A01Z&to=2021-05-22T21%3A00%3A01Z&price=M\n"
+  },
+  {
+    "symbol": "USDJPY=X",
+    "name": "USD/JPY",
+    "error": "ValueError: OANDA fetch interrupted after 15910 candles (partial history is invalid for research): 502 Server Error: Bad Gateway for url: https://api-fxpractice.oanda.com/v3/instruments/USD_JPY/candles?granularity=H1&from=2018-10-31T20%3A00%3A01Z&to=2019-05-06T20%3A00%3A01Z&price=M",
+    "backtest": null,
+    "monte_carlo": null,
+    "walk_forward": null,
+    "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\src\\data\\oanda_fetcher.py\", line 224, in fetch_oanda\n    response.raise_for_status()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\jamie\\AppData\\Roaming\\Python\\Python314\\site-packages\\requests\\models.py\", line 1028, in raise_for_status\n    raise HTTPError(http_error_msg, response=self)\nrequests.exceptions.HTTPError: 502 Server Error: Bad Gateway for url: https://api-fxpractice.oanda.com/v3/instruments/USD_JPY/candles?granularity=H1&from=2018-10-31T20%3A00%3A01Z&to=2019-05-06T20%3A00%3A01Z&price=M\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\scripts\\run_market_matrix.py\", line 99, in main\n    else:\n    \n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\scripts\\run_market_matrix.py\", line 39, in run_one_backtest\n    for k in (\"gold\", \"indices\", \"forex\", \"crypto\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\src\\data\\fetcher.py\", line 134, in fetch\n    df = fetch_oanda(symbol, interval, period, start_date, end_date)\n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\src\\data\\oanda_fetcher.py\", line 230, in fetch_oanda\n    raise ValueError(\n    ...<2 lines>...\n    ) from e\nValueError: OANDA fetch interrupted after 15910 candles (partial history is invalid for research): 502 Server Error: Bad Gateway for url: https://api-fxpractice.oanda.com/v3/instruments/USD_JPY/candles?granularity=H1&from=2018-10-31T20%3A00%3A01Z&to=2019-05-06T20%3A00%3A01Z&price=M\n"
+  },
+  {
+    "symbol": "AUDUSD=X",
+    "name": "AUD/USD",
+    "error": "ValueError: OANDA fetch interrupted after 3210 candles (partial history is invalid for research): 502 Server Error: Bad Gateway for url: https://api-fxpractice.oanda.com/v3/instruments/AUD_USD/candles?granularity=H1&from=2016-10-14T20%3A00%3A01Z&to=2017-04-19T20%3A00%3A01Z&price=M",
+    "backtest": null,
+    "monte_carlo": null,
+    "walk_forward": null,
+    "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\src\\data\\oanda_fetcher.py\", line 224, in fetch_oanda\n    response.raise_for_status()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\jamie\\AppData\\Roaming\\Python\\Python314\\site-packages\\requests\\models.py\", line 1028, in raise_for_status\n    raise HTTPError(http_error_msg, response=self)\nrequests.exceptions.HTTPError: 502 Server Error: Bad Gateway for url: https://api-fxpractice.oanda.com/v3/instruments/AUD_USD/candles?granularity=H1&from=2016-10-14T20%3A00%3A01Z&to=2017-04-19T20%3A00%3A01Z&price=M\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\scripts\\run_market_matrix.py\", line 99, in main\n    else:\n    \n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\scripts\\run_market_matrix.py\", line 39, in run_one_backtest\n    for k in (\"gold\", \"indices\", \"forex\", \"crypto\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\src\\data\\fetcher.py\", line 134, in fetch\n    df = fetch_oanda(symbol, interval, period, start_date, end_date)\n  File \"C:\\Users\\jamie\\OneDrive\\Documents\\Jamie VS Code\\Git\\Zeros Requiem\\src\\data\\oanda_fetcher.py\", line 230, in fetch_oanda\n    raise ValueError(\n    ...<2 lines>...\n    ) from e\nValueError: OANDA fetch interrupted after 3210 candles (partial history is invalid for research): 502 Server Error: Bad Gateway for url: https://api-fxpractice.oanda.com/v3/instruments/AUD_USD/candles?granularity=H1&from=2016-10-14T20%3A00%3A01Z&to=2017-04-19T20%3A00%3A01Z&price=M\n"
+  },
+  {
+    "symbol": "BTC-USD",
+    "name": "Bitcoin (BTC)",
+    "error": null,
+    "backtest": {
+      "bars": 43788,
+      "trades": 163,
+      "win_rate": 25.77,
+      "total_pnl": -1082.56,
+      "profit_factor": 0.91,
+      "sharpe": -0.17,
+      "max_dd_pct": 21.72,
+      "blocked": 1418
+    },
+    "monte_carlo": {
+      "sims": 5000,
+      "prob_profitable_pct": 2912.0,
+      "prob_20dd_pct": 6802.0,
+      "p95_max_dd_pct": 50.11
+    },
+    "walk_forward": {
+      "windows": 8,
+      "profitable_windows": 5,
+      "consistency_pct": 6250.0,
+      "avg_pf": 1.22,
+      "avg_sharpe": 1.13,
+      "total_pnl": 27835.94
+    }
+  },
+  {
+    "symbol": "ETH-USD",
+    "name": "Ethereum (ETH)",
+    "error": null,
+    "backtest": {
+      "bars": 43788,
+      "trades": 240,
+      "win_rate": 30.83,
+      "total_pnl": 3040.64,
+      "profit_factor": 1.18,
+      "sharpe": 0.52,
+      "max_dd_pct": 20.43,
+      "blocked": 1377
+    },
+    "monte_carlo": {
+      "sims": 5000,
+      "prob_profitable_pct": 8652.0,
+      "prob_20dd_pct": 3218.0,
+      "p95_max_dd_pct": 33.85
+    },
+    "walk_forward": {
+      "windows": 8,
+      "profitable_windows": 8,
+      "consistency_pct": 10000.0,
+      "avg_pf": 1.15,
+      "avg_sharpe": 1.05,
+      "total_pnl": 18867.94
+    }
+  }
+]

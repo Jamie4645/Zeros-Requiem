@@ -1,58 +1,79 @@
 {
   "collapse-filter": false,
   "search": "",
-  "showTags": false,
+  "showTags": true,
   "showAttachments": false,
   "hideUnresolved": false,
   "showOrphans": true,
   "collapse-color-groups": false,
   "colorGroups": [
     {
-      "query": "tag:#core",
+      "query": "tag:#strategy",
       "color": {
         "a": 1,
-        "rgb": 16750848
+        "rgb": 16766720
       }
     },
     {
-      "query": "tag:#tool",
+      "query": "tag:#infra",
       "color": {
         "a": 1,
-        "rgb": 5614335
+        "rgb": 54527
       }
     },
     {
-      "query": "tag:#priority",
+      "query": "tag:#research",
       "color": {
         "a": 1,
-        "rgb": 65280
+        "rgb": 8073207
       }
     },
     {
-      "query": "tag:#risk-management",
+      "query": "tag:#validation",
       "color": {
         "a": 1,
-        "rgb": 16711680
+        "rgb": 65416
       }
     },
     {
-      "query": "tag:#guide",
+      "query": "tag:#tooling",
       "color": {
         "a": 1,
-        "rgb": 16776960
+        "rgb": 48340
+      }
+    },
+    {
+      "query": "tag:#expansion",
+      "color": {
+        "a": 1,
+        "rgb": 3066993
+      }
+    },
+    {
+      "query": "tag:#risk",
+      "color": {
+        "a": 1,
+        "rgb": 16730955
+      }
+    },
+    {
+      "query": "tag:#archive",
+      "color": {
+        "a": 1,
+        "rgb": 6974090
       }
     }
   ],
-  "collapse-display": true,
+  "collapse-display": false,
   "showArrow": false,
   "textFadeMultiplier": 0,
-  "nodeSizeMultiplier": 1,
-  "lineSizeMultiplier": 1,
+  "nodeSizeMultiplier": 0.916666666666667,
+  "lineSizeMultiplier": 0.967708333333333,
   "collapse-forces": false,
   "centerStrength": 0.520833333333333,
   "repelStrength": 10,
   "linkStrength": 0.828125,
   "linkDistance": 260,
-  "scale": 0.8155358408311163,
+  "scale": 0.4752661089330985,
   "close": false
 }

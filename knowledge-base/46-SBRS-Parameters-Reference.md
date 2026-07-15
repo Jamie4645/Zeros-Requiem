@@ -3,6 +3,11 @@ tags: [strategy, reference]
 aliases: [SBRS Parameters, Parameters Reference]
 ---
 
+> ⛔ **RETIRED (see root `CLAUDE.md`).** SBRS is fully retired — realistic-fill backtests found
+> no edge on any instrument (PF 0.52–1.07), and the ZTT rebuild does not inherit SBRS logic.
+> These parameters are historical record only, not active. Current strategy: ZTT
+> (`knowledge-base/89-ZTT-Rebuild.md`).
+
 # SBRS 1.1 — Parameters Reference
 
 > Locked reference of all SBRS parameters. Core parameters come from 3-4 years of profitable discretionary trading. DO NOT OPTIMIZE.

@@ -4,6 +4,12 @@ aliases: [Walk-Forward Results, WF Results]
 related: [[CLAUDE]], [[22-Priority-5-6-Metrics-WalkForward]], [[24-Optimisation-Round-2]], [[28-P4-Monte-Carlo]], [[31-Tool-Backtest]], [[00-MOC-Zeros-Requiem]]
 ---
 
+> ⛔ **VOID (see root `CLAUDE.md`).** This file predates the 2026-06-01 phantom-fill audit,
+> 2026-07-02 full-codebase audit (WF peak-reset bug, R6-5 retracted — pre-fix WF scores were
+> additionally optimistic), and realistic-fill re-validation. Numbers below are void artifacts,
+> not current state. Retained as historical record only. Current canon: root `CLAUDE.md` +
+> [[00-MOC-Zeros-Requiem]].
+
 # Walk-Forward Validation — Full Results
 
 **Date:** 2026-02-11

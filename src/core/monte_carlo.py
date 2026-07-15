@@ -43,6 +43,9 @@ class MonteCarloResult:
     p95_max_consecutive_losses: int     # Worst-case losing streak
     # Risk of ruin
     prob_50pct_drawdown: float          # Probability of losing half the account
+    # Bootstrap method (2026-07-02 audit: IID understates tail DD)
+    method: str = 'block'
+    block_size: int = 0
 
 
 def run_monte_carlo(
@@ -50,21 +53,31 @@ def run_monte_carlo(
     initial_capital: float = 10000.0,
     n_simulations: int = 10000,
     n_trades_per_sim: Optional[int] = None,
-    seed: Optional[int] = None
+    seed: Optional[int] = None,
+    method: str = 'block',
+    block_size: Optional[int] = None
 ) -> MonteCarloResult:
     """
     Run Monte Carlo simulation on trade results.
-    
+
     Resamples from actual trade PnLs with replacement to generate
     synthetic equity curves and measure tail risk.
-    
+
     Args:
         trades: List of BacktestTrade objects (must have .pnl attribute)
         initial_capital: Starting capital for each simulation
         n_simulations: Number of synthetic paths to generate (10000 = standard)
         n_trades_per_sim: Trades per simulation (default: same as input)
         seed: Random seed for reproducibility
-    
+        method: 'block' (default) = circular moving-block bootstrap, which
+            preserves the losing-streak autocorrelation of the real trade
+            sequence; 'iid' = the pre-2026-07-02 per-trade shuffle. The audit
+            found IID destroys loss clustering and UNDERSTATES Prob(20%DD) —
+            the exact gate every promotion leaned on. Use 'iid' only for
+            comparison against historical numbers.
+        block_size: block length for method='block'. Default: ~2*n^(1/3),
+            floored at 5 (a standard dependent-bootstrap block scale).
+
     Returns:
         MonteCarloResult with comprehensive risk statistics
     """
@@ -91,12 +104,27 @@ def run_monte_carlo(
         np.random.seed(seed)
     
     n_trades = n_trades_per_sim if n_trades_per_sim else len(pnls)
-    
+
     # ============================================================
     # Vectorised Monte Carlo: resample all simulations at once
     # Shape: (n_simulations, n_trades)
     # ============================================================
-    indices = np.random.randint(0, len(pnls), size=(n_simulations, n_trades))
+    if method == 'block':
+        # Circular moving-block bootstrap: sample whole consecutive runs of
+        # trades (wrapping at the end) so losing streaks survive resampling.
+        if block_size is None:
+            block_size = max(5, int(round(2 * len(pnls) ** (1.0 / 3.0))))
+        block_size = max(1, min(block_size, len(pnls)))
+        n_blocks = int(np.ceil(n_trades / block_size))
+        starts = np.random.randint(0, len(pnls), size=(n_simulations, n_blocks))
+        offsets = np.arange(block_size)
+        indices = (starts[:, :, None] + offsets[None, None, :]) % len(pnls)
+        indices = indices.reshape(n_simulations, n_blocks * block_size)[:, :n_trades]
+    elif method == 'iid':
+        block_size = 1
+        indices = np.random.randint(0, len(pnls), size=(n_simulations, n_trades))
+    else:
+        raise ValueError(f"Unknown Monte Carlo method: {method!r} (use 'block' or 'iid')")
     sim_pnls = pnls[indices]  # (n_simulations, n_trades)
     
     # Cumulative equity curves
@@ -164,6 +192,8 @@ def run_monte_carlo(
         p95_max_consecutive_losses=int(np.percentile(max_con_losses, 95)),
         # Risk of ruin
         prob_50pct_drawdown=round(float(np.mean(max_drawdowns >= 50) * 100), 2),
+        method=method,
+        block_size=int(block_size),
     )
 
 
@@ -175,10 +205,12 @@ def print_monte_carlo_report(mc: MonteCarloResult, symbol_name: str = "") -> Non
     elite_status = "PASS" if mc.prob_20pct_drawdown < 5.0 else "FAIL"
     risk_status = "PASS" if mc.prob_15pct_drawdown < 10.0 else "CAUTION"
     
+    method_str = (f"block bootstrap (L={mc.block_size})" if mc.method == 'block'
+                  else "IID bootstrap (understates streak risk)")
     print(f"""
     ================================================================
       {title}
-      Simulations: {mc.n_simulations:,}  |  Trades/Sim: {mc.n_trades}
+      Simulations: {mc.n_simulations:,}  |  Trades/Sim: {mc.n_trades}  |  {method_str}
     ================================================================
     
       --- Drawdown Risk ---

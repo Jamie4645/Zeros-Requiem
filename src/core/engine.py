@@ -40,6 +40,23 @@ SBRS_V2_INDICES_MAX_HOLD = 25        # Indices trend shorter than Gold
 SBRS_V2_INDICES_BE_TRIGGER = 1.0     # Move to BE faster on indices
 SBRS_V2_INDICES_TRAIL_R = 2.0        # Start trailing earlier on indices
 
+# ── Edge-feature toggles (ablation / live-parity instrumentation) ───────────
+# Both default True == current backtested behaviour (zero production change).
+# They exist so the audit edge-divergence ablation can measure the contribution
+# of two features that are present in the backtest but NOT in the live engine:
+#   - REVERSAL_ENTRY_ENABLED:  failed-breakout-reversal injected entries
+#   - STRUCTURE_EXIT_ENABLED:  structure-break-against-position exit
+# See tests/_audit_edge_ablation.py and audit 2026-06-01 blocker #2.
+REVERSAL_ENTRY_ENABLED = True
+STRUCTURE_EXIT_ENABLED = True
+
+# Reversal entries are LIMIT orders at the broken level (methodology: "limit
+# orders exclusively, never at market"). A limit only fills if price actually
+# trades to the level. This is the max number of bars the resting limit waits
+# for a touch before it is cancelled. Audit 2026-06-01 fixed the prior bug where
+# reversals filled at the level unconditionally (impossible 95-100% WR fills).
+REVERSAL_LIMIT_MAX_WAIT = 10
+
 
 class TradeStatus(Enum):
     PENDING = "pending"       # Limit order placed, waiting for fill
@@ -364,7 +381,7 @@ def manage_sbrs_v2_trade(
     # ------------------------------------------------------------------
     # Check 4: Structure break against position
     # ------------------------------------------------------------------
-    if current_idx >= 3:
+    if STRUCTURE_EXIT_ENABLED and current_idx >= 3:
         if is_long:
             check_idx = current_idx - 3
             if check_idx >= 0 and swing_high_mask.iloc[check_idx]:
@@ -465,7 +482,8 @@ def run_backtest(
     risk_config: Optional[RiskConfig] = None,
     apply_slippage: bool = True,
     sbrs_indicators: Optional[Dict[str, Any]] = None,
-    sbrs_v2_indicators: Optional[Dict[str, Any]] = None
+    sbrs_v2_indicators: Optional[Dict[str, Any]] = None,
+    initial_peak_equity: Optional[float] = None
 ) -> BacktestResult:
     """
     Run a backtest on a list of TradeSetups.
@@ -491,11 +509,19 @@ def run_backtest(
         sbrs_v2_indicators: Optional dict with pre-computed SBRS 2.0 indicators.
             Same structure as sbrs_indicators. If None, falls back to
             sbrs_indicators for v2 trades.
+        initial_peak_equity: Optional peak equity to seed the RiskManager with
+            (must be >= initial_capital). Used by walk_forward to carry the
+            drawdown circuit-breaker state across windows — without it every
+            window resets peak_equity and the breaker is silently neutralized
+            (2026-07-02 audit: the real R6-5 mechanism).
     """
     if risk_config is None:
         risk_config = RiskConfig()
-    
+
     risk_mgr = RiskManager(risk_config, initial_capital)
+    if initial_peak_equity is not None and initial_peak_equity > initial_capital:
+        risk_mgr.peak_equity = initial_peak_equity
+        risk_mgr.stats['peak_equity'] = initial_peak_equity
     
     trades: List[BacktestTrade] = []
     open_trades: List[BacktestTrade] = []
@@ -508,7 +534,7 @@ def run_backtest(
     setup_idx = 0
 
     # SBRS 2.0: Failed breakout reversal — injected setups from SL exits
-    injected_setups: List[tuple] = []  # List of (bar_index, TradeSetup)
+    injected_setups: List[tuple] = []  # List of (ready_bar, expiry_bar, TradeSetup) — resting reversal limits
 
     for i in range(len(df)):
         timestamp = df.index[i]
@@ -678,6 +704,8 @@ def run_backtest(
         # When a v2 trade hits SL, check if a reverse trade is valid
         # ============================================================
         for closed_trade in closed_this_bar:
+            if not REVERSAL_ENTRY_ENABLED:
+                break
             if not closed_trade.regime.startswith('sbrs_v2'):
                 continue
             if closed_trade.exit_reason != 'sl':
@@ -748,15 +776,11 @@ def run_backtest(
                 is_counter_trend=False,
             )
 
-            injected_setups.append((i + 1, reverse_setup))
+            injected_setups.append((i + 1, i + 1 + REVERSAL_LIMIT_MAX_WAIT, reverse_setup))
 
         # ============================================================
-        # Process new setups at this bar (includes injected reversals)
+        # Process new setups at this bar
         # ============================================================
-        # Check for injected setups ready at this bar
-        ready_injected = [s for bar_idx, s in injected_setups if bar_idx <= i]
-        injected_setups = [(bar_idx, s) for bar_idx, s in injected_setups if bar_idx > i]
-
         while setup_idx < len(setups_sorted) and setups_sorted[setup_idx].index <= i:
             setup = setups_sorted[setup_idx]
             setup_idx += 1
@@ -764,7 +788,14 @@ def run_backtest(
             # Skip if setup is for a future bar (limit order not yet reached)
             if setup.index != i:
                 continue
-            
+
+            # Limit-at-retest entry (entry_mode='limit'): rest as a real limit at
+            # the broken level and fill only on a genuine touch — same machinery
+            # as reversal limits. Hand off to the shared resting-limit processor.
+            if getattr(setup, 'is_limit', False):
+                injected_setups.append((i, i + REVERSAL_LIMIT_MAX_WAIT, setup))
+                continue
+
             # Risk management check
             risk_amount = abs(setup.entry_price - setup.stop_loss) * setup.position_size
             can_trade, reason = risk_mgr.can_trade(
@@ -802,22 +833,38 @@ def run_backtest(
             trades.append(trade)
             open_trades.append(trade)
 
-        # ── Process injected setups (SBRS 2.0 failed breakout reversals) ──
-        for setup in ready_injected:
+        # ── Process resting reversal LIMIT orders (SBRS 2.0 failed breakouts) ──
+        # A limit at broken_level fills ONLY if this bar trades to the level
+        # (short -> high reaches it; long -> low reaches it). Unfilled limits
+        # rest until expiry, then cancel. Fixes the prior unconditional-fill bug.
+        bar_high = df['High'].iloc[i]
+        bar_low = df['Low'].iloc[i]
+        still_pending = []
+        for ready_bar, expiry_bar, setup in injected_setups:
+            if i < ready_bar:
+                still_pending.append((ready_bar, expiry_bar, setup))
+                continue
+            if i > expiry_bar:
+                continue  # limit expired unfilled — cancelled
+
+            raw_dir = setup.direction
+            dir_str = raw_dir.value if hasattr(raw_dir, 'value') else str(raw_dir)
+            limit_price = setup.entry_price  # == broken_level
+            touched = (bar_high >= limit_price) if dir_str == 'short' else (bar_low <= limit_price)
+            if not touched:
+                still_pending.append((ready_bar, expiry_bar, setup))
+                continue
+
             risk_amount = abs(setup.entry_price - setup.stop_loss) * setup.position_size
             can_trade, reason = risk_mgr.can_trade(
                 open_trades, setup.direction, risk_amount, timestamp
             )
-
             if not can_trade:
-                continue
+                continue  # blocked by risk layer — drop this limit
 
-            entry_price = setup.entry_price
+            entry_price = limit_price
             if apply_slippage:
                 entry_price = risk_mgr.apply_slippage(entry_price, setup.direction)
-
-            raw_dir = setup.direction
-            dir_str = raw_dir.value if hasattr(raw_dir, 'value') else str(raw_dir)
 
             trade_counter += 1
             trade = BacktestTrade(
@@ -835,6 +882,8 @@ def run_backtest(
 
             trades.append(trade)
             open_trades.append(trade)
+
+        injected_setups = still_pending
 
         equity_curve.append(current_capital)
     

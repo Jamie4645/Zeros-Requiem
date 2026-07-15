@@ -7,6 +7,11 @@ aliases: [Home, Dashboard, Index]
 
 > *"An edge is nothing more than an indication of a higher probability of one thing happening over another."* — Mark Douglas
 
+> ⛔ **2026-06-01 — CANON INVALIDATED.** The SBRS 2.0 backtest edge was a phantom-fill artifact
+> (reversal entries filled at levels price never reached, 95–100% WR). Fixed; realistic-fill BT
+> shows **no edge on any instrument** (PF 0.52–1.07). All prior PF/Sharpe/WF/MC/tier claims in this
+> KB are VOID pending rebuild. **Start here → [[81-Audit-2026-06-01-Phantom-Fill]].**
+
 ---
 
 ## Quick Access
@@ -18,10 +23,53 @@ aliases: [Home, Dashboard, Index]
 | Review risk rules | [[16-Risk-Management-Elite-System]] |
 | Current portfolio | [[29-P5-P7-P8-OANDA-Portfolio]] |
 | SBRS strategy spec | [[CLAUDE]] |
+| ⛔ Why canon is void | [[81-Audit-2026-06-01-Phantom-Fill]] |
+| ▶ Active phase | [[87-Supervised-Rebuild]] |
+
+---
+
+## ⛔ 2026-06 Phantom-Fill Audit & SBRS 3.0 Rebuild (READ FIRST)
+
+The SBRS 2.0 track record below was found to be a **phantom-fill artifact** — the
+backtest filled reversal entries at prices that were never touched (95–100% WR).
+Fixed; realistic-fill backtests show **no edge on any instrument** (PF 0.52–1.07).
+All SBRS 2.0 performance claims in this KB are **VOID**. Active work is a clean-slate
+supervised rebuild from the user's real 5m–15m trades.
+
+- [[81-Audit-2026-06-01-Phantom-Fill]] — entry point / executive summary
+- [[82-Audit-2026-06-Blocker-Remediation]] — the six audit blockers + fixes
+- [[83-Reversal-Fill-Fix]] — the phantom-fill bug & limit-order fix (root cause)
+- [[84-Realistic-Fill-No-Edge]] — realistic re-validation: portfolio has no edge
+- [[85-Primary-Edge-Teardown]] — confluence is anti-predictive; strip-back lead
+- [[86-SBRS-3.0-Spec-And-Build]] — clean-slate SBRS 3.0 + structural exits
+- [[87-Supervised-Rebuild]] — **ACTIVE:** learning the edge from real trades
+- [[88-Audit-Harness-Index]] — every script, log, and file touched
+
+## ✅ 2026-07-02 Full-Codebase Audit + Books Re-Read (LATEST)
+
+Dual-workflow review (31-agent codebase audit + 17-agent blank-slate books/strategy
+review). 10 confirmed CRITICAL/HIGH defects — **all fixed and committed same day**
+(duplicate-order lock, deploy gate makes 0.00% live a code invariant, WF peak-reset
+fixed → R6-5 retracted, look-ahead closed, block-bootstrap MC, asset-class slippage,
+phantom-fill tripwire promoted to collected tests, screener pipeline repaired).
+**NEW EVIDENCE:** 60-label permutation null — user selection +10.29R, p<0.0001
+(p=0.0001 direction-stratified) → discretionary selection statistically supported
+retrospectively; forward falsifier **F8** registered.
+
+- [[91-Full-Codebase-Audit-2026-07]] — findings → fixes table (entry point)
+- [[92-Books-Blank-Slate-Review]] — 13-book synthesis, kill list, permutation result
+- [[90-Pre-Registered-Falsifier-ZTT]] — F8 added (discretionary-selection forward gate)
+- [[93-Fresh-Gold-Strategy-MPB-VTC]] — 2026-07-04: fresh candidates MPB+VTC pre-registered
+  (N1–N8, frozen grids) → **both KILLED at N3** (PF 0.44/0.41, 0/18 cells); 16-agent
+  ultrareview upheld the kills, pre-registration integrity CLEAN; gap-collapse guard added
+  to ztt_sim; socrates flag: 3rd dead mechanization → question the discovery method itself
 
 ---
 
 ## Strategy: SBRS 2.0 — Sovereign Breakout Retest Strategy
+
+> ⛔ **VOID (2026-06):** all SBRS 2.0 performance numbers below are phantom-fill
+> artifacts. See [[81-Audit-2026-06-01-Phantom-Fill]]. Retained for history.
 
 *Codification of 3-4 years of profitable discretionary Gold trading, enhanced with smart money concepts and ablation-validated tuning.*
 
@@ -54,8 +102,13 @@ aliases: [Home, Dashboard, Index]
 - [[72-Gold-Bar-Audit]] — **D1 inconclusive (2026-04-18):** fetcher routes GC=F through OANDA regardless of caller; Round 7 fix queued
 - [[73-Round-5-Remediation-Log]] — **Round 5 remediation execution log (2026-04-18):** all 20 council items resolved/queued
 - [[74-Round-7-Post-Validation]] — **Round 7 canon (2026-04-18):** slippage recal (1.5pt → 0.75pt) restored NDX/DAX; USDJPY promoted to Tier 2; 9/10 score; R6-1/R6-3/R6-4/R6-5/R7-10/R7-11 CLOSED
+- [[75-Pre-Registered-Falsifier-R8]] — **Round 8 falsifiers (2026-04-19):** 5 numeric kill-switches, amendment-locked
+- [[76-Round-8-Evidence-Weighted-Sizing]] — **Round 8 sizing (2026-04-19):** 1.50% → 1.10% evidence-weighted; measured MC
+- [[77-Round-8-Canon]] — **Round 8 canon (2026-04-19):** dual-council deliberation; U1–U10 governance; supersedes R7 "9/10"
+- [[78-Round-8-Council-Synthesis]] — **Round 8 dual-council merge (2026-04-19):** Philosophical (18) + Arbiter (10) synthesis
+- [[79-Round-8-Best-Version-PnL]] — **Round 8 PnL tables (2026-04-19):** per-market best-version with dollar contributions
 
-### Post-Round 7 Backlog — Open Items
+### Post-Round 8 Backlog — Open Items
 
 Each queued for the next council cycle; skills / agents to fire on each in parentheses. See [[74-Round-7-Post-Validation]] for items closed at Round 7.
 
@@ -174,6 +227,12 @@ Zeros Requiem/
 
 ## Elite Benchmarks — Multi-Asset Portfolio
 
+> ⛔ **VOID — this table is a 2026-04-05 (pre-Round-5) snapshot, superseded by every later
+> round and then by the 2026-06-01 phantom-fill audit.** SBRS numbers of any vintage are
+> not to be treated as current. Retained only as a historical artifact of how early the
+> portfolio-tier framing started. **For current state, see the void banner at the top of
+> this file and [[93-Fresh-Gold-Strategy-MPB-VTC]].**
+
 | Asset | PF | Sharpe | DD | WF | Trades | Tier |
 |-------|-----|--------|------|------|--------|------|
 | **Gold** | 1.97 | 1.77 | 9.2% | 75% (6/8) | 2,252 | **1 — Live Ready** |
@@ -185,8 +244,8 @@ Zeros Requiem/
 | **USD/JPY** | 1.27 | 0.84 | 15.7% | — | 1,228 | 3 — Marginal |
 | **S&P 500** | 0.63 | -0.39 | 20.4% | — | 64 | 4 — No Edge |
 
-**3 strategies now walk-forward validated.** See [[55-Multi-Asset-Expansion]] for full details.
+*(2026-04-05 snapshot — VOID, see banner above)*
 
 ---
 
-*Last updated: 2026-04-05*
+*Last updated: 2026-07-15 (void banner added over 2026-04-05 legacy table; see [[91-Full-Codebase-Audit-2026-07]] for the actual current canon).*

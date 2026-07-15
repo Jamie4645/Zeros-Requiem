@@ -17,9 +17,15 @@ try:
 except ImportError:
     HAS_VBT = False
 
-pytestmark = pytest.mark.skipif(not HAS_VBT, reason="vectorbt not installed")
+# 2026-07-02 audit: the skip used to be module-wide, so when vectorbt was
+# absent this file validated NOTHING — and none of it ever imported the
+# actual engine. The vbt cross-checks below keep their skip; the
+# TestEngineCrossValidation class at the bottom imports src/core/engine.py
+# and runs unconditionally.
+needs_vbt = pytest.mark.skipif(not HAS_VBT, reason="vectorbt not installed")
 
 
+@needs_vbt
 class TestSharpeCalculation:
     """Verify Sharpe ratio calculation matches VectorBT."""
 
@@ -73,6 +79,7 @@ class TestSharpeCalculation:
             "Constant positive returns should give very high Sharpe"
 
 
+@needs_vbt
 class TestMaxDrawdown:
     """Verify max drawdown calculation matches VectorBT."""
 
@@ -100,6 +107,7 @@ class TestMaxDrawdown:
         assert dd.max() == 0.0
 
 
+@needs_vbt
 class TestPnLAccuracy:
     """Verify P&L calculations against VectorBT portfolio."""
 
@@ -145,6 +153,7 @@ class TestPnLAccuracy:
         assert np.isfinite(vbt_total_pnl), "VectorBT total PnL should be finite"
 
 
+@needs_vbt
 class TestProfitFactor:
     """Verify profit factor calculation."""
 
@@ -174,3 +183,76 @@ class TestProfitFactor:
         gross_losses = abs(sum(l for l in pnls if l < 0))
         pf = gross_wins / gross_losses if gross_losses > 0 else 0
         assert pf == 0.0
+
+
+class TestEngineCrossValidation:
+    """Actually import src/core/engine.py and validate its outputs against
+    hand-computed ground truth (2026-07-02 audit: this file previously never
+    touched the engine — it re-derived formulas inline and skipped entirely
+    without vectorbt)."""
+
+    @staticmethod
+    def _df(lows, highs, closes):
+        idx = pd.date_range('2024-01-01', periods=len(lows), freq='h')
+        return pd.DataFrame({
+            'Open': closes, 'High': highs, 'Low': lows,
+            'Close': closes, 'Volume': 1000,
+        }, index=idx)
+
+    def test_engine_pnl_matches_hand_computed(self):
+        from src.core.engine import run_backtest
+        from src.execution.entries import TradeSetup
+
+        n = 30
+        lows = [99.0] * n
+        highs = [101.0] * n
+        closes = [100.0] * n
+        # TP (110) hit at bar 12. The bar's low stays ABOVE the breakeven stop
+        # (entry + 0.1R = 100.5, armed once 1.5R = 107.5 trades) so the TP fill
+        # is unambiguous — the engine conservatively fills stops before targets
+        # when a single bar spans both.
+        highs[12] = 112.0
+        lows[12] = 109.0
+        closes[12] = 111.0
+        df = self._df(lows, highs, closes)
+
+        setup = TradeSetup(
+            direction='long', entry_price=100.0, stop_loss=95.0,
+            take_profit=110.0, position_size=1.0, risk_reward=2.0,
+            regime='test', index=5,
+        )
+        res = run_backtest(df, [setup], 10000.0, None, False)
+
+        assert res.total_trades == 1
+        trade = res.trades[0]
+        assert trade.entry_price == pytest.approx(100.0)
+        # Hand-computed ground truth: long 1.0 units, entry 100 -> TP 110 = +10
+        assert trade.pnl == pytest.approx(10.0)
+        assert res.final_capital == pytest.approx(10010.0)
+        assert res.winning_trades == 1
+        assert res.losing_trades == 0
+
+    def test_engine_short_sl_matches_hand_computed(self):
+        from src.core.engine import run_backtest
+        from src.execution.entries import TradeSetup
+
+        n = 30
+        lows = [99.0] * n
+        highs = [101.0] * n
+        closes = [100.0] * n
+        highs[9] = 106.0    # SL (105) hit at bar 9
+        df = self._df(lows, highs, closes)
+
+        setup = TradeSetup(
+            direction='short', entry_price=100.0, stop_loss=105.0,
+            take_profit=85.0, position_size=2.0, risk_reward=3.0,
+            regime='test', index=5,
+        )
+        res = run_backtest(df, [setup], 10000.0, None, False)
+
+        assert res.total_trades == 1
+        trade = res.trades[0]
+        # Hand-computed: short 2.0 units, entry 100 -> SL 105 = -10
+        assert trade.pnl == pytest.approx(-10.0)
+        assert res.final_capital == pytest.approx(9990.0)
+        assert res.losing_trades == 1

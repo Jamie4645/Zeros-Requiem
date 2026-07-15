@@ -1,0 +1,92 @@
+Tp = take profit
+Sl = stop loss
+Hh = higher high
+Hl = higher low
+Ll = lower low
+Lh = lower high
+Rr = risk to reward ratio
+WMA – Length = 144, Source = Close
+SMMA – Length = 5, Source = Close
+Timezone -  [IMAGE]
+1st trade –   Trade 1 — XAUUSD, 10m, LONG
+  Entry 4460.048 @ 2026-06-04 04:40:11 (UTC+1) | SL 4442.347 | TP 4509.219
+My entry was based on a downtrend breakout retest, I saw price was making good lower high and lower lows, price broke from a lower low, came back to retest price then I entered, as you can see my stop loss is below the newly formed high low which eventually broke the resistance line and my take profit is below the downtrends lower high which is the highest orange circle, as we are still in a downtrend I didn’t test the market and put my tp closer to the lower high power as its still making healthy lower highs and lower lows -> image1  [IMAGE]
+2nd trade – Trade 2 — XAUUSD, 10m, SHORT
+  Entry 4511.054 @ 2026-06-01 17:00:16 (UTC+1) | SL 4529.143 | TP 4457.307
+Entry was based firstly on wma crossing above smma, second, breaking a level that has been retested 3 times prior, stop loss was place above previous lower high, if it doesn’t support then it invalidates my trade, take profit was based on the lower high all the way to the right, I noticed it was bounced of 2/3 times before breaking it so there was a good chance it would bounce of it again so I placed my trade before that level. -> image2  [IMAGE]
+3rd trade – Trade 3 — XAUUSD, 10m, SHORT
+  Entry 4507.557 @ 2026-05-26 20:50:16 (UTC+1) | SL 4532.967 | TP 4432.198
+Entry was based on retesting a level that was retested twice as you can see by the first 2 circles I marked so once it broke downwards and came back up to retest I entered, stop loss was placed below the previous lower high which is the 3rd circle in the screenshot, if it breaks that then trade is invalidated, take profit was just calculated with a 2-3RR based on where I placed my stop loss, no previous prices dictated where my tp was. Also, most of my tp would be calculated based on where my stop loss is until there is a previous supported or resisted level that might interfere with where my take profit goes. -> image3  [IMAGE]
+4th trade – Trade 4 — XAUUSD, 10m, SHORT
+  Entry 4551.590 @ 2026-05-26 01:20:16 (UTC+1) | SL 4564.518 | TP 4513.041
+Entry was based on wma crossing above smma and price breaking a supported line and coming back to retest the newly formed resistance line, stop loss was based on previous lower consolidation level which could also be seen as a lower low level, take profit was calculated on 1st where my stop loss was so make it 3r:r and 2nd  based on where the previous level broke out of the downtrend which can be seen in the first circle. -> image4  [IMAGE]
+5th trade – Trade 5 — XAUUSD, 5m, LONG
+  Entry 4479.035 @ 2026-05-20 15:15:16 (UTC+1) | SL 4464.592 | TP 4522.455
+Entry was based on a retest of a support level during a down trend, each circle represents when price touched this support level, it then broke its down trend structure but for extra confirmation it came back to the support and retested of that level which led the trade to reaching the take profit, another indication would be that SMMA crossed above WMA. SL was placed below the previous lower low level which the second circle highlights and take profit is just 3x that but also below the previous high level before price started moving down. -> image5 [IMAGE]
+6th trade – Trade 6 — XAUUSD, 5m, SHORT
+  Entry 4671.813 @ 2026-05-14 20:00:00 (UTC+1) | SL 4687.409 | TP 4625.027
+Entry was based on a repeated touch of a support level which you can see where the circles are placed, so I just waited for price to break that level and once it did and retested I entered the trade, you can see that WMA crossed above SMMA as well and stopped consolidating which indicates another movement in price, stop loss was based on the previous higher level it made which you can see on the 4th circle I’ve marked and take profit was just 3x making it a 3R:R. -> image6 [IMAGE]
+7th trade – Trade 7 — XAUUSD, 5m, LONG
+  Entry 4680.095 @ 2026-05-11 13:21:00 (UTC+1) | SL 4661.728 | TP 4735.961
+I entered as I identified price was respecting a down trend level and wasn’t breaking it so I thought if price does break then I will enter if price continues to follow momentum, now there was no retest in price before I entered but breaking a respected line + a strong show in liquidity and momentum being present allowed me to enter this trade. Stop loss was placed below the previous higher low level which was created after price broke the downward trend line, take profit was just 3x based on where my stop loss was but still below the previous high prior entering this downtrend, so where the first circle is present. -> image7 [IMAGE]
+8th trade – Trade 8 — XAUUSD, 10m, SHORT
+  Entry 4705.833 @ 2026-05-08 01:00:00 (UTC+1) | SL 4726.417 | TP 4644.081
+Now this trade was a loss however I entered due to identifying a reversal in price, now price was on the uptrend but it started to break and consolidate about the previous higher low level that it created and I though it price breaks below this it would be an opportunity to enter, price did break below this level as you can see however there were not enough visuals on price actually respecting that level before breaking it, so once I saw price came back to touch the level for the second time I entered which resulted in a loss, stop loss was above the high of the level before breaking the high low level. Tp was just 3R:R. It wasn’t bad analysis so I don’t regret the trade -> image8
+[IMAGE]
+9th trade – Trade 9 — XAUUSD, 10m, LONG
+  Entry 4550.006 @ 2026-05-05 12:10:00 (UTC+1) | SL 4524.947 | TP 4626.990
+I entered this trade due to price being on a down trend, breaking the lower high (first circle) then coming back down to rest, SMMA crossing above WMA and clean prices present then I went for the long, stop loss was placed before the previous newly formed higher low and take profit 3x the stop loss. -> image9 [IMAGE]
+10th trade – Trade 10 — XAUUSD, 10m, SHORT
+  Entry 4614.544 @ 2026-05-01 06:20:00 (UTC+1) | SL 4637.735 | TP 4544.647
+I entered this trade due to identifying a potential downtrend coming, I noticed price respected a level twice so I waited for it to break and retest back to that level treating it as a new resistance level, WMA also crossed above SMMA so I entered this sell position, unfortunately the trade hit my stop loss. Stop loss was placed above the previous higher high which you can see on the highest circle I marked, take profit was just 3x (3R:R) the stop loss. -> image10 [IMAGE]
+11th trade – Trade 11 — XAUUSD, 10m, LONG
+  Entry 4544.277 @ 2026-04-26 05:50:00 (UTC+1) | SL 4523.978 | TP 4605.538
+I entered this trade due to breakout of a downward movement and when price retested the respected level, it broke its previous lower high before coming back down to touch the level again, which is where I entered the trade, stop loss was placed below the previous lower low, take profit was 3R:R based on my stop loss level. -> image11 [IMAGE]
+12th trade – Trade 12 — XAUUSD, 10m, LONG
+  Entry 4695.947 @ 2026-04-24 14:20:00 (UTC+1) | SL 4674.296 | TP 4761.100 
+I entered this trade due to price breaking previous higher high and retesting it, my mistake was not look at the trend of the chart on a bigger time frame was well, as we can see from this trade we are clearly in a downtrend but once I saw a level was respected, price broke through and came back to retest I entered, another mistake was making a long trade when we were on a downtrend, it should’ve been short trades only with the current patterns that were being shown. Stop loss was placed below previous higher low and take profit was 3x the stop loss. -> image12 [IMAGE]
+13th trade – Trade 13 — XAUUSD, 10m, SHORT
+  Entry 4801.441 @ 2026-04-08 13:00:00 (UTC+1) | SL 4824.365 | TP 4731.906
+I entered this trade due to the respect of an inclined support level and once it broke and retested, I entered, placed my stop loss above the previous high level which is shown on the 3rd circle I marked, with a 3R:R and closing at my take profit. -> image13 [IMAGE]
+14th trade – Trade 14 — XAUUSD, 10m, SHORT
+  Entry 4755.886 @ 2026-04-02 03:20:00 (UTC+1) | SL 4804.136 | TP 4611.135
+This is a trade I never got to enter unfortunately, I noticed an uptrend in price which was making healthy higher highs and higher lows, now I noticed price broke the trend so I was looking for a retest at one of the 2 levels I circled so I could enter a short position but price never came back up making me miss the trade. My stop loss was calculated based on the previous higher high so I placed my level above it and made the trade a 3R:R. -> image14 [IMAGE]
+15th trade – Trade 15 — XAUUSD, 10m, LONG
+  Entry 4429.213 @ 2026-03-30 01:10:00 (UTC+1) | SL 4395.447 | TP 4532.144
+Entry was based on a consistent touch of a support/resistance level starting from the first circle I marked, as you can see it broke under then above but I still did not enter due to the fact that it did not break the previous lower high but rather came back to touch that level, I was waiting for price to break the previous lower high then touch the support level again then I entered. Stop loss was based on the most recent level that was underneath the support level, so I made my stop level just underneath the 5th circle and take profit was 3x that. -> image15 [IMAGE]
+16th trade – Trade 16 — XAUUSD, 10m, SHORT
+  Entry 4538.657 @ 2026-03-25 20:10:00 (UTC+1) | SL 4586.943 | TP 4393.797
+Entry was based on respecting a level countless times so once price broke underneath it I waited for price to come back up to that level where the 5th circle is located then I entered, stop loss was based on the 4th circle as that was the most recent consolidation high level so stop loss was placed above it, and take profit was 3x that but also above the price before price shot up to the consolidation zone. The trade looks like it didn’t touch take profit, but it did as you can see in the future levels price went to. -> image16 [IMAGE]
+17th trade – Trade 17 — XAUUSD, 10m, LONG
+  Entry 4315.214 @ 2026-03-24 02:00:00 (UTC+1) | SL 4232.464 | TP 4562.055
+Entry was based again on a respected level, it broke underneath then broke past that level and came back to retest, stop loss was based on the previous lower high before price broke the support and take profit was 3x. -> image17 [IMAGE]
+18th trade – Trade 18 — XAUUSD, 10m, SHORT
+  Entry 4521.470 @ 2026-03-22 22:30:00 (UTC+1) | SL 4627.774 | TP 4202.557
+This short entry was based on the respected support level, it was already on a downtrend so looking for a short was the right decision, price broke that respected level and came back to touch the newly formed resistance line as you can see on the 4th circle I marked, stop loss was based on the 4th circle, the previous lower high so I placed the stop loss just above it, then take profit was 3x my stop loss level. -> image18 [IMAGE]
+19th trade – Trade 19 — XAUUSD, 10m, SHORT
+  Entry 5172.065 @ 2026-03-12 02:20:00 (UTC+1) | SL 5201.525 | TP 5083.683
+Entry was based on a supported level, retested it around 3 4 times before it broke then came to retest it which signalled for a short position, WMA also broke above the SMMA which is another signal, stop loss was placed above the 3rd circle as that was the previous lower high before price broke the support line, take profit was 3x that. -> image19 [IMAGE]
+20th trade – Trade 20 — XAUUSD, 10m, LONG
+  Entry 5136.965 @ 2026-03-04 06:20:00 (UTC+1) | SL 5079.298 | TP 5310.825
+Entry was based on a supported level, as price broke above then came to retest the level as you can see on the 3rd circle I entered the trade and placed the stop loss below the previous lower high before price broke the support level, unfortunately the trade was a loss and looking at the bigger picture price was still in a downtrend but it didn’t go in my favour which wasn’t a surprise. -> image20 [IMAGE]
+
+
+
+
+
+
+21th trade – Trade 21 — XAUUSD, 15m, SHORT
+  Entry 5279.410 @ 2026-03-03 10:00:00 (UTC+1) | SL 5341.380 | TP 5093.499
+Entry was based on noticing a downtrend appearing, so I waited for price to break the support level that it seemed to support and bounce off of, once price eventually broke I waited for a retest then entered the trade, stop loss was based on the 3rd circle I labelled which could be seen as the previous lower high level then take profit was 3x that. -> image21 [IMAGE]
+22th trade – Trade 22 — XAUUSD, 15m, SHORT
+  Entry 5164.579 @ 2026-02-24 18:00:00 (UTC+1) | SL 5195.385 | TP 5071.981
+Entry was based price supporting the consolidation level, the reason this trade was unsuccessful was due to the fact I wanted to trade a short position when price was clearing in an uptrend movement. Anyways price broke the support line and turned it into a resistance line so once I saw that price came back to touch the resistance level I entered but unfortunately the trade was unsuccessful. -> image22 [IMAGE]
+23th trade – Trade 23 — XAUUSD, 15m, LONG
+  Entry 4962.657 @ 2026-02-19 01:00:00 (UTC+1) | SL 4905.097 | TP 5135.339
+Entry was based on price breaking strong lower high levels even though it was in a down trend then found a support level that it broke but respected as it came back up, broke it again and retested of it. Stop loss was based on the previous lower high level and take profit was 3x that. -> image23 [IMAGE]
+24th trade – Trade 24 — XAUUSD, 15m, LONG
+  Entry 4753.521 @ 2026-02-03 02:30:00 (UTC+1) | SL 4640.100 | TP 5093.783
+As you can see price was on a downtrend, but you could see hesitation in its actions, price broke a strong lower high level which indicates a reversal in movements, so I waited for price to come back down and retest the newly founded support level which it did and I entered. Stop loss was based on the previous lower high level before it broke the resistance level which you could see at the 2nd circle then take profit was 3x that and below a strong lower high level that it created previously. -> image24 [IMAGE]
+25th trade – Trade 25 — XAUUSD, 15m, SHORT
+  Entry 5471.852 @ 2026-01-26 23:45:00 (UTC+1) | SL 5563.320 | TP 5195.008
+I entered this trade due to the fact that I saw price respecting a support level, then went on to breaking that support and a stronger indication was the fact that price broke the previous higher high levels which indicates a reversal so I just waited for price to come back and retest the old support level which turned into a resistance level which you can see on the 3rd circle. Stop loss was based on the previous higher high level and take profit was 3R:R. -> image25 [IMAGE]

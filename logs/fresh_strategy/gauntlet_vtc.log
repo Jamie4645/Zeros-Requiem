@@ -1,0 +1,21 @@
+==== GAUNTLET VTC — pre-registered KB-93 N1-N8 ====
+
+-- N2/N3: 9-cell frozen grid --
+  {'THRUST_ATR': 1.25, 'CLV_BAND': 0.75}  setups=6527 trades=4791 unables=51 PF=0.376 pnl=$-10000
+  {'THRUST_ATR': 1.25, 'CLV_BAND': 0.8}  setups=5780 trades=4346 unables=45 PF=0.392 pnl=$-10000
+  {'THRUST_ATR': 1.25, 'CLV_BAND': 0.85}  setups=4879 trades=3793 unables=38 PF=0.389 pnl=$-10000
+  {'THRUST_ATR': 1.5, 'CLV_BAND': 0.75}  setups=4618 trades=3600 unables=50 PF=0.390 pnl=$-10000
+  {'THRUST_ATR': 1.5, 'CLV_BAND': 0.8}  setups=4039 trades=3225 unables=43 PF=0.401 pnl=$-9999
+  {'THRUST_ATR': 1.5, 'CLV_BAND': 0.85}  setups=3345 trades=2764 unables=37 PF=0.408 pnl=$-9997
+  {'THRUST_ATR': 2.0, 'CLV_BAND': 0.75}  setups=2165 trades=1854 unables=35 PF=0.457 pnl=$-9963
+  {'THRUST_ATR': 2.0, 'CLV_BAND': 0.8}  setups=1847 trades=1613 unables=30 PF=0.439 pnl=$-9935
+  {'THRUST_ATR': 2.0, 'CLV_BAND': 0.85}  setups=1497 trades=1331 unables=26 PF=0.425 pnl=$-9828
+
+N2 sample sanity: center-cell trades=3225 -> PASS
+N3 realistic-cost: grid-avg PF=0.409 (kill<1.10), plateau 0% cells PF>1.0 (kill<70%) -> KILL
+
+center cell scoreboard: IR=-3.72 Sortino=-5.27 Calmar=-0.62 maxDD=100.0% WR=35.7% netR=-948.7 PF=0.401 B&H_IR=0.69 beats=False
+
+*** N3 KILL — grid-avg PF 0.409 / plateau 0% ***
+
+JSON -> C:\Users\jamie\OneDrive\Documents\Jamie VS Code\Git\Zeros Requiem\logs\fresh_strategy\gauntlet_vtc.json

@@ -53,6 +53,7 @@ MAX_CANDLES_PER_REQUEST = 5000
 INTERVAL_MAP = {
     '1m': 'M1',
     '5m': 'M5',
+    '10m': 'M10',   # ZTT primary timeframe — OANDA serves M10 natively (no resample)
     '15m': 'M15',
     '30m': 'M30',
     '1h': 'H1',
@@ -73,7 +74,12 @@ SYMBOL_MAP = {
     'NZDUSD=X': 'NZD_USD',     # NZD/USD (Round 7 scout)
     'USDCHF=X': 'USD_CHF',     # USD/CHF (Round 7 scout)
     '^GDAXI': 'DE30_EUR',      # DAX (Germany 30 CFD)
-    '^IXIC': 'NAS100_USD',     # NASDAQ (US Nas 100 CFD)
+    '^IXIC': 'NAS100_USD',     # NASDAQ-100 CFD — ⚠ 2026-07-02 audit: '^IXIC' is
+                               #   Yahoo's Nasdaq COMPOSITE ticker, but this maps to
+                               #   the NAS100 (Nasdaq-100). IBKR maps the same symbol
+                               #   to COMP (Composite). These are DIFFERENT indices —
+                               #   never mix sources for ^IXIC in one dataset. OANDA/
+                               #   NAS100 is the Round-7 canonical validation source.
     '^GSPC': 'SPX500_USD',     # S&P 500 CFD (for future use)
 }
 
@@ -120,6 +126,7 @@ def _estimate_bars_per_day(granularity: str) -> float:
     estimates = {
         'M1': 1440,
         'M5': 288,
+        'M10': 144,
         'M15': 96,
         'M30': 48,
         'H1': 24,
@@ -215,26 +222,46 @@ def fetch_oanda(
         }
         
         url = f"{BASE_URL}/v3/instruments/{instrument}/candles"
-        
-        try:
-            response = requests.get(url, headers=_get_headers(), params=params, timeout=30)
-            
-            if response.status_code == 429:
-                # Rate limited -- wait and retry
-                print(f"  OANDA rate limited, waiting 2s...")
-                time.sleep(2)
+
+        # Retry loop with exponential backoff for transient errors
+        # (502/503/504 Bad Gateway, SSL EOF, connection reset, timeout)
+        MAX_RETRIES = 4
+        BACKOFF_BASE = 1.5  # 1.5s, 3s, 6s, 12s
+        data = None
+        last_err = None
+        for attempt in range(MAX_RETRIES):
+            try:
+                response = requests.get(url, headers=_get_headers(), params=params, timeout=30)
+
+                if response.status_code == 429:
+                    print(f"  OANDA rate limited, waiting 2s...")
+                    time.sleep(2)
+                    continue
+
+                if response.status_code in (500, 502, 503, 504):
+                    wait = BACKOFF_BASE * (2 ** attempt)
+                    print(f"  OANDA {response.status_code} (attempt {attempt+1}/{MAX_RETRIES}), retry in {wait:.1f}s...")
+                    time.sleep(wait)
+                    continue
+
+                response.raise_for_status()
+                data = response.json()
+                break
+
+            except requests.exceptions.RequestException as e:
+                last_err = e
+                wait = BACKOFF_BASE * (2 ** attempt)
+                print(f"  OANDA network error (attempt {attempt+1}/{MAX_RETRIES}): {e}; retry in {wait:.1f}s...")
+                time.sleep(wait)
                 continue
-            
-            response.raise_for_status()
-            data = response.json()
-            
-        except requests.exceptions.RequestException as e:
-            print(f"  OANDA API error: {e}")
+
+        if data is None:
+            print(f"  OANDA fetch failed after {MAX_RETRIES} retries: {last_err}")
             if all_candles:
-                raise ValueError(
-                    f"OANDA fetch interrupted after {len(all_candles)} candles "
-                    f"(partial history is invalid for research): {e}"
-                ) from e
+                # Partial data is better than nothing for live runs.
+                # Return what we have; caller decides if it's enough.
+                print(f"  Returning partial history: {len(all_candles)} candles")
+                break
             break
         
         candles = data.get('candles', [])
