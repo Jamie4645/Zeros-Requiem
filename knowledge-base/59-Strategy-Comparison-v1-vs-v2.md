@@ -5,6 +5,11 @@ related: [[47-SBRS-2.0-Upgrade]], [[55-Multi-Asset-Expansion]], [[56-Risk-Manage
 date: 2026-04-05
 ---
 
+> ⛔ **VOID (see root `CLAUDE.md`).** This file predates the 2026-06-01 phantom-fill audit and
+> 2026-07-02 full-codebase audit — every PF/Sharpe/WF/PnL figure below (the "single reference
+> document for all SBRS backtest results") is a void artifact, not current state. Retained as
+> historical record only. Current canon: root `CLAUDE.md` + [[00-MOC-Zeros-Requiem]].
+
 # 59 — SBRS 1.1 vs 2.0: Complete Strategy Comparison
 
 > *"An edge is nothing more than an indication of a higher probability of one thing happening over another."* — Mark Douglas

@@ -4,6 +4,11 @@ aliases: [FVG Downshift, FVG Weight Change, Confluence FVG 0.5]
 related: [[00-MOC-Zeros-Requiem]], [[62-Ablation-Round-2-Results]], [[50-Smart-Money-Indicators]], [[51-Confluence-Scoring-System]]
 ---
 
+> ⛔ **VOID (see root `CLAUDE.md`).** This file predates the 2026-06-01 phantom-fill audit and
+> 2026-07-02 full-codebase audit — the walk-forward/PF/Sharpe figures below are void artifacts, not
+> current state. Retained as historical record only. Current canon: root `CLAUDE.md` +
+> [[00-MOC-Zeros-Requiem]].
+
 # FVG Downshift — Confluence Score 1.0 → 0.5 (2026-04-16)
 
 ## Change

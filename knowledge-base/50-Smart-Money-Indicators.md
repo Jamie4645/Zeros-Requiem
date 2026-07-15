@@ -4,6 +4,12 @@ aliases: [Smart Money, FVG, Liquidity Sweep, Smart Money Indicators]
 related: [[47-SBRS-2.0-Upgrade]], [[51-Confluence-Scoring-System]], [[48-Ablation-Study-Results]], [[CLAUDE]], [[00-MOC-Zeros-Requiem]]
 ---
 
+> ⛔ **RETIRED (see root `CLAUDE.md`).** SBRS is fully retired — realistic-fill backtests found no
+> edge on any instrument (PF 0.52–1.07), and the ablation dollar-impact figures below (FVG +$1,519,
+> Liquidity +$281) were measured on the pre-audit phantom-fill engine and are void. The ZTT rebuild
+> does not inherit these indicators. Retained as historical record only. Current strategy: ZTT
+> (`knowledge-base/89-ZTT-Rebuild.md`).
+
 # Smart Money Indicators — SBRS 2.0
 
 **Date added:** 2026-04-04

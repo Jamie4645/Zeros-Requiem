@@ -24,10 +24,17 @@ Thumbs.db
 # Data & State (generated, not tracked)
 data/*.db
 data/cache/
+data/live_cache/
 charts/
 state/
 logs/
 venv/
+
+# Scheduled-task session locks (regenerated per run)
+.claude/scheduled_tasks.lock
+
+# External cloned tools (own git repo, not part of this project)
+tradingview-mcp-jackson/
 
 # Generated charts
 *.png

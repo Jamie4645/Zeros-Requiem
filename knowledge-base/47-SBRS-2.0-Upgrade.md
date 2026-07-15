@@ -4,6 +4,11 @@ aliases: [SBRS 2.0, v2.0 Upgrade, SBRS 2.0 Upgrade]
 related: [[CLAUDE]], [[00-MOC-Zeros-Requiem]], [[46-SBRS-Parameters-Reference]], [[48-Ablation-Study-Results]], [[49-MA-Convention-Discovery]], [[50-Smart-Money-Indicators]], [[51-Confluence-Scoring-System]], [[52-Data-Infrastructure-Upgrade]], [[25-Walk-Forward-Full-Results]]
 ---
 
+> ⛔ **RETIRED (see root `CLAUDE.md`).** SBRS 2.0's "7/7 elite benchmarks met" was a phantom-fill
+> artifact (2026-06-01 audit); realistic-fill re-validation found no edge on any instrument.
+> SBRS is fully retired — the ZTT rebuild does not inherit this logic. Retained as historical
+> record only. Current strategy: ZTT (`knowledge-base/89-ZTT-Rebuild.md`).
+
 # SBRS 2.0 — Major Strategy Upgrade
 
 **Date:** 2026-04-04 to 2026-04-05

@@ -4,6 +4,12 @@ aliases: [Gold DD Cap Fix, Risk Manager Gold Fix 2026-04]
 related: [[00-MOC-Zeros-Requiem]], [[16-Risk-Management-Elite-System]], [[56-Risk-Manager-Calibration]], [[62-Ablation-Round-2-Results]]
 ---
 
+> ⛔ **VOID (see root `CLAUDE.md`).** This fix restored Gold's DD cap to match "the regime under
+> which published baselines were produced" — but those published baselines (2,252-trade Gold
+> backtest) are themselves phantom-fill artifacts (2026-06-01 audit) and SBRS is now fully
+> retired. The one-line risk-manager fix itself may still be technically valid; the trade-count
+> and "primary validated strategy" framing is not. Retained as historical record only.
+
 # Risk Manager — Gold DD Cap Fix (2026-04-16)
 
 ## Problem

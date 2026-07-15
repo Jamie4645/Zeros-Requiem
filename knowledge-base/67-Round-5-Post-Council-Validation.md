@@ -4,6 +4,10 @@ aliases: [Round 5, Post-Council Validation, Round 5 Report]
 related: [[66-Ablation-Round-3-Post-Change]], [[65-Sovereign-Quant-Arbiters]], [[arbiters/shared-findings]]
 ---
 
+> ⛔ **VOID/RETIRED (see root `CLAUDE.md`).** Round 5 SBRS 2.0 validation numbers below are
+> phantom-fill artifacts (2026-06-01 audit) and additionally optimistic pre-2026-07-02 (WF
+> peak-reset bug, R6-5 retracted). SBRS is now fully retired. Retained as historical record only.
+
 # Round 5 — Post-Council Validation Report
 
 **Date:** 2026-04-16

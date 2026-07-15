@@ -514,3 +514,35 @@ Status: open
 **Suggested test:** In Phase 4 10Y backtest, partition WF windows into bullish (net positive daily range trend, e.g. >1% monthly return) and bearish. Report precision/recall and directional PF split per partition. Accept filter if short precision in bullish windows is within 15pp of short precision in bearish windows.
 **Priority:** high
 **Status:** open
+
+### 2026-07-04 | by: arbiter-gold | for: arbiter-execution / arbiter-cost-skeptic
+**Claim to test:** `src/regimes/ztt_costs.py`'s flat-dollar spread/slip model (no price scaling)
+systematically understates realistic cost in early-era Gold data (2016-2019, price ~$1250-1400)
+and overstates it in recent data (2025-26, price ~$3400-4800) relative to a %-of-price SL band,
+because MPB/VTC (KB-93) both show mean R monotonically improving 2016->2025 purely as a function
+of rising nominal price, not regime.
+**Why it matters:** Any future multi-year Gold candidate pre-registered against this same cost
+model will show the identical spurious "getting better over time" pattern, which could be
+mistaken for a real regime/edge signal in a less careful review. Also affects retrospective
+reads of any 10Y Gold backtest (SBRS included) that spans the 2016-2026 price range.
+**Suggested test:** Re-run the MPB/VTC center cells (or a simpler synthetic) with cost expressed
+as basis points of entry price instead of flat $, holding everything else frozen; compare year-
+by-year mean R curve shape. If the monotonic improvement flattens/disappears, the artifact is
+confirmed cost-model-driven, not edge-driven.
+**Priority:** medium
+**Status:** open
+
+### 2026-07-04 | by: arbiter-gold | for: arbiter-execution
+**Claim to test:** The 20:00 UTC (NY-close) hour is a structurally loss-making entry window for
+Gold intraday mechanizations independent of the entry mechanism itself (now observed in SBRS 1H
+"16-20 GMT" canon, MPB 10m -1.70R/n=79, and VTC 10m -0.60R/n=53).
+**Why it matters:** If this holds as a standalone, mechanism-independent effect, a single frozen
+session gate (skip entries opening in the 19:00-21:00 UTC window) could be pre-registered and
+tested as a general Gold overlay BEFORE the next fresh-strategy candidate, rather than re-derived
+per-candidate each time.
+**Suggested test:** Isolate the 19:00-21:00 UTC entry-hour bucket across the existing MPB/VTC
+center-cell trade logs (already computed, no new backtest needed) plus any future candidate;
+report mean R and PF with/without the bucket excluded. Frozen as a session-only ablation, not a
+grid search.
+**Priority:** low
+**Status:** open

@@ -4,6 +4,11 @@ aliases: [SBRS 2.1, v2.1 Experiment]
 related: [[47-SBRS-2.0-Upgrade]], [[48-Ablation-Study-Results]], [[00-MOC-Zeros-Requiem]]
 ---
 
+> ⛔ **RETIRED (see root `CLAUDE.md`).** SBRS is fully retired — realistic-fill backtests found no
+> edge on any instrument (PF 0.52–1.07). The v2.0-vs-v2.1 PF/PnL comparison below was measured on
+> the pre-audit phantom-fill engine and is void; neither version has a demonstrated edge. Retained
+> as historical record only. Current strategy: ZTT (`knowledge-base/89-ZTT-Rebuild.md`).
+
 # SBRS 2.1 Experiment — Built and Removed
 
 **Date:** 2026-04-05

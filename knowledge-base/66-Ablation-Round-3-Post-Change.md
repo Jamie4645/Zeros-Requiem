@@ -5,6 +5,11 @@ related: [[62-Ablation-Round-2-Results]], [[63-FVG-Downshift-Change]], [[64-Risk
 date: 2026-04-16
 ---
 
+> ⛔ **VOID (see root `CLAUDE.md`).** This file predates the 2026-06-01 phantom-fill audit and
+> 2026-07-02 full-codebase audit — the ablation PF/Sharpe/PnL table below is a void artifact, not
+> current state. Retained as historical record only. Current canon: root `CLAUDE.md` +
+> [[00-MOC-Zeros-Requiem]].
+
 # Ablation Round 3 — Post-Change Validation
 
 > *"A finding that survives two rounds is canon. A single reversal is a hypothesis."*

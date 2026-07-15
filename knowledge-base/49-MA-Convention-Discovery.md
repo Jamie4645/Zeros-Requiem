@@ -4,6 +4,12 @@ aliases: [MA Convention, WMA SMMA Convention, MA Cross Direction]
 related: [[47-SBRS-2.0-Upgrade]], [[48-Ablation-Study-Results]], [[CLAUDE]], [[46-SBRS-Parameters-Reference]], [[00-MOC-Zeros-Requiem]]
 ---
 
+> ⛔ **VOID/RETIRED (see root `CLAUDE.md`).** The "$3,300 impact" figure was measured on SBRS 2.0's
+> phantom-fill engine (2026-06-01 audit) and SBRS is now fully retired. Dollar-impact numbers below
+> are void artifacts; the underlying WMA/SMMA convention discovery may still be directionally
+> informative but is unverified under realistic fills. Current strategy: ZTT
+> (`knowledge-base/89-ZTT-Rebuild.md`).
+
 # MA Convention Discovery — The $3,300 Finding
 
 **Date:** 2026-04-05

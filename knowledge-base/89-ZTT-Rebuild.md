@@ -106,7 +106,7 @@ the negatives the 25-trade calibration set never had. Spec: `analysis/real_trade
 Engine: `src/regimes/ztt_v2.py` (reuses frozen `ztt.py` primitives; 199 tests untouched).
 
 **H ("takes beat skips") — CONFIRMED on the labelled data:** take-subset **+10.29R** vs skip-subset
-**−24.75R** (zero skip wins), independently verified. The discretionary edge is real. BUT:
+**−24.75R** (3/30 skips positive — corrected 2026-07-02 audit; originally miscounted as zero), independently verified. The discretionary edge is real. BUT:
 
 **Two-layer build outcome (council: red-team/falsifier/cost-skeptic/gold/socrates):**
 1. **EXIT redesign — VALIDATED, adopted.** Fixed-3R → structural + **%-capped TP** (1.5% best). F3 re-exit

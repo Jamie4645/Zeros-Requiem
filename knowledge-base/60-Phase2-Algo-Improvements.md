@@ -5,6 +5,11 @@ related: [[55-Multi-Asset-Expansion]], [[59-Strategy-Comparison-v1-vs-v2]], [[58
 date: 2026-04-05
 ---
 
+> ⛔ **VOID (see root `CLAUDE.md`).** This file predates the 2026-06-01 phantom-fill audit and
+> 2026-07-02 full-codebase audit — the PF/Sharpe/WF "before/after" figures below are void artifacts,
+> not current state. Retained as historical record only. Current canon: root `CLAUDE.md` +
+> [[00-MOC-Zeros-Requiem]].
+
 # 60 — SBRS 2.0 Algo Improvements (Post-Expansion)
 
 Three improvements were implemented and tested on 2026-04-05. All three passed validation gates and were kept.

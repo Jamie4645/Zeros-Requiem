@@ -4,6 +4,11 @@ aliases: [Monte Carlo, MC Simulation]
 related: [[CLAUDE]], [[16-Risk-Management-Elite-System]], [[25-Walk-Forward-Full-Results]], [[29-P5-P7-P8-OANDA-Portfolio]], [[00-MOC-Zeros-Requiem]]
 ---
 
+> ⛔ **VOID (see root `CLAUDE.md`).** This file predates the 2026-06-01 phantom-fill audit and
+> the 2026-07-02 audit's IID→block-bootstrap MC fix (IID hid streak risk: p95 streak 13 vs 58
+> measured). MC numbers below are void artifacts, not current state. Retained as historical
+> record only. Current canon: root `CLAUDE.md` + [[00-MOC-Zeros-Requiem]].
+
 # P4: Monte Carlo Simulation
 
 **Date:** 2026-02-12

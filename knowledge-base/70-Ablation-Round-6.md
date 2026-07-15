@@ -4,6 +4,11 @@ aliases: [Round 6 Ablation, Filter-OFF Ablation]
 related: [[00-MOC-Zeros-Requiem]], [[48-Ablation-Study-Results]], [[62-Ablation-Round-2-Results]], [[66-Ablation-Round-3-Post-Change]], [[67-Round-5-Post-Council-Validation]], [[73-Round-5-Remediation-Log]]
 ---
 
+> ⛔ **VOID (see root `CLAUDE.md`).** This file predates the 2026-06-01 phantom-fill audit and
+> 2026-07-02 full-codebase audit — the ablation PF/Sharpe/PnL table below is a void artifact, not
+> current state. Retained as historical record only. Current canon: root `CLAUDE.md` +
+> [[00-MOC-Zeros-Requiem]].
+
 # Round 6 Ablation Results — Gold Filter-OFF Re-Baselined (2026-04-18)
 
 > **Council mandate (Round 5):** Round 4 ablation deltas were measured against a defunct filter-ON baseline. With `SESSION_BLOCK_START_HOUR = 99` now production, every delta must be recomputed against the filter-OFF canon.

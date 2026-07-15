@@ -227,6 +227,12 @@ Zeros Requiem/
 
 ## Elite Benchmarks — Multi-Asset Portfolio
 
+> ⛔ **VOID — this table is a 2026-04-05 (pre-Round-5) snapshot, superseded by every later
+> round and then by the 2026-06-01 phantom-fill audit.** SBRS numbers of any vintage are
+> not to be treated as current. Retained only as a historical artifact of how early the
+> portfolio-tier framing started. **For current state, see the void banner at the top of
+> this file and [[93-Fresh-Gold-Strategy-MPB-VTC]].**
+
 | Asset | PF | Sharpe | DD | WF | Trades | Tier |
 |-------|-----|--------|------|------|--------|------|
 | **Gold** | 1.97 | 1.77 | 9.2% | 75% (6/8) | 2,252 | **1 — Live Ready** |
@@ -238,8 +244,8 @@ Zeros Requiem/
 | **USD/JPY** | 1.27 | 0.84 | 15.7% | — | 1,228 | 3 — Marginal |
 | **S&P 500** | 0.63 | -0.39 | 20.4% | — | 64 | 4 — No Edge |
 
-**3 strategies now walk-forward validated.** See [[55-Multi-Asset-Expansion]] for full details.
+*(2026-04-05 snapshot — VOID, see banner above)*
 
 ---
 
-*Last updated: 2026-04-05*
+*Last updated: 2026-07-15 (void banner added over 2026-04-05 legacy table; see [[91-Full-Codebase-Audit-2026-07]] for the actual current canon).*

@@ -42,7 +42,7 @@
 > setup SCREENER (high recall, user judges) OR forward-log take/skip to learn discrimination. See `knowledge-base/89-ZTT-Rebuild.md`.
 >
 > **ZTT v2 — 2026-06-14 (60-label review executed; screener shipped).** User labelled 60 algo setups 30 take / 30 skip
-> (take-subset **+10.29R**, skip −24.75R, zero skip wins). Council-reviewed (red-team/falsifier/cost-skeptic/gold/socrates);
+> (take-subset **+10.29R**, skip −24.75R, 3/30 skips positive [corrected 2026-07-02 audit; not zero]). Council-reviewed (red-team/falsifier/cost-skeptic/gold/socrates);
 > built `src/regimes/ztt_v2.py` (spec `analysis/real_trades/ZTT_V2_SPEC.md`, falsifiers F1–F7). **EXIT redesign VALIDATED**
 > — fixed-3R → structural **%-capped TP** (1.5%): F3 re-exit PASS, user's takes net +8.72R, WR 17%→40%, edge de-concentrates.
 > **AUTONOMOUS selection filter FALSIFIED** — only false-bo+session discriminate (keep 93% takes / reject 27% skips);

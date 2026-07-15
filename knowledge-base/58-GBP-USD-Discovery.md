@@ -5,6 +5,11 @@ related: [[55-Multi-Asset-Expansion]], [[56-Risk-Manager-Calibration]]
 date: 2026-04-05
 ---
 
+> ⛔ **VOID (see root `CLAUDE.md`).** This file predates the 2026-06-01 phantom-fill audit and
+> 2026-07-02 full-codebase audit — the GBP/USD PF/Sharpe/walk-forward figures below are void
+> artifacts, not current state. Retained as historical record only. Current canon: root `CLAUDE.md`
+> + [[00-MOC-Zeros-Requiem]].
+
 # 58 — GBP/USD Discovery: Highest PF, Needs Walk-Forward Tuning
 
 ## The Surprise
